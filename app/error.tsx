@@ -31,7 +31,7 @@ export default function ErrorPage({
       }
     >
       <RegistrySidebar />
-      <SidebarInset>
+      <SidebarInset className="min-w-0">
         <RegistryHeader />
         <main className="flex w-full justify-center">
           <div className="flex min-h-screen w-full flex-col items-center justify-center text-center">

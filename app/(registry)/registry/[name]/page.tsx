@@ -1,8 +1,7 @@
 import { notFound } from "next/navigation"
 
-import { ComponentCard } from "@/components/registry/component-card"
+import { BlockDisplay } from "@/components/registry/block-display"
 import { getRegistryItem, getRegistryItems } from "@/lib/registry"
-import { getPrompt } from "@/lib/utils"
 
 export async function generateStaticParams() {
   const components = getRegistryItems()
@@ -18,23 +17,24 @@ export default async function RegistryItemPage({
   params: Promise<{ name: string }>
 }) {
   const { name } = await params
-  const component = getRegistryItem(name)
 
-  if (!component) {
+  let component
+  try {
+    component = getRegistryItem(name)
+  } catch {
     notFound()
   }
 
   return (
-    <div className="container p-5 md:p-10">
-      <div className="mb-6 flex items-center justify-between">
+    <div className="container flex min-w-0 flex-col gap-6 p-5 md:p-10">
+      <div className="flex flex-col gap-1">
         <h1 className="text-3xl font-bold tracking-tight">{component.title}</h1>
+        {component.description && (
+          <p className="text-muted-foreground">{component.description}</p>
+        )}
       </div>
 
-      <ComponentCard
-        component={component}
-        baseUrl={process.env.VERCEL_PROJECT_PRODUCTION_URL ?? "ui.aiellie.dev"}
-        prompt={getPrompt()}
-      />
+      <BlockDisplay name={name} />
     </div>
   )
 }

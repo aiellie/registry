@@ -20,7 +20,7 @@ export default function RegistryLayout({
       }
     >
       <RegistrySidebar />
-      <SidebarInset>
+      <SidebarInset className="min-w-0">
         <RegistryHeader />
         <main className="flex w-full justify-center">{children}</main>
       </SidebarInset>
