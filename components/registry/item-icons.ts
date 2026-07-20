@@ -1,0 +1,90 @@
+import {
+  AttachmentIcon,
+  BarChartIcon,
+  CalendarIcon,
+  CreditCardIcon,
+  CubeIcon,
+  CursorPointer01Icon,
+  DashboardSquare01Icon,
+  FileEmpty02Icon,
+  GridViewIcon,
+  Home01Icon,
+  Image01Icon,
+  KeyboardIcon,
+  LayoutTopIcon,
+  LoadingIcon,
+  Login01Icon,
+  Megaphone01Icon,
+  MenuSquareIcon,
+  MessageMultiple01Icon,
+  Notification01Icon,
+  PaintBoardIcon,
+  SearchIcon,
+  SidebarLeft01Icon,
+  SidebarLeftIcon,
+  SparklesIcon,
+  Store01Icon,
+  Table01Icon,
+  Tag01Icon,
+  TextFontIcon,
+  Tick02Icon,
+  ToggleOnIcon,
+  UnfoldMoreIcon,
+  UserIcon,
+} from "@hugeicons/core-free-icons"
+import type { IconSvgElement } from "@hugeicons/react"
+
+const itemIcons: Record<string, IconSvgElement> = {
+  // getting started
+  home: Home01Icon,
+  tokens: PaintBoardIcon,
+
+  // blocks
+  blank: FileEmpty02Icon,
+  dashboard: DashboardSquare01Icon,
+  store: Store01Icon,
+
+  // components
+  "brand-header": LayoutTopIcon,
+  "brand-sidebar": SidebarLeft01Icon,
+  logo: SparklesIcon,
+  hero: Image01Icon,
+  login: Login01Icon,
+  "product-grid": GridViewIcon,
+  promo: Megaphone01Icon,
+
+  // ui
+  accordion: UnfoldMoreIcon,
+  attachment: AttachmentIcon,
+  avatar: UserIcon,
+  badge: Tag01Icon,
+  bubble: MessageMultiple01Icon,
+  button: CursorPointer01Icon,
+  calendar: CalendarIcon,
+  card: CreditCardIcon,
+  chart: BarChartIcon,
+  checkbox: Tick02Icon,
+  command: SearchIcon,
+  "context-menu": MenuSquareIcon,
+  "data-table": Table01Icon,
+  "date-picker": CalendarIcon,
+  "dropdown-menu": MenuSquareIcon,
+  input: TextFontIcon,
+  kbd: KeyboardIcon,
+  menubar: MenuSquareIcon,
+  message: MessageMultiple01Icon,
+  "message-scroller": MessageMultiple01Icon,
+  "navigation-menu": MenuSquareIcon,
+  sidebar: SidebarLeftIcon,
+  sonner: Notification01Icon,
+  spinner: LoadingIcon,
+  switch: ToggleOnIcon,
+  table: Table01Icon,
+  textarea: TextFontIcon,
+  toggle: ToggleOnIcon,
+  "toggle-group": ToggleOnIcon,
+}
+
+export function getItemIcon(name: string): IconSvgElement {
+  return itemIcons[name] ?? CubeIcon
+}
