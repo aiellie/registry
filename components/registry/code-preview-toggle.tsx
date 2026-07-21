@@ -3,14 +3,13 @@
 import { Code, Eye } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
-import { Button } from "@/components/ui/button"
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { cn } from "@/lib/utils"
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 
 interface CodePreviewToggleProps {
   view: "code" | "preview"
@@ -28,36 +27,32 @@ export function CodePreviewToggle({
 
   return (
     <TooltipProvider>
-      <div
-        className="inline-flex shrink-0 items-center rounded-lg border p-0"
+      <ToggleGroup
+        variant="outline"
+        spacing={0}
+        size="sm"
+        value={[view]}
+        onValueChange={(value) => {
+          const next = value[0] as "code" | "preview" | undefined
+          if (next) onViewChange(next)
+        }}
         data-view-toggle=""
       >
         {views.map(([key, Icon, tooltipText]) => (
           <Tooltip key={key}>
             <TooltipTrigger
               render={
-                <Button
-                  size="icon-sm"
-                  variant="ghost"
-                  aria-label={tooltipText}
-                  className={cn(
-                    "size-6.5 rounded-full p-1.5",
-                    view === key
-                      ? "bg-primary-foreground text-primary [&_svg]:text-primary"
-                      : "text-muted-foreground"
-                  )}
-                  onClick={() => onViewChange(key)}
-                />
+                <ToggleGroupItem value={key} aria-label={tooltipText} />
               }
             >
-              <HugeiconsIcon icon={Icon} className="size-full" />
+              <HugeiconsIcon icon={Icon} strokeWidth={2} />
             </TooltipTrigger>
             <TooltipContent>
               <p>{tooltipText}</p>
             </TooltipContent>
           </Tooltip>
         ))}
-      </div>
+      </ToggleGroup>
     </TooltipProvider>
   )
 }

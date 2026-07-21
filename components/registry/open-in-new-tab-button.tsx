@@ -17,15 +17,20 @@ export function OpenInNewTabButton({ name }: { name: string }) {
       <TooltipTrigger
         render={
           <Button
-            size="icon-sm"
+            size="icon"
             variant="outline"
             nativeButton={false}
+            className="group/open-tab"
             render={<Link href={`/demo/${name}`} target="_blank" />}
           />
         }
       >
         <span className="sr-only">Open in New Tab</span>
-        <HugeiconsIcon icon={FullScreenIcon} strokeWidth={2} />
+        <HugeiconsIcon
+          icon={FullScreenIcon}
+          strokeWidth={2}
+          className="transition-transform duration-200 ease-out group-hover/open-tab:-translate-y-0.5 group-hover/open-tab:translate-x-0.5"
+        />
       </TooltipTrigger>
       <TooltipContent>Open in New Tab</TooltipContent>
     </Tooltip>

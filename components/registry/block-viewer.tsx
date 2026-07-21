@@ -168,18 +168,30 @@ function BlockViewerToolbar() {
 
 function BlockViewerIframe({ className }: { className?: string }) {
   const { item, iframeKey } = useBlockViewer()
+  const [loaded, setLoaded] = React.useState(false)
+
+  React.useEffect(() => {
+    setLoaded(false)
+  }, [iframeKey])
 
   return (
-    <iframe
-      key={iframeKey}
-      src={`/demo/${item.name}`}
-      loading="lazy"
-      title={`${item.title} preview`}
-      className={cn(
-        "relative z-20 no-scrollbar h-(--height) w-full bg-background",
-        className
+    <div className={cn("relative z-20 h-(--height) w-full bg-background", className)}>
+      {!loaded && (
+        <div className="absolute inset-0 z-10 flex items-center justify-center bg-background">
+          <p className="shimmer text-sm text-muted-foreground">
+            Loading preview&hellip;
+          </p>
+        </div>
       )}
-    />
+      <iframe
+        key={iframeKey}
+        src={`/demo/${item.name}`}
+        loading="lazy"
+        title={`${item.title} preview`}
+        onLoad={() => setLoaded(true)}
+        className="no-scrollbar h-full w-full bg-background"
+      />
+    </div>
   )
 }
 
