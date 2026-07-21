@@ -193,7 +193,9 @@
         "https://ui.aiellie.dev/r/toggle-group.json",
         "https://ui.aiellie.dev/r/tooltip.json",
         "https://ui.aiellie.dev/r/date-picker.json",
-        "https://ui.aiellie.dev/r/data-table.json"
+        "https://ui.aiellie.dev/r/data-table.json",
+        "https://ui.aiellie.dev/r/example.json",
+        "https://ui.aiellie.dev/r/accordion-example.json"
       ],
       "files": [
         {
@@ -423,13 +425,14 @@
       "registryDependencies": [
         "https://ui.aiellie.dev/r/accordion.json",
         "https://ui.aiellie.dev/r/button.json",
-        "https://ui.aiellie.dev/r/card.json"
+        "https://ui.aiellie.dev/r/card.json",
+        "https://ui.aiellie.dev/r/example.json"
       ],
       "files": [
         {
           "path": "app/demo/[name]/ui/accordion.tsx",
-          "type": "registry:page",
-          "target": "app/accordion/page.tsx"
+          "type": "registry:example",
+          "target": "components/examples/accordion-example.tsx"
         }
       ]
     },
@@ -1448,6 +1451,20 @@
         "https://ui.aiellie.dev/r/table.json"
       ],
       "files": []
+    },
+    {
+      "name": "example",
+      "type": "registry:example",
+      "title": "Example",
+      "description": "Example UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "components/example.tsx",
+          "type": "registry:component",
+          "target": "components/example.tsx"
+        }
+      ]
     }
   ]
 }

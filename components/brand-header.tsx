@@ -94,7 +94,7 @@ export function BrandHeader() {
               strokeWidth={2}
               className="size-4"
             />
-            Support
+            Design
           </Button>
 
           <Button variant="ghost" size="sm" className="text-foreground">
