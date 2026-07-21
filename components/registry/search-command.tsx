@@ -34,10 +34,35 @@ const blockItems = getBlocks()
 const componentItems = getComponents()
 const uiItems = getUIPrimitives()
 
+function HighlightMatch({ text, query }: { text: string; query: string }) {
+  const trimmed = query.trim()
+
+  if (!trimmed) {
+    return <span>{text}</span>
+  }
+
+  const index = text.toLowerCase().indexOf(trimmed.toLowerCase())
+
+  if (index === -1) {
+    return <span>{text}</span>
+  }
+
+  return (
+    <span>
+      {text.slice(0, index)}
+      <mark className="rounded bg-selection font-medium text-selection-foreground">
+        {text.slice(index, index + trimmed.length)}
+      </mark>
+      {text.slice(index + trimmed.length)}
+    </span>
+  )
+}
+
 export function SearchCommand() {
   const router = useRouter()
   const { state, isMobile, setOpenMobile } = useSidebar()
   const [open, setOpen] = useState(false)
+  const [search, setSearch] = useState("")
 
   const collapsed = state === "collapsed" && !isMobile
 
@@ -99,12 +124,19 @@ export function SearchCommand() {
 
       <CommandDialog
         open={open}
-        onOpenChange={setOpen}
+        onOpenChange={(next) => {
+          setOpen(next)
+          if (!next) setSearch("")
+        }}
         title="Search Registry"
         description="Search for blocks, components, and UI primitives..."
       >
         <Command>
-          <CommandInput placeholder="Search the registry..." />
+          <CommandInput
+            placeholder="Search the registry..."
+            value={search}
+            onValueChange={setSearch}
+          />
           <CommandList>
             <CommandEmpty>No results found.</CommandEmpty>
 
@@ -119,7 +151,7 @@ export function SearchCommand() {
                     icon={getItemIcon(item.icon)}
                     strokeWidth={2}
                   />
-                  {item.title}
+                  <HighlightMatch text={item.title} query={search} />
                 </CommandItem>
               ))}
             </CommandGroup>
@@ -135,7 +167,7 @@ export function SearchCommand() {
                     icon={getItemIcon(item.name)}
                     strokeWidth={2}
                   />
-                  {item.title}
+                  <HighlightMatch text={item.title} query={search} />
                 </CommandItem>
               ))}
             </CommandGroup>
@@ -151,7 +183,7 @@ export function SearchCommand() {
                     icon={getItemIcon(item.name)}
                     strokeWidth={2}
                   />
-                  {item.title}
+                  <HighlightMatch text={item.title} query={search} />
                 </CommandItem>
               ))}
             </CommandGroup>
@@ -167,7 +199,7 @@ export function SearchCommand() {
                     icon={getItemIcon(item.name)}
                     strokeWidth={2}
                   />
-                  {item.title}
+                  <HighlightMatch text={item.title} query={search} />
                 </CommandItem>
               ))}
             </CommandGroup>

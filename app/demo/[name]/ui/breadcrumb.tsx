@@ -120,7 +120,7 @@ function BreadcrumbWithDropdown() {
               <DropdownMenuContent align="start">
                 <DropdownMenuItem>
                   <HugeiconsIcon icon={Book01Icon} strokeWidth={2} />
-                  Documentation
+                  Docs
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <HugeiconsIcon icon={PaintBucketIcon} strokeWidth={2} />

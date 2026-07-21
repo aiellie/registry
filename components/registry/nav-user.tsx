@@ -37,7 +37,7 @@ export function NavUser({
     avatar: string
   }
 }) {
-  const { isMobile } = useSidebar()
+  const { isMobile, state } = useSidebar()
   const [helpOpen, setHelpOpen] = React.useState(false)
   return (
     <SidebarMenu>
@@ -66,7 +66,7 @@ export function NavUser({
           </DropdownMenuTrigger>
           <DropdownMenuContent
             className="min-w-56"
-            side={isMobile ? "bottom" : "right"}
+            side={isMobile ? "bottom" : state === "collapsed" ? "right" : "top"}
             align="end"
             sideOffset={4}
           >
