@@ -20,6 +20,16 @@ export async function getIconsMeta(): Promise<IconsMeta> {
     )
   }
 
-  const { version, shardSize, shardCount, count } = JSON.parse(raw) as IconManifest
-  return { version, shardSize, shardCount, count }
+  const { version, schema, shardSize, shardCount, count, categories } = JSON.parse(
+    raw
+  ) as IconManifest
+
+  return {
+    version,
+    schema,
+    shardSize,
+    shardCount,
+    count,
+    categoryCount: categories.length,
+  }
 }

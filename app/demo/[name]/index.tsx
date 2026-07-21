@@ -67,6 +67,7 @@ import SkeletonExample from "@/app/demo/[name]/ui/skeleton"
 import SliderExample from "@/app/demo/[name]/ui/slider"
 import SonnerExample from "@/app/demo/[name]/ui/sonner"
 import SpinnerExample from "@/app/demo/[name]/ui/spinner"
+import StatusExample from "@/app/demo/[name]/ui/status"
 import SwitchExample from "@/app/demo/[name]/ui/switch"
 import TableExample from "@/app/demo/[name]/ui/table"
 import TabsExample from "@/app/demo/[name]/ui/tabs"
@@ -157,6 +158,7 @@ export const demos: { [name: string]: Demo } = {
   slider: SliderExample,
   sonner: SonnerExample,
   spinner: SpinnerExample,
+  status: StatusExample,
   switch: SwitchExample,
   table: TableExample,
   tabs: TabsExample,

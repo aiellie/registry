@@ -6,16 +6,37 @@ export type CompactElement = Record<string, string | number> & { t?: string }
 /** `[canonical, ...aliases]` — the manifest's positional icon record. */
 export type IconRecord = [string, ...string[]]
 
-/** The manifest header — everything except the name list. */
+export interface IconCategory {
+  id: string
+  label: string
+  /**
+   * Members present in the free package. Deliberately not the count HugeIcons
+   * publishes — theirs includes pro-only icons this page cannot render.
+   */
+  count: number
+  /** Canonical name of the icon the site uses to represent the category. */
+  rep: string | null
+}
+
+/** The manifest header — the counts the page can render before fetching anything. */
 export interface IconsMeta {
   version: string
+  schema: number
   shardSize: number
   shardCount: number
   count: number
+  categoryCount: number
 }
 
-export interface IconManifest extends IconsMeta {
+export interface IconManifest extends Omit<IconsMeta, "categoryCount"> {
   icons: IconRecord[]
+  categories: IconCategory[]
+  /** Category id → positions into `icons`. */
+  categoryIcons: Record<string, number[]>
+  /** Category id → its thumbnail's geometry, inlined so the picker never waits. */
+  repElements: Record<string, CompactElement[]>
+  /** Featured name → geometry, inlined so the landing view fetches no shards. */
+  featuredElements: Record<string, CompactElement[]>
 }
 
 export interface IconEntry {
@@ -27,6 +48,8 @@ export interface IconEntry {
   haystack: string
   /** `arrow down 01` — the name as a human would say it. */
   words: string
+  /** Category ids this icon belongs to; empty for the ~5% the site never filed. */
+  categories: string[]
 }
 
 export const MANIFEST_URL = "/hugeicons/manifest.json"
@@ -77,6 +100,16 @@ function withNumerals(words: string) {
 
 /** Expands the manifest into the shape the grid searches against. */
 export function buildEntries(manifest: IconManifest): IconEntry[] {
+  // Invert category → icons once, rather than scanning 59 lists per icon.
+  const categoriesByIcon = new Map<number, string[]>()
+  for (const [id, indexes] of Object.entries(manifest.categoryIcons)) {
+    for (const index of indexes) {
+      const existing = categoriesByIcon.get(index)
+      if (existing) existing.push(id)
+      else categoriesByIcon.set(index, [id])
+    }
+  }
+
   return manifest.icons.map(([name, ...aliases], index) => {
     const words = toWords(name)
     const aliasWords = aliases.map(toWords)
@@ -91,7 +124,14 @@ export function buildEntries(manifest: IconManifest): IconEntry[] {
       .filter(Boolean)
       .join(" ")
 
-    return { name, aliases, index, haystack, words }
+    return {
+      name,
+      aliases,
+      index,
+      haystack,
+      words,
+      categories: categoriesByIcon.get(index) ?? [],
+    }
   })
 }
 

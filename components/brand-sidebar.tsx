@@ -4,16 +4,14 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import type { IconSvgElement } from "@hugeicons/react"
 import {
-  Alert02Icon,
-  Analytics01Icon,
-  Clock01Icon,
-  Database01Icon,
-  GridViewIcon,
-  Home01Icon,
-  Message01Icon,
-  MoreHorizontalIcon,
+  LibraryIcon,
+  PlugIcon,
   PlusSignIcon,
-  Table01Icon,
+  WebDesign02Icon,
+  Calendar01Icon,
+  PieChart,
+  Frame,
+  Map,
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
@@ -36,9 +34,15 @@ import {
   SidebarMenuItem,
   SidebarSeparator,
   useSidebar,
-  SidebarRail
+  SidebarRail,
+  SidebarFooter,
 } from "@/components/ui/sidebar"
 import { cn } from "@/lib/utils"
+import { NavProjects } from "@/components/nav-projects"
+import { NavChats } from "@/components/nav-chats"
+import { NavUser } from "@/components/nav-user"
+
+
 
 interface NavItem {
   title: string
@@ -46,65 +50,76 @@ interface NavItem {
   icon: IconSvgElement
   badge?: {
     text: string
+    className?: string
   }
 }
 
 const mainNavItems: NavItem[] = [
   {
-    title: "Home",
-    href: "#",
-    icon: Home01Icon,
+    title: "Library",
+    href: "#library",
+    icon: LibraryIcon,
   },
   {
-    title: "Projects",
-    href: "#projects",
-    icon: GridViewIcon,
+    title: "Scheduled",
+    href: "#scheduled",
+    icon: Calendar01Icon,
   },
   {
-    title: "Databases",
-    href: "#databases",
-    icon: Database01Icon,
+    title: "Plugins",
+    href: "#plugins",
+    icon: PlugIcon,
   },
   {
-    title: "Tables",
-    href: "#tables",
-    icon: Table01Icon,
+    title: "Sites",
+    href: "#sites",
+    icon: WebDesign02Icon,
     badge: {
-      text: "Beta",
-    },
-  },
-  {
-    title: "AI",
-    href: "#ai",
-    icon: Message01Icon,
-    badge: {
-      text: "Alpha",
+      text: "New",
+      className:
+        "bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-300",
     },
   },
 ]
 
-const toolsNavItems: NavItem[] = [
-  {
-    title: "Alerts",
-    href: "#alerts",
-    icon: Alert02Icon,
+const data = { 
+  user: {
+    name: "shadcn",
+    email: "m@example.com",
+    avatar: "/avatars/shadcn.jpg",
   },
-  {
-    title: "Analytics",
-    href: "#analytics",
-    icon: Analytics01Icon,
-  },
-  {
-    title: "History",
-    href: "#history",
-    icon: Clock01Icon,
-  },
-  {
-    title: "More",
-    href: "#more",
-    icon: MoreHorizontalIcon,
-  },
-]
+  projects: [
+    {
+      name: "Design Engineering",
+      url: "#",
+      icon: Frame,
+    },
+    {
+      name: "Sales & Marketing",
+      url: "#",
+      icon: PieChart,
+    },
+    {
+      name: "Travel",
+      url: "#",
+      icon: Map,
+    },
+  ],
+  chats: [
+    {
+      name: "Onboarding flow ideas",
+      url: "#",
+    },
+    {
+      name: "Q3 roadmap draft",
+      url: "#",
+    },
+    {
+      name: "Bug triage notes",
+      url: "#",
+    },
+  ],
+}
 
 export function BrandSidebar({ className }: { className?: string }) {
   const pathname = usePathname()
@@ -115,7 +130,7 @@ export function BrandSidebar({ className }: { className?: string }) {
     <Sidebar
       variant="sidebar"
       collapsible="icon"
-      className={cn("mt-16", className)}
+      className={cn("top-16 h-[calc(100svh-4rem)]", className)}
     >
       <SidebarHeader>
         <div className={cn(isCollapsed ? "py-2" : "px-0 pt-2")}>
@@ -134,7 +149,7 @@ export function BrandSidebar({ className }: { className?: string }) {
                   {!isCollapsed && (
                     <>
                       <span>New Chat</span>
-                      <Kbd className="ml-auto">⌘K</Kbd>
+                      <Kbd className="ml-auto text-xs">⌘ N</Kbd>
                     </>
                   )}
                 </Button>
@@ -146,7 +161,7 @@ export function BrandSidebar({ className }: { className?: string }) {
               hidden={!isCollapsed}
             >
               New Chat
-              <Kbd>⌘K</Kbd>
+              <Kbd className="text-xs">⌘ N</Kbd>
             </TooltipContent>
           </Tooltip>
         </div>
@@ -175,43 +190,21 @@ export function BrandSidebar({ className }: { className?: string }) {
                     <span>{item.title}</span>
                   </SidebarMenuButton>
                   {item.badge && (
-                    <SidebarMenuBadge>{item.badge.text}</SidebarMenuBadge>
+                    <SidebarMenuBadge className={item.badge.className}>
+                      {item.badge.text}
+                    </SidebarMenuBadge>
                   )}
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-
-        <SidebarSeparator />
-
-        {/* Tools Nav Items */}
-        <SidebarGroup>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {toolsNavItems.map((item) => (
-                <SidebarMenuItem key={item.href}>
-                  <SidebarMenuButton
-                    render={<Link href={item.href} />}
-                    isActive={pathname === item.href}
-                    tooltip={item.title}
-                  >
-                    <HugeiconsIcon
-                      icon={item.icon}
-                      strokeWidth={2}
-                      className="size-4"
-                    />
-                    <span>{item.title}</span>
-                  </SidebarMenuButton>
-                  {item.badge && (
-                    <SidebarMenuBadge>{item.badge.text}</SidebarMenuBadge>
-                  )}
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        <NavProjects projects={data.projects} />
+        <NavChats chats={data.chats} />
       </SidebarContent>
+      <SidebarFooter>
+        <NavUser user={data.user} />
+      </SidebarFooter>
       <SidebarRail />
     </Sidebar>
   )

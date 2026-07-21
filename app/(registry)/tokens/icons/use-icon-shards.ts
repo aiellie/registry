@@ -48,7 +48,14 @@ function loadShard(shard: number, version: string) {
  */
 export function useIconShards(
   visible: IconEntry[],
-  { version, shardSize }: { version: string; shardSize: number }
+  { version, shardSize }: { version: string; shardSize: number },
+  /**
+   * Geometry already inlined in the manifest — the featured set and the category
+   * thumbnails. Anything covered here never triggers a shard fetch, which is the
+   * whole point: the featured icons span the alphabet and would otherwise pull
+   * most of the library to draw one screen.
+   */
+  inlined?: Record<string, CompactElement[]>
 ) {
   const [loaded, setLoaded] = useState<ReadonlySet<number>>(() => new Set())
 
@@ -56,9 +63,12 @@ export function useIconShards(
   // under a different filter.
   const needed = useMemo(() => {
     const shards = new Set<number>()
-    for (const entry of visible) shards.add(Math.floor(entry.index / shardSize))
+    for (const entry of visible) {
+      if (inlined?.[entry.name]) continue
+      shards.add(Math.floor(entry.index / shardSize))
+    }
     return [...shards].sort((a, b) => a - b)
-  }, [visible, shardSize])
+  }, [visible, shardSize, inlined])
   const neededKey = needed.join(",")
 
   useEffect(() => {
@@ -92,10 +102,10 @@ export function useIconShards(
 
   return useMemo(
     () => ({
-      get: (name: string) => store.get(name),
+      get: (name: string) => inlined?.[name] ?? store.get(name),
       // Referenced so the lookup identity changes as shards arrive.
       loadedCount: loaded.size,
     }),
-    [loaded]
+    [loaded, inlined]
   )
 }

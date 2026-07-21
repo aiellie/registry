@@ -203,6 +203,7 @@
         "https://ui.aiellie.dev/r/slider.json",
         "https://ui.aiellie.dev/r/sonner.json",
         "https://ui.aiellie.dev/r/spinner.json",
+        "https://ui.aiellie.dev/r/status.json",
         "https://ui.aiellie.dev/r/switch.json",
         "https://ui.aiellie.dev/r/table.json",
         "https://ui.aiellie.dev/r/tabs.json",
@@ -354,6 +355,7 @@
         "https://ui.aiellie.dev/r/slider.json",
         "https://ui.aiellie.dev/r/sonner.json",
         "https://ui.aiellie.dev/r/spinner.json",
+        "https://ui.aiellie.dev/r/status.json",
         "https://ui.aiellie.dev/r/switch.json",
         "https://ui.aiellie.dev/r/table.json",
         "https://ui.aiellie.dev/r/tabs.json",
@@ -471,6 +473,21 @@
           "path": "components/brand-sidebar.tsx",
           "type": "registry:component",
           "target": "components/brand-sidebar.tsx"
+        },
+        {
+          "path": "components/nav-projects.tsx",
+          "type": "registry:component",
+          "target": "components/nav-projects.tsx"
+        },
+        {
+          "path": "components/nav-chats.tsx",
+          "type": "registry:component",
+          "target": "components/nav-chats.tsx"
+        },
+        {
+          "path": "components/nav-user.tsx",
+          "type": "registry:component",
+          "target": "components/nav-user.tsx"
         }
       ],
       "dependencies": [
@@ -1374,6 +1391,23 @@
       "files": [
         {
           "path": "components/ui/spinner.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ]
+    },
+    {
+      "name": "status",
+      "type": "registry:ui",
+      "title": "Status",
+      "description": "Status UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "components/ui/status.tsx",
           "type": "registry:ui"
         }
       ],
@@ -2638,6 +2672,23 @@
           "path": "app/demo/[name]/ui/spinner.tsx",
           "type": "registry:example",
           "target": "components/examples/spinner-example.tsx"
+        }
+      ]
+    },
+    {
+      "name": "status-example",
+      "type": "registry:example",
+      "title": "Status Example",
+      "description": "Status UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://ui.aiellie.dev/r/example.json",
+        "https://ui.aiellie.dev/r/status.json"
+      ],
+      "files": [
+        {
+          "path": "app/demo/[name]/ui/status.tsx",
+          "type": "registry:example",
+          "target": "components/examples/status-example.tsx"
         }
       ]
     },

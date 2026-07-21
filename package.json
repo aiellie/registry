@@ -11,7 +11,8 @@
     "format": "prettier --write \"**/*.{ts,tsx}\"",
     "typecheck": "tsc --noEmit",
     "registry:build": "shadcn build",
-    "icons:build": "node scripts/build-hugeicons.mjs"
+    "icons:build": "node scripts/build-hugeicons.mjs",
+    "icons:categories": "node scripts/scrape-hugeicons-categories.mjs"
   },
   "dependencies": {
     "@ai-sdk/react": "^4.0.37",

@@ -16,6 +16,7 @@ import {
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard"
 import {
   type CompactElement,
+  type IconCategory,
   type IconEntry,
   toSvgElement,
   toSvgMarkup,
@@ -59,15 +60,22 @@ function CopyRow({ label, value }: { label: string; value: string }) {
 export function IconDetail({
   entry,
   elements,
+  categories,
   strokeWidth,
   onOpenChange,
 }: {
   entry: IconEntry | null
   elements: CompactElement[] | undefined
+  categories: IconCategory[]
   strokeWidth: number
   onOpenChange: (open: boolean) => void
 }) {
   const icon = elements ? toSvgElement(elements) : null
+  const labels = entry
+    ? entry.categories
+        .map((id) => categories.find((category) => category.id === id)?.label)
+        .filter((label): label is string => label !== undefined)
+    : []
 
   return (
     <Dialog open={entry !== null} onOpenChange={onOpenChange}>
@@ -107,6 +115,17 @@ export function IconDetail({
                 </div>
               )}
             </div>
+
+            {labels.length > 0 && (
+              <div className="flex flex-wrap items-center gap-1.5">
+                <span className="text-xs text-muted-foreground">Categories</span>
+                {labels.map((label) => (
+                  <Badge key={label} variant="outline" className="text-xs">
+                    {label}
+                  </Badge>
+                ))}
+              </div>
+            )}
 
             {entry.aliases.length > 0 && (
               <div className="flex flex-wrap items-center gap-1.5">
