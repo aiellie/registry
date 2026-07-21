@@ -1,53 +1,91 @@
-import { HugeiconsIcon } from "@hugeicons/react"
-import { Image02Icon } from "@hugeicons/core-free-icons"
+import Image from "next/image"
 
+import {
+  Example,
+  ExampleWrapper,
+} from "@/components/example"
 import { AspectRatio } from "@/components/ui/aspect-ratio"
+import { gradientImage } from "@/lib/gradient"
 
-export const aspectRatio = {
-  name: "aspect-ratio",
-  components: {
-    Wide: (
-      <div className="flex w-full justify-center p-6">
-        <div className="w-full max-w-md">
-          <AspectRatio
-            ratio={16 / 9}
-            className="rounded-lg border border-dashed bg-muted"
-          >
-            <div className="flex h-full flex-col items-center justify-center gap-2 text-muted-foreground">
-              <HugeiconsIcon
-                icon={Image02Icon}
-                strokeWidth={2}
-                className="size-6"
-              />
-              <span className="text-sm">16:9</span>
-            </div>
-          </AspectRatio>
-        </div>
-      </div>
-    ),
-    Square: (
-      <div className="flex w-full justify-center gap-4 p-6">
-        <div className="w-40">
-          <AspectRatio
-            ratio={1}
-            className="rounded-lg border border-dashed bg-muted"
-          >
-            <div className="flex h-full items-center justify-center text-sm text-muted-foreground">
-              1:1
-            </div>
-          </AspectRatio>
-        </div>
-        <div className="w-40">
-          <AspectRatio
-            ratio={3 / 4}
-            className="rounded-lg border border-dashed bg-muted"
-          >
-            <div className="flex h-full items-center justify-center text-sm text-muted-foreground">
-              3:4
-            </div>
-          </AspectRatio>
-        </div>
-      </div>
-    ),
-  },
+export default function AspectRatioExample() {
+  return (
+    <ExampleWrapper className="">
+      <AspectRatio16x9 />
+      <AspectRatio21x9 />
+      <AspectRatio1x1 />
+      <AspectRatio9x16 />
+    </ExampleWrapper>
+  )
+}
+
+function AspectRatio16x9() {
+  return (
+    <Example title="16:9" className="items-center justify-center">
+      <AspectRatio
+        ratio={16 / 9}
+        className="rounded-lg bg-muted"
+      >
+        <Image
+          src={gradientImage("aspect-ratio-16x9")}
+          alt="Photo"
+          fill
+          className="h-full w-full rounded-lg object-cover"
+        />
+      </AspectRatio>
+    </Example>
+  )
+}
+
+function AspectRatio1x1() {
+  return (
+    <Example title="1:1" className="items-start">
+      <AspectRatio
+        ratio={1 / 1}
+        className="rounded-lg bg-muted"
+      >
+        <Image
+          src={gradientImage("aspect-ratio-1x1")}
+          alt="Photo"
+          fill
+          className="h-full w-full rounded-lg object-cover"
+        />
+      </AspectRatio>
+    </Example>
+  )
+}
+
+function AspectRatio9x16() {
+  return (
+    <Example title="9:16" className="items-center justify-center">
+      <AspectRatio
+        ratio={9 / 16}
+        className="rounded-lg bg-muted"
+      >
+        <Image
+          src={gradientImage("aspect-ratio-9x16")}
+          alt="Photo"
+          fill
+          className="h-full w-full rounded-lg object-cover"
+        />
+      </AspectRatio>
+    </Example>
+  )
+}
+
+function AspectRatio21x9() {
+  return (
+    <Example title="21:9" className="items-center justify-center">
+      <AspectRatio
+        ratio={21 / 9}
+        className="rounded-lg bg-muted"
+      >
+        <Image
+          src={gradientImage("aspect-ratio-21x9")}
+          alt="Photo"
+          fill
+          className="h-full w-full rounded-lg object-cover"
+        />
+      </AspectRatio>
+    </Example>
+  )
 }

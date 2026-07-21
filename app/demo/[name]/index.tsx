@@ -15,14 +15,14 @@ import { logo } from "@/app/demo/[name]/components/logo"
 import AccordionExample from "@/app/demo/[name]/ui/accordion"
 import AlertExample from "@/app/demo/[name]/ui/alert"
 import AlertDialogExample from "@/app/demo/[name]/ui/alert-dialog"
-import { aspectRatio } from "@/app/demo/[name]/ui/aspect-ratio"
+import AspectRatioExample from "@/app/demo/[name]/ui/aspect-ratio"
 import AttachmentExample from "@/app/demo/[name]/ui/attachment"
-import { avatar } from "@/app/demo/[name]/ui/avatar"
-import { badge } from "@/app/demo/[name]/ui/badge"
-import { breadcrumb } from "@/app/demo/[name]/ui/breadcrumb"
-import { bubble } from "@/app/demo/[name]/ui/bubble"
-import { button } from "@/app/demo/[name]/ui/button"
-import { buttonGroup } from "@/app/demo/[name]/ui/button-group"
+import AvatarExample from "@/app/demo/[name]/ui/avatar"
+import BadgeExample from "@/app/demo/[name]/ui/badge"
+import BreadcrumbExample from "@/app/demo/[name]/ui/breadcrumb"
+import BubbleExample from "@/app/demo/[name]/ui/bubble"
+import ButtonExample from "@/app/demo/[name]/ui/button"
+import ButtonGroupExample from "@/app/demo/[name]/ui/button-group"
 import { calendar } from "@/app/demo/[name]/ui/calendar"
 import { card } from "@/app/demo/[name]/ui/card"
 import { carousel } from "@/app/demo/[name]/ui/carousel"
@@ -105,14 +105,14 @@ export const demos: { [name: string]: Demo } = {
   accordion: AccordionExample,
   alert: AlertExample,
   "alert-dialog": AlertDialogExample,
-  "aspect-ratio": aspectRatio,
+  "aspect-ratio": AspectRatioExample,
   attachment: AttachmentExample,
-  avatar,
-  badge,
-  breadcrumb,
-  bubble,
-  button,
-  "button-group": buttonGroup,
+  avatar: AvatarExample,
+  badge: BadgeExample,
+  breadcrumb: BreadcrumbExample,
+  bubble: BubbleExample,
+  button: ButtonExample,
+  "button-group": ButtonGroupExample,
   calendar,
   card,
   carousel,

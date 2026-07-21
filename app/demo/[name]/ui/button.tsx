@@ -1,13 +1,26 @@
+import {
+  Example,
+  ExampleWrapper,
+} from "@/components/example"
 import { Button } from "@/components/ui/button"
 import { Spinner } from "@/components/ui/spinner"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { Mail01Icon, PlusSignIcon } from "@hugeicons/core-free-icons"
 
-export const button = {
-  name: "button",
-  components: {
-    Variants: (
-      <div className="flex w-full flex-wrap items-center justify-center gap-2 p-6">
+export default function ButtonExample() {
+  return (
+    <ExampleWrapper>
+      <ButtonVariants />
+      <ButtonSizes />
+      <ButtonWithIconAndLoading />
+    </ExampleWrapper>
+  )
+}
+
+function ButtonVariants() {
+  return (
+    <Example title="Variants">
+      <div className="flex flex-wrap items-center justify-center gap-2">
         <Button>Default</Button>
         <Button variant="secondary">Secondary</Button>
         <Button variant="outline">Outline</Button>
@@ -15,9 +28,14 @@ export const button = {
         <Button variant="destructive">Destructive</Button>
         <Button variant="link">Link</Button>
       </div>
-    ),
-    Sizes: (
-      <div className="flex w-full flex-wrap items-center justify-center gap-2 p-6">
+    </Example>
+  )
+}
+
+function ButtonSizes() {
+  return (
+    <Example title="Sizes">
+      <div className="flex flex-wrap items-center justify-center gap-2">
         <Button variant="outline" size="xs">
           Extra Small
         </Button>
@@ -32,9 +50,14 @@ export const button = {
           <HugeiconsIcon icon={PlusSignIcon} strokeWidth={2} />
         </Button>
       </div>
-    ),
-    "With Icon & Loading": (
-      <div className="flex w-full flex-wrap items-center justify-center gap-2 p-6">
+    </Example>
+  )
+}
+
+function ButtonWithIconAndLoading() {
+  return (
+    <Example title="With Icon & Loading">
+      <div className="flex flex-wrap items-center justify-center gap-2">
         <Button variant="outline">
           <HugeiconsIcon
             icon={Mail01Icon}
@@ -48,6 +71,6 @@ export const button = {
           Please wait
         </Button>
       </div>
-    ),
-  },
+    </Example>
+  )
 }
