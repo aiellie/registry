@@ -1,6 +1,9 @@
 "use client"
 
+import * as React from "react"
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { HelpDialog } from "@/components/registry/help-dialog"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -35,6 +38,7 @@ export function NavUser({
   }
 }) {
   const { isMobile } = useSidebar()
+  const [helpOpen, setHelpOpen] = React.useState(false)
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -92,7 +96,7 @@ export function NavUser({
                 <HugeiconsIcon icon={Settings01Icon} strokeWidth={2} />
                 Settings
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setHelpOpen(true)}>
                 <HugeiconsIcon icon={FunctionCircleIcon} strokeWidth={2} />
                 Get Help
               </DropdownMenuItem>
@@ -105,6 +109,7 @@ export function NavUser({
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>
+      <HelpDialog open={helpOpen} onOpenChange={setHelpOpen} />
     </SidebarMenu>
   )
 }

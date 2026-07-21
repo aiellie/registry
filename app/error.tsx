@@ -35,10 +35,10 @@ export default function ErrorPage({
         <RegistryHeader />
         <main className="flex w-full justify-center">
           <div className="flex min-h-screen w-full flex-col items-center justify-center text-center">
-            <h1 className="text-6xl font-bold tracking-tight text-muted-foreground md:text-8xl">
+            <h1 className="text-6xl font-medium tracking-tight text-muted-foreground md:text-8xl">
               500
             </h1>
-            <h2 className="mt-4 text-2xl font-bold tracking-tight md:text-3xl">
+            <h2 className="mt-4 text-2xl font-medium tracking-tight md:text-3xl">
               Something went wrong
             </h2>
             <div className="mt-6 flex gap-3">

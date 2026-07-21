@@ -25,7 +25,7 @@ export default function Home() {
     <main className="container mt-4 p-5 md:mt-8 md:p-10">
       <div className="mb-8">
         <div className="space-y-2">
-          <h1 className="text-3xl font-bold tracking-tight md:text-4xl">
+          <h1 className="text-3xl font-medium tracking-tight md:text-4xl">
             ui.aiellie.dev
           </h1>
           <p className="text-muted-foreground">
@@ -158,34 +158,6 @@ export default function Home() {
             </div>
           </CardContent>
         </Card>
-      </div>
-
-      <div className="rounded-lg border bg-card p-6">
-        <div className="flex flex-col gap-2">
-          <h2 className="text-xl font-semibold">About</h2>
-          <p className="text-muted-foreground">
-            This registry serves as a central repository for all UI components
-            and blocks used in your applications. It helps maintain consistency
-            across your products and speeds up development by providing
-            ready-to-use components. Each component and block is documented with
-            examples. You can browse components by category, search for specific
-            components, and view examples of how they are used in different
-            contexts.
-          </p>
-          <p className="mt-2 text-muted-foreground">
-            To begin, start with a block{" "}
-            <span className="italic">
-              (like the{" "}
-              <a href="/registry/blank" className="underline">
-                blank block
-              </a>
-              )
-            </span>{" "}
-            and click the <span className="font-bold">Open in v0</span> button.
-            You can also open individual UI primitives or components in v0 if
-            you want a smaller or more specific starting point.
-          </p>
-        </div>
       </div>
     </main>
   )

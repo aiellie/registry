@@ -9,9 +9,9 @@ export default function TokensPage() {
   return (
     <div className="container p-5 md:p-10">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold tracking-tight">Design Tokens</h1>
+        <h1 className="text-3xl font-medium tracking-tight">Design Tokens</h1>
         <p className="mt-1 text-muted-foreground">
-          A comprehensive overview of all color tokens used in the design system
+          A comprehensive overview of all design tokens used in the design system
         </p>
       </div>
 
@@ -99,6 +99,35 @@ export default function TokensPage() {
         </div>
       </section>
 
+      {/* Selection Colors */}
+      <section className="mb-12">
+        <h2 className="mb-4 text-xl font-semibold">Selection Colors</h2>
+        <p className="mb-6 text-muted-foreground">
+          Colors used for text selection highlights.
+        </p>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <ColorBlock name="Selection" className="bg-selection" />
+          <ColorBlock
+            name="Selection Foreground"
+            className="bg-selection-foreground"
+          />
+        </div>
+      </section>
+
+      {/* Code Colors */}
+      <section className="mb-12">
+        <h2 className="mb-4 text-xl font-semibold">Code Colors</h2>
+        <p className="mb-6 text-muted-foreground">
+          Colors used for code blocks and syntax highlighting.
+        </p>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <ColorBlock name="Code" className="bg-code" />
+          <ColorBlock name="Code Foreground" className="bg-code-foreground" />
+          <ColorBlock name="Code Highlight" className="bg-code-highlight" />
+          <ColorBlock name="Code Number" className="bg-code-number" />
+        </div>
+      </section>
+
       {/* Chart Colors */}
       <section className="mb-12">
         <h2 className="mb-4 text-xl font-semibold">Chart Colors</h2>
@@ -127,7 +156,17 @@ export default function TokensPage() {
             className="bg-sidebar-foreground"
           />
           <ColorBlock name="Sidebar Primary" className="bg-sidebar-primary" />
+          <ColorBlock
+            name="Sidebar Primary Foreground"
+            className="bg-sidebar-primary-foreground"
+          />
           <ColorBlock name="Sidebar Accent" className="bg-sidebar-accent" />
+          <ColorBlock
+            name="Sidebar Accent Foreground"
+            className="bg-sidebar-accent-foreground"
+          />
+          <ColorBlock name="Sidebar Border" className="bg-sidebar-border" />
+          <ColorBlock name="Sidebar Ring" className="bg-sidebar-ring" />
         </div>
       </section>
     </div>

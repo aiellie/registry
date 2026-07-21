@@ -1,6 +1,6 @@
 "use client"
 
-import { PlugSocketIcon } from "@hugeicons/core-free-icons"
+import { McpServerIcon, PlugSocketIcon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 import Link from "next/link"
 
@@ -19,14 +19,9 @@ export function MCPDialog({ rootUrl }: { rootUrl: string }) {
   return (
     <Dialog>
       <DialogTrigger
-        render={<Button variant="ghost" size="sm" className="gap-1.5" />}
-      >
-        <HugeiconsIcon
-          icon={PlugSocketIcon}
-          strokeWidth={2}
-          className="size-4"
-        />
-        MCP
+        render={<Button variant="ghost" size="icon-sm" />}
+      >   
+<HugeiconsIcon icon={McpServerIcon} strokeWidth={2} className="size-4" />         
       </DialogTrigger>
       <DialogContent className="sm:max-w-2xl">
         <DialogHeader>

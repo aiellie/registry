@@ -69,7 +69,7 @@ export function SearchCommand() {
           <TooltipTrigger
             render={
               <Button
-                variant="ghost"
+                variant="outline"
                 size="icon-sm"
                 aria-label="Search registry"
                 onClick={() => setOpen(true)}

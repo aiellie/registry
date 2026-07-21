@@ -9,8 +9,8 @@
   --font-sans: var(--font-sans);
   --font-weight-normal: 350;
   --font-weight-medium: 450;
-  --font-weight-semibold: 550;
-  --font-weight-bold: 650;
+  --font-weight-semibold: 450;
+  --font-weight-bold: 450;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -77,8 +77,8 @@
   --secondary-foreground: oklch(0.32 0.008 285.885);
   --muted: oklch(0.967 0.001 286.375);
   --muted-foreground: oklch(70.5% 0.015 286.067);
-  --accent: oklch(0.967 0.001 286.375);
-  --accent-foreground: oklch(0.21 0.006 285.885);
+  --accent: oklch(0.962 0.018 272.314);
+  --accent-foreground: oklch(0.457 0.24 277.023);
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.92 0.004 286.32);
   --input: oklch(0.92 0.004 286.32);
@@ -93,8 +93,8 @@
   --sidebar-foreground: oklch(0.141 0.005 285.823);
   --sidebar-primary: oklch(0.511 0.262 276.966);
   --sidebar-primary-foreground: oklch(0.962 0.018 272.314);
-  --sidebar-accent: oklch(0.967 0.001 286.375);
-  --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
+  --sidebar-accent: oklch(0.962 0.018 272.314);
+  --sidebar-accent-foreground: oklch(0.457 0.24 277.023);
   --sidebar-border: oklch(0.92 0.004 286.32);
   --sidebar-ring: var(--sidebar-border);
   --selection: oklch(0.962 0.018 272.314);
@@ -147,7 +147,7 @@
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: var(--sidebar-border);
   --selection: oklch(0.962 0.018 272.314);
-  --selection-foreground: oklch(0.398 0.195 277.366);
+  --selection-foreground: oklch(from var(--selection) l c h / 55%);
   --code: var(--surface);
   --code-foreground: var(--surface-foreground);
   --code-highlight: oklch(0.274 0.006 286.033);
@@ -158,6 +158,31 @@
   * {
     @apply border-border outline-none;
   }
+  html {
+    @apply overscroll-y-none scroll-smooth;
+  }
+  ::selection {
+    @apply bg-selection text-selection-foreground;
+  }
+    /* Custom scrollbar */
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+    }
+  
+    ::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+  
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background-color: var(--border);
+      border-radius: 10px;
+    }
   body {
     @apply bg-background text-foreground;
     font-weight: var(--font-weight-normal);
@@ -181,27 +206,6 @@
     a[href],
     [tabindex]:not([tabindex="-1"])
   )
-  html {
-    @apply font-sans;
-    @apply overscroll-y-none scroll-smooth;
-  }
-  ::selection {
-    @apply bg-selection text-selection-foreground;
-  }
-  /* Custom scrollbar */
-  * {
-    scrollbar-width: thin;
-    scrollbar-color: var(--border) transparent;
-  }
-
-  ::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: transparent;
-  }
 
   /* Shiki dual-theme: default to light, swap to dark vars under `.dark`. */
   .shiki,

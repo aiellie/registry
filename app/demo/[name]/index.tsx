@@ -15,7 +15,7 @@ import { productGrid } from "@/app/demo/[name]/components/product-grid"
 import { promo } from "@/app/demo/[name]/components/promo"
 
 // ui
-import { accordion } from "@/app/demo/[name]/ui/accordion"
+import AccordionExample from "@/app/demo/[name]/ui/accordion"
 import { alert } from "@/app/demo/[name]/ui/alert"
 import { alertDialog } from "@/app/demo/[name]/ui/alert-dialog"
 import { aspectRatio } from "@/app/demo/[name]/ui/aspect-ratio"
@@ -101,7 +101,7 @@ export const demos: { [name: string]: Demo } = {
   promo,
 
   // ui
-  accordion,
+  accordion: AccordionExample,
   alert,
   "alert-dialog": alertDialog,
   "aspect-ratio": aspectRatio,

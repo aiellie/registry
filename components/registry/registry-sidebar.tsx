@@ -2,9 +2,9 @@
 
 import {
   ArrowDown01Icon,
-  BlockGameIcon,
+  ComponentIcon,
   BlocksIcon,
-  Home01Icon,
+  Lightbulb,
   PuzzleIcon,
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
@@ -68,14 +68,14 @@ function RegistryItemGroup({
               <HugeiconsIcon
                 icon={groupIcon}
                 strokeWidth={2}
-                className="size-4 shrink-0"
+                className="size-3.5 shrink-0"
               />
-              <span className="ms-2 transition-all duration-200">{title}</span>
+              <span className="ms-1.5 transition-all duration-200">{title}</span>
             </div>
             <HugeiconsIcon
               icon={ArrowDown01Icon}
               strokeWidth={2}
-              className="size-4 shrink-0 transition-all duration-200 group-data-panel-open/collapsible:rotate-180"
+              className="size-3.5 shrink-0 transition-all duration-200 group-data-panel-open/collapsible:rotate-180"
             />
           </SidebarGroupLabel>
         </CollapsibleTrigger>
@@ -117,13 +117,13 @@ export function RegistrySidebar() {
 
   return (
     <Sidebar collapsible="icon">
-      <SidebarHeader className="border-b">
+      <SidebarHeader className="">
         <div className="flex items-center px-2 py-2 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0">
           <Link href="/" className="flex min-w-0 items-center gap-2">
             <RegistryLogo />
           </Link>
         </div>
-        <div className="px-2 pb-2 group-data-[collapsible=icon]:flex group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0">
+        <div className="group-data-[collapsible=icon]:flex group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0">
           <SearchCommand />
         </div>
       </SidebarHeader>
@@ -136,18 +136,18 @@ export function RegistrySidebar() {
                 <SidebarGroupLabel className="flex cursor-pointer items-center justify-between">
                   <div className="flex min-w-0 items-center">
                     <HugeiconsIcon
-                      icon={Home01Icon}
+                      icon={Lightbulb}
                       strokeWidth={2}
-                      className="size-4 shrink-0"
+                      className="size-3.5 shrink-0"
                     />
-                    <span className="ms-2 transition-all duration-200">
+                    <span className="ms-1.5 transition-all duration-200">
                       Getting Started
                     </span>
                   </div>
                   <HugeiconsIcon
                     icon={ArrowDown01Icon}
                     strokeWidth={2}
-                    className="size-4 shrink-0 transition-all duration-200 group-data-panel-open/collapsible:rotate-180"
+                    className="size-3.5 shrink-0 transition-all duration-200 group-data-panel-open/collapsible:rotate-180"
                   />
                 </SidebarGroupLabel>
               </CollapsibleTrigger>
@@ -188,23 +188,23 @@ export function RegistrySidebar() {
           />
           <RegistryItemGroup
             title="Components"
-            groupIcon={PuzzleIcon}
+            groupIcon={ComponentIcon}
             items={componentItems}
           />
           <RegistryItemGroup
             title="UI Primitives"
-            groupIcon={BlockGameIcon}
+            groupIcon={PuzzleIcon}
             items={uiItems}
           />
         </ScrollArea>
       </SidebarContent>
 
-      <SidebarFooter className="border-t">
+      <SidebarFooter className="">
         <NavUser
           user={{
             name: "Ellie",
             email: "ellie@aiellie.dev",
-            avatar: "/avatar.png",
+            avatar: "/avatars/aiellie.png",
           }}
         />
       </SidebarFooter>

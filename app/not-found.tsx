@@ -22,7 +22,7 @@ export default function NotFound() {
         <RegistryHeader />
         <main className="flex w-full justify-center">
           <div className="flex min-h-screen w-full flex-col items-center justify-center text-center">
-            <h1 className="text-6xl font-bold tracking-tight text-muted-foreground md:text-8xl">
+            <h1 className="text-6xl font-medium tracking-tight text-muted-foreground md:text-8xl">
               404
             </h1>
             <h2 className="mt-8 text-2xl font-semibold tracking-tight md:text-3xl">

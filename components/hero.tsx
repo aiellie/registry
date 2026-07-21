@@ -4,11 +4,13 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 
 export function Hero({
+  badgeText,
   title,
   description,
   buttonText,
   buttonLink,
 }: {
+  badgeText: string
   title: string
   description: string
   buttonText: string
@@ -19,9 +21,9 @@ export function Hero({
       <div className="relative z-10 flex h-full flex-col items-center justify-center px-4 text-center sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl">
           <Badge variant="secondary" className="mb-4">
-            Coming soon
+            {badgeText}
           </Badge>
-          <h1 className="font-heading text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
+          <h1 className="font-heading text-4xl font-medium tracking-tight sm:text-5xl md:text-6xl">
             {title}
           </h1>
           <p className="mt-6 text-xl text-muted-foreground">{description}</p>

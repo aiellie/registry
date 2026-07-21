@@ -2,26 +2,20 @@
 
 import {
   ArrowRight01Icon,
-  ClipboardIcon,
-  ComputerIcon,
   File02Icon,
   Folder01Icon,
-  FullScreenIcon,
-  RefreshIcon,
-  SmartPhone01Icon,
   SourceCodeIcon,
-  Tablet01Icon,
-  TerminalIcon,
-  Tick02Icon,
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
-import Link from "next/link"
 import * as React from "react"
 import type { PanelImperativeHandle } from "react-resizable-panels"
-import { toast } from "sonner"
 
+import { CopyCodeButton } from "@/components/registry/copy-code-button"
+import { CopyCommandButton } from "@/components/registry/copy-command-button"
+import { OpenInNewTabButton } from "@/components/registry/open-in-new-tab-button"
 import { OpenInV0Button } from "@/components/registry/open-in-v0"
-import { Button } from "@/components/ui/button"
+import { RefreshPreviewButton } from "@/components/registry/refresh-preview-button"
+import { ViewportToggleGroup } from "@/components/registry/viewport-toggle-group"
 import {
   Collapsible,
   CollapsibleContent,
@@ -32,7 +26,6 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable"
-import { Separator } from "@/components/ui/separator"
 import {
   Sidebar,
   SidebarGroup,
@@ -45,13 +38,6 @@ import {
   SidebarProvider,
 } from "@/components/ui/sidebar"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip"
-import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard"
 import type {
   FileTree,
   HighlightedRegistryFile,
@@ -143,16 +129,8 @@ function BlockViewerProvider({
 }
 
 function BlockViewerToolbar() {
-  const {
-    setView,
-    view,
-    item,
-    baseUrl,
-    prompt,
-    resizablePanelRef,
-    setIframeKey,
-  } = useBlockViewer()
-  const { copyToClipboard, isCopied } = useCopyToClipboard()
+  const { setView, view, item, baseUrl, prompt, resizablePanelRef, setIframeKey } =
+    useBlockViewer()
 
   const isBlock = item.type === "registry:block"
   const registryUrl = `https://${baseUrl}/r/${item.name}.json`
@@ -173,103 +151,18 @@ function BlockViewerToolbar() {
       </Tabs>
       <div className="min-w-4 flex-1" />
       <div className="flex items-center gap-2">
-        <div className="flex h-8 items-center gap-1.5 rounded-md border p-[3px] shadow-none">
-          <ToggleGroup
-            defaultValue={["100%"]}
-            onValueChange={(value) => {
-              const size = value[0]
-              if (typeof size !== "string") {
-                return
-              }
+        <div >
+          <ViewportToggleGroup
+            onSelect={(size) => {
               setView("preview")
-              if (resizablePanelRef?.current) {
-                resizablePanelRef.current.resize(size)
-              }
+              resizablePanelRef?.current?.resize(size)
             }}
-            className="gap-1 *:data-[slot=toggle-group-item]:size-6! *:data-[slot=toggle-group-item]:rounded-sm!"
-          >
-            <Tooltip>
-              <TooltipTrigger
-                render={<ToggleGroupItem value="100%" aria-label="Desktop" />}
-              >
-                <HugeiconsIcon icon={ComputerIcon} strokeWidth={2} />
-              </TooltipTrigger>
-              <TooltipContent>Desktop</TooltipContent>
-            </Tooltip>
-            <Tooltip>
-              <TooltipTrigger
-                render={<ToggleGroupItem value="60%" aria-label="Tablet" />}
-              >
-                <HugeiconsIcon icon={Tablet01Icon} strokeWidth={2} />
-              </TooltipTrigger>
-              <TooltipContent>Tablet</TooltipContent>
-            </Tooltip>
-            <Tooltip>
-              <TooltipTrigger
-                render={<ToggleGroupItem value="30%" aria-label="Mobile" />}
-              >
-                <HugeiconsIcon icon={SmartPhone01Icon} strokeWidth={2} />
-              </TooltipTrigger>
-              <TooltipContent>Mobile</TooltipContent>
-            </Tooltip>
-            <Separator orientation="vertical" className="h-4!" />
-            <Tooltip>
-              <TooltipTrigger
-                render={
-                  <Button
-                    size="icon"
-                    variant="ghost"
-                    className="size-6 rounded-sm p-0"
-                    nativeButton={false}
-                    render={
-                      <Link href={`/demo/${item.name}`} target="_blank" />
-                    }
-                  />
-                }
-              >
-                <span className="sr-only">Open in New Tab</span>
-                <HugeiconsIcon icon={FullScreenIcon} strokeWidth={2} />
-              </TooltipTrigger>
-              <TooltipContent>Open in New Tab</TooltipContent>
-            </Tooltip>
-            <Separator orientation="vertical" className="h-4!" />
-            <Tooltip>
-              <TooltipTrigger
-                render={
-                  <Button
-                    size="icon"
-                    variant="ghost"
-                    className="size-6 rounded-sm p-0"
-                    onClick={() => setIframeKey((k) => k + 1)}
-                  />
-                }
-              >
-                <HugeiconsIcon icon={RefreshIcon} strokeWidth={2} />
-                <span className="sr-only">Refresh Preview</span>
-              </TooltipTrigger>
-              <TooltipContent>Refresh Preview</TooltipContent>
-            </Tooltip>
-          </ToggleGroup>
+          />
+         
         </div>
-        <Separator orientation="vertical" className="mx-1 h-4!" />
-        <Button
-          variant="outline"
-          className="w-fit gap-1 px-2 shadow-none"
-          size="sm"
-          onClick={() => {
-            copyToClipboard(`npx shadcn@latest add ${registryUrl}`)
-            toast.success("Copied npx command to clipboard")
-          }}
-        >
-          {isCopied ? (
-            <HugeiconsIcon icon={Tick02Icon} strokeWidth={2} />
-          ) : (
-            <HugeiconsIcon icon={TerminalIcon} strokeWidth={2} />
-          )}
-          <span className="hidden xl:inline">npx shadcn add {item.name}</span>
-          <span className="xl:hidden">npx</span>
-        </Button>
-        <Separator orientation="vertical" className="mx-1 h-4!" />
+        <OpenInNewTabButton name={item.name} />
+        <RefreshPreviewButton onRefresh={() => setIframeKey((k) => k + 1)} />
+        <CopyCommandButton name={item.name} registryUrl={registryUrl} />
         <OpenInV0Button
           registryUrl={v0RegistryUrl}
           title={`${item.title} Kit`}
@@ -345,11 +238,15 @@ function BlockViewerMobile() {
 }
 
 function BlockViewerCode() {
-  const { activeFile, highlightedFiles } = useBlockViewer()
+  const { activeFile, highlightedFiles, item } = useBlockViewer()
 
   const file = React.useMemo(() => {
     return highlightedFiles?.find((file) => file.target === activeFile)
   }, [highlightedFiles, activeFile])
+
+  const rawContent = React.useMemo(() => {
+    return item.fileContents.find((file) => file.target === activeFile)?.content
+  }, [activeFile, item.fileContents])
 
   if (!file) {
     return null
@@ -365,7 +262,7 @@ function BlockViewerCode() {
           <HugeiconsIcon icon={SourceCodeIcon} strokeWidth={2} />
           {file.target}
           <div className="ms-auto flex items-center gap-2">
-            <BlockCopyCodeButton />
+            <CopyCodeButton content={rawContent} />
           </div>
         </figcaption>
         <div
@@ -466,37 +363,6 @@ function Tree({ item, index }: { item: FileTree; index: number }) {
         </CollapsibleContent>
       </Collapsible>
     </SidebarMenuItem>
-  )
-}
-
-function BlockCopyCodeButton() {
-  const { activeFile, item } = useBlockViewer()
-  const { copyToClipboard, isCopied } = useCopyToClipboard()
-
-  const file = React.useMemo(() => {
-    return item.fileContents.find((file) => file.target === activeFile)
-  }, [activeFile, item.fileContents])
-
-  const content = file?.content
-
-  if (!content) {
-    return null
-  }
-
-  return (
-    <Button
-      variant="ghost"
-      size="icon"
-      className="size-7"
-      onClick={() => copyToClipboard(content)}
-    >
-      {isCopied ? (
-        <HugeiconsIcon icon={Tick02Icon} strokeWidth={2} />
-      ) : (
-        <HugeiconsIcon icon={ClipboardIcon} strokeWidth={2} />
-      )}
-      <span className="sr-only">Copy code</span>
-    </Button>
   )
 }
 
