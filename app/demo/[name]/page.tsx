@@ -23,7 +23,26 @@ export default async function DemoPage({
     notFound()
   }
 
-  const { components } = demos[name]
+  const demo = demos[name]
+
+  if (!demo) {
+    notFound()
+  }
+
+  // Component style (e.g. `accordion.tsx`): a default-exported React component
+  // that lays out its own examples via `ExampleWrapper`/`Example`.
+  if (typeof demo === "function") {
+    const Demo = demo
+
+    return (
+      <Renderer>
+        <Demo />
+      </Renderer>
+    )
+  }
+
+  // Object style: `{ components: { Default, ... } }` stacked vertically.
+  const { components } = demo
 
   return (
     <div className="flex h-[100vh] w-full flex-col gap-4 bg-card">

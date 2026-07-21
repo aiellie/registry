@@ -1,4 +1,4 @@
-import type { ReactElement, ReactNode } from "react"
+import type { ComponentType, ReactElement, ReactNode } from "react"
 
 // blocks
 import { blank } from "@/app/demo/[name]/blocks/blank"
@@ -13,8 +13,8 @@ import { logo } from "@/app/demo/[name]/components/logo"
 
 // ui
 import AccordionExample from "@/app/demo/[name]/ui/accordion"
-import { alert } from "@/app/demo/[name]/ui/alert"
-import { alertDialog } from "@/app/demo/[name]/ui/alert-dialog"
+import AlertExample from "@/app/demo/[name]/ui/alert"
+import AlertDialogExample from "@/app/demo/[name]/ui/alert-dialog"
 import { aspectRatio } from "@/app/demo/[name]/ui/aspect-ratio"
 import { attachment } from "@/app/demo/[name]/ui/attachment"
 import { avatar } from "@/app/demo/[name]/ui/avatar"
@@ -75,12 +75,19 @@ import { toggle } from "@/app/demo/[name]/ui/toggle"
 import { toggleGroup } from "@/app/demo/[name]/ui/toggle-group"
 import { tooltip } from "@/app/demo/[name]/ui/tooltip"
 
-interface Demo {
-  name: string // this must match the `registry.json` name
-  components?: {
-    [name: string]: ReactNode | ReactElement
-  }
-}
+// A demo can be authored in one of two ways:
+// 1. Object style: `{ name, components: { Default, ... } }` where each entry is
+//    a rendered node. Nodes are stacked vertically in the preview.
+// 2. Component style: a default-exported React component (e.g. `accordion.tsx`)
+//    that lays out its own examples via `ExampleWrapper`/`Example`.
+type Demo =
+  | {
+      name?: string // this must match the `registry.json` name
+      components?: {
+        [name: string]: ReactNode | ReactElement
+      }
+    }
+  | ComponentType
 
 export const demos: { [name: string]: Demo } = {
   // blocks
@@ -96,8 +103,8 @@ export const demos: { [name: string]: Demo } = {
 
   // ui
   accordion: AccordionExample,
-  alert,
-  "alert-dialog": alertDialog,
+  alert: AlertExample,
+  "alert-dialog": AlertDialogExample,
   "aspect-ratio": aspectRatio,
   attachment,
   avatar,

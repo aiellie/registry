@@ -4,12 +4,17 @@ import { RegistryHeader } from "@/components/registry/registry-header"
 import { RegistrySidebar } from "@/components/registry/registry-sidebar"
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 import { Toaster } from "@/components/ui/sonner"
+import { highlightCode } from "@/lib/highlight-code"
+import { getMcpConfig, getRootUrl } from "@/lib/mcp-config"
 
-export default function RegistryLayout({
+export default async function RegistryLayout({
   children,
 }: Readonly<{
   children: ReactNode
 }>) {
+  const { mcpServer } = getMcpConfig(getRootUrl())
+  const highlightedMcp = await highlightCode(mcpServer, "json")
+
   return (
     <SidebarProvider
       style={
@@ -21,7 +26,7 @@ export default function RegistryLayout({
     >
       <RegistrySidebar />
       <SidebarInset className="min-w-0">
-        <RegistryHeader />
+        <RegistryHeader highlightedMcp={highlightedMcp} />
         <main className="flex w-full justify-center">{children}</main>
       </SidebarInset>
       <Toaster />

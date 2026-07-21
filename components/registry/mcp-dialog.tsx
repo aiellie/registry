@@ -15,7 +15,13 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 
-export function MCPDialog({ rootUrl }: { rootUrl: string }) {
+export function MCPDialog({
+  rootUrl,
+  highlightedMcp,
+}: {
+  rootUrl: string
+  highlightedMcp?: string
+}) {
   return (
     <Dialog>
       <DialogTrigger
@@ -37,7 +43,7 @@ export function MCPDialog({ rootUrl }: { rootUrl: string }) {
             <code className="inline text-sm tabular-nums">globals.css</code>.
           </DialogDescription>
         </DialogHeader>
-        <MCPTabs rootUrl={rootUrl} />
+        <MCPTabs rootUrl={rootUrl} highlightedMcp={highlightedMcp} />
       </DialogContent>
     </Dialog>
   )

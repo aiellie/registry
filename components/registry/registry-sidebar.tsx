@@ -98,6 +98,7 @@ function RegistryItemGroup({
                     <HugeiconsIcon
                       icon={getItemIcon(item.name)}
                       strokeWidth={2}
+                      className="size-3.5 shrink-0"
                     />
                     <span>{item.title}</span>
                   </SidebarMenuButton>

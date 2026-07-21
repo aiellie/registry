@@ -6,8 +6,13 @@ import { RegistrySidebar } from "@/components/registry/registry-sidebar"
 import { Button } from "@/components/ui/button"
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 import { Toaster } from "@/components/ui/sonner"
+import { highlightCode } from "@/lib/highlight-code"
+import { getMcpConfig, getRootUrl } from "@/lib/mcp-config"
 
-export default function NotFound() {
+export default async function NotFound() {
+  const { mcpServer } = getMcpConfig(getRootUrl())
+  const highlightedMcp = await highlightCode(mcpServer, "json")
+
   return (
     <SidebarProvider
       style={
@@ -19,7 +24,7 @@ export default function NotFound() {
     >
       <RegistrySidebar />
       <SidebarInset className="min-w-0">
-        <RegistryHeader />
+        <RegistryHeader highlightedMcp={highlightedMcp} />
         <main className="flex w-full justify-center">
           <div className="flex min-h-screen w-full flex-col items-center justify-center text-center">
             <h1 className="text-6xl font-medium tracking-tight text-muted-foreground md:text-8xl">

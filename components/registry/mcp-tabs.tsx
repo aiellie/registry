@@ -1,45 +1,22 @@
 "use client"
 
-import { ClipboardIcon, Tick02Icon } from "@hugeicons/core-free-icons"
-import { HugeiconsIcon } from "@hugeicons/react"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 
 import { AddToCursor } from "@/components/registry/add-to-cursor"
-import { Button } from "@/components/ui/button"
+import { CopyButton } from "@/components/registry/copy-button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { getMcpConfig } from "@/lib/mcp-config"
 
-export async function copyToClipboard(value: string) {
-  await navigator.clipboard.writeText(value)
-}
-
-export function MCPTabs({ rootUrl }: { rootUrl: string }) {
+export function MCPTabs({
+  rootUrl,
+  highlightedMcp,
+}: {
+  rootUrl: string
+  highlightedMcp?: string
+}) {
   const [tab, setTab] = useState("cursor")
-  const [hasCopied, setHasCopied] = useState(false)
 
-  const mcp = {
-    command: "npx -y shadcn@latest registry:mcp",
-    env: {
-      REGISTRY_URL: `https://${rootUrl}/r/registry.json`,
-    },
-  }
-
-  const mcpServer = JSON.stringify(
-    {
-      mcpServers: {
-        shadcn: mcp,
-      },
-    },
-    null,
-    2
-  )
-
-  useEffect(() => {
-    if (hasCopied) {
-      setTimeout(() => {
-        setHasCopied(false)
-      }, 2000)
-    }
-  }, [hasCopied])
+  const { mcp, mcpServer } = getMcpConfig(rootUrl)
 
   return (
     <Tabs value={tab} onValueChange={(value) => setTab(String(value))}>
@@ -70,29 +47,21 @@ export function MCPTabs({ rootUrl }: { rootUrl: string }) {
         <div className="absolute top-3 right-3 flex gap-2">
           {tab === "cursor" && <AddToCursor mcp={mcp} />}
 
-          <Button
-            size="sm"
-            variant="outline"
-            onClick={() => {
-              copyToClipboard(mcpServer)
-              setHasCopied(true)
-            }}
-            className="shadow-none"
-          >
-            {hasCopied ? (
-              <HugeiconsIcon icon={Tick02Icon} strokeWidth={2} />
-            ) : (
-              <HugeiconsIcon icon={ClipboardIcon} strokeWidth={2} />
-            )}
-            Copy
-          </Button>
+          <CopyButton content={mcpServer} />
         </div>
 
-        <pre className="mt-16 overflow-x-auto rounded-lg border bg-muted p-1 sm:mt-0">
-          <code className="relative rounded bg-transparent p-1 font-mono text-sm text-muted-foreground">
-            {mcpServer}
-          </code>
-        </pre>
+        {highlightedMcp ? (
+          <div
+            className="no-scrollbar mt-16 overflow-x-auto rounded-lg border bg-code font-mono text-sm sm:mt-0"
+            dangerouslySetInnerHTML={{ __html: highlightedMcp }}
+          />
+        ) : (
+          <pre className="mt-16 overflow-x-auto rounded-lg border p-1 sm:mt-0">
+            <code className="relative rounded bg-transparent p-1 font-mono text-sm text-muted-foreground">
+              {mcpServer}
+            </code>
+          </pre>
+        )}
       </div>
     </Tabs>
   )

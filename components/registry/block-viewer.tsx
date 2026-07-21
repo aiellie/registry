@@ -10,8 +10,10 @@ import { HugeiconsIcon } from "@hugeicons/react"
 import * as React from "react"
 import type { PanelImperativeHandle } from "react-resizable-panels"
 
+import { CodePreviewToggle } from "@/components/registry/code-preview-toggle"
 import { CopyCodeButton } from "@/components/registry/copy-code-button"
 import { CopyCommandButton } from "@/components/registry/copy-command-button"
+import { DownloadButton } from "@/components/registry/download-button"
 import { OpenInNewTabButton } from "@/components/registry/open-in-new-tab-button"
 import { OpenInV0Button } from "@/components/registry/open-in-v0"
 import { RefreshPreviewButton } from "@/components/registry/refresh-preview-button"
@@ -37,7 +39,6 @@ import {
   SidebarMenuSub,
   SidebarProvider,
 } from "@/components/ui/sidebar"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import type {
   FileTree,
   HighlightedRegistryFile,
@@ -140,15 +141,7 @@ function BlockViewerToolbar() {
 
   return (
     <div className="hidden w-full min-w-0 flex-wrap items-center gap-2 gap-y-2 ps-2 md:pe-6 lg:flex">
-      <Tabs
-        value={view}
-        onValueChange={(value) => setView(value as "preview" | "code")}
-      >
-        <TabsList className="h-8! items-center rounded-lg p-1 *:data-[slot=tabs-trigger]:h-6 *:data-[slot=tabs-trigger]:rounded-sm *:data-[slot=tabs-trigger]:px-2 *:data-[slot=tabs-trigger]:text-xs">
-          <TabsTrigger value="preview">Preview</TabsTrigger>
-          <TabsTrigger value="code">Code</TabsTrigger>
-        </TabsList>
-      </Tabs>
+      <CodePreviewToggle view={view} onViewChange={setView} />
       <div className="min-w-4 flex-1" />
       <div className="flex items-center gap-2">
         <div >
@@ -258,17 +251,18 @@ function BlockViewerCode() {
         <BlockViewerFileTree />
       </div>
       <figure className="mx-0! mt-0 flex min-w-0 flex-1 flex-col rounded-xl border-none">
-        <figcaption className="flex h-12 shrink-0 items-center gap-2 border-b px-4 py-2 text-sm text-code-foreground [&_svg]:size-4 [&_svg]:opacity-70">
+        <figcaption className="flex h-12 shrink-0 items-center gap-2 border-b px-4 py-2 text-xs text-code-foreground [&_svg]:size-4 [&_svg]:opacity-70">
           <HugeiconsIcon icon={SourceCodeIcon} strokeWidth={2} />
           {file.target}
           <div className="ms-auto flex items-center gap-2">
             <CopyCodeButton content={rawContent} />
+            <DownloadButton content={rawContent} name={file.target} />
           </div>
         </figcaption>
         <div
           key={file.path}
           dangerouslySetInnerHTML={{ __html: file.highlightedContent }}
-          className="no-scrollbar overflow-y-auto font-mono text-sm"
+          className="no-scrollbar overflow-y-auto font-mono text-xs"
         />
       </figure>
     </div>
