@@ -23,57 +23,57 @@ import BreadcrumbExample from "@/app/demo/[name]/ui/breadcrumb"
 import BubbleExample from "@/app/demo/[name]/ui/bubble"
 import ButtonExample from "@/app/demo/[name]/ui/button"
 import ButtonGroupExample from "@/app/demo/[name]/ui/button-group"
-import { calendar } from "@/app/demo/[name]/ui/calendar"
-import { card } from "@/app/demo/[name]/ui/card"
-import { carousel } from "@/app/demo/[name]/ui/carousel"
-import { chart } from "@/app/demo/[name]/ui/chart"
-import { checkbox } from "@/app/demo/[name]/ui/checkbox"
-import { collapsible } from "@/app/demo/[name]/ui/collapsible"
-import { combobox } from "@/app/demo/[name]/ui/combobox"
-import { command } from "@/app/demo/[name]/ui/command"
-import { contextMenu } from "@/app/demo/[name]/ui/context-menu"
-import { dataTable } from "@/app/demo/[name]/ui/data-table"
-import { datePicker } from "@/app/demo/[name]/ui/date-picker"
-import { dialog } from "@/app/demo/[name]/ui/dialog"
-import { direction } from "@/app/demo/[name]/ui/direction"
-import { drawer } from "@/app/demo/[name]/ui/drawer"
-import { dropdownMenu } from "@/app/demo/[name]/ui/dropdown-menu"
-import { empty } from "@/app/demo/[name]/ui/empty"
-import { field } from "@/app/demo/[name]/ui/field"
-import { hoverCard } from "@/app/demo/[name]/ui/hover-card"
-import { input } from "@/app/demo/[name]/ui/input"
-import { inputGroup } from "@/app/demo/[name]/ui/input-group"
-import { inputOtp } from "@/app/demo/[name]/ui/input-otp"
-import { item } from "@/app/demo/[name]/ui/item"
-import { kbd } from "@/app/demo/[name]/ui/kbd"
-import { label } from "@/app/demo/[name]/ui/label"
-import { marker } from "@/app/demo/[name]/ui/marker"
-import { menubar } from "@/app/demo/[name]/ui/menubar"
-import { message } from "@/app/demo/[name]/ui/message"
-import { messageScroller } from "@/app/demo/[name]/ui/message-scroller"
-import { nativeSelect } from "@/app/demo/[name]/ui/native-select"
-import { navigationMenu } from "@/app/demo/[name]/ui/navigation-menu"
-import { pagination } from "@/app/demo/[name]/ui/pagination"
-import { popover } from "@/app/demo/[name]/ui/popover"
-import { progress } from "@/app/demo/[name]/ui/progress"
-import { radioGroup } from "@/app/demo/[name]/ui/radio-group"
-import { resizable } from "@/app/demo/[name]/ui/resizable"
-import { scrollArea } from "@/app/demo/[name]/ui/scroll-area"
-import { select } from "@/app/demo/[name]/ui/select"
-import { separator } from "@/app/demo/[name]/ui/separator"
-import { sheet } from "@/app/demo/[name]/ui/sheet"
-import { sidebar } from "@/app/demo/[name]/ui/sidebar"
-import { skeleton } from "@/app/demo/[name]/ui/skeleton"
-import { slider } from "@/app/demo/[name]/ui/slider"
-import { sonner } from "@/app/demo/[name]/ui/sonner"
-import { spinner } from "@/app/demo/[name]/ui/spinner"
-import { switchComponent } from "@/app/demo/[name]/ui/switch"
-import { table } from "@/app/demo/[name]/ui/table"
-import { tabs } from "@/app/demo/[name]/ui/tabs"
-import { textarea } from "@/app/demo/[name]/ui/textarea"
-import { toggle } from "@/app/demo/[name]/ui/toggle"
-import { toggleGroup } from "@/app/demo/[name]/ui/toggle-group"
-import { tooltip } from "@/app/demo/[name]/ui/tooltip"
+import CalendarExample from "@/app/demo/[name]/ui/calendar"
+import CardExample from "@/app/demo/[name]/ui/card"
+import CarouselExample from "@/app/demo/[name]/ui/carousel"
+import ChartExample from "@/app/demo/[name]/ui/chart"
+import CheckboxExample from "@/app/demo/[name]/ui/checkbox"
+import CollapsibleExample from "@/app/demo/[name]/ui/collapsible"
+import ComboboxExample from "@/app/demo/[name]/ui/combobox"
+import CommandExample from "@/app/demo/[name]/ui/command"
+import ContextMenuExample from "@/app/demo/[name]/ui/context-menu"
+import DataTableExample from "@/app/demo/[name]/ui/data-table"
+import DatePickerExample from "@/app/demo/[name]/ui/date-picker"
+import DialogExample from "@/app/demo/[name]/ui/dialog"
+import DirectionExample from "@/app/demo/[name]/ui/direction"
+import DrawerExample from "@/app/demo/[name]/ui/drawer"
+import DropdownMenuExample from "@/app/demo/[name]/ui/dropdown-menu"
+import EmptyExample from "@/app/demo/[name]/ui/empty"
+import FieldExample from "@/app/demo/[name]/ui/field"
+import HoverCardExample from "@/app/demo/[name]/ui/hover-card"
+import InputExample from "@/app/demo/[name]/ui/input"
+import InputGroupExample from "@/app/demo/[name]/ui/input-group"
+import InputOTPExample from "@/app/demo/[name]/ui/input-otp"
+import ItemExample from "@/app/demo/[name]/ui/item"
+import KbdExample from "@/app/demo/[name]/ui/kbd"
+import LabelExample from "@/app/demo/[name]/ui/label"
+import MarkerExamples from "@/app/demo/[name]/ui/marker"
+import MenubarExample from "@/app/demo/[name]/ui/menubar"
+import MessageExample from "@/app/demo/[name]/ui/message"
+import MessageScrollerExample from "@/app/demo/[name]/ui/message-scroller"
+import NativeSelectExample from "@/app/demo/[name]/ui/native-select"
+import NavigationMenuExample from "@/app/demo/[name]/ui/navigation-menu"
+import PaginationExample from "@/app/demo/[name]/ui/pagination"
+import PopoverExample from "@/app/demo/[name]/ui/popover"
+import ProgressExample from "@/app/demo/[name]/ui/progress"
+import RadioGroupExample from "@/app/demo/[name]/ui/radio-group"
+import ResizableExample from "@/app/demo/[name]/ui/resizable"
+import ScrollAreaExample from "@/app/demo/[name]/ui/scroll-area"
+import SelectExample from "@/app/demo/[name]/ui/select"
+import SeparatorExample from "@/app/demo/[name]/ui/separator"
+import SheetExample from "@/app/demo/[name]/ui/sheet"
+import SidebarExample from "@/app/demo/[name]/ui/sidebar"
+import SkeletonExample from "@/app/demo/[name]/ui/skeleton"
+import SliderExample from "@/app/demo/[name]/ui/slider"
+import SonnerExample from "@/app/demo/[name]/ui/sonner"
+import SpinnerExample from "@/app/demo/[name]/ui/spinner"
+import SwitchExample from "@/app/demo/[name]/ui/switch"
+import TableExample from "@/app/demo/[name]/ui/table"
+import TabsExample from "@/app/demo/[name]/ui/tabs"
+import TextareaExample from "@/app/demo/[name]/ui/textarea"
+import ToggleExample from "@/app/demo/[name]/ui/toggle"
+import ToggleGroupExample from "@/app/demo/[name]/ui/toggle-group"
+import TooltipExample from "@/app/demo/[name]/ui/tooltip"
 
 // A demo can be authored in one of two ways:
 // 1. Object style: `{ name, components: { Default, ... } }` where each entry is
@@ -113,55 +113,55 @@ export const demos: { [name: string]: Demo } = {
   bubble: BubbleExample,
   button: ButtonExample,
   "button-group": ButtonGroupExample,
-  calendar,
-  card,
-  carousel,
-  chart,
-  checkbox,
-  collapsible,
-  combobox,
-  command,
-  "context-menu": contextMenu,
-  "data-table": dataTable,
-  "date-picker": datePicker,
-  dialog,
-  direction,
-  drawer,
-  "dropdown-menu": dropdownMenu,
-  empty,
-  field,
-  "hover-card": hoverCard,
-  input,
-  "input-group": inputGroup,
-  "input-otp": inputOtp,
-  item,
-  kbd,
-  label,
-  marker,
-  menubar,
-  message,
-  "message-scroller": messageScroller,
-  "native-select": nativeSelect,
-  "navigation-menu": navigationMenu,
-  pagination,
-  popover,
-  progress,
-  "radio-group": radioGroup,
-  resizable,
-  "scroll-area": scrollArea,
-  select,
-  separator,
-  sheet,
-  sidebar,
-  skeleton,
-  slider,
-  sonner,
-  spinner,
-  switch: switchComponent,
-  table,
-  tabs,
-  textarea,
-  toggle,
-  "toggle-group": toggleGroup,
-  tooltip,
+  calendar: CalendarExample,
+  card: CardExample,
+  carousel: CarouselExample,
+  chart: ChartExample,
+  checkbox: CheckboxExample,
+  collapsible: CollapsibleExample,
+  combobox: ComboboxExample,
+  command: CommandExample,
+  "context-menu": ContextMenuExample,
+  "data-table": DataTableExample,
+  "date-picker": DatePickerExample,
+  dialog: DialogExample,
+  direction: DirectionExample,
+  drawer: DrawerExample,
+  "dropdown-menu": DropdownMenuExample,
+  empty: EmptyExample,
+  field: FieldExample,
+  "hover-card": HoverCardExample,
+  input: InputExample,
+  "input-group": InputGroupExample,
+  "input-otp": InputOTPExample,
+  item: ItemExample,
+  kbd: KbdExample,
+  label: LabelExample,
+  marker: MarkerExamples,
+  menubar: MenubarExample,
+  message: MessageExample,
+  "message-scroller": MessageScrollerExample,
+  "native-select": NativeSelectExample,
+  "navigation-menu": NavigationMenuExample,
+  pagination: PaginationExample,
+  popover: PopoverExample,
+  progress: ProgressExample,
+  "radio-group": RadioGroupExample,
+  resizable: ResizableExample,
+  "scroll-area": ScrollAreaExample,
+  select: SelectExample,
+  separator: SeparatorExample,
+  sheet: SheetExample,
+  sidebar: SidebarExample,
+  skeleton: SkeletonExample,
+  slider: SliderExample,
+  sonner: SonnerExample,
+  spinner: SpinnerExample,
+  switch: SwitchExample,
+  table: TableExample,
+  tabs: TabsExample,
+  textarea: TextareaExample,
+  toggle: ToggleExample,
+  "toggle-group": ToggleGroupExample,
+  tooltip: TooltipExample,
 }

@@ -1,148 +1,267 @@
-import { HugeiconsIcon } from "@hugeicons/react"
-import {
-  AiMagicIcon,
-  Calendar03Icon,
-  ChartHistogramIcon,
-  Folder01Icon,
-  Home01Icon,
-  InboxIcon,
-  PlusSignIcon,
-  Search01Icon,
-  Settings02Icon,
-  UserIcon,
-} from "@hugeicons/core-free-icons"
+"use client"
 
-import { Separator } from "@/components/ui/separator"
+import * as React from "react"
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import {
+  Item,
+  ItemActions,
+  ItemContent,
+  ItemDescription,
+  ItemTitle,
+} from "@/components/ui/item"
+import { Label } from "@/components/ui/label"
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarGroup,
-  SidebarGroupAction,
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarHeader,
+  SidebarInput,
   SidebarInset,
   SidebarMenu,
-  SidebarMenuBadge,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarProvider,
   SidebarRail,
   SidebarTrigger,
 } from "@/components/ui/sidebar"
+import { HugeiconsIcon } from "@hugeicons/react"
+import { UnfoldMoreIcon, Tick02Icon, SearchIcon } from "@hugeicons/core-free-icons"
 
-const navigation: {
-  title: string
-  icon: typeof Home01Icon
-  isActive?: boolean
-  badge?: string
-}[] = [
-  { title: "Home", icon: Home01Icon, isActive: true },
-  { title: "Inbox", icon: InboxIcon, badge: "24" },
-  { title: "Calendar", icon: Calendar03Icon },
-  { title: "Search", icon: Search01Icon },
-  { title: "Settings", icon: Settings02Icon },
-]
+export default function SidebarExample() {
+  const data = {
+    versions: ["1.0.1", "1.1.0-alpha", "2.0.0-beta1"],
+    navMain: [
+      {
+        title: "Getting Started",
+        url: "#",
+        items: [
+          {
+            title: "Installation",
+            url: "#",
+          },
+          {
+            title: "Project Structure",
+            url: "#",
+          },
+        ],
+      },
+      {
+        title: "Build Your Application",
+        url: "#",
+        items: [
+          {
+            title: "Routing",
+            url: "#",
+          },
+          {
+            title: "Data Fetching",
+            url: "#",
+            isActive: true,
+          },
+          {
+            title: "Rendering",
+            url: "#",
+          },
+          {
+            title: "Caching",
+            url: "#",
+          },
+          {
+            title: "Styling",
+            url: "#",
+          },
+          {
+            title: "Optimizing",
+            url: "#",
+          },
+          {
+            title: "Configuring",
+            url: "#",
+          },
+          {
+            title: "Testing",
+            url: "#",
+          },
+          {
+            title: "Authentication",
+            url: "#",
+          },
+          {
+            title: "Deploying",
+            url: "#",
+          },
+          {
+            title: "Upgrading",
+            url: "#",
+          },
+          {
+            title: "Examples",
+            url: "#",
+          },
+        ],
+      },
+      {
+        title: "API Reference",
+        url: "#",
+        items: [
+          {
+            title: "Components",
+            url: "#",
+          },
+          {
+            title: "File Conventions",
+            url: "#",
+          },
+          {
+            title: "Functions",
+            url: "#",
+          },
+          {
+            title: "next.config.js Options",
+            url: "#",
+          },
+          {
+            title: "CLI",
+            url: "#",
+          },
+          {
+            title: "Edge Runtime",
+            url: "#",
+          },
+        ],
+      },
+      {
+        title: "Architecture",
+        url: "#",
+        items: [
+          {
+            title: "Accessibility",
+            url: "#",
+          },
+          {
+            title: "Fast Refresh",
+            url: "#",
+          },
+          {
+            title: "Next.js Compiler",
+            url: "#",
+          },
+          {
+            title: "Supported Browsers",
+            url: "#",
+          },
+          {
+            title: "Turbopack",
+            url: "#",
+          },
+        ],
+      },
+    ],
+  }
 
-const projects = [
-  { title: "Design System", icon: Folder01Icon },
-  { title: "Analytics", icon: ChartHistogramIcon },
-]
+  const [selectedVersion, setSelectedVersion] = React.useState(data.versions[0])
 
-export const sidebar = {
-  name: "sidebar",
-  components: {
-    Default: (
-      <SidebarProvider>
-        <Sidebar collapsible="icon">
-          <SidebarHeader>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton size="lg">
-                  <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-                    <HugeiconsIcon icon={AiMagicIcon} strokeWidth={2} />
-                  </div>
-                  <div className="flex flex-col gap-0.5 leading-none">
-                    <span className="font-medium">Acme Inc</span>
-                    <span className="text-xs text-muted-foreground">
-                      Enterprise
-                    </span>
-                  </div>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarHeader>
-          <SidebarContent>
-            <SidebarGroup>
-              <SidebarGroupLabel>Platform</SidebarGroupLabel>
-              <SidebarGroupContent>
-                <SidebarMenu>
-                  {navigation.map((item) => (
-                    <SidebarMenuItem key={item.title}>
-                      <SidebarMenuButton
-                        tooltip={item.title}
-                        isActive={item.isActive}
-                      >
-                        <HugeiconsIcon icon={item.icon} strokeWidth={2} />
-                        <span>{item.title}</span>
-                      </SidebarMenuButton>
-                      {item.badge && (
-                        <SidebarMenuBadge>{item.badge}</SidebarMenuBadge>
+  return (
+    <SidebarProvider>
+      <Sidebar>
+        <SidebarHeader>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <DropdownMenu>
+                <DropdownMenuTrigger
+                  render={
+                    <SidebarMenuButton
+                      size="lg"
+                      className="data-open:bg-sidebar-accent data-open:text-sidebar-accent-foreground"
+                    />
+                  }
+                >
+                  <Item className="p-0" size="xs">
+                    <ItemContent>
+                      <ItemTitle className="text-sm">Documentation</ItemTitle>
+                      <ItemDescription>v{selectedVersion}</ItemDescription>
+                    </ItemContent>
+                    <ItemActions>
+                      <HugeiconsIcon icon={UnfoldMoreIcon} strokeWidth={2} />
+                    </ItemActions>
+                  </Item>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  {data.versions.map((version) => (
+                    <DropdownMenuItem
+                      key={version}
+                      onSelect={() => setSelectedVersion(version)}
+                    >
+                      v{version}{" "}
+                      {version === selectedVersion && (
+                        <HugeiconsIcon icon={Tick02Icon} strokeWidth={2} className="ms-auto" />
                       )}
-                    </SidebarMenuItem>
+                    </DropdownMenuItem>
                   ))}
-                </SidebarMenu>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </SidebarMenuItem>
+          </SidebarMenu>
+          <form>
+            <SidebarGroup className="py-0">
+              <SidebarGroupContent className="relative">
+                <Label htmlFor="search" className="sr-only">
+                  Search
+                </Label>
+                <SidebarInput
+                  id="search"
+                  placeholder="Search the docs..."
+                  className="ps-8"
+                />
+                <HugeiconsIcon icon={SearchIcon} strokeWidth={2} className="pointer-events-none absolute top-1/2 start-2 size-4 -translate-y-1/2 opacity-50 select-none" />
               </SidebarGroupContent>
             </SidebarGroup>
-            <SidebarGroup>
-              <SidebarGroupLabel>Projects</SidebarGroupLabel>
-              <SidebarGroupAction title="Add Project">
-                <HugeiconsIcon icon={PlusSignIcon} strokeWidth={2} />
-                <span className="sr-only">Add Project</span>
-              </SidebarGroupAction>
+          </form>
+        </SidebarHeader>
+        <SidebarContent>
+          {data.navMain.map((item) => (
+            <SidebarGroup key={item.title}>
+              <SidebarGroupLabel>{item.title}</SidebarGroupLabel>
               <SidebarGroupContent>
                 <SidebarMenu>
-                  {projects.map((item) => (
-                    <SidebarMenuItem key={item.title}>
-                      <SidebarMenuButton tooltip={item.title}>
-                        <HugeiconsIcon icon={item.icon} strokeWidth={2} />
-                        <span>{item.title}</span>
+                  {item.items.map((subItem) => (
+                    <SidebarMenuItem key={subItem.title}>
+                      <SidebarMenuButton
+                        render={<a href={subItem.url} />}
+                        isActive={subItem.isActive}
+                      >
+                        {subItem.title}
                       </SidebarMenuButton>
                     </SidebarMenuItem>
                   ))}
                 </SidebarMenu>
               </SidebarGroupContent>
             </SidebarGroup>
-          </SidebarContent>
-          <SidebarFooter>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton tooltip="Account">
-                  <HugeiconsIcon icon={UserIcon} strokeWidth={2} />
-                  <span>ellie@example.com</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarFooter>
-          <SidebarRail />
-        </Sidebar>
-        <SidebarInset>
-          <header className="flex h-14 shrink-0 items-center gap-2 border-b px-4">
-            <SidebarTrigger className="-ms-1" />
-            <Separator orientation="vertical" className="me-2 h-4!" />
-            <span className="text-sm font-medium">Dashboard</span>
-          </header>
-          <div className="flex flex-1 flex-col gap-4 p-4">
-            <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-              <div className="aspect-video rounded-xl bg-muted/50" />
-              <div className="aspect-video rounded-xl bg-muted/50" />
-              <div className="aspect-video rounded-xl bg-muted/50" />
-            </div>
-            <div className="min-h-40 flex-1 rounded-xl bg-muted/50" />
+          ))}
+        </SidebarContent>
+        <SidebarRail />
+      </Sidebar>
+      <SidebarInset>
+        <header className="flex h-16 shrink-0 items-center gap-2 px-4">
+          <SidebarTrigger className="-ms-1" />
+        </header>
+        <div className="flex flex-1 flex-col gap-4 p-4">
+          <div className="grid auto-rows-min gap-4 md:grid-cols-3">
+            <div className="aspect-video rounded-xl bg-muted/50" />
+            <div className="aspect-video rounded-xl bg-muted/50" />
+            <div className="aspect-video rounded-xl bg-muted/50" />
           </div>
-        </SidebarInset>
-      </SidebarProvider>
-    ),
-  },
+          <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
+        </div>
+      </SidebarInset>
+    </SidebarProvider>
+  )
 }

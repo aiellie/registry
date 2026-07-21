@@ -1,120 +1,324 @@
+import {
+  Example,
+  ExampleWrapper,
+} from "@/components/example"
 import { Button } from "@/components/ui/button"
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui/tabs"
+import { HugeiconsIcon } from "@hugeicons/react"
+import { CursorInWindowIcon, CodeIcon, HomeIcon, SearchIcon, SettingsIcon, MoreHorizontalCircle01Icon } from "@hugeicons/core-free-icons"
 
-export const tabs = {
-  name: "tabs",
-  components: {
-    Default: (
-      <div className="flex w-full justify-center p-6">
-        <Tabs defaultValue="account" className="w-full max-w-sm">
-          <TabsList className="w-full">
-            <TabsTrigger value="account">Account</TabsTrigger>
-            <TabsTrigger value="password">Password</TabsTrigger>
+export default function TabsExample() {
+  return (
+    <ExampleWrapper>
+      <TabsBasic />
+      <TabsLine />
+      <TabsVariantsComparison />
+      <TabsDisabled />
+      <TabsWithIcons />
+      <TabsIconOnly />
+      <TabsMultiple />
+      <TabsWithContent />
+      <TabsLineWithContent />
+      <TabsLineDisabled />
+      <TabsWithDropdown />
+      <TabsVertical />
+      <TabsWithInputAndButton />
+    </ExampleWrapper>
+  )
+}
+
+function TabsBasic() {
+  return (
+    <Example title="Basic">
+      <Tabs defaultValue="home">
+        <TabsList>
+          <TabsTrigger value="home">Home</TabsTrigger>
+          <TabsTrigger value="settings">Settings</TabsTrigger>
+        </TabsList>
+      </Tabs>
+    </Example>
+  )
+}
+
+function TabsLine() {
+  return (
+    <Example title="Line">
+      <Tabs defaultValue="overview">
+        <TabsList variant="line">
+          <TabsTrigger value="overview">Overview</TabsTrigger>
+          <TabsTrigger value="analytics">Analytics</TabsTrigger>
+          <TabsTrigger value="reports">Reports</TabsTrigger>
+        </TabsList>
+      </Tabs>
+    </Example>
+  )
+}
+
+function TabsVariantsComparison() {
+  return (
+    <Example title="Variants Alignment">
+      <div className="flex gap-4">
+        <Tabs defaultValue="overview">
+          <TabsList>
+            <TabsTrigger value="overview">Overview</TabsTrigger>
+            <TabsTrigger value="analytics">Analytics</TabsTrigger>
           </TabsList>
-          <TabsContent value="account">
-            <Card>
-              <CardHeader>
-                <CardTitle>Account</CardTitle>
-                <CardDescription>
-                  Make changes to your account here. Click save when you are
-                  done.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="grid gap-4">
-                <div className="grid gap-2">
-                  <Label htmlFor="tabs-demo-name">Name</Label>
-                  <Input id="tabs-demo-name" defaultValue="Ellie Sophia" />
-                </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="tabs-demo-username">Username</Label>
-                  <Input id="tabs-demo-username" defaultValue="@aiellie" />
-                </div>
-              </CardContent>
-              <CardFooter>
-                <Button>Save changes</Button>
-              </CardFooter>
-            </Card>
-          </TabsContent>
-          <TabsContent value="password">
-            <Card>
-              <CardHeader>
-                <CardTitle>Password</CardTitle>
-                <CardDescription>
-                  Change your password here. You will be logged out after
-                  saving.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="grid gap-4">
-                <div className="grid gap-2">
-                  <Label htmlFor="tabs-demo-current">Current password</Label>
-                  <Input id="tabs-demo-current" type="password" />
-                </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="tabs-demo-new">New password</Label>
-                  <Input id="tabs-demo-new" type="password" />
-                </div>
-              </CardContent>
-              <CardFooter>
-                <Button>Save password</Button>
-              </CardFooter>
-            </Card>
-          </TabsContent>
+        </Tabs>
+        <Tabs defaultValue="overview">
+          <TabsList variant="line">
+            <TabsTrigger value="overview">Overview</TabsTrigger>
+            <TabsTrigger value="analytics">Analytics</TabsTrigger>
+          </TabsList>
         </Tabs>
       </div>
-    ),
-    Line: (
-      <div className="flex w-full justify-center p-6">
-        <Tabs defaultValue="overview" className="w-full max-w-sm">
-          <TabsList variant="line">
+    </Example>
+  )
+}
+
+function TabsDisabled() {
+  return (
+    <Example title="Disabled">
+      <Tabs defaultValue="home">
+        <TabsList>
+          <TabsTrigger value="home">Home</TabsTrigger>
+          <TabsTrigger value="settings" disabled>
+            Disabled
+          </TabsTrigger>
+        </TabsList>
+      </Tabs>
+    </Example>
+  )
+}
+
+function TabsWithIcons() {
+  return (
+    <Example title="With Icons">
+      <Tabs defaultValue="preview">
+        <TabsList>
+          <TabsTrigger value="preview">
+            <HugeiconsIcon icon={CursorInWindowIcon} strokeWidth={2} />
+            Preview
+          </TabsTrigger>
+          <TabsTrigger value="code">
+            <HugeiconsIcon icon={CodeIcon} strokeWidth={2} />
+            Code
+          </TabsTrigger>
+        </TabsList>
+      </Tabs>
+    </Example>
+  )
+}
+
+function TabsIconOnly() {
+  return (
+    <Example title="Icon Only">
+      <Tabs defaultValue="home">
+        <TabsList>
+          <TabsTrigger value="home">
+            <HugeiconsIcon icon={HomeIcon} strokeWidth={2} />
+          </TabsTrigger>
+          <TabsTrigger value="search">
+            <HugeiconsIcon icon={SearchIcon} strokeWidth={2} />
+          </TabsTrigger>
+          <TabsTrigger value="settings">
+            <HugeiconsIcon icon={SettingsIcon} strokeWidth={2} />
+          </TabsTrigger>
+        </TabsList>
+      </Tabs>
+    </Example>
+  )
+}
+
+function TabsMultiple() {
+  return (
+    <Example title="Multiple">
+      <Tabs defaultValue="overview">
+        <TabsList>
+          <TabsTrigger value="overview">Overview</TabsTrigger>
+          <TabsTrigger value="analytics">Analytics</TabsTrigger>
+          <TabsTrigger value="reports">Reports</TabsTrigger>
+          <TabsTrigger value="settings">Settings</TabsTrigger>
+        </TabsList>
+      </Tabs>
+    </Example>
+  )
+}
+
+function TabsWithContent() {
+  return (
+    <Example title="With Content">
+      <Tabs defaultValue="account">
+        <TabsList>
+          <TabsTrigger value="account">Account</TabsTrigger>
+          <TabsTrigger value="password">Password</TabsTrigger>
+          <TabsTrigger value="notifications">Notifications</TabsTrigger>
+        </TabsList>
+        <div className="border rounded-lg p-4">
+          <TabsContent value="account">
+            Manage your account preferences and profile information.
+          </TabsContent>
+          <TabsContent value="password">
+            Update your password to keep your account secure.
+          </TabsContent>
+          <TabsContent value="notifications">
+            Configure how you receive notifications and alerts.
+          </TabsContent>
+        </div>
+      </Tabs>
+    </Example>
+  )
+}
+
+function TabsLineWithContent() {
+  return (
+    <Example title="Line With Content">
+      <Tabs defaultValue="account">
+        <TabsList variant="line">
+          <TabsTrigger value="account">Account</TabsTrigger>
+          <TabsTrigger value="password">Password</TabsTrigger>
+          <TabsTrigger value="notifications">Notifications</TabsTrigger>
+        </TabsList>
+        <div className="border rounded-lg p-4">
+          <TabsContent value="account">
+            Manage your account preferences and profile information.
+          </TabsContent>
+          <TabsContent value="password">
+            Update your password to keep your account secure.
+          </TabsContent>
+          <TabsContent value="notifications">
+            Configure how you receive notifications and alerts.
+          </TabsContent>
+        </div>
+      </Tabs>
+    </Example>
+  )
+}
+
+function TabsLineDisabled() {
+  return (
+    <Example title="Line Disabled">
+      <Tabs defaultValue="overview">
+        <TabsList variant="line">
+          <TabsTrigger value="overview">Overview</TabsTrigger>
+          <TabsTrigger value="analytics">Analytics</TabsTrigger>
+          <TabsTrigger value="reports" disabled>
+            Reports
+          </TabsTrigger>
+        </TabsList>
+      </Tabs>
+    </Example>
+  )
+}
+
+function TabsWithDropdown() {
+  return (
+    <Example title="With Dropdown">
+      <Tabs defaultValue="overview">
+        <div className="flex items-center justify-between">
+          <TabsList>
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="analytics">Analytics</TabsTrigger>
             <TabsTrigger value="reports">Reports</TabsTrigger>
           </TabsList>
-          <TabsContent value="overview" className="text-muted-foreground p-2">
-            A quick summary of your workspace activity for the last 30 days.
+          <DropdownMenu>
+            <DropdownMenuTrigger
+              render={<Button variant="ghost" size="icon" className="size-8" />}
+            >
+              <HugeiconsIcon icon={MoreHorizontalCircle01Icon} strokeWidth={2} />
+              <span className="sr-only">More options</span>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem>Settings</DropdownMenuItem>
+              <DropdownMenuItem>Export</DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>Archive</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+
+        <div className="border rounded-lg p-4">
+          <TabsContent value="overview">
+            View your dashboard metrics and key performance indicators.
           </TabsContent>
-          <TabsContent value="analytics" className="text-muted-foreground p-2">
-            Detailed charts and metrics about traffic and engagement.
+          <TabsContent value="analytics">
+            Detailed analytics and insights about your data.
           </TabsContent>
-          <TabsContent value="reports" className="text-muted-foreground p-2">
-            Download monthly reports and export raw data.
+          <TabsContent value="reports">
+            Generate and view custom reports.
           </TabsContent>
-        </Tabs>
-      </div>
-    ),
-    Vertical: (
-      <div className="flex w-full justify-center p-6">
-        <Tabs
-          defaultValue="general"
-          orientation="vertical"
-          className="w-full max-w-sm"
-        >
+        </div>
+      </Tabs>
+    </Example>
+  )
+}
+
+function TabsVertical() {
+  return (
+    <Example title="Vertical">
+      <Tabs defaultValue="account" orientation="vertical">
+        <TabsList>
+          <TabsTrigger value="account">Account</TabsTrigger>
+          <TabsTrigger value="password">Password</TabsTrigger>
+          <TabsTrigger value="notifications">Notifications</TabsTrigger>
+        </TabsList>
+        <div className="border rounded-lg p-4">
+          <TabsContent value="account">
+            Manage your account preferences and profile information.
+          </TabsContent>
+          <TabsContent value="password">
+            Update your password to keep your account secure. Use a strong
+            password with a mix of letters, numbers, and symbols.
+          </TabsContent>
+          <TabsContent value="notifications">
+            Configure how you receive notifications and alerts. Choose which
+            types of notifications you want to receive and how you want to
+            receive them.
+          </TabsContent>
+        </div>
+      </Tabs>
+    </Example>
+  )
+}
+
+function TabsWithInputAndButton() {
+  return (
+    <Example title="With Input and Button" containerClassName="col-span-full">
+      <Tabs defaultValue="overview" className="mx-auto w-full max-w-lg">
+        <div className="flex items-center gap-4">
           <TabsList>
-            <TabsTrigger value="general">General</TabsTrigger>
-            <TabsTrigger value="team">Team</TabsTrigger>
-            <TabsTrigger value="billing">Billing</TabsTrigger>
+            <TabsTrigger value="overview">Overview</TabsTrigger>
+            <TabsTrigger value="analytics">Analytics</TabsTrigger>
           </TabsList>
-          <TabsContent value="general" className="text-muted-foreground p-2">
-            Manage workspace name, language, and appearance.
+          <div className="ms-auto flex items-center gap-2">
+            <Input placeholder="Search..." className="w-44" />
+            <Button>Action</Button>
+          </div>
+        </div>
+        <div className="border rounded-lg p-4">
+          <TabsContent value="overview">
+            View your dashboard metrics and key performance indicators.
           </TabsContent>
-          <TabsContent value="team" className="text-muted-foreground p-2">
-            Invite teammates and manage their roles.
+          <TabsContent value="analytics">
+            Detailed analytics and insights about your data.
           </TabsContent>
-          <TabsContent value="billing" className="text-muted-foreground p-2">
-            View invoices and update your payment method.
+          <TabsContent value="reports">
+            Generate and view custom reports.
           </TabsContent>
-        </Tabs>
-      </div>
-    ),
-  },
+        </div>
+      </Tabs>
+    </Example>
+  )
 }

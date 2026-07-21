@@ -1,65 +1,281 @@
-import { HugeiconsIcon } from "@hugeicons/react"
-import { UnfoldMoreIcon } from "@hugeicons/core-free-icons"
+"use client"
 
+import * as React from "react"
+
+import {
+  Example,
+  ExampleWrapper,
+} from "@/components/example"
 import { Button } from "@/components/ui/button"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible"
+import { Field, FieldGroup, FieldLabel } from "@/components/ui/field"
+import { Input } from "@/components/ui/input"
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { HugeiconsIcon } from "@hugeicons/react"
+import { ArrowDown01Icon, ArrowRight01Icon, Folder01Icon, File01Icon, MinusSignIcon, PlusSignIcon, UnfoldMoreIcon } from "@hugeicons/core-free-icons"
 
-export const collapsible = {
-  name: "collapsible",
-  components: {
-    Default: (
-      <div className="flex w-full justify-center p-6">
-        <Collapsible className="flex w-full max-w-sm flex-col gap-2">
-          <div className="flex items-center justify-between gap-4 px-4">
-            <h4 className="text-sm font-semibold">
-              @aiellie starred 3 repositories
-            </h4>
-            <CollapsibleTrigger render={<Button variant="ghost" size="icon-sm" />}>
-              <HugeiconsIcon icon={UnfoldMoreIcon} strokeWidth={2} />
-              <span className="sr-only">Toggle</span>
+export default function CollapsibleExample() {
+  return (
+    <ExampleWrapper>
+      <CollapsibleBasic />
+      <CollapsibleOrder />
+      <CollapsibleFileTree />
+      <CollapsibleSettings />
+    </ExampleWrapper>
+  )
+}
+
+function CollapsibleBasic() {
+  return (
+    <Example title="Basic" className="items-center">
+      <Card className="mx-auto w-full max-w-sm">
+        <CardContent>
+          <Collapsible className="rounded-md data-open:bg-muted">
+            <CollapsibleTrigger
+              render={<Button variant="ghost" className="w-full" />}
+            >
+              Product details
+              <HugeiconsIcon
+                icon={ArrowDown01Icon}
+                strokeWidth={2}
+                className="ml-auto group-data-panel-open/button:rotate-180"
+              />
             </CollapsibleTrigger>
+            <CollapsibleContent className="flex flex-col items-start gap-2 p-2.5 pt-0 text-sm">
+              <div>
+                This panel can be expanded or collapsed to reveal additional
+                content.
+              </div>
+              <Button size="xs">Learn More</Button>
+            </CollapsibleContent>
+          </Collapsible>
+        </CardContent>
+      </Card>
+    </Example>
+  )
+}
+
+function CollapsibleOrder() {
+  const [isOpen, setIsOpen] = React.useState(false)
+
+  return (
+    <Example title="Order Details" className="items-center">
+      <Collapsible
+        open={isOpen}
+        onOpenChange={setIsOpen}
+        className="mx-auto flex w-[350px] max-w-full flex-col gap-2"
+      >
+        <div className="flex items-center justify-between gap-4 px-4">
+          <h4 className="text-sm font-semibold">Order #4189</h4>
+          <CollapsibleTrigger
+            render={<Button variant="ghost" size="icon" className="size-8" />}
+          >
+            <HugeiconsIcon icon={UnfoldMoreIcon} strokeWidth={2} />
+            <span className="sr-only">Toggle details</span>
+          </CollapsibleTrigger>
+        </div>
+        <div className="flex items-center justify-between rounded-md border px-4 py-2 text-sm">
+          <span className="text-muted-foreground">Status</span>
+          <span className="font-medium">Shipped</span>
+        </div>
+        <CollapsibleContent className="flex flex-col gap-2">
+          <div className="rounded-md border px-4 py-2 text-sm">
+            <p className="font-medium">Shipping address</p>
+            <p className="text-muted-foreground">100 Market St, San Francisco</p>
           </div>
-          <div className="rounded-md border px-4 py-2 font-mono text-sm">
-            @base-ui/react
+          <div className="rounded-md border px-4 py-2 text-sm">
+            <p className="font-medium">Items</p>
+            <p className="text-muted-foreground">2x Studio Headphones</p>
           </div>
-          <CollapsibleContent className="flex flex-col gap-2">
-            <div className="rounded-md border px-4 py-2 font-mono text-sm">
-              @hugeicons/core-free-icons
-            </div>
-            <div className="rounded-md border px-4 py-2 font-mono text-sm">
-              tailwindcss
+        </CollapsibleContent>
+      </Collapsible>
+    </Example>
+  )
+}
+
+type FileTreeItem = { name: string } | { name: string; items: FileTreeItem[] }
+
+function CollapsibleFileTree() {
+  const fileTree: FileTreeItem[] = [
+    {
+      name: "components",
+      items: [
+        {
+          name: "ui",
+          items: [
+            { name: "button.tsx" },
+            { name: "card.tsx" },
+            { name: "dialog.tsx" },
+            { name: "input.tsx" },
+            { name: "select.tsx" },
+            { name: "table.tsx" },
+          ],
+        },
+        { name: "login-form.tsx" },
+        { name: "register-form.tsx" },
+      ],
+    },
+    {
+      name: "lib",
+      items: [{ name: "utils.ts" }, { name: "cn.ts" }, { name: "api.ts" }],
+    },
+    {
+      name: "hooks",
+      items: [
+        { name: "use-media-query.ts" },
+        { name: "use-debounce.ts" },
+        { name: "use-local-storage.ts" },
+      ],
+    },
+    {
+      name: "types",
+      items: [{ name: "index.d.ts" }, { name: "api.d.ts" }],
+    },
+    {
+      name: "public",
+      items: [
+        { name: "favicon.ico" },
+        { name: "logo.svg" },
+        { name: "images" },
+      ],
+    },
+    { name: "app.tsx" },
+    { name: "layout.tsx" },
+    { name: "globals.css" },
+    { name: "package.json" },
+    { name: "tsconfig.json" },
+    { name: "README.md" },
+    { name: ".gitignore" },
+  ]
+
+  const renderItem = (fileItem: FileTreeItem) => {
+    if ("items" in fileItem) {
+      return (
+        <Collapsible key={fileItem.name}>
+          <CollapsibleTrigger
+            render={
+              <Button
+                variant="ghost"
+                size="sm"
+                className="group w-full justify-start transition-none hover:bg-accent hover:text-accent-foreground"
+              />
+            }
+          >
+            <HugeiconsIcon icon={ArrowRight01Icon} strokeWidth={2} className="transition-transform group-data-[state=open]:rotate-90" />
+            <HugeiconsIcon icon={Folder01Icon} strokeWidth={2} />
+            {fileItem.name}
+          </CollapsibleTrigger>
+          <CollapsibleContent className="mt-1 ms-5">
+            <div className="flex flex-col gap-1">
+              {fileItem.items.map((child) => renderItem(child))}
             </div>
           </CollapsibleContent>
         </Collapsible>
-      </div>
-    ),
-    "Open by Default": (
-      <div className="flex w-full justify-center p-6">
-        <Collapsible defaultOpen className="flex w-full max-w-sm flex-col gap-2">
-          <div className="flex items-center justify-between gap-4 px-4">
-            <h4 className="text-sm font-semibold">Recent deployments</h4>
-            <CollapsibleTrigger render={<Button variant="ghost" size="icon-sm" />}>
-              <HugeiconsIcon icon={UnfoldMoreIcon} strokeWidth={2} />
-              <span className="sr-only">Toggle</span>
+      )
+    }
+    return (
+      <Button
+        key={fileItem.name}
+        variant="link"
+        size="sm"
+        className="w-full justify-start gap-2 text-foreground"
+      >
+        <HugeiconsIcon icon={File01Icon} strokeWidth={2} />
+        <span>{fileItem.name}</span>
+      </Button>
+    )
+  }
+
+  return (
+    <Example title="File Tree" className="items-center">
+      <Card className="mx-auto w-full max-w-[16rem] gap-2" size="sm">
+        <CardHeader>
+          <Tabs defaultValue="explorer">
+            <TabsList className="w-full">
+              <TabsTrigger value="explorer">Explorer</TabsTrigger>
+              <TabsTrigger value="settings">Outline</TabsTrigger>
+            </TabsList>
+          </Tabs>
+        </CardHeader>
+        <CardContent>
+          <div className="flex flex-col gap-1">
+            {fileTree.map((item) => renderItem(item))}
+          </div>
+        </CardContent>
+      </Card>
+    </Example>
+  )
+}
+
+function CollapsibleSettings() {
+  const [isOpen, setIsOpen] = React.useState(false)
+
+  return (
+    <Example title="Settings" className="items-center">
+      <Card className="mx-auto w-full max-w-xs" size="sm">
+        <CardHeader>
+          <CardTitle>Radius</CardTitle>
+          <CardDescription>
+            Set the corner radius of the element.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Collapsible
+            open={isOpen}
+            onOpenChange={setIsOpen}
+            className="flex items-start gap-2"
+          >
+            <FieldGroup className="grid w-full grid-cols-2 gap-2">
+              <Field>
+                <FieldLabel htmlFor="radius-x" className="sr-only">
+                  Radius X
+                </FieldLabel>
+                <Input id="radius" placeholder="0" defaultValue={0} />
+              </Field>
+              <Field>
+                <FieldLabel htmlFor="radius-y" className="sr-only">
+                  Radius Y
+                </FieldLabel>
+                <Input id="radius" placeholder="0" defaultValue={0} />
+              </Field>
+              <CollapsibleContent className="col-span-full grid grid-cols-subgrid gap-2">
+                <Field>
+                  <FieldLabel htmlFor="radius-x" className="sr-only">
+                    Radius X
+                  </FieldLabel>
+                  <Input id="radius" placeholder="0" defaultValue={0} />
+                </Field>
+                <Field>
+                  <FieldLabel htmlFor="radius-y" className="sr-only">
+                    Radius Y
+                  </FieldLabel>
+                  <Input id="radius" placeholder="0" defaultValue={0} />
+                </Field>
+              </CollapsibleContent>
+            </FieldGroup>
+            <CollapsibleTrigger
+              render={<Button variant="outline" size="icon" />}
+            >
+              {isOpen ? (
+                <HugeiconsIcon icon={MinusSignIcon} strokeWidth={2} />
+              ) : (
+                <HugeiconsIcon icon={PlusSignIcon} strokeWidth={2} />
+              )}
             </CollapsibleTrigger>
-          </div>
-          <div className="rounded-md border px-4 py-2 font-mono text-sm">
-            ui.aiellie.dev — Production
-          </div>
-          <CollapsibleContent className="flex flex-col gap-2">
-            <div className="rounded-md border px-4 py-2 font-mono text-sm">
-              preview/base-nova — Ready
-            </div>
-            <div className="rounded-md border px-4 py-2 font-mono text-sm">
-              preview/registry — Ready
-            </div>
-          </CollapsibleContent>
-        </Collapsible>
-      </div>
-    ),
-  },
+          </Collapsible>
+        </CardContent>
+      </Card>
+    </Example>
+  )
 }

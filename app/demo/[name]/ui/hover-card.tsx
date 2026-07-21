@@ -1,45 +1,127 @@
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import {
+  Example,
+  ExampleWrapper,
+} from "@/components/example"
 import { Button } from "@/components/ui/button"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card"
-import { HugeiconsIcon } from "@hugeicons/react"
-import { Calendar03Icon } from "@hugeicons/core-free-icons"
 
-export const hoverCard = {
-  name: "hover-card",
-  components: {
-    Default: (
-      <div className="flex w-full justify-center px-6 pt-16 pb-6">
-        <HoverCard>
-          <HoverCardTrigger render={<Button variant="link" />}>
-            @aiellie
-          </HoverCardTrigger>
-          <HoverCardContent className="w-80 p-4">
-            <div className="flex gap-4">
-              <Avatar>
-                <AvatarFallback>ES</AvatarFallback>
-              </Avatar>
-              <div className="space-y-1">
-                <h4 className="text-sm font-semibold">@aiellie</h4>
-                <p className="text-sm">
-                  Design engineer building a Base UI flavored design system.
+export default function HoverCardExample() {
+  return (
+    <ExampleWrapper>
+      <HoverCardDemo />
+      <HoverCardSides />
+      <HoverCardInDialog />
+    </ExampleWrapper>
+  )
+}
+
+const HOVER_CARD_SIDES = [
+  "inline-start",
+  "left",
+  "top",
+  "bottom",
+  "right",
+  "inline-end",
+] as const
+
+function HoverCardDemo() {
+  return (
+    <Example title="Basic">
+      <HoverCard>
+        <HoverCardTrigger
+          delay={10}
+          closeDelay={100}
+          render={<Button variant="link" />}
+        >
+          Hover Here
+        </HoverCardTrigger>
+        <HoverCardContent className="flex w-64 flex-col gap-0.5">
+          <div className="font-semibold">@nextjs</div>
+          <div>The React Framework – created and maintained by @vercel.</div>
+          <div className="mt-1 text-xs text-muted-foreground">
+            Joined December 2021
+          </div>
+        </HoverCardContent>
+      </HoverCard>
+    </Example>
+  )
+}
+
+function HoverCardSides() {
+  return (
+    <Example title="Sides" containerClassName="col-span-2">
+      <div className="flex flex-wrap items-center justify-center gap-2">
+        {HOVER_CARD_SIDES.map((side) => (
+          <HoverCard key={side}>
+            <HoverCardTrigger
+              delay={100}
+              closeDelay={100}
+              render={<Button variant="outline" className="capitalize" />}
+            >
+              {side.replace("-", " ")}
+            </HoverCardTrigger>
+            <HoverCardContent side={side}>
+              <div className="flex flex-col gap-1.5">
+                <h4 className="font-medium">Hover Card</h4>
+                <p>
+                  This hover card appears on the {side.replace("-", " ")} side
+                  of the trigger.
                 </p>
-                <div className="flex items-center gap-2 pt-2 text-muted-foreground">
-                  <HugeiconsIcon
-                    icon={Calendar03Icon}
-                    strokeWidth={2}
-                    className="size-4"
-                  />
-                  <span className="text-xs">Joined December 2024</span>
-                </div>
               </div>
-            </div>
-          </HoverCardContent>
-        </HoverCard>
+            </HoverCardContent>
+          </HoverCard>
+        ))}
       </div>
-    ),
-  },
+    </Example>
+  )
+}
+
+function HoverCardInDialog() {
+  return (
+    <Example title="In Dialog">
+      <Dialog>
+        <DialogTrigger render={<Button variant="outline" />}>
+          Open Dialog
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Hover Card Example</DialogTitle>
+            <DialogDescription>
+              Hover over the button below to see the hover card.
+            </DialogDescription>
+          </DialogHeader>
+          <HoverCard>
+            <HoverCardTrigger
+              delay={100}
+              closeDelay={100}
+              render={<Button variant="outline" className="w-fit" />}
+            >
+              Hover me
+            </HoverCardTrigger>
+            <HoverCardContent>
+              <div className="flex flex-col gap-1.5">
+                <h4 className="font-medium">Hover Card</h4>
+                <p>
+                  This hover card appears inside a dialog. Hover over the button
+                  to see it.
+                </p>
+              </div>
+            </HoverCardContent>
+          </HoverCard>
+        </DialogContent>
+      </Dialog>
+    </Example>
+  )
 }

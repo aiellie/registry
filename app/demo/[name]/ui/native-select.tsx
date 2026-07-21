@@ -1,65 +1,129 @@
-import { Label } from "@/components/ui/label"
+import {
+  Example,
+  ExampleWrapper,
+} from "@/components/example"
+import {
+  Field,
+  FieldDescription,
+  FieldLabel,
+} from "@/components/ui/field"
 import {
   NativeSelect,
   NativeSelectOptGroup,
   NativeSelectOption,
 } from "@/components/ui/native-select"
 
-export const nativeSelect = {
-  name: "native-select",
-  components: {
-    Default: (
-      <div className="flex w-full justify-center p-6">
-        <div className="grid w-full max-w-xs gap-2">
-          <Label htmlFor="native-select-demo-fruit">Fruit</Label>
-          <NativeSelect id="native-select-demo-fruit" className="w-full">
-            <NativeSelectOption value="">Select a fruit</NativeSelectOption>
-            <NativeSelectOption value="apple">Apple</NativeSelectOption>
-            <NativeSelectOption value="banana">Banana</NativeSelectOption>
-            <NativeSelectOption value="blueberry">Blueberry</NativeSelectOption>
-            <NativeSelectOption value="grapes">Grapes</NativeSelectOption>
-            <NativeSelectOption value="pineapple">Pineapple</NativeSelectOption>
-          </NativeSelect>
-        </div>
-      </div>
-    ),
-    "With Groups": (
-      <div className="flex w-full justify-center p-6">
-        <div className="grid w-full max-w-xs gap-2">
-          <Label htmlFor="native-select-demo-timezone">Timezone</Label>
-          <NativeSelect
-            id="native-select-demo-timezone"
-            className="w-full"
-            defaultValue="gmt+1"
-          >
-            <NativeSelectOptGroup label="Europe">
-              <NativeSelectOption value="gmt">GMT (UTC+0)</NativeSelectOption>
-              <NativeSelectOption value="gmt+1">CET (UTC+1)</NativeSelectOption>
-              <NativeSelectOption value="gmt+2">EET (UTC+2)</NativeSelectOption>
-            </NativeSelectOptGroup>
-            <NativeSelectOptGroup label="Americas">
-              <NativeSelectOption value="gmt-5">EST (UTC-5)</NativeSelectOption>
-              <NativeSelectOption value="gmt-6">CST (UTC-6)</NativeSelectOption>
-              <NativeSelectOption value="gmt-8">PST (UTC-8)</NativeSelectOption>
-            </NativeSelectOptGroup>
-          </NativeSelect>
-        </div>
-      </div>
-    ),
-    "Sizes & Disabled": (
-      <div className="flex w-full flex-wrap items-center justify-center gap-3 p-6">
-        <NativeSelect size="sm" aria-label="Small select">
-          <NativeSelectOption value="sm">Small</NativeSelectOption>
-          <NativeSelectOption value="other">Other</NativeSelectOption>
+export default function NativeSelectExample() {
+  return (
+    <ExampleWrapper>
+      <NativeSelectBasic />
+      <NativeSelectWithGroups />
+      <NativeSelectSizes />
+      <NativeSelectWithField />
+      <NativeSelectDisabled />
+      <NativeSelectInvalid />
+    </ExampleWrapper>
+  )
+}
+
+function NativeSelectBasic() {
+  return (
+    <Example title="Basic">
+      <NativeSelect>
+        <NativeSelectOption value="">Select a fruit</NativeSelectOption>
+        <NativeSelectOption value="apple">Apple</NativeSelectOption>
+        <NativeSelectOption value="banana">Banana</NativeSelectOption>
+        <NativeSelectOption value="blueberry">Blueberry</NativeSelectOption>
+        <NativeSelectOption value="grapes" disabled>
+          Grapes
+        </NativeSelectOption>
+        <NativeSelectOption value="pineapple">Pineapple</NativeSelectOption>
+      </NativeSelect>
+    </Example>
+  )
+}
+
+function NativeSelectWithGroups() {
+  return (
+    <Example title="With Groups">
+      <NativeSelect>
+        <NativeSelectOption value="">Select a food</NativeSelectOption>
+        <NativeSelectOptGroup label="Fruits">
+          <NativeSelectOption value="apple">Apple</NativeSelectOption>
+          <NativeSelectOption value="banana">Banana</NativeSelectOption>
+          <NativeSelectOption value="blueberry">Blueberry</NativeSelectOption>
+        </NativeSelectOptGroup>
+        <NativeSelectOptGroup label="Vegetables">
+          <NativeSelectOption value="carrot">Carrot</NativeSelectOption>
+          <NativeSelectOption value="broccoli">Broccoli</NativeSelectOption>
+          <NativeSelectOption value="spinach">Spinach</NativeSelectOption>
+        </NativeSelectOptGroup>
+      </NativeSelect>
+    </Example>
+  )
+}
+
+function NativeSelectSizes() {
+  return (
+    <Example title="Sizes">
+      <div className="flex flex-col gap-4">
+        <NativeSelect size="sm">
+          <NativeSelectOption value="">Select a fruit</NativeSelectOption>
+          <NativeSelectOption value="apple">Apple</NativeSelectOption>
+          <NativeSelectOption value="banana">Banana</NativeSelectOption>
+          <NativeSelectOption value="blueberry">Blueberry</NativeSelectOption>
         </NativeSelect>
-        <NativeSelect aria-label="Default select">
-          <NativeSelectOption value="default">Default</NativeSelectOption>
-          <NativeSelectOption value="other">Other</NativeSelectOption>
-        </NativeSelect>
-        <NativeSelect disabled aria-label="Disabled select">
-          <NativeSelectOption value="disabled">Disabled</NativeSelectOption>
+        <NativeSelect size="default">
+          <NativeSelectOption value="">Select a fruit</NativeSelectOption>
+          <NativeSelectOption value="apple">Apple</NativeSelectOption>
+          <NativeSelectOption value="banana">Banana</NativeSelectOption>
+          <NativeSelectOption value="blueberry">Blueberry</NativeSelectOption>
         </NativeSelect>
       </div>
-    ),
-  },
+    </Example>
+  )
+}
+
+function NativeSelectWithField() {
+  return (
+    <Example title="With Field">
+      <Field>
+        <FieldLabel htmlFor="native-select-country">Country</FieldLabel>
+        <NativeSelect id="native-select-country">
+          <NativeSelectOption value="">Select a country</NativeSelectOption>
+          <NativeSelectOption value="us">United States</NativeSelectOption>
+          <NativeSelectOption value="uk">United Kingdom</NativeSelectOption>
+          <NativeSelectOption value="ca">Canada</NativeSelectOption>
+          <NativeSelectOption value="au">Australia</NativeSelectOption>
+        </NativeSelect>
+        <FieldDescription>Select your country of residence.</FieldDescription>
+      </Field>
+    </Example>
+  )
+}
+
+function NativeSelectDisabled() {
+  return (
+    <Example title="Disabled">
+      <NativeSelect disabled>
+        <NativeSelectOption value="">Disabled</NativeSelectOption>
+        <NativeSelectOption value="apple">Apple</NativeSelectOption>
+        <NativeSelectOption value="banana">Banana</NativeSelectOption>
+        <NativeSelectOption value="blueberry">Blueberry</NativeSelectOption>
+      </NativeSelect>
+    </Example>
+  )
+}
+
+function NativeSelectInvalid() {
+  return (
+    <Example title="Invalid">
+      <NativeSelect aria-invalid="true">
+        <NativeSelectOption value="">Error state</NativeSelectOption>
+        <NativeSelectOption value="apple">Apple</NativeSelectOption>
+        <NativeSelectOption value="banana">Banana</NativeSelectOption>
+        <NativeSelectOption value="blueberry">Blueberry</NativeSelectOption>
+      </NativeSelect>
+    </Example>
+  )
 }

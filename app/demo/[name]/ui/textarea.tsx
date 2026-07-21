@@ -1,43 +1,99 @@
+import {
+  Example,
+  ExampleWrapper,
+} from "@/components/example"
 import { Button } from "@/components/ui/button"
-import { Label } from "@/components/ui/label"
+import {
+  Field,
+  FieldDescription,
+  FieldLabel,
+} from "@/components/ui/field"
 import { Textarea } from "@/components/ui/textarea"
 
-export const textarea = {
-  name: "textarea",
-  components: {
-    Default: (
-      <div className="flex w-full justify-center p-6">
+export default function TextareaExample() {
+  return (
+    <ExampleWrapper>
+      <TextareaBasic />
+      <TextareaInvalid />
+      <TextareaWithLabel />
+      <TextareaWithDescription />
+      <TextareaDisabled />
+      <TextareaWithButton />
+    </ExampleWrapper>
+  )
+}
+
+function TextareaBasic() {
+  return (
+    <Example title="Basic">
+      <Textarea placeholder="Type your message here." />
+    </Example>
+  )
+}
+
+function TextareaInvalid() {
+  return (
+    <Example title="Invalid">
+      <Textarea placeholder="Type your message here." aria-invalid="true" />
+    </Example>
+  )
+}
+
+function TextareaWithLabel() {
+  return (
+    <Example title="With Label">
+      <Field>
+        <FieldLabel htmlFor="textarea-demo-message">Message</FieldLabel>
         <Textarea
+          id="textarea-demo-message"
           placeholder="Type your message here."
-          className="max-w-sm"
-          aria-label="Message"
+          rows={6}
         />
-      </div>
-    ),
-    WithLabel: (
-      <div className="flex w-full justify-center p-6">
-        <div className="grid w-full max-w-sm gap-2">
-          <Label htmlFor="textarea-demo-message">Your message</Label>
-          <Textarea
-            id="textarea-demo-message"
-            placeholder="Type your message here."
-          />
-          <p className="text-muted-foreground text-sm">
-            Your message will be copied to the support team.
-          </p>
-          <Button className="w-fit">Send message</Button>
-        </div>
-      </div>
-    ),
-    Disabled: (
-      <div className="flex w-full justify-center p-6">
+      </Field>
+    </Example>
+  )
+}
+
+function TextareaWithDescription() {
+  return (
+    <Example title="With Description">
+      <Field>
+        <FieldLabel htmlFor="textarea-demo-message-2">Message</FieldLabel>
         <Textarea
-          placeholder="This field is disabled."
-          disabled
-          className="max-w-sm"
-          aria-label="Disabled message"
+          id="textarea-demo-message-2"
+          placeholder="Type your message here."
+          rows={6}
         />
+        <FieldDescription>
+          Type your message and press enter to send.
+        </FieldDescription>
+      </Field>
+    </Example>
+  )
+}
+
+function TextareaDisabled() {
+  return (
+    <Example title="Disabled">
+      <Field>
+        <FieldLabel htmlFor="textarea-demo-disabled">Message</FieldLabel>
+        <Textarea
+          id="textarea-demo-disabled"
+          placeholder="Type your message here."
+          disabled
+        />
+      </Field>
+    </Example>
+  )
+}
+
+function TextareaWithButton() {
+  return (
+    <Example title="With Button">
+      <div className="grid w-full gap-2">
+        <Textarea placeholder="Type your message here." />
+        <Button>Send message</Button>
       </div>
-    ),
-  },
+    </Example>
+  )
 }
