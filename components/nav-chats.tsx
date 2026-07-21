@@ -66,7 +66,7 @@ export function NavChats({
                   <span>Share Chat</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>
+                <DropdownMenuItem variant="destructive">
                   <HugeiconsIcon icon={Delete01Icon} strokeWidth={2} className="size-4" />
                   <span>Delete Chat</span>
                 </DropdownMenuItem>

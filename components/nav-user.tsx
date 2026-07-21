@@ -39,7 +39,8 @@ export function NavUser({
     avatar: string
   }
 }) {
-  const { isMobile } = useSidebar()
+  const { isMobile, state } = useSidebar()
+  const isCollapsed = state === "collapsed"
 
   return (
     <SidebarMenu>
@@ -67,7 +68,7 @@ export function NavUser({
           </DropdownMenuTrigger>
           <DropdownMenuContent
             className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
-            side={isMobile ? "bottom" : "right"}
+            side={isMobile ? "bottom" : isCollapsed ? "right" : "top"}
             align="end"
             sideOffset={4}
           >
@@ -103,7 +104,7 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem variant="destructive">
               <HugeiconsIcon icon={Logout01Icon} strokeWidth={2} className="size-4" />
               Log out
             </DropdownMenuItem>

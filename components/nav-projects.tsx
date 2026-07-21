@@ -69,7 +69,7 @@ export function NavProjects({
                   <span>Share Project</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>
+                <DropdownMenuItem variant="destructive">
                 <HugeiconsIcon icon={Delete01Icon} strokeWidth={2} className="size-4" />
                   <span>Delete Project</span>
                 </DropdownMenuItem>
