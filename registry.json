@@ -416,6 +416,24 @@
       ]
     },
     {
+      "name": "accordion-example",
+      "type": "registry:example",
+      "title": "Accordion Example",
+      "description": "Accordion UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://ui.aiellie.dev/r/accordion.json",
+        "https://ui.aiellie.dev/r/button.json",
+        "https://ui.aiellie.dev/r/card.json"
+      ],
+      "files": [
+        {
+          "path": "app/demo/[name]/ui/accordion.tsx",
+          "type": "registry:page",
+          "target": "app/accordion/page.tsx"
+        }
+      ]
+    },
+    {
       "name": "alert",
       "type": "registry:ui",
       "title": "Alert",

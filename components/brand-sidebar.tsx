@@ -18,6 +18,12 @@ import {
 import { HugeiconsIcon } from "@hugeicons/react"
 
 import { Button } from "@/components/ui/button"
+import { Kbd } from "@/components/ui/kbd"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 import {
   Sidebar,
   SidebarContent,
@@ -30,6 +36,7 @@ import {
   SidebarMenuItem,
   SidebarSeparator,
   useSidebar,
+  SidebarRail
 } from "@/components/ui/sidebar"
 import { cn } from "@/lib/utils"
 
@@ -112,14 +119,36 @@ export function BrandSidebar({ className }: { className?: string }) {
     >
       <SidebarHeader>
         <div className={cn(isCollapsed ? "py-2" : "p-2")}>
-          <Button className={cn(isCollapsed ? "size-8 p-0" : "w-full")}>
-            <HugeiconsIcon
-              icon={PlusSignIcon}
-              strokeWidth={2}
-              className="size-4"
+          <Tooltip>
+            <TooltipTrigger
+              render={
+                <Button
+                  variant="outline"
+                  className={cn(isCollapsed ? "size-8 p-0" : "w-full")}
+                >
+                  <HugeiconsIcon
+                    icon={PlusSignIcon}
+                    strokeWidth={2}
+                    className="size-4"
+                  />
+                  {!isCollapsed && (
+                    <>
+                      <span>New Chat</span>
+                      <Kbd className="ml-auto">⌘K</Kbd>
+                    </>
+                  )}
+                </Button>
+              }
             />
-            {!isCollapsed && <span>Create</span>}
-          </Button>
+            <TooltipContent
+              side="right"
+              align="center"
+              hidden={!isCollapsed}
+            >
+              New Chat
+              <Kbd>⌘K</Kbd>
+            </TooltipContent>
+          </Tooltip>
         </div>
       </SidebarHeader>
 
@@ -183,6 +212,7 @@ export function BrandSidebar({ className }: { className?: string }) {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarRail />
     </Sidebar>
   )
 }
