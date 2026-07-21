@@ -1,29 +1,40 @@
 "use client"
 
-import { useState } from "react"
 import Link from "next/link"
+import { useState } from "react"
+import type { IconSvgElement } from "@hugeicons/react"
 import {
+  BotIcon,
   Cancel01Icon,
-  HelpCircleIcon,
+  Leaf01Icon,
   Menu01Icon,
-  Search01Icon,
+  SourceCodeSquareIcon,
+  SparklesIcon,
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
 import { Logo } from "@/components/logo"
+import { SearchCommand } from "@/components/search-command"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { useSidebar } from "@/components/ui/sidebar"
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
+
+const viewTabs: { value: string; label: string; icon: IconSvgElement }[] = [
+  { value: "chat", label: "Chat", icon: SparklesIcon },
+  { value: "agent", label: "Agent", icon: BotIcon },
+  { value: "code", label: "Code", icon: SourceCodeSquareIcon },
+  { value: "design", label: "Design", icon: Leaf01Icon },
+]
 
 export function BrandHeader() {
-  const [isSearchOpen, setIsSearchOpen] = useState(false)
   const { state, toggleSidebar } = useSidebar()
   const isCollapsed = state === "collapsed"
+  const [view, setView] = useState("chat")
 
   return (
     <header className="fixed z-50 w-full border-b border-border bg-background">
-      <div className="flex h-16 items-center justify-between px-2">
+      <div className="flex h-12 items-center justify-between px-2">
         <div className="flex items-center gap-4">
           <Button
             variant="ghost"
@@ -56,66 +67,33 @@ export function BrandHeader() {
           </Link>
         </div>
 
-        <div className="hidden items-center gap-1 md:flex">
-          {isSearchOpen ? (
-            <div className="relative">
-              <Input
-                type="text"
-                placeholder="Search"
-                className="h-9 w-64 ps-9"
-                autoFocus
-                onBlur={() => setIsSearchOpen(false)}
-              />
-              <HugeiconsIcon
-                icon={Search01Icon}
-                strokeWidth={2}
-                className="absolute start-3 top-2.5 size-4 text-foreground"
-              />
-            </div>
-          ) : (
-            <Button
-              variant="ghost"
-              size="sm"
-              className="text-foreground"
-              onClick={() => setIsSearchOpen(true)}
-            >
-              <HugeiconsIcon
-                icon={Search01Icon}
-                strokeWidth={2}
-                className="size-4"
-              />
-              Search
-            </Button>
-          )}
+        <div className="flex items-center gap-1">
+          <ToggleGroup
+            value={[view]}
+            onValueChange={(next) => {
+              if (next[0]) setView(next[0])
+            }}
+            spacing={1}
+            className="me-1 hidden md:flex"
+            aria-label="View"
+          >
+            {viewTabs.map((tab) => (
+              <ToggleGroupItem
+                key={tab.value}
+                value={tab.value}
+                className="gap-1.5 px-2.5 text-muted-foreground aria-pressed:bg-background aria-pressed:text-foreground aria-pressed:shadow-xs aria-pressed:ring-1 aria-pressed:ring-border data-pressed:bg-background data-pressed:text-foreground data-pressed:shadow-xs data-pressed:ring-1 data-pressed:ring-border"
+              >
+                <HugeiconsIcon
+                  icon={tab.icon}
+                  strokeWidth={2}
+                  className="size-4"
+                />
+                {tab.label}
+              </ToggleGroupItem>
+            ))}
+          </ToggleGroup>
 
-          <Button variant="ghost" size="sm" className="text-foreground">
-            <HugeiconsIcon
-              icon={HelpCircleIcon}
-              strokeWidth={2}
-              className="size-4"
-            />
-            Design
-          </Button>
-
-          <Button variant="ghost" size="sm" className="text-foreground">
-            Upgrade Trial
-          </Button>
-
-          <Avatar className="size-8">
-            <AvatarFallback className="bg-primary text-primary-foreground">
-              <span className="text-xs">ME</span>
-            </AvatarFallback>
-          </Avatar>
-        </div>
-
-        <div className="flex gap-2 md:hidden">
-          <Button variant="ghost" size="sm" className="text-foreground">
-            <HugeiconsIcon
-              icon={Search01Icon}
-              strokeWidth={2}
-              className="size-5"
-            />
-          </Button>
+          <SearchCommand variant="header" />
           <Avatar className="size-8">
             <AvatarFallback className="bg-primary text-primary-foreground">
               <span className="text-xs">ME</span>

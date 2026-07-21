@@ -130,7 +130,7 @@ export function BrandSidebar({ className }: { className?: string }) {
     <Sidebar
       variant="sidebar"
       collapsible="icon"
-      className={cn("top-16 h-[calc(100svh-4rem)]", className)}
+      className={cn("top-12 h-[calc(100svh-3rem)]", className)}
     >
       <SidebarHeader>
         <div className={cn(isCollapsed ? "py-2" : "px-0 pt-2")}>

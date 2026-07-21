@@ -122,6 +122,16 @@
           "path": "registry/common/use-mobile.ts",
           "type": "registry:hook",
           "target": "hooks/use-mobile.ts"
+        },
+        {
+          "path": "lib/gradient.ts",
+          "type": "registry:lib",
+          "target": "lib/gradient.ts"
+        },
+        {
+          "path": "lib/glass.ts",
+          "type": "registry:lib",
+          "target": "lib/glass.ts"
         }
       ]
     },
@@ -441,16 +451,23 @@
       "registryDependencies": [
         "https://ui.aiellie.dev/r/avatar.json",
         "https://ui.aiellie.dev/r/button.json",
-        "https://ui.aiellie.dev/r/input.json",
+        "https://ui.aiellie.dev/r/command.json",
+        "https://ui.aiellie.dev/r/kbd.json",
         "https://ui.aiellie.dev/r/logo.json",
         "https://ui.aiellie.dev/r/sidebar.json",
-        "https://ui.aiellie.dev/r/theme.json"
+        "https://ui.aiellie.dev/r/theme.json",
+        "https://ui.aiellie.dev/r/tooltip.json"
       ],
       "files": [
         {
           "path": "components/brand-header.tsx",
           "type": "registry:component",
           "target": "components/brand-header.tsx"
+        },
+        {
+          "path": "components/search-command.tsx",
+          "type": "registry:component",
+          "target": "components/search-command.tsx"
         }
       ],
       "dependencies": [
@@ -465,8 +482,10 @@
       "description": "Application sidebar with brand navigation.",
       "registryDependencies": [
         "https://ui.aiellie.dev/r/button.json",
+        "https://ui.aiellie.dev/r/kbd.json",
         "https://ui.aiellie.dev/r/sidebar.json",
-        "https://ui.aiellie.dev/r/theme.json"
+        "https://ui.aiellie.dev/r/theme.json",
+        "https://ui.aiellie.dev/r/tooltip.json"
       ],
       "files": [
         {
