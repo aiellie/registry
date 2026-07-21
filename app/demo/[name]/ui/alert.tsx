@@ -1,7 +1,7 @@
 import {
   Example,
   ExampleWrapper,
-} from "@/components/registry/example"
+} from "@/components/example"
 import {
   Alert,
   AlertAction,

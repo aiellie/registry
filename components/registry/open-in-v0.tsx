@@ -53,6 +53,7 @@ export function OpenInV0Button({
       onClick={handleClick}
       size="default"
       variant="default"
+      className="rounded-full"
       {...props}
     >
       <span>Open in</span>

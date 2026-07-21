@@ -223,17 +223,16 @@
   }
 
   /* Line numbers for code blocks that opt in via `.code-lines`. */
-  .code-lines .shiki code {
+  .code-lines code {
     counter-reset: line;
     display: grid;
   }
 
-  .code-lines .shiki .line {
+  .code-lines [data-line] {
     counter-increment: line;
-    padding-inline: 1rem;
   }
 
-  .code-lines .shiki .line::before {
+  .code-lines [data-line]::before {
     content: counter(line);
     display: inline-block;
     width: 2.5ch;

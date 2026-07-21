@@ -4,6 +4,7 @@ import {
   ArrowRight01Icon,
   File02Icon,
   Folder01Icon,
+  Folder02Icon,
   SourceCodeIcon,
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
@@ -274,7 +275,7 @@ function BlockViewerCode() {
         <div
           key={file.path}
           dangerouslySetInnerHTML={{ __html: file.highlightedContent }}
-          className="no-scrollbar overflow-y-auto font-mono text-xs"
+          className="code-lines no-scrollbar overflow-y-auto font-mono text-xs"
         />
       </figure>
     </div>
@@ -339,7 +340,7 @@ function Tree({ item, index }: { item: FileTree; index: number }) {
 
   return (
     <SidebarMenuItem>
-      <Collapsible className="group/collapsible" defaultOpen>
+      <Collapsible className="group/collapsible" defaultOpen={index === 1}>
         <CollapsibleTrigger
           render={
             <SidebarMenuButton
@@ -357,7 +358,16 @@ function Tree({ item, index }: { item: FileTree; index: number }) {
             strokeWidth={2}
             className="transition-transform rtl:rotate-180"
           />
-          <HugeiconsIcon icon={Folder01Icon} strokeWidth={2} />
+          <HugeiconsIcon
+            icon={Folder01Icon}
+            strokeWidth={2}
+            className="in-data-[panel-open]:hidden"
+          />
+          <HugeiconsIcon
+            icon={Folder02Icon}
+            strokeWidth={2}
+            className="hidden in-data-[panel-open]:block"
+          />
           {item.name}
         </CollapsibleTrigger>
         <CollapsibleContent>

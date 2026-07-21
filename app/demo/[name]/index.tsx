@@ -16,7 +16,7 @@ import AccordionExample from "@/app/demo/[name]/ui/accordion"
 import AlertExample from "@/app/demo/[name]/ui/alert"
 import AlertDialogExample from "@/app/demo/[name]/ui/alert-dialog"
 import { aspectRatio } from "@/app/demo/[name]/ui/aspect-ratio"
-import { attachment } from "@/app/demo/[name]/ui/attachment"
+import AttachmentExample from "@/app/demo/[name]/ui/attachment"
 import { avatar } from "@/app/demo/[name]/ui/avatar"
 import { badge } from "@/app/demo/[name]/ui/badge"
 import { breadcrumb } from "@/app/demo/[name]/ui/breadcrumb"
@@ -106,7 +106,7 @@ export const demos: { [name: string]: Demo } = {
   alert: AlertExample,
   "alert-dialog": AlertDialogExample,
   "aspect-ratio": aspectRatio,
-  attachment,
+  attachment: AttachmentExample,
   avatar,
   badge,
   breadcrumb,
