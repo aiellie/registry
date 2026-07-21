@@ -1,6 +1,6 @@
 "use client"
 
-import { McpServerIcon, PlugSocketIcon } from "@hugeicons/core-free-icons"
+import { McpServerIcon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 import Link from "next/link"
 
@@ -17,33 +17,44 @@ import {
 
 export function MCPDialog({
   rootUrl,
-  highlightedMcp,
+  highlightedConfig,
+  highlightedClients,
 }: {
   rootUrl: string
-  highlightedMcp?: string
+  highlightedConfig?: string
+  highlightedClients?: Record<string, string>
 }) {
   return (
     <Dialog>
-      <DialogTrigger
-        render={<Button variant="ghost" size="icon-sm" />}
-      >   
-<HugeiconsIcon icon={McpServerIcon} strokeWidth={2} className="size-4" />         
+      <DialogTrigger render={<Button variant="ghost" size="icon-sm" />}>
+        <HugeiconsIcon icon={McpServerIcon} strokeWidth={2} className="size-4" />
       </DialogTrigger>
       <DialogContent className="sm:max-w-2xl">
         <DialogHeader>
           <DialogTitle>MCP</DialogTitle>
           <DialogDescription>
-            Integrate this registry with AI IDEs using Model Context Protocol
-            (MCP). This utilizes this registry&apos;s theme tokens and CSS
-            variables with the shadcn CLI. Double check that{" "}
+            Connect this registry to your AI IDE with the{" "}
+            <Link
+              href="https://ui.shadcn.com/docs/registry/mcp"
+              target="_blank"
+              rel="noreferrer"
+              className="underline"
+            >
+              Model Context Protocol
+            </Link>
+            . Once configured, you can prompt your assistant to browse and
+            install components straight from{" "}
             <Link href="/r/registry.json" className="underline">
               <code className="inline text-sm tabular-nums">registry.json</code>
-            </Link>{" "}
-            contains the same colors as your{" "}
-            <code className="inline text-sm tabular-nums">globals.css</code>.
+            </Link>
+            .
           </DialogDescription>
         </DialogHeader>
-        <MCPTabs rootUrl={rootUrl} highlightedMcp={highlightedMcp} />
+        <MCPTabs
+          rootUrl={rootUrl}
+          highlightedConfig={highlightedConfig}
+          highlightedClients={highlightedClients}
+        />
       </DialogContent>
     </Dialog>
   )

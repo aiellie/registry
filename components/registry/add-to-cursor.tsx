@@ -5,7 +5,11 @@ import { Button } from "@/components/ui/button"
 export function AddToCursor({
   mcp,
 }: {
-  mcp: { command: string; env: { [key: string]: string } }
+  mcp: {
+    command: string
+    args?: string[]
+    env?: { [key: string]: string }
+  }
 }) {
   function generateCursorDeeplink() {
     const name = "shadcn"

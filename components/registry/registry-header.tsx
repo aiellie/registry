@@ -5,12 +5,14 @@ import { SidebarTrigger } from "@/components/ui/sidebar"
 import { getRootUrl } from "@/lib/mcp-config"
 
 export function RegistryHeader({
-  highlightedMcp,
+  highlightedConfig,
+  highlightedClients,
   // Error and not-found render this header without reading from disk, so the
   // theme dialog simply drops out there.
   themeSources = [],
 }: {
-  highlightedMcp?: string
+  highlightedConfig?: string
+  highlightedClients?: Record<string, string>
   themeSources?: ThemeSource[]
 }) {
   return (
@@ -18,7 +20,11 @@ export function RegistryHeader({
       <SidebarTrigger className="-ms-1.5" />      
       <div className="ms-auto flex items-center gap-1">
         <ThemeDialog sources={themeSources} />
-        <MCPDialog rootUrl={getRootUrl()} highlightedMcp={highlightedMcp} />
+        <MCPDialog
+          rootUrl={getRootUrl()}
+          highlightedConfig={highlightedConfig}
+          highlightedClients={highlightedClients}
+        />
         <ModeToggle />
       </div>
     </header>
