@@ -18,26 +18,34 @@ export function useCopyToClipboard({
     }
   }, [])
 
+  /** Resolves to whether the value actually reached the clipboard. */
   const copyToClipboard = useCallback(
-    (value: string) => {
+    async (value: string) => {
       if (typeof window === "undefined" || !navigator.clipboard?.writeText) {
-        return
+        return false
       }
 
       if (!value) {
-        return
+        return false
       }
 
-      navigator.clipboard.writeText(value).then(() => {
-        setIsCopied(true)
+      try {
+        await navigator.clipboard.writeText(value)
+      } catch {
+        // Denied by permissions policy, an insecure context, or an unfocused document.
+        return false
+      }
 
-        if (timeoutRef.current) {
-          clearTimeout(timeoutRef.current)
-        }
-        timeoutRef.current = setTimeout(() => {
-          setIsCopied(false)
-        }, timeout)
-      })
+      setIsCopied(true)
+
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current)
+      }
+      timeoutRef.current = setTimeout(() => {
+        setIsCopied(false)
+      }, timeout)
+
+      return true
     },
     [timeout]
   )

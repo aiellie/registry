@@ -118,7 +118,7 @@ export function BrandSidebar({ className }: { className?: string }) {
       className={cn("mt-16", className)}
     >
       <SidebarHeader>
-        <div className={cn(isCollapsed ? "py-2" : "p-2")}>
+        <div className={cn(isCollapsed ? "py-2" : "px-0 pt-2")}>
           <Tooltip>
             <TooltipTrigger
               render={

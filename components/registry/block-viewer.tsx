@@ -11,6 +11,7 @@ import { HugeiconsIcon } from "@hugeicons/react"
 import * as React from "react"
 import type { PanelImperativeHandle } from "react-resizable-panels"
 
+import { BlockViewerDropdown } from "@/components/registry/block-viewer-dropdown"
 import { CodePreviewToggle } from "@/components/registry/code-preview-toggle"
 import { CopyCodeButton } from "@/components/registry/copy-code-button"
 import { CopyCommandButton } from "@/components/registry/copy-command-button"
@@ -24,6 +25,10 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible"
+import {
+  NativeSelect,
+  NativeSelectOption,
+} from "@/components/ui/native-select"
 import {
   ResizableHandle,
   ResizablePanel,
@@ -224,21 +229,85 @@ function BlockViewerView() {
 }
 
 function BlockViewerMobile() {
-  const { item } = useBlockViewer()
+  const { item, view, setView, baseUrl, prompt, setIframeKey } =
+    useBlockViewer()
+
+  const isBlock = item.type === "registry:block"
+  const registryUrl = `https://${baseUrl}/r/${item.name}.json`
+  const v0RegistryUrl = isBlock
+    ? registryUrl
+    : `https://${baseUrl}/r/blank.json`
 
   return (
     <div className="flex flex-col gap-2 lg:hidden">
       <div className="flex items-center gap-2 px-2">
-        <div className="line-clamp-1 text-sm font-medium">
-          {item.description}
-        </div>
-        <div className="ms-auto shrink-0 font-mono text-xs text-muted-foreground">
-          {item.name}
+        <CodePreviewToggle view={view} onViewChange={setView} />
+        <div className="ms-auto shrink-0">
+          <BlockViewerDropdown
+            name={item.name}
+            registryUrl={registryUrl}
+            v0RegistryUrl={v0RegistryUrl}
+            title={`${item.title} Kit`}
+            prompt={prompt}
+            onRefresh={() => setIframeKey((k) => k + 1)}
+          />
         </div>
       </div>
-      <div className="overflow-hidden rounded-xl border">
-        <BlockViewerIframe className="h-[600px]" />
+      {view === "code" ? (
+        <BlockViewerMobileCode />
+      ) : (
+        <div className="overflow-hidden rounded-xl border">
+          <BlockViewerIframe className="h-[600px]" />
+        </div>
+      )}
+    </div>
+  )
+}
+
+function BlockViewerMobileCode() {
+  const { activeFile, setActiveFile, highlightedFiles, item } = useBlockViewer()
+
+  const file = React.useMemo(() => {
+    return highlightedFiles?.find((file) => file.target === activeFile)
+  }, [highlightedFiles, activeFile])
+
+  const rawContent = React.useMemo(() => {
+    return item.fileContents.find((file) => file.target === activeFile)?.content
+  }, [activeFile, item.fileContents])
+
+  if (!file) {
+    return null
+  }
+
+  return (
+    <div className="flex h-[600px] flex-col overflow-hidden rounded-xl border bg-code text-code-foreground">
+      <div className="flex h-12 shrink-0 items-center gap-2 border-b px-3 py-2 text-xs [&_svg]:size-4 [&_svg]:opacity-70">
+        <HugeiconsIcon icon={SourceCodeIcon} strokeWidth={2} />
+        {highlightedFiles && highlightedFiles.length > 1 ? (
+          <NativeSelect
+            value={activeFile ?? undefined}
+            onChange={(event) => setActiveFile(event.target.value)}
+            className="h-7 min-w-0 flex-1 border-none bg-transparent font-mono text-xs shadow-none"
+          >
+            {highlightedFiles.map((file) => (
+              <NativeSelectOption key={file.target} value={file.target}>
+                {file.target}
+              </NativeSelectOption>
+            ))}
+          </NativeSelect>
+        ) : (
+          <span className="line-clamp-1 font-mono">{file.target}</span>
+        )}
+        <div className="ms-auto flex shrink-0 items-center gap-1">
+          <CopyCodeButton content={rawContent} />
+          <DownloadButton content={rawContent} name={file.target} />
+        </div>
       </div>
+      <div
+        key={file.path}
+        dangerouslySetInnerHTML={{ __html: file.highlightedContent }}
+        className="code-lines no-scrollbar flex-1 overflow-auto font-mono text-xs"
+      />
     </div>
   )
 }
