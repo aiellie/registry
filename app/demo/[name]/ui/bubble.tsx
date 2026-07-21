@@ -62,6 +62,12 @@ function BubbleVariants() {
             chat.
           </BubbleContent>
         </Bubble>
+        <Bubble variant="inverse" align="end">
+          <BubbleContent>
+            Inverse bubbles flip the default, using the primary foreground as the
+            surface with primary-colored text.
+          </BubbleContent>
+        </Bubble>
         <Bubble variant="secondary">
           <BubbleContent>
             Secondary bubbles are the standard neutral surface for assistant and

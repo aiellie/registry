@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@import "./typeset.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -211,7 +212,6 @@
   .shiki,
   .shiki span {
     color: var(--shiki-light);
-    background-color: var(--shiki-light-bg);
     font-family: var(--font-mono);
     font-size: 12px;
   }

@@ -6,6 +6,7 @@ import {
   Copy01Icon,
   PaintBoardIcon,
   Search01Icon,
+  SourceCodeIcon,
   Tick02Icon,
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
@@ -21,6 +22,7 @@ import {
   EmptyTitle,
 } from "@/components/ui/empty"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group"
+import { ThemeDialog, type ThemeSource } from "@/components/registry/theme-dialog"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard"
 import { resolveColor } from "@/lib/color"
@@ -32,6 +34,7 @@ import { ContrastBlock } from "./contrast-block"
 import { FONT_FAMILY_TOKENS, FontBlock, WeightBlock } from "./font-block"
 import { useDomSnapshot } from "./measure"
 import { RadiusBlock, SpacingBlock } from "./scale-block"
+import { TypesetBlock } from "./typeset-block"
 
 /**
  * The strip under the page title: the five-step brand ramp, then the two colours
@@ -84,12 +87,12 @@ function Section({
 }) {
   return (
     <section className="scroll-mt-32">
-      <div className="mb-3 flex items-baseline gap-2">
+      <div className="mb-3 flex items-center gap-2">
         <h2 className="text-base font-medium tracking-tight">{title}</h2>
         {count !== undefined && (
-          <span className="font-mono text-xs text-muted-foreground tabular-nums">
+          <Badge variant="secondary" className="font-mono tabular-nums">
             {count}
-          </span>
+          </Badge>
         )}
       </div>
       <p className="mb-4 max-w-prose text-sm text-muted-foreground">{description}</p>
@@ -98,7 +101,13 @@ function Section({
   )
 }
 
-export function TokensView({ data }: { data: DesignTokenData }) {
+export function TokensView({
+  data,
+  themeSources,
+}: {
+  data: DesignTokenData
+  themeSources: ThemeSource[]
+}) {
   const [query, setQuery] = useState("")
   const [format, setFormat] = useState<ValueFormat>("source")
   const resolved = useResolvedColors(data.index)
@@ -121,13 +130,15 @@ export function TokensView({ data }: { data: DesignTokenData }) {
   const spacing = data.spacing.filter((token) => matches(token.name))
   const weights = data.weights.filter((token) => matches(token.name))
   const families = FONT_FAMILY_TOKENS.filter(matches)
+  const typeset = data.typeset.filter((token) => matches(token.name))
 
   const hits =
     colorGroups.reduce((sum, group) => sum + group.tokens.length, 0) +
     radius.length +
     spacing.length +
     weights.length +
-    families.length
+    families.length +
+    typeset.length
   const nothingFound = needle.length > 0 && hits === 0
 
   return (
@@ -162,7 +173,7 @@ export function TokensView({ data }: { data: DesignTokenData }) {
             <div
               key={name}
               className="flex-1 transition-[flex-grow] duration-300 hover:grow-[2]"
-              style={{ background: data.index[name]?.light.resolved ?? undefined }}
+              style={{ background: `var(--${name})` }}
               title={`--${name}`}
             />
           ))}
@@ -226,22 +237,33 @@ export function TokensView({ data }: { data: DesignTokenData }) {
             {needle ? `${hits} matching` : `${data.totals.tokens} tokens`}
           </span>
 
-          <Button
-            variant="outline"
-            size="sm"
-            className="ms-auto"
-            onClick={async () => {
-              const copied = await copyToClipboard(data.themeCss)
-              if (copied) toast.success("Copied theme CSS")
-              else toast.error("Couldn’t reach the clipboard")
-            }}
-          >
-            <HugeiconsIcon
-              icon={isCopied ? Tick02Icon : Copy01Icon}
-              strokeWidth={2}
+          <div className="ms-auto flex items-center gap-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={async () => {
+                const copied = await copyToClipboard(data.themeCss)
+                if (copied) toast.success("Copied theme CSS")
+                else toast.error("Couldn’t reach the clipboard")
+              }}
+            >
+              <HugeiconsIcon
+                icon={isCopied ? Tick02Icon : Copy01Icon}
+                strokeWidth={2}
+              />
+              Copy tokens
+            </Button>
+
+            <ThemeDialog
+              sources={themeSources}
+              trigger={
+                <Button variant="outline" size="sm">
+                  <HugeiconsIcon icon={SourceCodeIcon} strokeWidth={2} />
+                  View source
+                </Button>
+              }
             />
-            Copy theme
-          </Button>
+          </div>
         </div>
       </div>
 
@@ -327,6 +349,16 @@ export function TokensView({ data }: { data: DesignTokenData }) {
               count={spacing.length}
             >
               <SpacingBlock tokens={spacing} />
+            </Section>
+          )}
+
+          {typeset.length > 0 && (
+            <Section
+              title="Typeset"
+              description="One stylesheet for HTML you did not write. Add typeset to a container and rendered markdown picks up the system — no per-element classes. Everything below is plain tags."
+              count={typeset.length}
+            >
+              <TypesetBlock controls={typeset} />
             </Section>
           )}
         </div>

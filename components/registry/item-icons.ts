@@ -57,6 +57,7 @@ import {
   Route01Icon,
   SearchIcon,
   SearchList01Icon,
+  SmileIcon,
   SidebarLeft01Icon,
   SidebarLeftIcon,
   SidebarRight01Icon,
@@ -82,6 +83,7 @@ const itemIcons: Record<string, IconSvgElement> = {
   // getting started
   home: Home01Icon,
   tokens: PaintBoardIcon,
+  icons: SmileIcon,
 
   // theme
   theme: PaintBucketIcon,

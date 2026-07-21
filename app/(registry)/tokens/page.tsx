@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 
-import { getDesignTokens } from "@/lib/design-tokens.server"
+import { getDesignTokens, getThemeSources } from "@/lib/design-tokens.server"
 
 import { TokensView } from "./tokens-view"
 
@@ -11,7 +11,10 @@ export const metadata: Metadata = {
 }
 
 export default async function TokensPage() {
-  const tokens = await getDesignTokens()
+  const [tokens, themeSources] = await Promise.all([
+    getDesignTokens(),
+    getThemeSources(),
+  ])
 
-  return <TokensView data={tokens} />
+  return <TokensView data={tokens} themeSources={themeSources} />
 }

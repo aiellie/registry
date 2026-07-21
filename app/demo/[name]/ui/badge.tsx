@@ -26,6 +26,7 @@ function BadgeVariants() {
     <Example title="Variants">
       <div className="flex flex-wrap gap-2">
         <Badge>Default</Badge>
+        <Badge variant="inverse">Inverse</Badge>
         <Badge variant="secondary">Secondary</Badge>
         <Badge variant="destructive">Destructive</Badge>
         <Badge variant="outline">Outline</Badge>
@@ -43,6 +44,10 @@ function BadgeWithIconLeft() {
         <Badge>
           <HugeiconsIcon icon={CheckmarkBadge02Icon} strokeWidth={2} data-icon="inline-start" />
           Default
+        </Badge>
+        <Badge variant="inverse">
+          <HugeiconsIcon icon={CheckmarkBadge02Icon} strokeWidth={2} data-icon="inline-start" />
+          Inverse
         </Badge>
         <Badge variant="secondary">
           <HugeiconsIcon icon={CheckmarkBadge02Icon} strokeWidth={2} data-icon="inline-start" />
@@ -77,6 +82,10 @@ function BadgeWithIconRight() {
           Default
           <HugeiconsIcon icon={ArrowRight02Icon} strokeWidth={2} data-icon="inline-end" />
         </Badge>
+        <Badge variant="inverse">
+          Inverse
+          <HugeiconsIcon icon={ArrowRight02Icon} strokeWidth={2} data-icon="inline-end" />
+        </Badge>
         <Badge variant="secondary">
           Secondary
           <HugeiconsIcon icon={ArrowRight02Icon} strokeWidth={2} data-icon="inline-end" />
@@ -109,6 +118,10 @@ function BadgeWithSpinner() {
         <Badge>
           <Spinner data-icon="inline-start" />
           Default
+        </Badge>
+        <Badge variant="inverse">
+          <Spinner data-icon="inline-start" />
+          Inverse
         </Badge>
         <Badge variant="secondary">
           <Spinner data-icon="inline-start" />

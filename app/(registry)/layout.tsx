@@ -4,6 +4,7 @@ import { RegistryHeader } from "@/components/registry/registry-header"
 import { RegistrySidebar } from "@/components/registry/registry-sidebar"
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 import { Toaster } from "@/components/ui/sonner"
+import { getThemeSources } from "@/lib/design-tokens.server"
 import { highlightCode } from "@/lib/highlight-code"
 import { getMcpConfig, getRootUrl } from "@/lib/mcp-config"
 
@@ -13,7 +14,10 @@ export default async function RegistryLayout({
   children: ReactNode
 }>) {
   const { mcpServer } = getMcpConfig(getRootUrl())
-  const highlightedMcp = await highlightCode(mcpServer, "json")
+  const [highlightedMcp, themeSources] = await Promise.all([
+    highlightCode(mcpServer, "json"),
+    getThemeSources(),
+  ])
 
   return (
     <SidebarProvider
@@ -26,7 +30,10 @@ export default async function RegistryLayout({
     >
       <RegistrySidebar />
       <SidebarInset className="min-w-0">
-        <RegistryHeader highlightedMcp={highlightedMcp} />
+        <RegistryHeader
+          highlightedMcp={highlightedMcp}
+          themeSources={themeSources}
+        />
         <main className="flex w-full justify-center">{children}</main>
       </SidebarInset>
       <Toaster />

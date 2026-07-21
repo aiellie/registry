@@ -18,9 +18,6 @@ export type ResolvedPair = {
   dark: ResolvedColor | null
 }
 
-/** Bottom-right half of the swatch, so one square can show both themes. */
-const DARK_HALF = "polygon(100% 0, 100% 100%, 0 100%)"
-
 /** Makes translucent tokens like `--sidebar-accent` legible instead of near-invisible. */
 const CHECKERBOARD: CSSProperties = {
   backgroundImage:
@@ -40,37 +37,30 @@ export function humanize(name: string) {
   return [first.charAt(0).toUpperCase() + first.slice(1), ...rest].join(" ")
 }
 
+/**
+ * Paints the live `var(--token)`, so every swatch follows the active theme rather
+ * than freezing one side of it. The values below the swatch still list both.
+ */
 export function Swatch({
-  light,
-  dark,
+  name,
+  undefinedReference,
   className,
 }: {
-  light: string | null
-  dark: string | null
+  name: string
+  undefinedReference?: boolean
   className?: string
 }) {
-  const split = light !== dark
-
   return (
     <div
       className={cn("relative shrink-0 overflow-hidden rounded-lg border", className)}
       style={CHECKERBOARD}
     >
-      {light ? (
-        <div className="absolute inset-0" style={{ background: light }} />
-      ) : (
-        <div className="absolute inset-0" style={HATCH} />
-      )}
-
-      {split &&
-        (dark ? (
-          <div
-            className="absolute inset-0"
-            style={{ background: dark, clipPath: DARK_HALF }}
-          />
-        ) : (
-          <div className="absolute inset-0" style={{ ...HATCH, clipPath: DARK_HALF }} />
-        ))}
+      <div
+        className="absolute inset-0"
+        style={
+          undefinedReference ? HATCH : { background: `var(--${name})` }
+        }
+      />
     </div>
   )
 }
@@ -143,8 +133,8 @@ export function ColorBlock({
     >
       <Swatch
         className="size-12"
-        light={token.light.resolved}
-        dark={token.dark.resolved}
+        name={token.name}
+        undefinedReference={broken && token.dark.resolved === null}
       />
 
       <div className="min-w-0 flex-1 space-y-1">

@@ -258,6 +258,8 @@ export type DesignTokenData = {
   spacing: DesignToken[]
   weights: DesignToken[]
   fonts: DesignToken[]
+  /** The three controls typeset.css exposes on `.typeset`. */
+  typeset: DesignToken[]
   /** Every token by name, so pairs and previews can look values up. */
   index: Record<string, DesignToken>
   /** The `:root` and `.dark` blocks verbatim, for the copy-theme action. */
@@ -265,7 +267,10 @@ export type DesignTokenData = {
   totals: { tokens: number; colors: number }
 }
 
-export function parseDesignTokens(css: string): DesignTokenData {
+export function parseDesignTokens(
+  css: string,
+  typesetCss = ""
+): DesignTokenData {
   const theme = ruleBody(css, /^@theme inline\s*\{/m)
   const root = ruleBody(css, /^:root\s*\{/m)
   const dark = ruleBody(css, /^\.dark\s*\{/m)
@@ -334,12 +339,24 @@ export function parseDesignTokens(css: string): DesignTokenData {
     })
   }
 
+  // `.typeset` declares its own controls, so they are read from typeset.css rather
+  // than the theme — the defaults there are the documented values.
+  const typesetDeclarations = customProperties(
+    ruleBody(typesetCss, /\.typeset\s*\{/)?.body ?? ""
+  )
+  const typeset: DesignToken[] = [...typesetDeclarations].map(([name, raw]) => ({
+    name,
+    light: { raw, resolved: raw, alias: null },
+    dark: { raw, resolved: raw, alias: null, inherited: true },
+  }))
+
   return {
     colorGroups,
     radius: pick(RADIUS_NAMES),
     spacing: pick(SPACING_NAMES),
     weights: pick(WEIGHT_NAMES),
     fonts: pick(FONT_NAMES),
+    typeset,
     index,
     themeCss: [
       root ? `:root {${root.body}}` : "",

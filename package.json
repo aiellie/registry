@@ -4,13 +4,14 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "pnpm registry:build && next dev",
-    "build": "pnpm registry:build && next build",
+    "dev": "pnpm registry:build && pnpm icons:build && next dev",
+    "build": "pnpm registry:build && pnpm icons:build && next build",
     "start": "next start",
     "lint": "eslint",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
     "typecheck": "tsc --noEmit",
-    "registry:build": "shadcn build"
+    "registry:build": "shadcn build",
+    "icons:build": "node scripts/build-hugeicons.mjs"
   },
   "dependencies": {
     "@ai-sdk/react": "^4.0.37",

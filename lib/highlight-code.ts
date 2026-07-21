@@ -21,11 +21,16 @@ export async function highlightCode(code: string, language: string = "tsx") {
       dark: "github-dark",
       light: "github-light",
     },
+    // Emit both themes as `--shiki-light` / `--shiki-dark` instead of baking the
+    // light theme into an inline `color`, which no stylesheet can override. The
+    // base layer picks the pair, so code follows the theme.
+    defaultColor: false,
     transformers: [
       {
         pre(node) {
+          // Keep `shiki` — the dual-theme swap in globals.css keys off it.
           node.properties["class"] =
-            "no-scrollbar min-w-0 overflow-x-auto overflow-y-auto overscroll-x-contain px-4 py-3.5 outline-none !bg-transparent"
+            "shiki no-scrollbar min-w-0 overflow-x-auto overflow-y-auto overscroll-x-contain px-4 py-3.5 outline-none !bg-transparent"
         },
         line(node) {
           node.properties["data-line"] = ""

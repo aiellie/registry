@@ -45,6 +45,7 @@ const blockItems = getBlocks()
 const gettingStartedItems = [
   { title: "Home", path: "/", icon: "home" },
   { title: "Design Tokens", path: "/tokens", icon: "tokens" },
+  { title: "Icons", path: "/tokens/icons", icon: "icons" },
 ]
 
 function RegistryItemGroup({

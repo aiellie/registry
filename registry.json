@@ -94,6 +94,11 @@
           "target": "app/globals.css"
         },
         {
+          "path": "registry/common/typeset.css",
+          "type": "registry:style",
+          "target": "app/typeset.css"
+        },
+        {
           "path": "registry/common/postcss.config.mjs",
           "type": "registry:file",
           "target": "postcss.config.mjs"
@@ -117,6 +122,19 @@
           "path": "registry/common/use-mobile.ts",
           "type": "registry:hook",
           "target": "hooks/use-mobile.ts"
+        }
+      ]
+    },
+    {
+      "name": "typeset",
+      "type": "registry:style",
+      "title": "Typeset",
+      "description": "One stylesheet for HTML you did not write. Add `typeset` to a container and rendered markdown — headings, lists, tables, code — picks up the design system. Tuned with --typeset-size, --typeset-leading, and --typeset-flow.",
+      "files": [
+        {
+          "path": "registry/common/typeset.css",
+          "type": "registry:style",
+          "target": "app/typeset.css"
         }
       ]
     },

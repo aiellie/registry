@@ -1,6 +1,12 @@
 "use client"
 
-import { SearchIcon } from "@hugeicons/core-free-icons"
+import {
+  BlocksIcon,
+  ComponentIcon,
+  Lightbulb,
+  PuzzleIcon,
+  SearchIcon,
+} from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { useRouter } from "next/navigation"
 import { useCallback, useEffect, useState } from "react"
@@ -33,6 +39,21 @@ const gettingStartedItems = [
 const blockItems = getBlocks()
 const componentItems = getComponents()
 const uiItems = getUIPrimitives()
+
+function GroupHeading({
+  icon,
+  title,
+}: {
+  icon: React.ComponentProps<typeof HugeiconsIcon>["icon"]
+  title: string
+}) {
+  return (
+    <div className="flex min-w-0 items-center">
+      <HugeiconsIcon icon={icon} strokeWidth={2} className="size-3.5 shrink-0" />
+      <span className="ms-1.5">{title}</span>
+    </div>
+  )
+}
 
 function HighlightMatch({ text, query }: { text: string; query: string }) {
   const trimmed = query.trim()
@@ -140,7 +161,9 @@ export function SearchCommand() {
           <CommandList>
             <CommandEmpty>No results found.</CommandEmpty>
 
-            <CommandGroup heading="Getting Started">
+            <CommandGroup
+              heading={<GroupHeading icon={Lightbulb} title="Getting Started" />}
+            >
               {gettingStartedItems.map((item) => (
                 <CommandItem
                   key={item.path}
@@ -156,7 +179,9 @@ export function SearchCommand() {
               ))}
             </CommandGroup>
 
-            <CommandGroup heading="Blocks">
+            <CommandGroup
+              heading={<GroupHeading icon={BlocksIcon} title="Blocks" />}
+            >
               {blockItems.map((item) => (
                 <CommandItem
                   key={item.name}
@@ -172,7 +197,9 @@ export function SearchCommand() {
               ))}
             </CommandGroup>
 
-            <CommandGroup heading="Components">
+            <CommandGroup
+              heading={<GroupHeading icon={ComponentIcon} title="Components" />}
+            >
               {componentItems.map((item) => (
                 <CommandItem
                   key={item.name}
@@ -188,7 +215,9 @@ export function SearchCommand() {
               ))}
             </CommandGroup>
 
-            <CommandGroup heading="UI Primitives">
+            <CommandGroup
+              heading={<GroupHeading icon={PuzzleIcon} title="UI Primitives" />}
+            >
               {uiItems.map((item) => (
                 <CommandItem
                   key={item.name}
