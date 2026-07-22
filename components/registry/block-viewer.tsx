@@ -122,7 +122,7 @@ function BlockViewerProvider({
       <div
         id={item.name}
         data-view={view}
-        className="group/block-view-wrapper flex min-w-0 scroll-mt-24 flex-col-reverse items-stretch gap-4 overflow-hidden md:flex-col"
+        className="group/block-view-wrapper flex min-w-0 scroll-mt-24 flex-col-reverse items-stretch gap-4 overflow-hidden md:flex-col lg:min-h-0 lg:flex-1"
         style={
           {
             "--height": iframeHeight ?? "930px",
@@ -181,7 +181,7 @@ function BlockViewerIframe({ className }: { className?: string }) {
   }, [iframeKey])
 
   return (
-    <div className={cn("relative z-20 h-(--height) w-full bg-background", className)}>
+    <div className={cn("relative z-20 h-full w-full bg-background", className)}>
       {!loaded && (
         <div className="absolute inset-0 z-10 flex items-center justify-center bg-background">
           <p className="shimmer text-sm text-muted-foreground">
@@ -205,7 +205,7 @@ function BlockViewerView() {
   const { resizablePanelRef } = useBlockViewer()
 
   return (
-    <div className="hidden group-data-[view=code]/block-view-wrapper:hidden md:h-(--height) lg:flex">
+    <div className="hidden group-data-[view=code]/block-view-wrapper:hidden lg:flex lg:min-h-0 lg:flex-1">
       <div className="relative grid w-full gap-4">
         <div className="absolute inset-0 end-4 [background-image:radial-gradient(#d4d4d4_1px,transparent_1px)] [background-size:20px_20px] dark:[background-image:radial-gradient(#404040_1px,transparent_1px)]" />
         <ResizablePanelGroup
@@ -328,7 +328,7 @@ function BlockViewerCode() {
   }
 
   return (
-    <div className="me-[14px] hidden overflow-hidden rounded-xl border bg-code text-code-foreground group-data-[view=preview]/block-view-wrapper:hidden md:h-(--height) lg:flex">
+    <div className="me-[14px] hidden overflow-hidden rounded-xl border bg-code text-code-foreground group-data-[view=preview]/block-view-wrapper:hidden lg:flex lg:min-h-0 lg:flex-1">
       <div className="w-72 shrink-0">
         <BlockViewerFileTree />
       </div>

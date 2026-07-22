@@ -3,13 +3,14 @@ import type { ComponentType, ReactElement, ReactNode } from "react"
 // blocks
 import { blank } from "@/app/demo/[name]/blocks/blank"
 import { dashboard } from "@/app/demo/[name]/blocks/dashboard"
+import { login } from "@/app/demo/[name]/blocks/login"
 
 // components
 import { brandFooter } from "@/app/demo/[name]/components/brand-footer"
 import { brandHeader } from "@/app/demo/[name]/components/brand-header"
 import { brandSidebar } from "@/app/demo/[name]/components/brand-sidebar"
 import { hero } from "@/app/demo/[name]/components/hero"
-import { login } from "@/app/demo/[name]/components/login"
+import { loginForm } from "@/app/demo/[name]/components/login-form"
 import { logo } from "@/app/demo/[name]/components/logo"
 import { promptInput } from "@/app/demo/[name]/components/prompt-input"
 
@@ -101,13 +102,13 @@ export const demos: { [name: string]: Demo } = {
   // blocks
   blank,
   dashboard,
-
+  login,
   // components
   "brand-header": brandHeader,
   "brand-footer": brandFooter,
   "brand-sidebar": brandSidebar,
   hero,
-  login,
+  "login-form": loginForm,
   logo,
   "prompt-input": promptInput,
 

@@ -398,6 +398,23 @@
       ]
     },
     {
+      "name": "login",
+      "type": "registry:block",
+      "title": "Login",
+      "description": "A login page starting kit with brand logo and social sign-in buttons.",
+      "registryDependencies": [
+        "https://ui.aiellie.dev/r/theme.json",
+        "https://ui.aiellie.dev/r/login-form.json"
+      ],
+      "files": [
+        {
+          "path": "app/demo/[name]/blocks/login-page.tsx",
+          "type": "registry:page",
+          "target": "app/page.tsx"
+        }
+      ]
+    },
+    {
       "name": "logo",
       "type": "registry:component",
       "title": "Brand Logo",
@@ -432,9 +449,9 @@
       ]
     },
     {
-      "name": "login",
+      "name": "login-form",
       "type": "registry:component",
-      "title": "Login",
+      "title": "Login Form",
       "description": "Login page section with brand logo and social sign-in buttons.",
       "registryDependencies": [
         "https://ui.aiellie.dev/r/button.json",
@@ -445,9 +462,9 @@
       ],
       "files": [
         {
-          "path": "components/login.tsx",
+          "path": "components/login-form.tsx",
           "type": "registry:component",
-          "target": "components/login.tsx"
+          "target": "components/login-form.tsx"
         }
       ]
     },

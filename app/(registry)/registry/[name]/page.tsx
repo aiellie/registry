@@ -26,13 +26,8 @@ export default async function RegistryItemPage({
   }
 
   return (
-    <div className="container flex min-w-0 flex-col gap-6 p-5 md:p-10">
-      <div className="flex flex-col gap-1">
-        <h1 className="text-2xl font-medium tracking-tight">{component.title}</h1>
-        {component.description && (
-          <p className="text-muted-foreground">{component.description}</p>
-        )}
-      </div>
+    <div className="container flex min-w-0 flex-col gap-6 p-5 md:p-10 lg:h-[calc(100svh-3.5rem)] lg:overflow-hidden">
+
 
       <BlockDisplay name={name} />
     </div>
