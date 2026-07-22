@@ -1,4 +1,4 @@
-import type { ReactNode } from "react"
+import type { CSSProperties, ReactNode } from "react"
 
 import { BrandHeader } from "@/components/brand-header"
 import { BrandSidebar } from "@/components/brand-sidebar"
@@ -11,7 +11,14 @@ export default function ShellLayout({
   children: ReactNode
 }>) {
   return (
-    <SidebarProvider>
+    <SidebarProvider
+      style={
+        {
+          "--sidebar-width": "calc(var(--spacing) * 72)",
+          "--header-height": "calc(var(--spacing) * 12)",
+        } as CSSProperties
+      }
+    >
       <BrandHeader />
       <BrandSidebar />
       <main className="flex w-full justify-center">

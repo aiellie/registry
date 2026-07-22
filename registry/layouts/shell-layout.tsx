@@ -1,5 +1,5 @@
 import { Geist, Geist_Mono } from "next/font/google"
-import type { ReactNode } from "react"
+import type { CSSProperties, ReactNode } from "react"
 
 import { BrandHeader } from "@/components/brand-header"
 import { BrandSidebar } from "@/components/brand-sidebar"
@@ -34,7 +34,14 @@ export default function ShellLayout({
       )}
     >
       <body>
-        <SidebarProvider>
+        <SidebarProvider
+          style={
+            {
+              "--sidebar-width": "calc(var(--spacing) * 72)",
+              "--header-height": "calc(var(--spacing) * 12)",
+            } as CSSProperties
+          }
+        >
           <BrandHeader />
           <BrandSidebar />
           <main className="mt-16 flex w-full justify-center">
