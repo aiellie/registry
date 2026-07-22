@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/sonner"
 
 export const metadata: Metadata = {
-  title: "ui.aiellie.dev",
+  title: "AI Ellie",
   description:
     "A shadcn/ui registry distributing the ui.aiellie.dev design system: theme tokens, UI primitives, components, and blocks.",
 }

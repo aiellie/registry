@@ -2972,6 +2972,26 @@
           "target": "components/icons.tsx"
         }
       ]
+    },
+    {
+      "name": "web-preview",
+      "type": "registry:component",
+      "title": "Web Preview",
+      "description": "Web preview with URL input, navigation buttons, console logs, and iframe body.",
+      "registryDependencies": [
+        "https://ui.aiellie.dev/r/button.json",
+        "https://ui.aiellie.dev/r/collapsible.json",
+        "https://ui.aiellie.dev/r/input.json",
+        "https://ui.aiellie.dev/r/iframe.json",
+        "https://ui.aiellie.dev/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "components/ai-elements/web-preview.tsx",
+          "type": "registry:component",
+          "target": "components/ui/web-preview.tsx"
+        }
+      ]
     }
   ]
 }

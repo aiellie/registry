@@ -7,6 +7,7 @@ import {
 import { HugeiconsIcon } from "@hugeicons/react"
 import Link from "next/link"
 
+import { Badge } from "@/components/ui/badge"
 import {
   Card,
   CardContent,
@@ -14,6 +15,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import { StatusIndicator } from "@/components/ui/status"
 import { getBlocks, getComponents, getUIPrimitives } from "@/lib/registry"
 
 const uiItems = getUIPrimitives().slice(0, 5)
@@ -23,10 +25,16 @@ const blockItems = getBlocks().slice(0, 5)
 export default function Home() {
   return (
     <main className="container mt-4 p-5 md:mt-8 md:p-10">
-      <div className="mb-8">
-        <div className="space-y-2">
+      <div className="mb-8 text-center">
+        <div className="mx-auto max-w-2xl space-y-3">
+          <Badge
+            className="mx-auto bg-emerald-700/8 text-emerald-700 dark:text-emerald-400"
+          >
+            <StatusIndicator />
+            Registry online
+          </Badge>
           <h1 className="text-3xl font-medium tracking-tight md:text-4xl">
-            ui.aiellie.dev
+            AI Ellie UI
           </h1>
           <p className="text-muted-foreground">
             Distribute your design system tokens, custom components, hooks,

@@ -2,7 +2,6 @@
 
 import {
   ArrowRight01Icon,
-  File02Icon,
   Folder01Icon,
   Folder02Icon,
   SourceCodeIcon,
@@ -11,6 +10,7 @@ import { HugeiconsIcon } from "@hugeicons/react"
 import * as React from "react"
 import type { PanelImperativeHandle } from "react-resizable-panels"
 
+import { getIconForLanguageExtension } from "@/components/icons"
 import { BlockViewerDropdown } from "@/components/registry/block-viewer-dropdown"
 import { CodePreviewToggle } from "@/components/registry/code-preview-toggle"
 import { CopyCodeButton } from "@/components/registry/copy-code-button"
@@ -378,6 +378,16 @@ function BlockViewerFileTree() {
   )
 }
 
+/** `.gitignore` -> `gitignore`, `button.tsx` -> `tsx`, `Dockerfile` -> `dockerfile`. */
+function extensionOf(name: string) {
+  const withoutLeadingDot = name.startsWith(".") ? name.slice(1) : name
+  const lastDot = withoutLeadingDot.lastIndexOf(".")
+  const extension =
+    lastDot === -1 ? withoutLeadingDot : withoutLeadingDot.slice(lastDot + 1)
+
+  return extension.toLowerCase()
+}
+
 function Tree({ item, index }: { item: FileTree; index: number }) {
   const { activeFile, setActiveFile } = useBlockViewer()
 
@@ -400,7 +410,9 @@ function Tree({ item, index }: { item: FileTree; index: number }) {
             strokeWidth={2}
             className="invisible"
           />
-          <HugeiconsIcon icon={File02Icon} strokeWidth={2} className="size-4" />
+          <span className="flex size-4 shrink-0 items-center justify-center [&_svg]:size-4">
+            {getIconForLanguageExtension(extensionOf(item.name))}
+          </span>
           {item.name}
         </SidebarMenuButton>
       </SidebarMenuItem>
@@ -413,7 +425,7 @@ function Tree({ item, index }: { item: FileTree; index: number }) {
         <CollapsibleTrigger
           render={
             <SidebarMenuButton
-              className="rounded-none ps-(--index) whitespace-nowrap hover:bg-muted-foreground/15 focus:bg-muted-foreground/15 focus-visible:bg-muted-foreground/15 active:bg-muted-foreground/15 data-[active=true]:bg-muted-foreground/15 [&[data-panel-open]>svg:first-child]:rotate-90"
+              className="rounded-none ps-(--index) whitespace-nowrap hover:bg-muted-foreground/15 focus:bg-muted-foreground/15 focus-visible:bg-muted-foreground/15 active:bg-muted-foreground/15 data-[active=true]:bg-muted-foreground/15"
               style={
                 {
                   "--index": `${index * (index === 1 ? 1 : 1.2)}rem`,
@@ -422,25 +434,34 @@ function Tree({ item, index }: { item: FileTree; index: number }) {
             />
           }
         >
-          <HugeiconsIcon
-            icon={ArrowRight01Icon}
-            strokeWidth={2}
-            className="transition-transform rtl:rotate-180"
-          />
-          <HugeiconsIcon
-            icon={Folder01Icon}
-            strokeWidth={2}
-            className="in-data-[panel-open]:hidden"
-          />
-          <HugeiconsIcon
-            icon={Folder02Icon}
-            strokeWidth={2}
-            className="hidden in-data-[panel-open]:block"
-          />
+          <span className="group/folder-icon relative flex size-4 shrink-0 items-center justify-center">
+            <HugeiconsIcon
+              icon={Folder01Icon}
+              strokeWidth={2}
+              className="transition-opacity in-data-[panel-open]:hidden group-hover/folder-icon:opacity-0"
+            />
+            <HugeiconsIcon
+              icon={Folder02Icon}
+              strokeWidth={2}
+              className="hidden transition-opacity in-data-[panel-open]:block group-hover/folder-icon:opacity-0"
+            />
+            <HugeiconsIcon
+              icon={ArrowRight01Icon}
+              strokeWidth={2}
+              className="absolute opacity-0 transition-all group-hover/folder-icon:opacity-100 in-data-[panel-open]:rotate-90 rtl:rotate-180 rtl:in-data-[panel-open]:rotate-90"
+            />
+          </span>
           {item.name}
         </CollapsibleTrigger>
         <CollapsibleContent>
-          <SidebarMenuSub className="m-0 w-full translate-x-0 border-none p-0">
+          <SidebarMenuSub
+            className="relative m-0 w-full translate-x-0 border-none p-0 before:absolute before:inset-y-0 before:start-(--line) before:w-px before:bg-sidebar-border before:content-['']"
+            style={
+              {
+                "--line": `${index * (index === 1 ? 1 : 1.2) + 0.5}rem`,
+              } as React.CSSProperties
+            }
+          >
             {item.children.map((subItem, key) => (
               <Tree key={key} item={subItem} index={index + 1} />
             ))}

@@ -15,6 +15,7 @@ import { promptInput } from "@/app/demo/[name]/components/prompt-input"
 // ai elements
 import ModelSelectorExample from "@/app/demo/[name]/ui/model-selector"
 import FileTreeExample from "@/app/demo/[name]/ui/file-tree"
+import WebPreviewExample from "@/app/demo/[name]/ui/web-preview"
 // ui
 import AccordionExample from "@/app/demo/[name]/ui/accordion"
 import AlertExample from "@/app/demo/[name]/ui/alert"
@@ -110,6 +111,7 @@ export const demos: { [name: string]: Demo } = {
   // ai elements
   "model-selector": ModelSelectorExample,
   "file-tree": FileTreeExample,
+  "web-preview": WebPreviewExample,
 
   // ui
   accordion: AccordionExample,

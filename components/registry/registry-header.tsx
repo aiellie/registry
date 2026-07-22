@@ -2,6 +2,8 @@ import { MCPDialog } from "@/components/registry/mcp-dialog"
 import { ModeToggle } from "@/components/registry/theme-toggle"
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import { getRootUrl } from "@/lib/mcp-config"
+import { LoadStatus } from "@/components/load-status"
+import { NyClock } from "@/components/ny-clock"
 
 export function RegistryHeader({
   highlightedConfig,
@@ -22,6 +24,7 @@ export function RegistryHeader({
           highlightedClients={highlightedClients}
         />
         <ModeToggle />
+        <NyClock />
       </div>
     </header>
   )

@@ -79,6 +79,7 @@ import {
   UnfoldMoreIcon,
   UserIcon,
   RoboticIcon,
+  GlobeIcon,
 } from "@hugeicons/core-free-icons"
 import type { IconSvgElement } from "@hugeicons/react"
 
@@ -108,6 +109,7 @@ const itemIcons: Record<string, IconSvgElement> = {
   // ai elements
   "model-selector": RoboticIcon,
   "file-tree": HierarchyFilesIcon,
+  "web-preview": GlobeIcon,
 
   // ui
   accordion: UnfoldMoreIcon,
