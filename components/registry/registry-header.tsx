@@ -2,9 +2,7 @@ import { MCPDialog } from "@/components/registry/mcp-dialog"
 import { ModeToggle } from "@/components/registry/theme-toggle"
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import { getRootUrl } from "@/lib/mcp-config"
-import { LoadStatus } from "@/components/load-status"
 import { NyClock } from "@/components/ny-clock"
-import { Separator } from "@/components/ui/separator"
 
 export function RegistryHeader({
   highlightedConfig,
@@ -20,8 +18,8 @@ export function RegistryHeader({
       <SidebarTrigger className="-ms-1.5" />      
       <div className="ms-auto flex items-center gap-1">
       <NyClock />
-<Separator orientation="vertical" className="h-4" />
-        <MCPDialog
+      <span className="h-3 w-px bg-border mx-1" />
+      <MCPDialog
           rootUrl={getRootUrl()}
           highlightedConfig={highlightedConfig}
           highlightedClients={highlightedClients}
