@@ -144,7 +144,7 @@
       "name": "typeset",
       "type": "registry:style",
       "title": "Typeset",
-      "description": "One stylesheet for HTML you did not write. Add `typeset` to a container and rendered markdown — headings, lists, tables, code — picks up the design system. Tuned with --typeset-size, --typeset-leading, and --typeset-flow.",
+      "description": "One stylesheet for HTML you did not write. Add `typeset` to a container and rendered markdown \u2014 headings, lists, tables, code \u2014 picks up the design system. Tuned with --typeset-size, --typeset-leading, and --typeset-flow.",
       "files": [
         {
           "path": "registry/common/typeset.css",
@@ -315,6 +315,7 @@
         "https://ui.aiellie.dev/r/logo.json",
         "https://ui.aiellie.dev/r/hero.json",
         "https://ui.aiellie.dev/r/login.json",
+        "https://ui.aiellie.dev/r/prompt-input.json",
         "https://ui.aiellie.dev/r/brand-header.json",
         "https://ui.aiellie.dev/r/brand-sidebar.json",
         "https://ui.aiellie.dev/r/accordion.json",
@@ -408,6 +409,59 @@
           "type": "registry:component",
           "target": "components/logo.tsx"
         }
+      ]
+    },
+    {
+      "name": "prompt-input",
+      "type": "registry:component",
+      "title": "Prompt Input",
+      "description": "Agent composer with project picker, add menu, approval modes, model selector, and slash commands.",
+      "registryDependencies": [
+        "https://ui.aiellie.dev/r/button.json",
+        "https://ui.aiellie.dev/r/command.json",
+        "https://ui.aiellie.dev/r/dropdown-menu.json",
+        "https://ui.aiellie.dev/r/kbd.json",
+        "https://ui.aiellie.dev/r/popover.json",
+        "https://ui.aiellie.dev/r/textarea.json",
+        "https://ui.aiellie.dev/r/theme.json",
+        "https://ui.aiellie.dev/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "components/prompt-input.tsx",
+          "type": "registry:component",
+          "target": "components/prompt-input.tsx"
+        },
+        {
+          "path": "components/prompt-add-menu.tsx",
+          "type": "registry:component",
+          "target": "components/prompt-add-menu.tsx"
+        },
+        {
+          "path": "components/prompt-approval-menu.tsx",
+          "type": "registry:component",
+          "target": "components/prompt-approval-menu.tsx"
+        },
+        {
+          "path": "components/prompt-command-menu.tsx",
+          "type": "registry:component",
+          "target": "components/prompt-command-menu.tsx"
+        },
+        {
+          "path": "components/prompt-model-menu.tsx",
+          "type": "registry:component",
+          "target": "components/prompt-model-menu.tsx"
+        },
+        {
+          "path": "components/prompt-project-picker.tsx",
+          "type": "registry:component",
+          "target": "components/prompt-project-picker.tsx"
+        }
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react",
+        "cmdk"
       ]
     },
     {

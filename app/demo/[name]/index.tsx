@@ -10,6 +10,7 @@ import { brandSidebar } from "@/app/demo/[name]/components/brand-sidebar"
 import { hero } from "@/app/demo/[name]/components/hero"
 import { login } from "@/app/demo/[name]/components/login"
 import { logo } from "@/app/demo/[name]/components/logo"
+import { promptInput } from "@/app/demo/[name]/components/prompt-input"
 
 // ui
 import AccordionExample from "@/app/demo/[name]/ui/accordion"
@@ -101,6 +102,7 @@ export const demos: { [name: string]: Demo } = {
   hero,
   login,
   logo,
+  "prompt-input": promptInput,
 
   // ui
   accordion: AccordionExample,

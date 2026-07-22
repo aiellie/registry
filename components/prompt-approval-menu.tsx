@@ -1,0 +1,131 @@
+"use client"
+
+import {
+  AlertCircleIcon,
+  ComputerTerminal01Icon,
+  WavingHand01Icon,
+} from "@hugeicons/core-free-icons"
+import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react"
+
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { cn } from "@/lib/utils"
+
+export type ApprovalMode = "ask" | "auto" | "full"
+
+export const APPROVAL_MODES = [
+  {
+    value: "ask",
+    label: "Ask for approval",
+    description: "Always ask to edit external files and use the internet",
+    icon: WavingHand01Icon,
+  },
+  {
+    value: "auto",
+    label: "Approve for me",
+    description: "Only ask for actions detected as potentially unsafe",
+    icon: ComputerTerminal01Icon,
+  },
+  {
+    value: "full",
+    label: "Full access",
+    description: "Unrestricted access to the internet and any file on your computer",
+    icon: AlertCircleIcon,
+    destructive: true,
+  },
+] satisfies {
+  value: ApprovalMode
+  label: string
+  description: string
+  icon: IconSvgElement
+  destructive?: boolean
+}[]
+
+export function PromptApprovalMenu({
+  value,
+  onValueChange,
+  className,
+}: {
+  value: ApprovalMode
+  onValueChange: (value: ApprovalMode) => void
+  className?: string
+}) {
+  const active = APPROVAL_MODES.find((mode) => mode.value === value)
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger
+        render={
+          <Button
+            variant="ghost"
+            size="sm"
+            className={cn(
+              "gap-1.5 rounded-full px-2 font-normal text-muted-foreground",
+              active?.destructive && "text-destructive",
+              className
+            )}
+          />
+        }
+      >
+        <HugeiconsIcon icon={active?.icon ?? WavingHand01Icon} strokeWidth={1.5} />
+        {active?.label}
+      </DropdownMenuTrigger>
+      <DropdownMenuContent
+        side="top"
+        align="start"
+        sideOffset={8}
+        className="w-[min(26rem,calc(100vw-2rem))]"
+      >
+        <div className="flex items-center gap-2 px-1.5 py-1">
+          <span className="text-xs text-muted-foreground">
+            How should agent actions be approved?
+          </span>
+          <a
+            href="#"
+            className="ms-auto text-xs text-muted-foreground underline underline-offset-2 hover:text-foreground"
+          >
+            Learn more
+          </a>
+        </div>
+        <DropdownMenuRadioGroup
+          value={value}
+          onValueChange={(next) => onValueChange(next as ApprovalMode)}
+        >
+          {APPROVAL_MODES.map((mode) => (
+            <DropdownMenuRadioItem
+              key={mode.value}
+              value={mode.value}
+              className={cn(
+                "items-start gap-2.5 py-1.5",
+                mode.destructive && "text-destructive! **:text-destructive!"
+              )}
+            >
+              <HugeiconsIcon
+                icon={mode.icon}
+                strokeWidth={1.5}
+                className="mt-0.5 size-4.5"
+              />
+              <div className="grid gap-0.5">
+                <span className="font-medium">{mode.label}</span>
+                <span
+                  className={cn(
+                    "text-xs text-muted-foreground",
+                    mode.destructive && "text-destructive/80!"
+                  )}
+                >
+                  {mode.description}
+                </span>
+              </div>
+            </DropdownMenuRadioItem>
+          ))}
+        </DropdownMenuRadioGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}

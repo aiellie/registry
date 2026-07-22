@@ -95,6 +95,28 @@ export function LogoIcon({
   );
 }
 
+export function LogoOutline({
+  className,
+  ...props
+}: ComponentProps<"svg">) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 100 100"
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      className={cn("size-8 shrink-0", className)}
+      aria-hidden="true"
+      {...props}
+    >
+      <circle cx="50" cy="50" r="46" strokeWidth={1.5} />
+      <ellipse cx="40" cy="53" rx="5" ry="6.4" strokeWidth={1.5} />
+      <ellipse cx="60" cy="53" rx="5" ry="6.4" strokeWidth={1.5} />
+    </svg>
+  );
+}
+
 export function LogoWordmark({
   as: Comp = "span",
   className,
