@@ -30,6 +30,7 @@ import {
   HighlighterIcon,
   Home01Icon,
   HourglassIcon,
+  HierarchyFilesIcon,
   Image01Icon,
   InformationCircleIcon,
   KeyboardIcon,
@@ -77,6 +78,7 @@ import {
   ToggleOnIcon,
   UnfoldMoreIcon,
   UserIcon,
+  RoboticIcon,
 } from "@hugeicons/core-free-icons"
 import type { IconSvgElement } from "@hugeicons/react"
 
@@ -102,6 +104,10 @@ const itemIcons: Record<string, IconSvgElement> = {
   login: Login01Icon,
   "product-grid": GridViewIcon,
   promo: Megaphone01Icon,
+
+  // ai elements
+  "model-selector": RoboticIcon,
+  "file-tree": HierarchyFilesIcon,
 
   // ui
   accordion: UnfoldMoreIcon,

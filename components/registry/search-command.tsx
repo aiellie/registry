@@ -11,7 +11,7 @@ import { HugeiconsIcon } from "@hugeicons/react"
 import { useRouter } from "next/navigation"
 import { useCallback, useEffect, useState } from "react"
 
-import { getItemIcon } from "@/components/registry/item-icons"
+import { getItemIcon } from "@/lib/item-icons"
 import { Button } from "@/components/ui/button"
 import {
   Command,

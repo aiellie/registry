@@ -11,7 +11,7 @@ import { HugeiconsIcon } from "@hugeicons/react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 
-import { getItemIcon } from "@/components/registry/item-icons"
+import { getItemIcon } from "@/lib/item-icons"
 import { NavUser } from "@/components/registry/nav-user"
 import { RegistryLogo } from "@/components/registry/registry-logo"
 import { SearchCommand } from "@/components/registry/search-command"

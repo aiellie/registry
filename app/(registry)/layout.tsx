@@ -30,7 +30,6 @@ export default async function RegistryLayout({
         <RegistryHeader
           highlightedConfig={highlightedConfig}
           highlightedClients={highlightedClients}
-          themeSources={themeSources}
         />
         <main className="flex w-full justify-center">{children}</main>
       </SidebarInset>

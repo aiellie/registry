@@ -1,11 +1,11 @@
 "use client"
 
-import { Copy01Icon, Tick02Icon } from "@hugeicons/core-free-icons"
+import { useEffect, useState } from "react"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { toast } from "sonner"
 
+import { CopyButton } from "@/components/registry/copy-button"
+import { DownloadButton } from "@/components/registry/download-button"
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
 import {
   Dialog,
   DialogContent,
@@ -13,7 +13,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
-import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard"
+import { highlightCode } from "@/lib/highlight"
 import {
   type CompactElement,
   type IconCategory,
@@ -22,37 +22,64 @@ import {
   toSvgMarkup,
 } from "@/lib/hugeicons"
 
-/** The sizes this system actually uses, so legibility can be judged at a glance. */
-const PREVIEW_SIZES = [16, 20, 24, 32, 48]
+/**
+ * Highlights `code` in the browser via the shared Shiki highlighter, returning
+ * `null` until the first result is ready (or if it fails) so callers can fall
+ * back to plain text.
+ */
+function useHighlightedCode(code: string, lang = "tsx") {
+  const [html, setHtml] = useState<string | null>(null)
 
-function CopyRow({ label, value }: { label: string; value: string }) {
-  const { copyToClipboard, isCopied } = useCopyToClipboard()
+  useEffect(() => {
+    let active = true
+    highlightCode(code, lang)
+      .then((result) => {
+        if (active) setHtml(result)
+      })
+      .catch(() => {
+        if (active) setHtml(null)
+      })
+    return () => {
+      active = false
+    }
+  }, [code, lang])
+
+  return html
+}
+
+function CopyRow({
+  label,
+  value,
+  language = "tsx",
+  download,
+}: {
+  label: string
+  value: string
+  language?: string
+  /** When set, shows a download button that saves the snippet under this name. */
+  download?: string
+}) {
+  const highlighted = useHighlightedCode(value, language)
 
   return (
     <div className="space-y-1.5">
       <div className="flex items-center justify-between gap-2">
         <span className="text-xs font-medium text-muted-foreground">{label}</span>
-        <Button
-          variant="ghost"
-          size="sm"
-          className="h-6 px-2 text-xs"
-          onClick={async () => {
-            const copied = await copyToClipboard(value)
-            if (copied) toast.success(`Copied ${label.toLowerCase()}`)
-            else toast.error("Couldn’t reach the clipboard")
-          }}
-        >
-          <HugeiconsIcon
-            icon={isCopied ? Tick02Icon : Copy01Icon}
-            strokeWidth={2}
-            className="size-3.5"
-          />
-          Copy
-        </Button>
+        <div className="flex items-center gap-0.5">
+          {download && <DownloadButton content={value} name={download} />}
+          <CopyButton content={value} />
+        </div>
       </div>
-      <pre className="overflow-x-auto rounded-lg border bg-muted/40 p-2.5 font-mono text-xs leading-relaxed">
-        {value}
-      </pre>
+      {highlighted ? (
+        <div
+          className="overflow-hidden rounded-xl border text-xs"
+          dangerouslySetInnerHTML={{ __html: highlighted }}
+        />
+      ) : (
+        <pre className="overflow-x-auto rounded-xl border p-2.5 font-mono text-xs leading-relaxed">
+          {value}
+        </pre>
+      )}
     </div>
   )
 }
@@ -62,12 +89,15 @@ export function IconDetail({
   elements,
   categories,
   strokeWidth,
+  size,
   onOpenChange,
 }: {
   entry: IconEntry | null
   elements: CompactElement[] | undefined
   categories: IconCategory[]
   strokeWidth: number
+  /** The size chosen by the grid filters; the preview renders at exactly this. */
+  size: number
   onOpenChange: (open: boolean) => void
 }) {
   const icon = elements ? toSvgElement(elements) : null
@@ -89,26 +119,25 @@ export function IconDetail({
         {entry && (
           <>
             <DialogHeader>
-              <DialogTitle className="font-mono text-base">{entry.name}</DialogTitle>
+              <div className="flex items-center gap-1.5">
+                <DialogTitle className="font-mono text-base">
+                  {entry.name}
+                </DialogTitle>
+                <CopyButton content={entry.name} />
+              </div>
               <DialogDescription>
                 {entry.words} · stroke rounded · 24×24
               </DialogDescription>
             </DialogHeader>
 
-            <div className="flex items-end justify-center gap-5 rounded-xl border bg-muted/30 py-6">
+            <div className="flex items-center justify-center rounded-xl border py-10">
               {icon ? (
-                PREVIEW_SIZES.map((size) => (
-                  <div key={size} className="flex flex-col items-center gap-2">
-                    <HugeiconsIcon
-                      icon={icon}
-                      size={size}
-                      strokeWidth={strokeWidth}
-                    />
-                    <span className="font-mono text-[10px] text-muted-foreground tabular-nums">
-                      {size}
-                    </span>
-                  </div>
-                ))
+                <div className="flex flex-col items-center gap-2">
+                  <HugeiconsIcon icon={icon} size={size} strokeWidth={strokeWidth} />
+                  <span className="font-mono text-[10px] text-muted-foreground tabular-nums">
+                    {size}px
+                  </span>
+                </div>
               ) : (
                 <div className="h-12 animate-pulse text-sm text-muted-foreground">
                   Loading…
@@ -141,14 +170,19 @@ export function IconDetail({
             <div className="space-y-3">
               <CopyRow
                 label="Import"
-                value={`import { ${entry.name} } from "@hugeicons/core-free-icons"`}
+                value={`import { HugeiconsIcon } from "@hugeicons/react"\nimport { ${entry.name} } from "@hugeicons/core-free-icons"`}
               />
               <CopyRow
                 label="JSX"
                 value={`<HugeiconsIcon icon={${entry.name}} strokeWidth={${strokeWidth}} className="size-4" />`}
               />
               {elements && (
-                <CopyRow label="SVG" value={toSvgMarkup(elements, strokeWidth)} />
+                <CopyRow
+                  label="SVG"
+                  value={toSvgMarkup(elements, strokeWidth)}
+                  language="xml"
+                  download={`${entry.name.replace(/Icon$/, "")}.svg`}
+                />
               )}
             </div>
           </>

@@ -5,9 +5,10 @@ import {
   import { createOnigurumaEngine } from "shiki/engine/oniguruma"
   
   /**
-   * Server-only Shiki highlighter. A single highlighter instance is reused across
-   * requests (and across `generateStaticParams` builds) so we only pay the
-   * grammar/theme load cost once.
+   * Shared Shiki highlighter, safe on the server and in the browser (the
+   * Oniguruma WASM engine has no Node dependencies). A single instance is reused
+   * across requests, `generateStaticParams` builds, and client renders so the
+   * grammar/theme load cost is paid once.
    */
   let highlighterPromise: Promise<HighlighterCore> | null = null
   
@@ -24,6 +25,7 @@ import {
           import("shiki/langs/bash.mjs"),
           import("shiki/langs/json.mjs"),
           import("shiki/langs/css.mjs"),
+          import("shiki/langs/xml.mjs"),
         ],
         engine: createOnigurumaEngine(import("shiki/wasm")),
       })
@@ -40,6 +42,7 @@ import {
     "shell",
     "json",
     "css",
+    "xml",
   ])
   
   /**
@@ -57,5 +60,15 @@ import {
         dark: "github-dark-default",
       },
       defaultColor: false,
+      transformers: [
+        {
+          pre(node) {
+            // Keep `shiki` — the dual-theme swap in globals.css keys off it. Drop
+            // the baked-in background so a surrounding container's color shows.
+            node.properties["class"] =
+              "shiki overflow-x-auto p-2.5 leading-relaxed !bg-transparent"
+          },
+        },
+      ],
     })
   }

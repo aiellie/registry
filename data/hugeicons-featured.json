@@ -2,6 +2,22 @@
   "note": "The brand's working icon set — what /tokens/icons shows before you search. Seeded from the icons this repo actually imports across components/, app/(registry)/, hooks/, and lib/, then trimmed to the ones that carry real meaning in the UI. Read by both the app and scripts/build-hugeicons.mjs, which inlines this geometry into the manifest so the landing view needs no shard fetches. Names must be canonical package exports; the build fails loudly if one does not resolve.",
   "groups": [
     {
+      "title": "Logos",
+      "description": "The brands the UI talks to — auth, integrations, and share targets.",
+      "icons": [
+        "GithubIcon",
+        "GoogleIcon",
+        "AppleIcon",
+        "FigmaIcon",
+        "SlackIcon",
+        "DiscordIcon",
+        "Notion01Icon",
+        "MetaIcon",
+        "SpotifyIcon",
+        "YoutubeIcon"
+      ]
+    },
+    {
       "title": "Actions",
       "description": "The verbs — every button, menu item, and toolbar affordance.",
       "icons": [

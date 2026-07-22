@@ -1,15 +1,19 @@
 "use client"
 
-import { useMemo } from "react"
+import { Fragment, useMemo } from "react"
 import { HugeiconsIcon } from "@hugeicons/react"
 
 import {
   Combobox,
+  ComboboxChip,
+  ComboboxChips,
+  ComboboxChipsInput,
   ComboboxContent,
   ComboboxEmpty,
-  ComboboxInput,
   ComboboxItem,
   ComboboxList,
+  ComboboxValue,
+  useComboboxAnchor,
 } from "@/components/ui/combobox"
 import {
   type CompactElement,
@@ -17,54 +21,53 @@ import {
   toSvgElement,
 } from "@/lib/hugeicons"
 
-/** Stands in for "no filter"; base-ui wants a real item, not null, in the list. */
-export const ALL_CATEGORIES: IconCategory = {
-  id: "",
-  label: "All categories",
-  count: 0,
-  rep: null,
-}
-
 export function IconCategories({
   categories,
   value,
   onValueChange,
   repElements,
-  total,
 }: {
   categories: IconCategory[]
-  value: IconCategory
-  onValueChange: (category: IconCategory) => void
+  /** Selected categories; an empty array means "no filter". */
+  value: IconCategory[]
+  onValueChange: (categories: IconCategory[]) => void
   /** Category id → thumbnail geometry, inlined in the manifest. */
   repElements: Record<string, CompactElement[]>
-  total: number
 }) {
-  const items = useMemo(
-    () => [{ ...ALL_CATEGORIES, count: total }, ...categories],
-    [categories, total]
-  )
+  const anchor = useComboboxAnchor()
+  const items = useMemo(() => categories, [categories])
 
   return (
     <Combobox
+      multiple
+      autoHighlight
       items={items}
       value={value}
-      onValueChange={(next: IconCategory | null) =>
-        onValueChange(next ?? ALL_CATEGORIES)
-      }
+      onValueChange={(next: IconCategory[]) => onValueChange(next)}
       itemToStringValue={(item: IconCategory) => item.label}
     >
-      <ComboboxInput
-        className="h-8 w-full sm:w-56"
-        placeholder="All categories"
-        aria-label="Filter by category"
-      />
-      <ComboboxContent>
+      <ComboboxChips ref={anchor} className="w-full sm:w-56">
+        <ComboboxValue>
+          {(selected: IconCategory[]) => (
+            <Fragment>
+              {selected.map((category) => (
+                <ComboboxChip key={category.id}>{category.label}</ComboboxChip>
+              ))}
+              <ComboboxChipsInput
+                placeholder={selected.length === 0 ? "All categories" : ""}
+                aria-label="Filter by category"
+              />
+            </Fragment>
+          )}
+        </ComboboxValue>
+      </ComboboxChips>
+      <ComboboxContent anchor={anchor}>
         <ComboboxEmpty>No categories found.</ComboboxEmpty>
         <ComboboxList>
           {(item: IconCategory) => {
             const elements = repElements[item.id]
             return (
-              <ComboboxItem key={item.id || "all"} value={item}>
+              <ComboboxItem key={item.id} value={item}>
                 {elements ? (
                   <HugeiconsIcon
                     icon={toSvgElement(elements)}

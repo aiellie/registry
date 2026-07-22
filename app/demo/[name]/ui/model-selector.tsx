@@ -1,104 +1,424 @@
-"use client";
+"use client"
 
+import * as React from "react"
+
+import { Example, ExampleWrapper } from "@/components/example"
 import {
   ModelSelector,
+  ModelSelectorCluster,
+  ModelSelectorClusters,
+  ModelSelectorCombobox,
+  ModelSelectorComboboxCollection,
+  ModelSelectorComboboxContent,
+  ModelSelectorComboboxEmpty,
+  ModelSelectorComboboxGroup,
+  ModelSelectorComboboxInput,
+  ModelSelectorComboboxItem,
+  ModelSelectorComboboxLabel,
+  ModelSelectorComboboxList,
+  ModelSelectorComboboxTrigger,
+  ModelSelectorComboboxValue,
   ModelSelectorContent,
+  ModelSelectorDialog,
   ModelSelectorEmpty,
   ModelSelectorGroup,
   ModelSelectorInput,
   ModelSelectorItem,
   ModelSelectorList,
   ModelSelectorLogo,
-  ModelSelectorLogoGroup,
   ModelSelectorName,
+  ModelSelectorShortcut,
   ModelSelectorTrigger,
-} from "@/components/ai-elements/model-selector";
-import { Button } from "@/components/ui/button";
-import { type Model, models } from "@/lib/models";
-import { CheckIcon } from "lucide-react";
-import { memo, useCallback, useState } from "react";
+} from "@/components/ai-elements/model-selector"
+import { Kbd } from "@/components/ui/kbd"
+import { type Model, models } from "@/lib/models"
 
-interface ModelItemProps {
-  model: Model;
-  selectedModel: string;
-  onSelect: (id: string) => void;
+/* -------------------------------------------------------------------------- */
+/*                        Model → capability clusters                          */
+/* -------------------------------------------------------------------------- */
+
+const MODALITIES = ["text", "image", "audio", "video"] as const
+
+/** Modalities the model accepts, plus file input when supported. */
+function inputsOf(model: Model) {
+  const modalities = model.modalities ?? {}
+  const inputs: string[] = MODALITIES.filter(
+    (modality) =>
+      modalities[modality] === "input" || modalities[modality] === "both"
+  )
+
+  if (model.features?.includes("file-input")) {
+    inputs.push("file")
+  }
+
+  return inputs
 }
 
-const ModelItem = memo(({ model, selectedModel, onSelect }: ModelItemProps) => {
-  const handleSelect = useCallback(
-    () => onSelect(model.id),
-    [onSelect, model.id]
-  );
+/** Modalities the model emits. */
+function outputsOf(model: Model) {
+  const modalities = model.modalities ?? {}
+
+  return MODALITIES.filter(
+    (modality) =>
+      modalities[modality] === "output" || modalities[modality] === "both"
+  ) as string[]
+}
+
+/** Feature and tool support, minus anything already shown as an input. */
+function featuresOf(model: Model) {
+  return [
+    ...(model.features ?? []).filter(
+      (feature) => feature !== "file-input" && feature !== "vision"
+    ),
+    ...(model.tools ?? []),
+  ]
+}
+
+const CHEFS = [...new Set(models.map((model) => model.chef))]
+
+function modelsByChef(chef: string) {
+  return models.filter((model) => model.chef === chef)
+}
+
+function findModel(id: string) {
+  return models.find((model) => model.id === id)
+}
+
+type ModelGroup = { value: string; items: Model[] }
+
+/** Combobox filters through `items`, so groups are data rather than markup. */
+const MODEL_GROUPS: ModelGroup[] = CHEFS.map((chef) => ({
+  value: chef,
+  items: modelsByChef(chef),
+}))
+
+/* -------------------------------------------------------------------------- */
+/*                                  Rows                                       */
+/* -------------------------------------------------------------------------- */
+
+/** Shared row body: logo, name, then the input / output / features clusters. */
+function ModelRow({
+  model,
+  showLabels = false,
+}: {
+  model: Model
+  showLabels?: boolean
+}) {
   return (
-    <ModelSelectorItem key={model.id} onSelect={handleSelect} value={model.id}>
+    <>
       <ModelSelectorLogo provider={model.chefSlug} />
       <ModelSelectorName>{model.name}</ModelSelectorName>
-      <ModelSelectorLogoGroup>
-        {model.providers.map((provider) => (
-          <ModelSelectorLogo key={provider} provider={provider} />
-        ))}
-      </ModelSelectorLogoGroup>
-      {selectedModel === model.id ? (
-        <CheckIcon className="ml-auto size-4" />
-      ) : (
-        <div className="ml-auto size-4" />
-      )}
+      <ModelSelectorClusters
+        features={featuresOf(model)}
+        input={inputsOf(model)}
+        output={outputsOf(model)}
+        showLabels={showLabels}
+      />
+    </>
+  )
+}
+
+/** Shared popup body for both combobox triggers. */
+function ComboboxModelList() {
+  return (
+    <ModelSelectorComboboxContent align="start">
+      <ModelSelectorComboboxInput placeholder="Search models..." />
+      <ModelSelectorComboboxEmpty>No models found.</ModelSelectorComboboxEmpty>
+      <ModelSelectorComboboxList>
+        {(group: ModelGroup) => (
+          <ModelSelectorComboboxGroup items={group.items} key={group.value}>
+            <ModelSelectorComboboxLabel>
+              {group.value}
+            </ModelSelectorComboboxLabel>
+            <ModelSelectorComboboxCollection>
+              {(model: Model) => (
+                <ModelSelectorComboboxItem key={model.id} value={model}>
+                  <ModelRow model={model} />
+                </ModelSelectorComboboxItem>
+              )}
+            </ModelSelectorComboboxCollection>
+          </ModelSelectorComboboxGroup>
+        )}
+      </ModelSelectorComboboxList>
+    </ModelSelectorComboboxContent>
+  )
+}
+
+const CommandRow = React.memo(function CommandRow({
+  model,
+  selected,
+  onSelect,
+  showLabels,
+}: {
+  model: Model
+  selected: string
+  onSelect: (id: string) => void
+  showLabels?: boolean
+}) {
+  return (
+    <ModelSelectorItem
+      data-checked={selected === model.id}
+      keywords={[model.name, model.chef]}
+      onSelect={onSelect}
+      value={model.id}
+    >
+      <ModelRow model={model} showLabels={showLabels} />
     </ModelSelectorItem>
-  );
-});
+  )
+})
 
-ModelItem.displayName = "ModelItem";
+/* -------------------------------------------------------------------------- */
+/*                                  Examples                                   */
+/* -------------------------------------------------------------------------- */
 
-const Example = () => {
-  const [open, setOpen] = useState(false);
-  const [selectedModel, setSelectedModel] = useState<string>("gpt-4o");
+export default function ModelSelectorExample() {
+  return (
+    <ExampleWrapper>
+      <CommandDefaultTrigger />
+      <CommandIconTrigger />
+      <ComboboxDefaultTrigger />
+      <ComboboxIconTrigger />
+      <ClusterLabels />
+      <CommandPalette />
+    </ExampleWrapper>
+  )
+}
 
-  const handleModelSelect = useCallback((id: string) => {
-    setSelectedModel(id);
-    setOpen(false);
-  }, []);
+function CommandDefaultTrigger() {
+  const [open, setOpen] = React.useState(false)
+  const [selected, setSelected] = React.useState("claude-opus-4.8")
+  const model = findModel(selected)
 
-  const selectedModelData = models.find((model) => model.id === selectedModel);
-
-  // Get unique chefs in order of appearance
-  const chefs = [...new Set(models.map((model) => model.chef))];
+  const handleSelect = React.useCallback((id: string) => {
+    setSelected(id)
+    setOpen(false)
+  }, [])
 
   return (
-    <div className="flex size-full items-center justify-center p-8">
+    <Example title="Command — default trigger">
       <ModelSelector onOpenChange={setOpen} open={open}>
-        <ModelSelectorTrigger >
-          <Button className="w-[200px] justify-between" variant="outline">
-            {selectedModelData?.chefSlug && (
-              <ModelSelectorLogo provider={selectedModelData.chefSlug} />
-            )}
-            {selectedModelData?.name && (
-              <ModelSelectorName>{selectedModelData.name}</ModelSelectorName>
-            )}
-          </Button>
+        <ModelSelectorTrigger>
+          {model && <ModelSelectorLogo provider={model.chefSlug} />}
+          <ModelSelectorName>{model?.name}</ModelSelectorName>
         </ModelSelectorTrigger>
-        <ModelSelectorContent>
+        <ModelSelectorContent className="sm:max-w-lg">
           <ModelSelectorInput placeholder="Search models..." />
           <ModelSelectorList>
             <ModelSelectorEmpty>No models found.</ModelSelectorEmpty>
-            {chefs.map((chef) => (
+            {CHEFS.map((chef) => (
               <ModelSelectorGroup heading={chef} key={chef}>
-                {models
-                  .filter((model) => model.chef === chef)
-                  .map((model) => (
-                    <ModelItem
-                      key={model.id}
-                      model={model}
-                      onSelect={handleModelSelect}
-                      selectedModel={selectedModel}
-                    />
-                  ))}
+                {modelsByChef(chef).map((item) => (
+                  <CommandRow
+                    key={item.id}
+                    model={item}
+                    onSelect={handleSelect}
+                    selected={selected}
+                  />
+                ))}
               </ModelSelectorGroup>
             ))}
           </ModelSelectorList>
         </ModelSelectorContent>
       </ModelSelector>
-    </div>
-  );
-};
+    </Example>
+  )
+}
 
-export default Example;
+function CommandIconTrigger() {
+  const [open, setOpen] = React.useState(false)
+  const [selected, setSelected] = React.useState("gpt-5.6-sol")
+  const model = findModel(selected)
+
+  const handleSelect = React.useCallback((id: string) => {
+    setSelected(id)
+    setOpen(false)
+  }, [])
+
+  return (
+    <Example title="Command — icon trigger">
+      <ModelSelector onOpenChange={setOpen} open={open}>
+        <ModelSelectorTrigger tooltip={model?.name} variant="icon">
+          {model && (
+            <ModelSelectorLogo className="size-4" provider={model.chefSlug} />
+          )}
+        </ModelSelectorTrigger>
+        <ModelSelectorContent className="sm:max-w-lg">
+          <ModelSelectorInput placeholder="Search models..." />
+          <ModelSelectorList>
+            <ModelSelectorEmpty>No models found.</ModelSelectorEmpty>
+            {CHEFS.map((chef) => (
+              <ModelSelectorGroup heading={chef} key={chef}>
+                {modelsByChef(chef).map((item) => (
+                  <CommandRow
+                    key={item.id}
+                    model={item}
+                    onSelect={handleSelect}
+                    selected={selected}
+                  />
+                ))}
+              </ModelSelectorGroup>
+            ))}
+          </ModelSelectorList>
+        </ModelSelectorContent>
+      </ModelSelector>
+    </Example>
+  )
+}
+
+function ComboboxDefaultTrigger() {
+  const [selected, setSelected] = React.useState<Model | null>(
+    findModel("gemini-3.1-pro-preview") ?? models[0]
+  )
+
+  return (
+    <Example title="Combobox — default trigger">
+      <ModelSelectorCombobox
+        items={MODEL_GROUPS}
+        itemToStringValue={(model: Model) => `${model.name} ${model.chef}`}
+        onValueChange={setSelected}
+        value={selected}
+      >
+        <ModelSelectorComboboxTrigger>
+          <ModelSelectorComboboxValue>
+            {(model: Model | null) =>
+              model ? (
+                <>
+                  <ModelSelectorLogo provider={model.chefSlug} />
+                  <ModelSelectorName>{model.name}</ModelSelectorName>
+                </>
+              ) : (
+                <ModelSelectorName className="text-muted-foreground">
+                  Select a model
+                </ModelSelectorName>
+              )
+            }
+          </ModelSelectorComboboxValue>
+        </ModelSelectorComboboxTrigger>
+        <ComboboxModelList />
+      </ModelSelectorCombobox>
+    </Example>
+  )
+}
+
+function ComboboxIconTrigger() {
+  const [selected, setSelected] = React.useState<Model | null>(
+    findModel("grok-4.5") ?? models[0]
+  )
+
+  return (
+    <Example title="Combobox — icon trigger">
+      <ModelSelectorCombobox
+        items={MODEL_GROUPS}
+        itemToStringValue={(model: Model) => `${model.name} ${model.chef}`}
+        onValueChange={setSelected}
+        value={selected}
+      >
+        <ModelSelectorComboboxTrigger
+          tooltip={selected?.name ?? "Select a model"}
+          variant="icon"
+        >
+          {selected && (
+            <ModelSelectorLogo className="size-4" provider={selected.chefSlug} />
+          )}
+        </ModelSelectorComboboxTrigger>
+        <ComboboxModelList />
+      </ModelSelectorCombobox>
+    </Example>
+  )
+}
+
+function ClusterLabels() {
+  const model = findModel("claude-opus-4.8") ?? models[0]
+
+  return (
+    <Example
+      className="justify-center gap-4"
+      title="Clusters — input, output, features"
+    >
+      <div className="flex w-full flex-col gap-3">
+        <ModelSelectorCluster
+          capabilities={inputsOf(model)}
+          className="w-fit"
+          label="Input"
+        />
+        <ModelSelectorCluster
+          capabilities={outputsOf(model)}
+          className="w-fit"
+          label="Output"
+        />
+        <ModelSelectorCluster
+          capabilities={featuresOf(model)}
+          className="w-fit"
+          label="Features"
+        />
+      </div>
+    </Example>
+  )
+}
+
+function CommandPalette() {
+  const [open, setOpen] = React.useState(false)
+  const [selected, setSelected] = React.useState("claude-fable-5")
+
+  React.useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (
+        event.key.toLowerCase() === "m" &&
+        event.shiftKey &&
+        (event.metaKey || event.ctrlKey)
+      ) {
+        event.preventDefault()
+        setOpen((current) => !current)
+      }
+    }
+
+    document.addEventListener("keydown", onKeyDown)
+    return () => document.removeEventListener("keydown", onKeyDown)
+  }, [])
+
+  const handleSelect = React.useCallback((id: string) => {
+    setSelected(id)
+    setOpen(false)
+  }, [])
+
+  return (
+    <Example title="Command palette — ⌘⇧M, no trigger">
+      <p className="text-sm text-muted-foreground">
+        Press <Kbd>⌘</Kbd> <Kbd>⇧</Kbd> <Kbd>M</Kbd> to pick a model.{" "}
+        <span className="text-foreground">{findModel(selected)?.name}</span> is
+        selected.
+      </p>
+      <ModelSelectorDialog
+        className="sm:max-w-lg"
+        onOpenChange={setOpen}
+        open={open}
+      >
+        <ModelSelectorInput placeholder="Search models..." />
+        <ModelSelectorList>
+          <ModelSelectorEmpty>No models found.</ModelSelectorEmpty>
+          {CHEFS.map((chef) => (
+            <ModelSelectorGroup heading={chef} key={chef}>
+              {modelsByChef(chef).map((item) => (
+                <ModelSelectorItem
+                  data-checked={selected === item.id}
+                  key={item.id}
+                  keywords={[item.name, item.chef]}
+                  onSelect={handleSelect}
+                  value={item.id}
+                >
+                  <ModelSelectorLogo provider={item.chefSlug} />
+                  <ModelSelectorName>{item.name}</ModelSelectorName>
+                  <ModelSelectorShortcut>
+                    {item.contextWindow
+                      ? `${Math.round(item.contextWindow / 1000)}k`
+                      : null}
+                  </ModelSelectorShortcut>
+                </ModelSelectorItem>
+              ))}
+            </ModelSelectorGroup>
+          ))}
+        </ModelSelectorList>
+      </ModelSelectorDialog>
+    </Example>
+  )
+}

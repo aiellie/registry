@@ -6,6 +6,7 @@ import { HugeiconsIcon } from "@hugeicons/react"
 import Link from "next/link"
 
 import { CopyButton } from "@/components/registry/copy-button"
+import { DownloadButton } from "@/components/registry/download-button"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -31,7 +32,8 @@ export type ThemeSource = {
 function SourcePane({ source }: { source: ThemeSource }) {
   return (
     <div className="relative">
-      <div className="absolute end-3 top-3 z-10">
+      <div className="absolute end-3 top-3 z-10 flex items-center gap-1">
+        <DownloadButton content={source.code} name={source.target} />
         <CopyButton content={source.code} />
       </div>
 

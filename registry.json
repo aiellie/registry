@@ -2937,8 +2937,11 @@
       "title": "Model Selector",
       "description": "Model selector with model logo, model name, and model description.",
       "registryDependencies": [
+        "https://ui.aiellie.dev/r/button.json",
+        "https://ui.aiellie.dev/r/combobox.json",
         "https://ui.aiellie.dev/r/command.json",
-        "https://ui.aiellie.dev/r/dialog.json"
+        "https://ui.aiellie.dev/r/dialog.json",
+        "https://ui.aiellie.dev/r/tooltip.json"
       ],
       "files": [
         {
