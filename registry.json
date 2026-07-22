@@ -412,59 +412,6 @@
       ]
     },
     {
-      "name": "prompt-input",
-      "type": "registry:component",
-      "title": "Prompt Input",
-      "description": "Agent composer with project picker, add menu, approval modes, model selector, and slash commands.",
-      "registryDependencies": [
-        "https://ui.aiellie.dev/r/button.json",
-        "https://ui.aiellie.dev/r/command.json",
-        "https://ui.aiellie.dev/r/dropdown-menu.json",
-        "https://ui.aiellie.dev/r/kbd.json",
-        "https://ui.aiellie.dev/r/popover.json",
-        "https://ui.aiellie.dev/r/textarea.json",
-        "https://ui.aiellie.dev/r/theme.json",
-        "https://ui.aiellie.dev/r/tooltip.json"
-      ],
-      "files": [
-        {
-          "path": "components/prompt-input.tsx",
-          "type": "registry:component",
-          "target": "components/prompt-input.tsx"
-        },
-        {
-          "path": "components/prompt-add-menu.tsx",
-          "type": "registry:component",
-          "target": "components/prompt-add-menu.tsx"
-        },
-        {
-          "path": "components/prompt-approval-menu.tsx",
-          "type": "registry:component",
-          "target": "components/prompt-approval-menu.tsx"
-        },
-        {
-          "path": "components/prompt-command-menu.tsx",
-          "type": "registry:component",
-          "target": "components/prompt-command-menu.tsx"
-        },
-        {
-          "path": "components/prompt-model-menu.tsx",
-          "type": "registry:component",
-          "target": "components/prompt-model-menu.tsx"
-        },
-        {
-          "path": "components/prompt-project-picker.tsx",
-          "type": "registry:component",
-          "target": "components/prompt-project-picker.tsx"
-        }
-      ],
-      "dependencies": [
-        "@hugeicons/core-free-icons",
-        "@hugeicons/react",
-        "cmdk"
-      ]
-    },
-    {
       "name": "hero",
       "type": "registry:component",
       "title": "Hero",
@@ -2930,6 +2877,92 @@
           "target": "components/examples/tooltip-example.tsx"
         }
       ]
+    },
+    {
+      "name": "prompt-input",
+      "type": "registry:component",
+      "title": "Prompt Input",
+      "description": "Agent composer with project picker, add menu, approval modes, model selector, and slash commands.",
+      "registryDependencies": [
+        "https://ui.aiellie.dev/r/button.json",
+        "https://ui.aiellie.dev/r/command.json",
+        "https://ui.aiellie.dev/r/dropdown-menu.json",
+        "https://ui.aiellie.dev/r/kbd.json",
+        "https://ui.aiellie.dev/r/popover.json",
+        "https://ui.aiellie.dev/r/textarea.json",
+        "https://ui.aiellie.dev/r/theme.json",
+        "https://ui.aiellie.dev/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "components/prompt-input.tsx",
+          "type": "registry:component",
+          "target": "components/prompt-input.tsx"
+        },
+        {
+          "path": "components/prompt-add-menu.tsx",
+          "type": "registry:component",
+          "target": "components/prompt-add-menu.tsx"
+        },
+        {
+          "path": "components/prompt-approval-menu.tsx",
+          "type": "registry:component",
+          "target": "components/prompt-approval-menu.tsx"
+        },
+        {
+          "path": "components/prompt-command-menu.tsx",
+          "type": "registry:component",
+          "target": "components/prompt-command-menu.tsx"
+        },
+        {
+          "path": "components/prompt-model-menu.tsx",
+          "type": "registry:component",
+          "target": "components/prompt-model-menu.tsx"
+        },
+        {
+          "path": "components/prompt-project-picker.tsx",
+          "type": "registry:component",
+          "target": "components/prompt-project-picker.tsx"
+        }
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react",
+        "cmdk"
+      ]
+    },
+    {
+      "name": "model-selector",
+      "type": "registry:component",
+      "title": "Model Selector",
+      "description": "Model selector with model logo, model name, and model description.",
+      "registryDependencies": [
+        "https://ui.aiellie.dev/r/command.json",
+        "https://ui.aiellie.dev/r/dialog.json"
+      ],
+      "files": [
+        {
+          "path": "components/ai-elements/model-selector.tsx",
+          "type": "registry:component",
+          "target": "components/ui/model-selector.tsx"
+        }
+      ]
+    },
+    {
+      "name": "file-tree",
+      "type": "registry:component",
+      "title": "File Tree",
+      "description": "File tree with file name, file type, and file size.",
+      "registryDependencies": [
+        "https://ui.aiellie.dev/r/collapsible.json"
+      ],
+      "files": [
+        {
+          "path": "components/ai-elements/file-tree.tsx",
+          "type": "registry:component",
+          "target": "components/ui/file-tree.tsx"
+        }
+      ]   
     }
   ]
 }

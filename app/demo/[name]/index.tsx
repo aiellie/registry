@@ -12,6 +12,9 @@ import { login } from "@/app/demo/[name]/components/login"
 import { logo } from "@/app/demo/[name]/components/logo"
 import { promptInput } from "@/app/demo/[name]/components/prompt-input"
 
+// ai elements
+import ModelSelectorExample from "@/app/demo/[name]/ui/model-selector"
+import FileTreeExample from "@/app/demo/[name]/ui/file-tree"
 // ui
 import AccordionExample from "@/app/demo/[name]/ui/accordion"
 import AlertExample from "@/app/demo/[name]/ui/alert"
@@ -103,6 +106,10 @@ export const demos: { [name: string]: Demo } = {
   login,
   logo,
   "prompt-input": promptInput,
+
+  // ai elements
+  "model-selector": ModelSelectorExample,
+  "file-tree": FileTreeExample,
 
   // ui
   accordion: AccordionExample,
