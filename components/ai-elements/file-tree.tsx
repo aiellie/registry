@@ -176,31 +176,31 @@ export const FileTreeFolder = ({
               isSelected && "bg-muted"
             )}
           >
-            <CollapsibleTrigger render={<button className="flex shrink-0 cursor-pointer items-center border-none bg-transparent p-0" type="button" />}><HugeiconsIcon
-                                        icon={ChevronRightIcon}
-                                        className={cn(
-                                          "size-4 shrink-0 text-muted-foreground transition-transform",
-                                          isExpanded && "rotate-90"
-                                        )}
-                                      /></CollapsibleTrigger>
+            <CollapsibleTrigger
+              render={
+                <button
+                  className="group/folder-toggle relative flex size-4 shrink-0 cursor-pointer items-center justify-center border-none bg-transparent p-0"
+                  type="button"
+                />
+              }
+            >
+              <HugeiconsIcon
+                icon={isExpanded ? Folder02Icon : Folder01Icon}
+                className="size-4 text-muted-foreground transition-opacity group-hover/folder-toggle:opacity-0"
+              />
+              <HugeiconsIcon
+                icon={ChevronRightIcon}
+                className={cn(
+                  "absolute size-4 text-muted-foreground opacity-0 transition-all group-hover/folder-toggle:opacity-100",
+                  isExpanded && "rotate-90"
+                )}
+              />
+            </CollapsibleTrigger>
             <button
               className="flex min-w-0 flex-1 cursor-pointer items-center gap-1 border-none bg-transparent p-0 text-start"
               onClick={handleSelect}
               type="button"
             >
-              <FileTreeIcon>
-                {isExpanded ? (
-                  <HugeiconsIcon
-                    icon={Folder02Icon}
-                    className="size-4 text-blue-500"
-                  />
-                ) : (
-                  <HugeiconsIcon
-                    icon={Folder01Icon}
-                    className="size-4 text-blue-500"
-                  />
-                )}
-              </FileTreeIcon>
               <FileTreeName>{name}</FileTreeName>
             </button>
           </div>
@@ -271,8 +271,6 @@ export const FileTreeFile = ({
       >
         {children ?? (
           <>
-            {/* Spacer for alignment */}
-            <span className="size-4 shrink-0" />
             <FileTreeIcon>
               {icon ?? (
                 <HugeiconsIcon
