@@ -23,7 +23,7 @@ export default function ShellLayout({
     >
       <BrandHeader />
       <BrandSidebar />
-      <main className="mt-16 mb-[var(--footer-height)] flex w-full justify-center">
+      <main className="mt-[var(--header-height)] mb-[var(--footer-height)] flex w-full justify-center">
         <div className="container">{children}</div>
       </main>
       <BrandFooter />
