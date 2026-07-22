@@ -514,7 +514,7 @@ function ChartInteractiveExample() {
   return (
     <Example
       title="Interactive Bar Chart"
-      containerClassName="lg:col-span-full 2xl:col-span-full"
+      containerClassName="col-span-full 2xl:col-span-full"
     >
       <Card className="w-full py-0 pb-4">
         <CardHeader className="flex flex-col items-stretch border-b p-0! sm:flex-row">

@@ -1,172 +1,76 @@
-import {
-  ArrowRight01Icon,
-  BlockGameIcon,
-  BlocksIcon,
-  PuzzleIcon,
-} from "@hugeicons/core-free-icons"
-import { HugeiconsIcon } from "@hugeicons/react"
+import { type Metadata } from "next"
 import Link from "next/link"
-import ModelSelectorCommandCard from "./cards/model-selector-command"
-import { Badge } from "@/components/ui/badge"
+import { ArrowRightIcon } from "@hugeicons/core-free-icons"
+import { HugeiconsIcon } from "@hugeicons/react"
+
+import { Announcement } from "@/components/registry/announcement"
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import { StatusIndicator } from "@/components/ui/status"
-import { getBlocks, getComponents, getUIPrimitives } from "@/lib/registry"
+  PageActions,
+  PageHeader,
+  PageHeaderDescription,
+  PageHeaderHeading,
+} from "@/components/registry/page-header"
+import { Button } from "@/components/ui/button"
 
-const uiItems = getUIPrimitives().slice(0, 5)
-const componentItems = getComponents().slice(0, 5)
-const blockItems = getBlocks().slice(0, 5)
+import { CardsDemo } from "./cards"
+import { ShimmerButton } from "@/components/ui/shimmer-button"
 
-export default function Home() {
+const title = "AIEllie Design System"
+const description =
+  "Distribute your design system tokens, custom components, hooks, pages, and other files to any React project."
+
+export const dynamic = "force-static"
+export const revalidate = false
+
+export const metadata: Metadata = {
+  title,
+  description,
+  openGraph: {
+    images: [
+      {
+        url: `/og?title=${encodeURIComponent(
+          title
+        )}&description=${encodeURIComponent(description)}`,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    images: [
+      {
+        url: `/og?title=${encodeURIComponent(
+          title
+        )}&description=${encodeURIComponent(description)}`,
+      },
+    ],
+  },
+}
+
+export default function IndexPage() {
   return (
-    <main className="container mt-4 p-5 md:mt-8 md:p-10">
-      <div className="mb-8 text-center">
-        <div className="mx-auto max-w-2xl space-y-3">
-          <Badge
-            className="mx-auto bg-emerald-700/8 text-emerald-700 dark:text-emerald-400"
-          >
-            <StatusIndicator />
-            Registry online
-          </Badge>
-          <h1 className="text-3xl font-medium tracking-tight md:text-4xl">
-            AI Ellie UI
-          </h1>
-          <p className="text-muted-foreground">
-            Distribute your design system tokens, custom components, hooks,
-            pages, and other files to any React project.
-          </p>
+    <div className="flex flex-1 flex-col">
+      <PageHeader className="md:**:[.container]:pb-8 lg:**:[.container]:pb-12">
+        <Announcement />
+        <PageHeaderHeading className="max-w-4xl">{title}</PageHeaderHeading>
+        <PageHeaderDescription>{description}</PageHeaderDescription>
+        <PageActions>
+          <ShimmerButton  className="h-[31px] rounded-lg flex flex-row items-center gap-2">
+            <HugeiconsIcon icon={ArrowRightIcon} strokeWidth={2} className="size-4" />
+            <Link href="/components">
+              Explore Components 
+            </Link>
+          </ShimmerButton>
+        </PageActions>
+      </PageHeader>
+      <div className="container-wrapper flex-1 p-0">
+        <div className=" overflow-hidden md:px-0 lg:max-w-none">
+          <section>
+            <CardsDemo />
+          </section>
         </div>
       </div>
-      <ModelSelectorCommandCard />
-      <Card className="mb-4 shadow-none">
-        <CardHeader className="space-y-1">
-          <div className="flex items-center justify-between">
-            <CardTitle>Blocks</CardTitle>
-            <div className="rounded-md bg-primary p-1">
-              <HugeiconsIcon
-                icon={BlocksIcon}
-                strokeWidth={2}
-                className="size-5 text-primary-foreground"
-              />
-            </div>
-          </div>
-          <CardDescription>
-            Pre-built blocks kits for consistent, repeatable generations
-          </CardDescription>
-        </CardHeader>
-
-        <CardContent>
-          <div className="space-y-2">
-            {blockItems.map((item) => (
-              <div
-                key={item.name}
-                className="flex items-center justify-between"
-              >
-                <Link
-                  href={`/registry/${item.name}`}
-                  className="text-sm hover:underline"
-                >
-                  {item.title}
-                </Link>
-                <HugeiconsIcon
-                  icon={ArrowRight01Icon}
-                  strokeWidth={2}
-                  className="size-4 text-muted-foreground rtl:rotate-180"
-                />
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
-
-      <div className="mb-4 grid gap-6 md:grid-cols-2">
-        <Card className="shadow-none">
-          <CardHeader className="space-y-1">
-            <div className="flex items-center justify-between">
-              <CardTitle>UI Primitives</CardTitle>
-              <div className="rounded-md bg-foreground p-1">
-                <HugeiconsIcon
-                  icon={BlockGameIcon}
-                  strokeWidth={2}
-                  className="size-5 text-background"
-                />
-              </div>
-            </div>
-            <CardDescription>
-              Reusable UI primitives to build your components
-            </CardDescription>
-          </CardHeader>
-
-          <CardContent>
-            <div className="space-y-2">
-              {uiItems.map((item) => (
-                <div
-                  key={item.name}
-                  className="flex items-center justify-between"
-                >
-                  <Link
-                    href={`/registry/${item.name}`}
-                    className="text-sm hover:underline"
-                  >
-                    {item.title}
-                  </Link>
-                  <HugeiconsIcon
-                    icon={ArrowRight01Icon}
-                    strokeWidth={2}
-                    className="size-4 text-muted-foreground rtl:rotate-180"
-                  />
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="shadow-none">
-          <CardHeader className="space-y-1">
-            <div className="flex items-center justify-between">
-              <CardTitle>Components</CardTitle>
-              <div className="rounded-md bg-foreground p-1">
-                <HugeiconsIcon
-                  icon={PuzzleIcon}
-                  strokeWidth={2}
-                  className="size-5 text-background"
-                />
-              </div>
-            </div>
-            <CardDescription>
-              Compound components using common patterns
-            </CardDescription>
-          </CardHeader>
-
-          <CardContent>
-            <div className="space-y-2">
-              {componentItems.map((item) => (
-                <div
-                  key={item.name}
-                  className="flex items-center justify-between"
-                >
-                  <Link
-                    href={`/registry/${item.name}`}
-                    className="text-sm hover:underline"
-                  >
-                    {item.title}
-                  </Link>
-                  <HugeiconsIcon
-                    icon={ArrowRight01Icon}
-                    strokeWidth={2}
-                    className="size-4 text-muted-foreground rtl:rotate-180"
-                  />
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    </main>
+    </div>
   )
 }
+
+
