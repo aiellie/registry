@@ -73,7 +73,7 @@ export function NavUser({
             <HugeiconsIcon icon={MoreVerticalCircle01Icon} strokeWidth={1.5} className="ml-auto size-4" />
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            className="w-(--radix-dropdown-menu-trigger-width) min-w-60 rounded-lg"
+            className="w-(--radix-dropdown-menu-trigger-width) min-w-68 rounded-lg"
             side={isMobile ? "bottom" : isCollapsed ? "right" : "top"}
             align="end"
             sideOffset={4}
