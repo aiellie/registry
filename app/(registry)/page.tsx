@@ -6,7 +6,7 @@ import {
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 import Link from "next/link"
-
+import ModelSelectorCommandCard from "./cards/model-selector-command"
 import { Badge } from "@/components/ui/badge"
 import {
   Card,
@@ -42,7 +42,7 @@ export default function Home() {
           </p>
         </div>
       </div>
-
+      <ModelSelectorCommandCard />
       <Card className="mb-4 shadow-none">
         <CardHeader className="space-y-1">
           <div className="flex items-center justify-between">
