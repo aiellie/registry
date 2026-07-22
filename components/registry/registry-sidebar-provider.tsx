@@ -6,7 +6,10 @@ import { usePathname } from "next/navigation"
 
 import { SidebarProvider } from "@/components/ui/sidebar"
 
-const HOME_SIDEBAR_STORAGE_KEY = "home-sidebar-open"
+// Pages where the sidebar defaults to collapsed and remembers the user's
+// open/closed preference. Everywhere else the sidebar defaults to expanded.
+const COLLAPSED_BY_DEFAULT_PATHS = new Set(["/", "/cards"])
+const SIDEBAR_STORAGE_KEY_PREFIX = "sidebar-open:"
 
 export function RegistrySidebarProvider({
   children,
@@ -16,37 +19,39 @@ export function RegistrySidebarProvider({
   style?: CSSProperties
 }) {
   const pathname = usePathname()
-  const isHome = pathname === "/"
+  const isCollapsedByDefault = COLLAPSED_BY_DEFAULT_PATHS.has(pathname)
 
-  // On the home page the sidebar defaults to collapsed; everywhere else it
-  // defaults to expanded.
-  const [open, setOpen] = React.useState(!isHome)
-  const prevIsHome = React.useRef<boolean | null>(null)
+  const [open, setOpen] = React.useState(!isCollapsedByDefault)
+  const prevPathname = React.useRef<string | null>(null)
 
-  // Keep the open state in sync as the user crosses the home page boundary.
+  // Sync the open state whenever the pathname changes.
   React.useEffect(() => {
-    if (prevIsHome.current === isHome) return
-    const wasHome = prevIsHome.current
-    prevIsHome.current = isHome
+    if (prevPathname.current === pathname) return
+    prevPathname.current = pathname
 
-    if (isHome) {
-      // Restore the home page preference: only open if the user opened it before.
-      const stored = window.localStorage.getItem(HOME_SIDEBAR_STORAGE_KEY)
+    if (isCollapsedByDefault) {
+      // Restore this page's preference: only open if the user opened it before.
+      const stored = window.localStorage.getItem(
+        SIDEBAR_STORAGE_KEY_PREFIX + pathname
+      )
       setOpen(stored === "true")
-    } else if (wasHome !== null) {
-      // Leaving the home page: expand back to the default.
+    } else {
+      // Default to expanded on all other pages.
       setOpen(true)
     }
-  }, [isHome])
+  }, [pathname, isCollapsedByDefault])
 
   const handleOpenChange = React.useCallback(
     (next: boolean) => {
       setOpen(next)
-      if (isHome) {
-        window.localStorage.setItem(HOME_SIDEBAR_STORAGE_KEY, String(next))
+      if (isCollapsedByDefault) {
+        window.localStorage.setItem(
+          SIDEBAR_STORAGE_KEY_PREFIX + pathname,
+          String(next)
+        )
       }
     },
-    [isHome]
+    [isCollapsedByDefault, pathname]
   )
 
   return (
