@@ -108,12 +108,12 @@ export function MessageScrollerDemo() {
                   render={
                     <Button
                       variant="outline"
-                      size="icon"
+                      size="icon-sm"
                       aria-label="Reset conversation"
                       onClick={() => setMessages(demoInitialMessages)}
                       disabled={isBusy}
                     >
-                      <HugeiconsIcon icon={RotateIcon} />
+                      <HugeiconsIcon icon={RotateIcon} className="size-3.5 text-muted-foreground" strokeWidth={2}  />
                     </Button>
                   }
                 />

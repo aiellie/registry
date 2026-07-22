@@ -1,18 +1,30 @@
 import { MessageScrollerDemo } from "./message-scroller"
 import { AccountAccess as SkeletonAccountAccess } from "./skeleton/account-access"
+import { ActivityGoal as SkeletonActivityGoal } from "./skeleton/activity-goal"
 import { AnalyticsCard as SkeletonAnalyticsCard } from "./skeleton/analytics-card"
+import { Calendar as SkeletonCalendar } from "./skeleton/calendar"
+import { Chat as SkeletonChat } from "./skeleton/chat"
 import { ClaimableBalance as SkeletonClaimableBalance } from "./skeleton/claimable-balance"
 import { ContributionHistory as SkeletonContributionHistory } from "./skeleton/contribution-history"
+import { CookieSettings as SkeletonCookieSettings } from "./skeleton/cookie-settings"
+import { CreateAccount as SkeletonCreateAccount } from "./skeleton/create-account"
 import { DividendIncome as SkeletonDividendIncome } from "./skeleton/dividend-income"
 import { EmptyDistributeTrack as SkeletonEmptyDistributeTrack } from "./skeleton/empty-distribute-track"
+import { ExerciseMinutes as SkeletonExerciseMinutes } from "./skeleton/exercise-minutes"
+import { Forms as SkeletonForms } from "./skeleton/forms"
 import { NewMilestone as SkeletonNewMilestone } from "./skeleton/new-milestone"
 import { NotificationSettings as SkeletonNotificationSettings } from "./skeleton/notification-settings"
 import { Payments as SkeletonPayments } from "./skeleton/payments"
+import { PaymentsTable as SkeletonPaymentsTable } from "./skeleton/payments-table"
 import { PayoutThreshold as SkeletonPayoutThreshold } from "./skeleton/payout-threshold"
 import { PowerUsage as SkeletonPowerUsage } from "./skeleton/power-usage"
 import { QrConnect as SkeletonQrConnect } from "./skeleton/qr-connect"
+import { ReportIssue as SkeletonReportIssue } from "./skeleton/report-issue"
 import { SavingsTargets as SkeletonSavingsTargets } from "./skeleton/savings-targets"
+import { Share as SkeletonShare } from "./skeleton/share"
 import { SidebarNav as SkeletonSidebarNav } from "./skeleton/sidebar-nav"
+import { Stats as SkeletonStats } from "./skeleton/stats"
+import { TeamMembers as SkeletonTeamMembers } from "./skeleton/team-members"
 import { TransferFunds as SkeletonTransferFunds } from "./skeleton/transfer-funds"
 import { UIElements as SkeletonUIElements } from "./skeleton/ui-elements"
 import { UIElements } from "./ui-elements"
@@ -74,16 +86,22 @@ export function CardsDemo() {
           <UIElements />
           <SkeletonSidebarNav />
           <SkeletonSavingsTargets />
+          <SkeletonStats />
+          <SkeletonChat />
         </div>
         <div className="hidden flex-col gap-(--gap) lg:flex">
           <SkeletonContributionHistory />
           <SkeletonClaimableBalance />
           <SkeletonDividendIncome />
+          <SkeletonCreateAccount />
+          <SkeletonForms />
         </div>
         <div className="hidden flex-col gap-(--gap) min-[1400px]:flex">
           <SkeletonNewMilestone />
           <SkeletonPayoutThreshold />
           <SkeletonAccountAccess />
+          <SkeletonReportIssue />
+          <SkeletonCookieSettings />
         </div>
         <div className="hidden flex-col gap-(--gap) md:flex">
           <SkeletonQrConnect />
@@ -91,12 +109,18 @@ export function CardsDemo() {
             <MessageScrollerDemo />
           </div>
           <SkeletonPayments />
+          <SkeletonShare />
+          <SkeletonTeamMembers />
         </div>
         <div className="hidden flex-col gap-(--gap) min-[1900px]:flex">
           <SkeletonEmptyDistributeTrack />
           <SkeletonAnalyticsCard />
           <SkeletonNotificationSettings />
           <SkeletonPowerUsage />
+          <SkeletonActivityGoal />
+          <SkeletonExerciseMinutes />
+          <SkeletonCalendar />
+          <SkeletonPaymentsTable />
         </div>
       </div>
       <div className="absolute inset-x-0 top-0 z-1 h-120 bg-linear-to-b from-background via-muted to-transparent dark:hidden" />
