@@ -1,4 +1,40 @@
+"use client"
+
+import * as React from "react"
+import { EyeIcon, EyeOffIcon } from "lucide-react"
+
+import { Button } from "@/components/ui/button"
+
 import { MessageScrollerDemo } from "./message-scroller"
+import { UIElements } from "./ui-elements"
+// Full (real) card variants
+import { AccountAccess } from "./account-access"
+import { CardsActivityGoal } from "./activity-goal"
+import { AnalyticsCard } from "./analytics-card"
+import { CardsCalendar } from "./calendar"
+import { CardsChat } from "./chat"
+import { ClaimableBalance } from "./claimable-balance"
+import { ContributionHistory } from "./contribution-history"
+import { CardsCookieSettings } from "./cookie-settings"
+import { CardsCreateAccount } from "./create-account"
+import { DividendIncome } from "./dividend-income"
+import { EmptyDistributeTrack } from "./empty-distribute-track"
+import { CardsExerciseMinutes } from "./exercise-minutes"
+import { CardsForms } from "./forms"
+import { NewMilestone } from "./new-milestone"
+import { NotificationSettings } from "./notification-settings"
+import { Payments } from "./payments"
+import { CardsPayments } from "./payments copy"
+import { PayoutThreshold } from "./payout-threshold"
+import { PowerUsage } from "./power-usage"
+import { QrConnect } from "./qr-connect"
+import { CardsReportIssue } from "./report-issue"
+import { SavingsTargets } from "./savings-targets"
+import { CardsShare } from "./share"
+import { SidebarNav } from "./sidebar-nav"
+import { CardsStats } from "./stats"
+import { CardsTeamMembers } from "./team-members"
+// Skeleton (loading) card variants
 import { AccountAccess as SkeletonAccountAccess } from "./skeleton/account-access"
 import { ActivityGoal as SkeletonActivityGoal } from "./skeleton/activity-goal"
 import { AnalyticsCard as SkeletonAnalyticsCard } from "./skeleton/analytics-card"
@@ -27,7 +63,72 @@ import { Stats as SkeletonStats } from "./skeleton/stats"
 import { TeamMembers as SkeletonTeamMembers } from "./skeleton/team-members"
 import { TransferFunds as SkeletonTransferFunds } from "./skeleton/transfer-funds"
 import { UIElements as SkeletonUIElements } from "./skeleton/ui-elements"
-import { UIElements } from "./ui-elements"
+
+type Cell =
+  | { skeleton: React.ComponentType; full: React.ComponentType }
+  | { render: () => React.ReactElement }
+
+const columns: { className: string; cells: Cell[] }[] = [
+  {
+    className: "flex flex-col items-start gap-(--gap)",
+    cells: [
+      { render: () => <UIElements /> },
+      { skeleton: SkeletonSidebarNav, full: SidebarNav },
+      { skeleton: SkeletonSavingsTargets, full: SavingsTargets },
+      { skeleton: SkeletonStats, full: CardsStats },
+      { skeleton: SkeletonChat, full: CardsChat },
+    ],
+  },
+  {
+    className: "hidden flex-col gap-(--gap) lg:flex",
+    cells: [
+      { skeleton: SkeletonContributionHistory, full: ContributionHistory },
+      { skeleton: SkeletonClaimableBalance, full: ClaimableBalance },
+      { skeleton: SkeletonDividendIncome, full: DividendIncome },
+      { skeleton: SkeletonCreateAccount, full: CardsCreateAccount },
+      { skeleton: SkeletonForms, full: CardsForms },
+    ],
+  },
+  {
+    className: "hidden flex-col gap-(--gap) min-[1400px]:flex",
+    cells: [
+      { skeleton: SkeletonNewMilestone, full: NewMilestone },
+      { skeleton: SkeletonPayoutThreshold, full: PayoutThreshold },
+      { skeleton: SkeletonAccountAccess, full: AccountAccess },
+      { skeleton: SkeletonReportIssue, full: CardsReportIssue },
+      { skeleton: SkeletonCookieSettings, full: CardsCookieSettings },
+    ],
+  },
+  {
+    className: "hidden flex-col gap-(--gap) md:flex",
+    cells: [
+      { skeleton: SkeletonQrConnect, full: QrConnect },
+      {
+        render: () => (
+          <div className="**:[.text-center.text-xs]:hidden">
+            <MessageScrollerDemo />
+          </div>
+        ),
+      },
+      { skeleton: SkeletonPayments, full: Payments },
+      { skeleton: SkeletonShare, full: CardsShare },
+      { skeleton: SkeletonTeamMembers, full: CardsTeamMembers },
+    ],
+  },
+  {
+    className: "hidden flex-col gap-(--gap) min-[1900px]:flex",
+    cells: [
+      { skeleton: SkeletonEmptyDistributeTrack, full: EmptyDistributeTrack },
+      { skeleton: SkeletonAnalyticsCard, full: AnalyticsCard },
+      { skeleton: SkeletonNotificationSettings, full: NotificationSettings },
+      { skeleton: SkeletonPowerUsage, full: PowerUsage },
+      { skeleton: SkeletonActivityGoal, full: CardsActivityGoal },
+      { skeleton: SkeletonExerciseMinutes, full: CardsExerciseMinutes },
+      { skeleton: SkeletonCalendar, full: CardsCalendar },
+      { skeleton: SkeletonPaymentsTable, full: CardsPayments },
+    ],
+  },
+]
 
 function CardsSkeletonRails() {
   return (
@@ -75,56 +176,44 @@ function CardsSkeletonRails() {
 }
 
 export function CardsDemo() {
+  const [full, setFull] = React.useState(false)
+
   return (
     <div
       data-slot="demo"
       className="theme-neutral relative flex w-full max-w-none flex-col gap-(--gap) overflow-hidden bg-muted p-12 pb-0! [--gap:--spacing(8)] 3xl:[--gap:--spacing(8)] min-[1900px]:p-12 min-[1900px]:[--gap:--spacing(10)]! lg:p-6 lg:[--gap:--spacing(6)] dark:bg-background"
     >
+      <div className="absolute top-4 right-4 z-30">
+        <Button
+          variant="outline"
+          size="sm"
+          className="shadow-sm"
+          onClick={() => setFull((value) => !value)}
+        >
+          {full ? <EyeOffIcon /> : <EyeIcon />}
+          {full ? "Show skeletons" : "Show full view"}
+        </Button>
+      </div>
       <CardsSkeletonRails />
       <div className="relative z-10 mx-auto grid gap-(--gap) **:data-[slot=card]:w-full min-[1400px]:grid-cols-4! min-[1900px]:grid-cols-5! md:max-w-3xl md:grid-cols-2 lg:max-w-none lg:grid-cols-3 xl:max-w-[1600px] 2xl:max-w-[1900px]">
-        <div className="flex flex-col items-start gap-(--gap)">
-          <UIElements />
-          <SkeletonSidebarNav />
-          <SkeletonSavingsTargets />
-          <SkeletonStats />
-          <SkeletonChat />
-        </div>
-        <div className="hidden flex-col gap-(--gap) lg:flex">
-          <SkeletonContributionHistory />
-          <SkeletonClaimableBalance />
-          <SkeletonDividendIncome />
-          <SkeletonCreateAccount />
-          <SkeletonForms />
-        </div>
-        <div className="hidden flex-col gap-(--gap) min-[1400px]:flex">
-          <SkeletonNewMilestone />
-          <SkeletonPayoutThreshold />
-          <SkeletonAccountAccess />
-          <SkeletonReportIssue />
-          <SkeletonCookieSettings />
-        </div>
-        <div className="hidden flex-col gap-(--gap) md:flex">
-          <SkeletonQrConnect />
-          <div className="**:[.text-center.text-xs]:hidden">
-            <MessageScrollerDemo />
+        {columns.map((column, columnIndex) => (
+          <div key={columnIndex} className={column.className}>
+            {column.cells.map((cell, cellIndex) => {
+              if ("render" in cell) {
+                return (
+                  <React.Fragment key={cellIndex}>
+                    {cell.render()}
+                  </React.Fragment>
+                )
+              }
+              const Card = full ? cell.full : cell.skeleton
+              return <Card key={cellIndex} />
+            })}
           </div>
-          <SkeletonPayments />
-          <SkeletonShare />
-          <SkeletonTeamMembers />
-        </div>
-        <div className="hidden flex-col gap-(--gap) min-[1900px]:flex">
-          <SkeletonEmptyDistributeTrack />
-          <SkeletonAnalyticsCard />
-          <SkeletonNotificationSettings />
-          <SkeletonPowerUsage />
-          <SkeletonActivityGoal />
-          <SkeletonExerciseMinutes />
-          <SkeletonCalendar />
-          <SkeletonPaymentsTable />
-        </div>
+        ))}
       </div>
-      <div className="absolute inset-x-0 top-0 z-1 h-120 bg-linear-to-b from-background via-muted to-transparent dark:hidden" />
-      <div className="absolute inset-x-0 bottom-0 z-20 h-48 bg-linear-to-t from-background via-muted/80 to-transparent lg:h-80 xl:h-64 dark:via-background/80" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-1 h-120 bg-linear-to-b from-background via-muted to-transparent dark:hidden" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-48 bg-linear-to-t from-background via-muted/80 to-transparent lg:h-80 xl:h-64 dark:via-background/80" />
     </div>
   )
 }

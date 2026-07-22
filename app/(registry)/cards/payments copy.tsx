@@ -144,11 +144,11 @@ export const columns: ColumnDef<Payment>[] = [
 
       return (
         <DropdownMenu>
-          <DropdownMenuTrigger>
-            <Button variant="ghost" className="size-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontalIcon />
-            </Button>
+          <DropdownMenuTrigger
+            render={<Button variant="ghost" className="size-8 p-0" />}
+          >
+            <span className="sr-only">Open menu</span>
+            <MoreHorizontalIcon />
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>

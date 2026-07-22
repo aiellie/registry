@@ -2,11 +2,7 @@
 
 import { ChevronDownIcon } from "lucide-react"
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -100,14 +96,16 @@ export function CardsTeamMembers() {
               </ItemContent>
               <ItemActions>
                 <Popover>
-                  <PopoverTrigger>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="ml-auto shadow-none"
-                    >
-                      {member.role} <ChevronDownIcon />
-                    </Button>
+                  <PopoverTrigger
+                    render={
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="ml-auto shadow-none"
+                      />
+                    }
+                  >
+                    {member.role} <ChevronDownIcon />
                   </PopoverTrigger>
                   <PopoverContent className="p-0" align="end">
                     <Command>

@@ -118,7 +118,7 @@ export function RegistrySidebar() {
   const { setOpenMobile } = useSidebar()
 
   return (
-    <Sidebar collapsible={pathname === "/" ? "offcanvas" : "icon"}>
+    <Sidebar collapsible={pathname === "/" || pathname === "/cards" ? "offcanvas" : "icon"}>
       <SidebarHeader className="">
         <div className="flex items-center px-2 py-2 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0">
           <Link href="/" className="flex min-w-0 items-center gap-2">

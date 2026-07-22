@@ -10,7 +10,6 @@ import {
   PageHeaderDescription,
   PageHeaderHeading,
 } from "@/components/registry/page-header"
-import { Button } from "@/components/ui/button"
 
 import { CardsDemo } from "./cards"
 import { ShimmerButton } from "@/components/ui/shimmer-button"
