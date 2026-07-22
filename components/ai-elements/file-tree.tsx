@@ -1,10 +1,15 @@
 "use client";
 
+import { getIconForLanguageExtension } from "@/components/icons";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+import {
+  ContextMenu,
+  ContextMenuTrigger,
+} from "@/components/ui/context-menu";
 import { cn } from "@/lib/utils";
 import {
   ChevronRightIcon,
@@ -22,11 +27,18 @@ import {
   useState,
 } from "react";
 
+/**
+ * `default` renders every file with the same neutral document icon.
+ * `file-type` derives an icon from the file extension.
+ */
+export type FileTreeVariant = "default" | "file-type";
+
 interface FileTreeContextType {
   expandedPaths: Set<string>;
   togglePath: (path: string) => void;
   selectedPath?: string;
   onSelect?: (path: string) => void;
+  variant: FileTreeVariant;
 }
 
 // Default noop for context default value
@@ -37,6 +49,7 @@ const FileTreeContext = createContext<FileTreeContextType>({
   // oxlint-disable-next-line eslint-plugin-unicorn(no-new-builtin)
   expandedPaths: new Set(),
   togglePath: noop,
+  variant: "default",
 });
 
 export type FileTreeProps = Omit<HTMLAttributes<HTMLDivElement>, "onSelect"> & {
@@ -45,6 +58,7 @@ export type FileTreeProps = Omit<HTMLAttributes<HTMLDivElement>, "onSelect"> & {
   selectedPath?: string;
   onSelect?: (path: string) => void;
   onExpandedChange?: (expanded: Set<string>) => void;
+  variant?: FileTreeVariant;
 };
 
 export const FileTree = ({
@@ -53,6 +67,7 @@ export const FileTree = ({
   selectedPath,
   onSelect,
   onExpandedChange,
+  variant = "default",
   className,
   children,
   ...props
@@ -75,8 +90,8 @@ export const FileTree = ({
   );
 
   const contextValue = useMemo(
-    () => ({ expandedPaths, onSelect, selectedPath, togglePath }),
-    [expandedPaths, onSelect, selectedPath, togglePath]
+    () => ({ expandedPaths, onSelect, selectedPath, togglePath, variant }),
+    [expandedPaths, onSelect, selectedPath, togglePath, variant]
   );
 
   return (
@@ -131,14 +146,22 @@ const FileTreeFolderContext = createContext<FileTreeFolderContextType>({
   path: "",
 });
 
-export type FileTreeFolderProps = HTMLAttributes<HTMLDivElement> & {
+// `contextMenu` is omitted because React types it as the deprecated HTML
+// attribute (a string), which would intersect with the prop below.
+export type FileTreeFolderProps = Omit<
+  HTMLAttributes<HTMLDivElement>,
+  "contextMenu"
+> & {
   path: string;
   name: string;
+  /** A `<ContextMenuContent>` to open when the folder row is right-clicked. */
+  contextMenu?: ReactNode;
 };
 
 export const FileTreeFolder = ({
   path,
   name,
+  contextMenu,
   className,
   children,
   ...props
@@ -161,6 +184,43 @@ export const FileTreeFolder = ({
     [isExpanded, name, path]
   );
 
+  const row = (
+    <div
+      className={cn(
+        "flex w-full items-center gap-1 rounded px-2 py-1 text-start transition-colors hover:bg-muted/50",
+        isSelected && "bg-muted"
+      )}
+    >
+      <CollapsibleTrigger
+        render={
+          <button
+            className="group/folder-toggle relative flex size-4 shrink-0 cursor-pointer items-center justify-center border-none bg-transparent p-0"
+            type="button"
+          />
+        }
+      >
+        <HugeiconsIcon
+          icon={isExpanded ? Folder02Icon : Folder01Icon}
+          className="size-4 text-muted-foreground transition-opacity group-hover/folder-toggle:opacity-0"
+        />
+        <HugeiconsIcon
+          icon={ChevronRightIcon}
+          className={cn(
+            "absolute size-4 text-muted-foreground opacity-0 transition-all group-hover/folder-toggle:opacity-100",
+            isExpanded && "rotate-90"
+          )}
+        />
+      </CollapsibleTrigger>
+      <button
+        className="flex min-w-0 flex-1 cursor-pointer items-center gap-1 border-none bg-transparent p-0 text-start"
+        onClick={handleSelect}
+        type="button"
+      >
+        <FileTreeName>{name}</FileTreeName>
+      </button>
+    </div>
+  );
+
   return (
     <FileTreeFolderContext.Provider value={folderContextValue}>
       <Collapsible onOpenChange={handleOpenChange} open={isExpanded}>
@@ -170,40 +230,14 @@ export const FileTreeFolder = ({
           tabIndex={0}
           {...props}
         >
-          <div
-            className={cn(
-              "flex w-full items-center gap-1 rounded px-2 py-1 text-start transition-colors hover:bg-muted/50",
-              isSelected && "bg-muted"
-            )}
-          >
-            <CollapsibleTrigger
-              render={
-                <button
-                  className="group/folder-toggle relative flex size-4 shrink-0 cursor-pointer items-center justify-center border-none bg-transparent p-0"
-                  type="button"
-                />
-              }
-            >
-              <HugeiconsIcon
-                icon={isExpanded ? Folder02Icon : Folder01Icon}
-                className="size-4 text-muted-foreground transition-opacity group-hover/folder-toggle:opacity-0"
-              />
-              <HugeiconsIcon
-                icon={ChevronRightIcon}
-                className={cn(
-                  "absolute size-4 text-muted-foreground opacity-0 transition-all group-hover/folder-toggle:opacity-100",
-                  isExpanded && "rotate-90"
-                )}
-              />
-            </CollapsibleTrigger>
-            <button
-              className="flex min-w-0 flex-1 cursor-pointer items-center gap-1 border-none bg-transparent p-0 text-start"
-              onClick={handleSelect}
-              type="button"
-            >
-              <FileTreeName>{name}</FileTreeName>
-            </button>
-          </div>
+          {contextMenu ? (
+            <ContextMenu>
+              <ContextMenuTrigger render={row} />
+              {contextMenu}
+            </ContextMenu>
+          ) : (
+            row
+          )}
           <CollapsibleContent>
             <div className="ms-4 border-s ps-2">{children}</div>
           </CollapsibleContent>
@@ -223,22 +257,45 @@ const FileTreeFileContext = createContext<FileTreeFileContextType>({
   path: "",
 });
 
-export type FileTreeFileProps = HTMLAttributes<HTMLDivElement> & {
+/** `.gitignore` -> `gitignore`, `button.tsx` -> `tsx`, `Dockerfile` -> `dockerfile`. */
+const extensionOf = (name: string) => {
+  const withoutLeadingDot = name.startsWith(".") ? name.slice(1) : name;
+  const lastDot = withoutLeadingDot.lastIndexOf(".");
+  const extension =
+    lastDot === -1 ? withoutLeadingDot : withoutLeadingDot.slice(lastDot + 1);
+
+  return extension.toLowerCase();
+};
+
+export type FileTreeFileProps = Omit<
+  HTMLAttributes<HTMLDivElement>,
+  "contextMenu"
+> & {
   path: string;
   name: string;
   icon?: ReactNode;
+  variant?: FileTreeVariant;
+  /** A `<ContextMenuContent>` to open when the file row is right-clicked. */
+  contextMenu?: ReactNode;
 };
 
 export const FileTreeFile = ({
   path,
   name,
   icon,
+  variant,
+  contextMenu,
   className,
   children,
   ...props
 }: FileTreeFileProps) => {
-  const { selectedPath, onSelect } = useContext(FileTreeContext);
+  const {
+    selectedPath,
+    onSelect,
+    variant: treeVariant,
+  } = useContext(FileTreeContext);
   const isSelected = selectedPath === path;
+  const resolvedVariant = variant ?? treeVariant;
 
   const handleClick = useCallback(() => {
     onSelect?.(path);
@@ -255,54 +312,48 @@ export const FileTreeFile = ({
 
   const fileContextValue = useMemo(() => ({ name, path }), [name, path]);
 
-  return (
-    <FileTreeFileContext.Provider value={fileContextValue}>
-      <div
-        className={cn(
-          "flex cursor-pointer items-center gap-1 rounded px-2 py-1 transition-colors hover:bg-muted/50",
-          isSelected && "bg-muted",
-          className
-        )}
-        onClick={handleClick}
-        onKeyDown={handleKeyDown}
-        role="treeitem"
-        tabIndex={0}
-        {...props}
-      >
-        {children ?? (
-          <>
-            <FileTreeIcon>
-              {icon ?? (
+  const row = (
+    <div
+      className={cn(
+        "flex cursor-pointer items-center gap-1 rounded px-2 py-1 transition-colors hover:bg-muted/50",
+        isSelected && "bg-muted",
+        className
+      )}
+      onClick={handleClick}
+      onKeyDown={handleKeyDown}
+      role="treeitem"
+      tabIndex={0}
+      {...props}
+    >
+      {children ?? (
+        <>
+          <FileTreeIcon className="flex size-4 items-center justify-center [&_svg]:size-4">
+            {icon ??
+              (resolvedVariant === "file-type" ? (
+                getIconForLanguageExtension(extensionOf(name))
+              ) : (
                 <HugeiconsIcon
                   icon={FileEmptyIcon}
                   className="size-4 text-muted-foreground"
                 />
-              )}
-            </FileTreeIcon>
-            <FileTreeName>{name}</FileTreeName>
-          </>
-        )}
-      </div>
+              ))}
+          </FileTreeIcon>
+          <FileTreeName>{name}</FileTreeName>
+        </>
+      )}
+    </div>
+  );
+
+  return (
+    <FileTreeFileContext.Provider value={fileContextValue}>
+      {contextMenu ? (
+        <ContextMenu>
+          <ContextMenuTrigger render={row} />
+          {contextMenu}
+        </ContextMenu>
+      ) : (
+        row
+      )}
     </FileTreeFileContext.Provider>
   );
 };
-
-export type FileTreeActionsProps = HTMLAttributes<HTMLDivElement>;
-
-const stopPropagation = (e: React.SyntheticEvent) => e.stopPropagation();
-
-export const FileTreeActions = ({
-  className,
-  children,
-  ...props
-}: FileTreeActionsProps) => (
-  <div
-    className={cn("ms-auto flex items-center gap-1", className)}
-    onClick={stopPropagation}
-    onKeyDown={stopPropagation}
-    role="group"
-    {...props}
-  >
-    {children}
-  </div>
-);

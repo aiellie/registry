@@ -1,42 +1,349 @@
-"use client";
+"use client"
 
+import * as React from "react"
+
+import { Example, ExampleWrapper } from "@/components/example"
 import {
   FileTree,
   FileTreeFile,
   FileTreeFolder,
-} from "@/components/ai-elements/file-tree";
-import { useState } from "react";
+} from "@/components/ai-elements/file-tree"
+import { Button } from "@/components/ui/button"
+import {
+  ContextMenuContent,
+  ContextMenuGroup,
+  ContextMenuItem,
+  ContextMenuSeparator,
+  ContextMenuShortcut,
+} from "@/components/ui/context-menu"
+import {
+  Copy01Icon,
+  Copy02Icon,
+  Delete02Icon,
+  Download01Icon,
+  FileAddIcon,
+  File01Icon,
+  FolderAddIcon,
+  Link01Icon,
+  PencilEdit02Icon,
+  Search01Icon,
+  StarIcon,
+} from "@hugeicons/core-free-icons"
+import { HugeiconsIcon } from "@hugeicons/react"
 
-const Example = () => {
-  const [selectedPath, setSelectedPath] = useState<string | undefined>();
+/* -------------------------------------------------------------------------- */
+/*                                  Tree data                                  */
+/* -------------------------------------------------------------------------- */
+
+type TreeNode =
+  | { type: "file"; name: string }
+  | { type: "folder"; name: string; children: TreeNode[] }
+
+const TREE: TreeNode[] = [
+  {
+    type: "folder",
+    name: "app",
+    children: [
+      { type: "file", name: "layout.tsx" },
+      { type: "file", name: "page.tsx" },
+      { type: "file", name: "globals.css" },
+    ],
+  },
+  {
+    type: "folder",
+    name: "components",
+    children: [
+      {
+        type: "folder",
+        name: "ui",
+        children: [
+          { type: "file", name: "button.tsx" },
+          { type: "file", name: "input.tsx" },
+        ],
+      },
+      { type: "file", name: "icons.tsx" },
+    ],
+  },
+  {
+    type: "folder",
+    name: "lib",
+    children: [{ type: "file", name: "utils.ts" }],
+  },
+  {
+    type: "folder",
+    name: "public",
+    children: [
+      { type: "file", name: "favicon.ico" },
+      { type: "file", name: "logo.svg" },
+    ],
+  },
+  {
+    type: "folder",
+    name: "scripts",
+    children: [{ type: "file", name: "build.sh" }],
+  },
+  { type: "file", name: ".gitignore" },
+  { type: "file", name: "package.json" },
+  { type: "file", name: "next.config.js" },
+  { type: "file", name: "README.md" },
+]
+
+const joinPath = (parent: string, name: string) =>
+  parent ? `${parent}/${name}` : name
+
+/** Every folder path in the tree, for expand-all. */
+function folderPaths(nodes: TreeNode[], parent = ""): string[] {
+  return nodes.flatMap((node) => {
+    if (node.type !== "folder") {
+      return []
+    }
+
+    const path = joinPath(parent, node.name)
+
+    return [path, ...folderPaths(node.children, path)]
+  })
+}
+
+const ALL_FOLDERS = folderPaths(TREE)
+
+function TreeNodes({ nodes, parent = "" }: { nodes: TreeNode[]; parent?: string }) {
+  return nodes.map((node) => {
+    const path = joinPath(parent, node.name)
+
+    return node.type === "folder" ? (
+      <FileTreeFolder
+        contextMenu={<FolderMenu />}
+        key={path}
+        name={node.name}
+        path={path}
+      >
+        <TreeNodes nodes={node.children} parent={path} />
+      </FileTreeFolder>
+    ) : (
+      <FileTreeFile
+        contextMenu={<FileMenu />}
+        key={path}
+        name={node.name}
+        path={path}
+      />
+    )
+  })
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                Context menus                                */
+/* -------------------------------------------------------------------------- */
+
+function FolderMenu() {
+  return (
+    <ContextMenuContent>
+      <ContextMenuGroup>
+        <ContextMenuItem>
+          <HugeiconsIcon icon={FileAddIcon} strokeWidth={2} />
+          New File
+        </ContextMenuItem>
+        <ContextMenuItem>
+          <HugeiconsIcon icon={FolderAddIcon} strokeWidth={2} />
+          New Folder
+        </ContextMenuItem>
+      </ContextMenuGroup>
+      <ContextMenuSeparator />
+      <ContextMenuGroup>
+        <ContextMenuItem>
+          <HugeiconsIcon icon={Search01Icon} strokeWidth={2} />
+          Find in Folder
+        </ContextMenuItem>
+        <ContextMenuItem>
+          <HugeiconsIcon icon={Link01Icon} strokeWidth={2} />
+          Copy Path
+          <ContextMenuShortcut>⇧⌘C</ContextMenuShortcut>
+        </ContextMenuItem>
+        <ContextMenuItem>
+          <HugeiconsIcon icon={PencilEdit02Icon} strokeWidth={2} />
+          Rename
+          <ContextMenuShortcut>⏎</ContextMenuShortcut>
+        </ContextMenuItem>
+      </ContextMenuGroup>
+      <ContextMenuSeparator />
+      <ContextMenuItem variant="destructive">
+        <HugeiconsIcon icon={Delete02Icon} strokeWidth={2} />
+        Delete
+        <ContextMenuShortcut>⌫</ContextMenuShortcut>
+      </ContextMenuItem>
+    </ContextMenuContent>
+  )
+}
+
+function FileMenu() {
+  return (
+    <ContextMenuContent>
+      <ContextMenuGroup>
+        <ContextMenuItem>
+          <HugeiconsIcon icon={File01Icon} strokeWidth={2} />
+          Open
+        </ContextMenuItem>
+        <ContextMenuItem>
+          <HugeiconsIcon icon={Copy02Icon} strokeWidth={2} />
+          Duplicate
+          <ContextMenuShortcut>⌘D</ContextMenuShortcut>
+        </ContextMenuItem>
+      </ContextMenuGroup>
+      <ContextMenuSeparator />
+      <ContextMenuGroup>
+        <ContextMenuItem>
+          <HugeiconsIcon icon={Copy01Icon} strokeWidth={2} />
+          Copy
+          <ContextMenuShortcut>⌘C</ContextMenuShortcut>
+        </ContextMenuItem>
+        <ContextMenuItem>
+          <HugeiconsIcon icon={Link01Icon} strokeWidth={2} />
+          Copy Path
+          <ContextMenuShortcut>⇧⌘C</ContextMenuShortcut>
+        </ContextMenuItem>
+        <ContextMenuItem>
+          <HugeiconsIcon icon={PencilEdit02Icon} strokeWidth={2} />
+          Rename
+          <ContextMenuShortcut>⏎</ContextMenuShortcut>
+        </ContextMenuItem>
+        <ContextMenuItem>
+          <HugeiconsIcon icon={Download01Icon} strokeWidth={2} />
+          Download
+        </ContextMenuItem>
+      </ContextMenuGroup>
+      <ContextMenuSeparator />
+      <ContextMenuItem variant="destructive">
+        <HugeiconsIcon icon={Delete02Icon} strokeWidth={2} />
+        Delete
+        <ContextMenuShortcut>⌫</ContextMenuShortcut>
+      </ContextMenuItem>
+    </ContextMenuContent>
+  )
+}
+
+/* -------------------------------------------------------------------------- */
+
+export default function FileTreeExample() {
+  return (
+    <ExampleWrapper>
+      <DefaultVariant />
+      <FileTypeVariant />
+      <SelectionExample />
+      <ControlledExample />
+      <CustomIconsExample />
+    </ExampleWrapper>
+  )
+}
+
+function DefaultVariant() {
+  return (
+    <Example title="Default">
+      <FileTree defaultExpanded={new Set(["app", "components"])}>
+        <TreeNodes nodes={TREE} />
+      </FileTree>
+    </Example>
+  )
+}
+
+function FileTypeVariant() {
+  return (
+    <Example title="File Type Icons">
+      <FileTree
+        defaultExpanded={new Set(["app", "components", "public"])}
+        variant="file-type"
+      >
+        <TreeNodes nodes={TREE} />
+      </FileTree>
+    </Example>
+  )
+}
+
+function SelectionExample() {
+  const [selectedPath, setSelectedPath] = React.useState<string | undefined>(
+    "app/page.tsx"
+  )
 
   return (
-    <FileTree
-      defaultExpanded={new Set(["src", "src/components"])}
-      onSelect={setSelectedPath}
-      selectedPath={selectedPath}
-    >
-      <FileTreeFolder name="src" path="src">
-        <FileTreeFolder name="components" path="src/components">
-          <FileTreeFile name="button.tsx" path="src/components/button.tsx" />
-          <FileTreeFile name="input.tsx" path="src/components/input.tsx" />
-          <FileTreeFile name="modal.tsx" path="src/components/modal.tsx" />
-        </FileTreeFolder>
-        <FileTreeFolder name="hooks" path="src/hooks">
-          <FileTreeFile name="use-auth.ts" path="src/hooks/use-auth.ts" />
-          <FileTreeFile name="use-theme.ts" path="src/hooks/use-theme.ts" />
-        </FileTreeFolder>
-        <FileTreeFolder name="lib" path="src/lib">
-          <FileTreeFile name="utils.ts" path="src/lib/utils.ts" />
-        </FileTreeFolder>
-        <FileTreeFile name="app.tsx" path="src/app.tsx" />
-        <FileTreeFile name="main.tsx" path="src/main.tsx" />
-      </FileTreeFolder>
-      <FileTreeFile name="package.json" path="package.json" />
-      <FileTreeFile name="tsconfig.json" path="tsconfig.json" />
-      <FileTreeFile name="README.md" path="README.md" />
-    </FileTree>
-  );
-};
+    <Example title="Selection">
+      <div className="flex w-full flex-col gap-3">
+        <FileTree
+          defaultExpanded={new Set(["app", "components", "components/ui"])}
+          onSelect={setSelectedPath}
+          selectedPath={selectedPath}
+          variant="file-type"
+        >
+          <TreeNodes nodes={TREE} />
+        </FileTree>
+        <p className="text-sm text-muted-foreground">
+          Selected: {selectedPath ?? "none"}
+        </p>
+      </div>
+    </Example>
+  )
+}
 
-export default Example;
+function ControlledExample() {
+  const [expanded, setExpanded] = React.useState<Set<string>>(new Set(["app"]))
+
+  return (
+    <Example title="Controlled Expansion">
+      <div className="flex w-full flex-col gap-3">
+        <div className="flex gap-2">
+          <Button
+            onClick={() => setExpanded(new Set(ALL_FOLDERS))}
+            size="sm"
+            variant="outline"
+          >
+            Expand all
+          </Button>
+          <Button
+            onClick={() => setExpanded(new Set())}
+            size="sm"
+            variant="outline"
+          >
+            Collapse all
+          </Button>
+        </div>
+        <FileTree
+          expanded={expanded}
+          onExpandedChange={setExpanded}
+          variant="file-type"
+        >
+          <TreeNodes nodes={TREE} />
+        </FileTree>
+      </div>
+    </Example>
+  )
+}
+
+function CustomIconsExample() {
+  return (
+    <Example title="Custom Icon">
+      <FileTree defaultExpanded={new Set(["app"])} variant="file-type">
+        <FileTreeFolder contextMenu={<FolderMenu />} name="app" path="app">
+          <FileTreeFile
+            contextMenu={<FileMenu />}
+            icon={<HugeiconsIcon className="size-4 text-amber-500" icon={StarIcon} />}
+            name="page.tsx"
+            path="app/page.tsx"
+          />
+          <FileTreeFile
+            contextMenu={<FileMenu />}
+            name="layout.tsx"
+            path="app/layout.tsx"
+          />
+        </FileTreeFolder>
+        <FileTreeFile
+          contextMenu={<FileMenu />}
+          name="package.json"
+          path="package.json"
+        />
+        <FileTreeFile
+          contextMenu={<FileMenu />}
+          name="README.md"
+          path="README.md"
+          variant="default"
+        />
+      </FileTree>
+    </Example>
+  )
+}

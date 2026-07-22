@@ -2957,15 +2957,21 @@
       "title": "File Tree",
       "description": "File tree with file name, file type, and file size.",
       "registryDependencies": [
-        "https://ui.aiellie.dev/r/collapsible.json"
+        "https://ui.aiellie.dev/r/collapsible.json",
+        "https://ui.aiellie.dev/r/context-menu.json"
       ],
       "files": [
         {
           "path": "components/ai-elements/file-tree.tsx",
           "type": "registry:component",
           "target": "components/ui/file-tree.tsx"
+        },
+        {
+          "path": "components/icons.tsx",
+          "type": "registry:component",
+          "target": "components/icons.tsx"
         }
-      ]   
+      ]
     }
   ]
 }
