@@ -35,6 +35,7 @@ import {
   InformationCircleIcon,
   KeyboardIcon,
   LabelIcon,
+  LayoutBottomIcon,
   LayoutTopIcon,
   ListViewIcon,
   LoadingIcon,
@@ -80,6 +81,7 @@ import {
   UserIcon,
   RoboticIcon,
   GlobeIcon,
+  SiriNewIcon,
 } from "@hugeicons/core-free-icons"
 import type { IconSvgElement } from "@hugeicons/react"
 
@@ -99,6 +101,7 @@ const itemIcons: Record<string, IconSvgElement> = {
 
   // components
   "brand-header": LayoutTopIcon,
+  "brand-footer": LayoutBottomIcon,
   "brand-sidebar": SidebarLeft01Icon,
   logo: SparklesIcon,
   hero: Image01Icon,
@@ -110,7 +113,7 @@ const itemIcons: Record<string, IconSvgElement> = {
   "model-selector": RoboticIcon,
   "file-tree": HierarchyFilesIcon,
   "web-preview": GlobeIcon,
-
+  persona: SiriNewIcon,
   // ui
   accordion: UnfoldMoreIcon,
   alert: AlertCircleIcon,

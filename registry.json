@@ -164,6 +164,7 @@
         "https://ui.aiellie.dev/r/hero.json",
         "https://ui.aiellie.dev/r/login.json",
         "https://ui.aiellie.dev/r/brand-header.json",
+        "https://ui.aiellie.dev/r/brand-footer.json",
         "https://ui.aiellie.dev/r/brand-sidebar.json",
         "https://ui.aiellie.dev/r/accordion.json",
         "https://ui.aiellie.dev/r/alert.json",
@@ -317,6 +318,7 @@
         "https://ui.aiellie.dev/r/login.json",
         "https://ui.aiellie.dev/r/prompt-input.json",
         "https://ui.aiellie.dev/r/brand-header.json",
+        "https://ui.aiellie.dev/r/brand-footer.json",
         "https://ui.aiellie.dev/r/brand-sidebar.json",
         "https://ui.aiellie.dev/r/accordion.json",
         "https://ui.aiellie.dev/r/alert.json",
@@ -489,6 +491,43 @@
       "dependencies": [
         "@hugeicons/core-free-icons",
         "@hugeicons/react"
+      ]
+    },
+    {
+      "name": "brand-footer",
+      "type": "registry:component",
+      "title": "Brand Footer",
+      "description": "Application footer with copyright, load status, clock, and latency.",
+      "registryDependencies": [
+        "https://ui.aiellie.dev/r/status.json",
+        "https://ui.aiellie.dev/r/theme.json"
+      ],
+      "files": [
+        {
+          "path": "components/brand-footer.tsx",
+          "type": "registry:component",
+          "target": "components/brand-footer.tsx"
+        },
+        {
+          "path": "components/copyright.tsx",
+          "type": "registry:component",
+          "target": "components/copyright.tsx"
+        },
+        {
+          "path": "components/load-status.tsx",
+          "type": "registry:component",
+          "target": "components/load-status.tsx"
+        },
+        {
+          "path": "components/latency.tsx",
+          "type": "registry:component",
+          "target": "components/latency.tsx"
+        },
+        {
+          "path": "components/ny-clock.tsx",
+          "type": "registry:component",
+          "target": "components/ny-clock.tsx"
+        }
       ]
     },
     {
@@ -2933,7 +2972,7 @@
     },
     {
       "name": "model-selector",
-      "type": "registry:component",
+      "type": "registry:ui",
       "title": "Model Selector",
       "description": "Model selector with model logo, model name, and model description.",
       "registryDependencies": [
@@ -2946,14 +2985,14 @@
       "files": [
         {
           "path": "components/ai-elements/model-selector.tsx",
-          "type": "registry:component",
+          "type": "registry:ui",
           "target": "components/ui/model-selector.tsx"
         }
       ]
     },
     {
       "name": "file-tree",
-      "type": "registry:component",
+      "type": "registry:ui",
       "title": "File Tree",
       "description": "File tree with file name, file type, and file size.",
       "registryDependencies": [
@@ -2963,7 +3002,7 @@
       "files": [
         {
           "path": "components/ai-elements/file-tree.tsx",
-          "type": "registry:component",
+          "type": "registry:ui",
           "target": "components/ui/file-tree.tsx"
         },
         {
@@ -2975,7 +3014,7 @@
     },
     {
       "name": "web-preview",
-      "type": "registry:component",
+      "type": "registry:ui",
       "title": "Web Preview",
       "description": "Web preview with URL input, navigation buttons, console logs, and iframe body.",
       "registryDependencies": [
@@ -2988,8 +3027,25 @@
       "files": [
         {
           "path": "components/ai-elements/web-preview.tsx",
-          "type": "registry:component",
+          "type": "registry:ui",
           "target": "components/ui/web-preview.tsx"
+        }
+      ]
+    },
+    {
+      "name": "persona",
+      "type": "registry:ui",
+      "title": "Persona",
+      "description": "Persona with avatar, name, and description.",
+      "registryDependencies": [
+        "https://ui.aiellie.dev/r/example.json",
+        "https://ui.aiellie.dev/r/persona.json"
+      ],
+      "files": [
+        {
+          "path": "components/ai-elements/persona.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/persona.tsx"
         }
       ]
     }

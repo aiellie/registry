@@ -129,7 +129,10 @@ export function BrandSidebar({ className }: { className?: string }) {
     <Sidebar
       variant="sidebar"
       collapsible="icon"
-      className={cn("top-12 h-[calc(100svh-3rem)]", className)}
+      className={cn(
+        "inset-auto top-[var(--header-height,3rem)] bottom-[var(--footer-height,2.5rem)] h-auto",
+        className
+      )}
     >
       <SidebarHeader>
         <div className={cn(isCollapsed ? "py-2" : "px-0 pt-2")}>

@@ -5,6 +5,7 @@ import { blank } from "@/app/demo/[name]/blocks/blank"
 import { dashboard } from "@/app/demo/[name]/blocks/dashboard"
 
 // components
+import { brandFooter } from "@/app/demo/[name]/components/brand-footer"
 import { brandHeader } from "@/app/demo/[name]/components/brand-header"
 import { brandSidebar } from "@/app/demo/[name]/components/brand-sidebar"
 import { hero } from "@/app/demo/[name]/components/hero"
@@ -16,6 +17,7 @@ import { promptInput } from "@/app/demo/[name]/components/prompt-input"
 import ModelSelectorExample from "@/app/demo/[name]/ui/model-selector"
 import FileTreeExample from "@/app/demo/[name]/ui/file-tree"
 import WebPreviewExample from "@/app/demo/[name]/ui/web-preview"
+import PersonaExample from "@/app/demo/[name]/ui/persona"
 // ui
 import AccordionExample from "@/app/demo/[name]/ui/accordion"
 import AlertExample from "@/app/demo/[name]/ui/alert"
@@ -102,6 +104,7 @@ export const demos: { [name: string]: Demo } = {
 
   // components
   "brand-header": brandHeader,
+  "brand-footer": brandFooter,
   "brand-sidebar": brandSidebar,
   hero,
   login,
@@ -112,6 +115,7 @@ export const demos: { [name: string]: Demo } = {
   "model-selector": ModelSelectorExample,
   "file-tree": FileTreeExample,
   "web-preview": WebPreviewExample,
+  persona: PersonaExample,
 
   // ui
   accordion: AccordionExample,
