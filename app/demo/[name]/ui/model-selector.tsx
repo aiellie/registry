@@ -100,18 +100,21 @@ const MODEL_GROUPS: ModelGroup[] = CHEFS.map((chef) => ({
 function ModelRow({
   model,
   showLabels = false,
+  colored = false,
 }: {
   model: Model
   showLabels?: boolean
+  colored?: boolean
 }) {
   return (
     <>
-      <ModelSelectorLogo provider={model.chefSlug} />
+      <ModelSelectorLogo
+        provider={model.chefSlug}
+        variant={colored ? "color" : "mono"}
+      />
       <ModelSelectorName>{model.name}</ModelSelectorName>
       <ModelSelectorClusters
         features={featuresOf(model)}
-        input={inputsOf(model)}
-        output={outputsOf(model)}
         showLabels={showLabels}
       />
     </>
@@ -119,7 +122,7 @@ function ModelRow({
 }
 
 /** Shared popup body for both combobox triggers. */
-function ComboboxModelList() {
+function ComboboxModelList({ colored = false }: { colored?: boolean }) {
   return (
     <ModelSelectorComboboxContent align="start">
       <ModelSelectorComboboxInput placeholder="Search models..." />
@@ -133,7 +136,7 @@ function ComboboxModelList() {
             <ModelSelectorComboboxCollection>
               {(model: Model) => (
                 <ModelSelectorComboboxItem key={model.id} value={model}>
-                  <ModelRow model={model} />
+                  <ModelRow colored={colored} model={model} />
                 </ModelSelectorComboboxItem>
               )}
             </ModelSelectorComboboxCollection>
@@ -271,7 +274,7 @@ function ComboboxDefaultTrigger() {
   )
 
   return (
-    <Example title="Combobox — default trigger">
+    <Example title="Combobox — default trigger (color)">
       <ModelSelectorCombobox
         items={MODEL_GROUPS}
         itemToStringValue={(model: Model) => `${model.name} ${model.chef}`}
@@ -283,7 +286,7 @@ function ComboboxDefaultTrigger() {
             {(model: Model | null) =>
               model ? (
                 <>
-                  <ModelSelectorLogo provider={model.chefSlug} />
+                  <ModelSelectorLogo provider={model.chefSlug} variant="color" />
                   <ModelSelectorName>{model.name}</ModelSelectorName>
                 </>
               ) : (
@@ -294,7 +297,7 @@ function ComboboxDefaultTrigger() {
             }
           </ModelSelectorComboboxValue>
         </ModelSelectorComboboxTrigger>
-        <ComboboxModelList />
+        <ComboboxModelList colored />
       </ModelSelectorCombobox>
     </Example>
   )
@@ -302,11 +305,11 @@ function ComboboxDefaultTrigger() {
 
 function ComboboxIconTrigger() {
   const [selected, setSelected] = React.useState<Model | null>(
-    findModel("grok-4.5") ?? models[0]
+    findModel("claude-opus-4.8") ?? models[0]
   )
 
   return (
-    <Example title="Combobox — icon trigger">
+    <Example title="Combobox — icon trigger (color)">
       <ModelSelectorCombobox
         items={MODEL_GROUPS}
         itemToStringValue={(model: Model) => `${model.name} ${model.chef}`}
@@ -318,10 +321,14 @@ function ComboboxIconTrigger() {
           variant="icon"
         >
           {selected && (
-            <ModelSelectorLogo className="size-4" provider={selected.chefSlug} />
+            <ModelSelectorLogo
+              className="size-4"
+              provider={selected.chefSlug}
+              variant="color"
+            />
           )}
         </ModelSelectorComboboxTrigger>
-        <ComboboxModelList />
+        <ComboboxModelList colored />
       </ModelSelectorCombobox>
     </Example>
   )

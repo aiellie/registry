@@ -322,9 +322,14 @@ export type ModelSelectorComboboxInputProps = ComponentProps<
 
 export const ModelSelectorComboboxInput = ({
   showTrigger = false,
+  showSearchIcon = true,
   ...props
 }: ModelSelectorComboboxInputProps) => (
-  <ComboboxInput showTrigger={showTrigger} {...props} />
+  <ComboboxInput
+    showSearchIcon={showSearchIcon}
+    showTrigger={showTrigger}
+    {...props}
+  />
 );
 
 export type ModelSelectorComboboxListProps = ComponentProps<
@@ -387,10 +392,34 @@ export const ModelSelectorComboboxSeparator = (
 /*                                  Branding                                   */
 /* -------------------------------------------------------------------------- */
 
+/**
+ * Logos come in two flavors:
+ * - `mono` (default) renders the monochrome models.dev mark and pairs it with
+ *   `dark:invert` so it stays visible on dark backgrounds — the original look.
+ * - `color` swaps in LobeHub's full-color mark for the providers that actually
+ *   have one, falling back to the mono logo otherwise (e.g. OpenAI, xAI and v0
+ *   whose brand marks are monochrome by design).
+ */
+export type ModelSelectorLogoVariant = "mono" | "color";
+
+/** models.dev provider slug → LobeHub color icon slug. */
+const colorLogoSlugs: Record<string, string> = {
+  anthropic: "claude-color",
+  "google-vertex-anthropic": "claude-color",
+  deepseek: "deepseek-color",
+  google: "gemini-color",
+  "google-vertex": "gemini-color",
+  mistral: "mistral-color",
+};
+
+const LOBEHUB_ICONS_VERSION = "1.94.0";
+
 export type ModelSelectorLogoProps = Omit<
   ComponentProps<"img">,
   "src" | "alt"
 > & {
+  /** `mono` (default) for the models.dev mark, `color` for the full-color one. */
+  variant?: ModelSelectorLogoVariant;
   provider:
     | "moonshotai-cn"
     | "lucidquery"
@@ -454,18 +483,38 @@ export type ModelSelectorLogoProps = Omit<
 
 export const ModelSelectorLogo = ({
   provider,
+  variant = "mono",
   className,
   ...props
-}: ModelSelectorLogoProps) => (
-  <img
-    {...props}
-    alt={`${provider} logo`}
-    className={cn("size-3 dark:invert", className)}
-    height={12}
-    src={`https://models.dev/logos/${provider}.svg`}
-    width={12}
-  />
-);
+}: ModelSelectorLogoProps) => {
+  const colorSlug = variant === "color" ? colorLogoSlugs[provider] : undefined;
+
+  // Full-color mark from LobeHub — rendered as-is (no `dark:invert`).
+  if (colorSlug) {
+    return (
+      <img
+        {...props}
+        alt={`${provider} logo`}
+        className={cn("size-3", className)}
+        height={12}
+        src={`https://unpkg.com/@lobehub/icons-static-svg@${LOBEHUB_ICONS_VERSION}/icons/${colorSlug}.svg`}
+        width={12}
+      />
+    );
+  }
+
+  // Monochrome mark — inverted in dark mode so it stays visible.
+  return (
+    <img
+      {...props}
+      alt={`${provider} logo`}
+      className={cn("size-3 dark:invert", className)}
+      height={12}
+      src={`https://models.dev/logos/${provider}.svg`}
+      width={12}
+    />
+  );
+};
 
 export type ModelSelectorLogoGroupProps = ComponentProps<"div">;
 
