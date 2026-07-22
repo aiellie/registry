@@ -27,9 +27,46 @@ import { HugeiconsIcon } from "@hugeicons/react"
 /*                                    Data                                     */
 /* -------------------------------------------------------------------------- */
 
-/** Iframe source used across the examples so every preview renders a page. */
-const PREVIEW_SRC =
-  "https://preview-v0me-kzml7zc6fkcvbyhzrf47.vusercontent.net/"
+/**
+ * Renders a self-contained page inside the iframe via `srcDoc`, so the demos
+ * load instantly with zero network requests (no slow external previews).
+ */
+function previewDoc(url = "https://example.com") {
+  return `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      *{box-sizing:border-box}
+      body{margin:0;min-height:100vh;font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color:#0a0a0a;background:linear-gradient(180deg,#fafafa,#f4f4f5)}
+      header{display:flex;align-items:center;gap:6px;padding:14px 20px;border-bottom:1px solid #e4e4e7;background:#fff}
+      .dot{width:9px;height:9px;border-radius:999px;background:#d4d4d8}
+      main{max-width:560px;margin:0 auto;padding:44px 24px}
+      h1{margin:0 0 10px;font-size:26px;letter-spacing:-.02em}
+      p{margin:0 0 22px;color:#52525b;line-height:1.6}
+      .card{padding:18px;border:1px solid #e4e4e7;border-radius:12px;background:#fff;font-size:14px;color:#52525b}
+      code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+      @media (prefers-color-scheme:dark){
+        body{color:#fafafa;background:linear-gradient(180deg,#09090b,#18181b)}
+        header{background:#0a0a0a;border-color:#27272a}
+        p,.card{color:#a1a1aa}
+        .card{background:#111113;border-color:#27272a}
+      }
+    </style>
+  </head>
+  <body>
+    <header><span class="dot"></span><span class="dot"></span><span class="dot"></span></header>
+    <main>
+      <h1>Preview</h1>
+      <p>Showing <code>${url}</code></p>
+      <div class="card">Rendered instantly from <code>srcDoc</code> — no network request.</div>
+    </main>
+  </body>
+</html>`
+}
+
+const PREVIEW_DOC = previewDoc()
 
 type ConsoleLog = {
   level: "log" | "warn" | "error"
@@ -130,7 +167,7 @@ function DefaultExample() {
             <HugeiconsIcon className="size-4" icon={Maximize01Icon} />
           </WebPreviewNavigationButton>
         </WebPreviewNavigation>
-        <WebPreviewBody src={PREVIEW_SRC} />
+        <WebPreviewBody srcDoc={PREVIEW_DOC} />
         <WebPreviewConsole logs={INITIAL_LOGS} />
       </WebPreview>
     </Example>
@@ -144,7 +181,7 @@ function MinimalExample() {
         <WebPreviewNavigation>
           <WebPreviewUrl />
         </WebPreviewNavigation>
-        <WebPreviewBody src={PREVIEW_SRC} />
+        <WebPreviewBody srcDoc={PREVIEW_DOC} />
       </WebPreview>
     </Example>
   )
@@ -182,7 +219,7 @@ function NavigationExample() {
             <HugeiconsIcon className="size-4" icon={LinkSquare02Icon} />
           </WebPreviewNavigationButton>
         </WebPreviewNavigation>
-        <WebPreviewBody src={PREVIEW_SRC} />
+        <WebPreviewBody srcDoc={PREVIEW_DOC} />
       </WebPreview>
     </Example>
   )
@@ -215,7 +252,7 @@ function ConsoleExample() {
             </WebPreviewNavigationButton>
             <WebPreviewUrl />
           </WebPreviewNavigation>
-          <WebPreviewBody src={PREVIEW_SRC} />
+          <WebPreviewBody srcDoc={PREVIEW_DOC} />
           <WebPreviewConsole logs={logs} />
         </WebPreview>
         <div className="flex items-center gap-2">
@@ -260,7 +297,7 @@ function LoadingExample() {
               </div>
             ) : null
           }
-          src={PREVIEW_SRC}
+          srcDoc={PREVIEW_DOC}
         />
       </WebPreview>
     </Example>
@@ -300,7 +337,7 @@ function ControlledUrlExample() {
             </WebPreviewNavigationButton>
             <WebPreviewUrl />
           </WebPreviewNavigation>
-          <WebPreviewBody />
+          <WebPreviewBody srcDoc={previewDoc(url)} />
         </WebPreview>
         <p className="text-sm text-muted-foreground">
           Current URL: <span className="text-foreground">{url}</span>
