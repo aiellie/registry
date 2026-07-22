@@ -2,8 +2,12 @@
 
 import Link from "next/link"
 import {
-  Cancel01Icon,
-  Menu01Icon,
+  LayoutAlignLeftIcon,
+  LayoutAlignRightIcon,
+  LayoutAlignBottomIcon,
+  SidebarLeftIcon,
+  SidebarRightIcon,
+  SidebarBottomIcon
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
@@ -11,8 +15,6 @@ import { Logo } from "@/components/logo"
 import { Button } from "@/components/ui/button"
 import { useSidebar } from "@/components/ui/sidebar"
 import { ModeToggle } from "@/components/theme-toggle"
-import { Latency } from "@/components/latency"
-import { NyClock } from "@/components/ny-clock"
 
 export function BrandHeader() {
   const { state, toggleSidebar } = useSidebar()
@@ -24,27 +26,27 @@ export function BrandHeader() {
         <div className="flex items-center gap-4">
           <Button
             variant="ghost"
-            size="icon"
-            className="hidden size-8 md:flex"
+            size="icon-sm"
+            className="hidden md:flex"
             onClick={toggleSidebar}
           >
             <HugeiconsIcon
-              icon={isCollapsed ? Menu01Icon : Cancel01Icon}
+              icon={isCollapsed ? SidebarLeftIcon : LayoutAlignLeftIcon}
               strokeWidth={2}
-              className="size-4"
+              className="text-muted-foreground"
             />
           </Button>
 
           <Button
             variant="ghost"
-            size="icon"
-            className="size-8 md:hidden"
+            size="icon-sm"
+            className="md:hidden"
             onClick={toggleSidebar}
           >
             <HugeiconsIcon
-              icon={Menu01Icon}
+              icon={SidebarLeftIcon}
               strokeWidth={2}
-              className="size-4"
+              className="size-4 text-muted-foreground"
             />
           </Button>
 
@@ -53,12 +55,23 @@ export function BrandHeader() {
           </Link>
         </div>
 
-        <div className="flex items-center gap-4">
-          <NyClock />
-          <span className="h-3 w-px bg-border" />
-          <Latency />
-          <span className="h-3 w-px bg-border" />
+        <div className="flex items-center gap-1">
           <ModeToggle />
+          <span className="mx-1 h-3 w-px bg-border" />
+          <Button variant="ghost" size="icon-sm">
+            <HugeiconsIcon
+              icon={LayoutAlignBottomIcon}
+              strokeWidth={2}
+              className="size-4 text-muted-foreground"
+            />
+          </Button>
+          <Button variant="ghost" size="icon-sm">
+            <HugeiconsIcon
+              icon={LayoutAlignRightIcon}
+              strokeWidth={2}
+              className="size-4 text-muted-foreground"
+            />
+          </Button>
         </div>
       </div>
     </header>
