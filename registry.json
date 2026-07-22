@@ -532,6 +532,11 @@
           "path": "components/search-command.tsx",
           "type": "registry:component",
           "target": "components/search-command.tsx"
+        },
+        {
+          "path": "components/feedback-form.tsx",
+          "type": "registry:component",
+          "target": "components/feedback-form.tsx"
         }
       ],
       "dependencies": [
