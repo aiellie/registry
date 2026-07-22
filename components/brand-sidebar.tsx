@@ -9,9 +9,7 @@ import {
   PlusSignIcon,
   WebDesign02Icon,
   Calendar01Icon,
-  PieChart,
-  Frame,
-  Map,
+  Folder01Icon,
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
@@ -41,6 +39,7 @@ import { cn } from "@/lib/utils"
 import { NavProjects } from "@/components/nav-projects"
 import { NavChats } from "@/components/nav-chats"
 import { NavUser } from "@/components/nav-user"
+import { SearchCommand } from "@/components/search-command"
 
 
 
@@ -84,25 +83,25 @@ const mainNavItems: NavItem[] = [
 
 const data = { 
   user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
+    name: "aiellie",
+    email: "hello@aiellie.dev",
+    avatar: "/avatars/aiellie.png",
   },
   projects: [
     {
-      name: "Design Engineering",
+      name: "Portfolio",
       url: "#",
-      icon: Frame,
+      icon: Folder01Icon,
     },
     {
-      name: "Sales & Marketing",
+      name: "Design Registry",
       url: "#",
-      icon: PieChart,
+      icon: Folder01Icon,
     },
     {
-      name: "Travel",
+      name: "MCP",
       url: "#",
-      icon: Map,
+      icon: Folder01Icon,
     },
   ],
   chats: [
@@ -134,36 +133,45 @@ export function BrandSidebar({ className }: { className?: string }) {
     >
       <SidebarHeader>
         <div className={cn(isCollapsed ? "py-2" : "px-0 pt-2")}>
-          <Tooltip>
-            <TooltipTrigger
-              render={
-                <Button
-                  variant="outline"
-                  className={cn(isCollapsed ? "size-8 p-0" : "w-full")}
-                >
-                  <HugeiconsIcon
-                    icon={PlusSignIcon}
-                    strokeWidth={2}
-                    className="size-4"
-                  />
-                  {!isCollapsed && (
-                    <>
-                      <span>New Chat</span>
-                      <Kbd className="ml-auto text-xs">⌘ N</Kbd>
-                    </>
-                  )}
-                </Button>
-              }
-            />
-            <TooltipContent
-              side="right"
-              align="center"
-              hidden={!isCollapsed}
-            >
-              New Chat
-              <Kbd className="text-xs">⌘ N</Kbd>
-            </TooltipContent>
-          </Tooltip>
+          <div
+            className={cn(
+              "flex gap-2",
+              isCollapsed ? "flex-col items-center" : "items-center"
+            )}
+          >
+            <Tooltip>
+              <TooltipTrigger
+                render={
+                  <Button
+                    variant="outline"
+                    className={cn(isCollapsed ? "size-8 p-0" : "flex-1")}
+                  >
+                    <HugeiconsIcon
+                      icon={PlusSignIcon}
+                      strokeWidth={2}
+                      className="size-4"
+                    />
+                    {!isCollapsed && (
+                      <>
+                        <span>New Chat</span>
+                        <Kbd className="ml-auto text-xs">⌘ N</Kbd>
+                      </>
+                    )}
+                  </Button>
+                }
+              />
+              <TooltipContent
+                side="right"
+                align="center"
+                hidden={!isCollapsed}
+              >
+                New Chat
+                <Kbd className="text-xs">⌘ N</Kbd>
+              </TooltipContent>
+            </Tooltip>
+
+            <SearchCommand variant="icon" />
+          </div>
         </div>
       </SidebarHeader>
 

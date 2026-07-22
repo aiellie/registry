@@ -2,12 +2,10 @@
 
 import type { IconSvgElement } from "@hugeicons/react"
 import {
+  BubbleChatIcon,
   Calendar01Icon,
-  Chatting01Icon,
-  Frame,
+  Folder01Icon,
   LibraryIcon,
-  Map,
-  PieChart,
   PlugIcon,
   Search01Icon,
   WebDesign02Icon,
@@ -16,6 +14,7 @@ import { HugeiconsIcon } from "@hugeicons/react"
 import { useRouter } from "next/navigation"
 import { useCallback, useEffect, useState } from "react"
 
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
   Command,
@@ -25,6 +24,7 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
+  CommandShortcut,
 } from "@/components/ui/command"
 import { Kbd, KbdGroup } from "@/components/ui/kbd"
 import { useSidebar } from "@/components/ui/sidebar"
@@ -33,29 +33,43 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import { cn } from "@/lib/utils"
+
 interface SearchItem {
   title: string
   href: string
   icon: IconSvgElement
+  badge?: {
+    text: string
+    className?: string
+  }
 }
 
 const navigationItems: SearchItem[] = [
   { title: "Library", href: "#library", icon: LibraryIcon },
   { title: "Scheduled", href: "#scheduled", icon: Calendar01Icon },
   { title: "Plugins", href: "#plugins", icon: PlugIcon },
-  { title: "Sites", href: "#sites", icon: WebDesign02Icon },
+  {
+    title: "Sites",
+    href: "#sites",
+    icon: WebDesign02Icon,
+    badge: {
+      text: "New",
+      className: "bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-300",
+    },
+  },
 ]
 
 const projectItems: SearchItem[] = [
-  { title: "Design Engineering", href: "#", icon: Frame },
-  { title: "Sales & Marketing", href: "#", icon: PieChart },
-  { title: "Travel", href: "#", icon: Map },
+  { title: "Portfolio", href: "#", icon: Folder01Icon },
+  { title: "Design Registry", href: "#", icon: Folder01Icon },
+  { title: "MCP", href: "#", icon: Folder01Icon },
 ]
 
 const chatItems: SearchItem[] = [
-  { title: "Onboarding flow ideas", href: "#", icon: Chatting01Icon },
-  { title: "Q3 roadmap draft", href: "#", icon: Chatting01Icon },
-  { title: "Bug triage notes", href: "#", icon: Chatting01Icon },
+  { title: "Onboarding flow ideas", href: "#", icon: BubbleChatIcon },
+  { title: "Q3 roadmap draft", href: "#", icon: BubbleChatIcon },
+  { title: "Bug triage notes", href: "#", icon: BubbleChatIcon },
 ]
 
 function HighlightMatch({ text, query }: { text: string; query: string }) {
@@ -85,7 +99,7 @@ function HighlightMatch({ text, query }: { text: string; query: string }) {
 export function SearchCommand({
   variant = "sidebar",
 }: {
-  variant?: "header" | "sidebar"
+  variant?: "header" | "sidebar" | "icon"
 }) {
   const router = useRouter()
   const { state, isMobile, setOpenMobile } = useSidebar()
@@ -123,16 +137,37 @@ export function SearchCommand({
   )
 
   const trigger =
-    variant === "header" ? (
+    variant === "icon" ? (
+      <Tooltip>
+        <TooltipTrigger
+          render={
+            <Button
+              variant="outline"
+              size={collapsed ? "icon-sm" : "icon"}
+              aria-label="Search"
+              onClick={() => setOpen(true)}
+            />
+          }
+        >
+          <HugeiconsIcon icon={Search01Icon} strokeWidth={2} />
+        </TooltipTrigger>
+        <TooltipContent
+          side={collapsed ? "right" : "bottom"}
+          align="center"
+        >
+          Search <Kbd>⌘K</Kbd>
+        </TooltipContent>
+      </Tooltip>
+    ) : variant === "header" ? (
       <>
         <Button
-          variant="ghost"
-          size="sm"
+          variant="outline"
+          size="default"
           className="hidden text-foreground md:inline-flex"
           onClick={() => setOpen(true)}
         >
           <HugeiconsIcon icon={Search01Icon} strokeWidth={2} className="size-4" />
-          Search
+          <span>Search</span>
           <KbdGroup className="ms-2">
             <Kbd>⌘</Kbd>
             <Kbd>K</Kbd>
@@ -212,6 +247,16 @@ export function SearchCommand({
                 >
                   <HugeiconsIcon icon={item.icon} strokeWidth={2} />
                   <HighlightMatch text={item.title} query={search} />
+                  {item.badge && (
+                    <CommandShortcut>
+                      <Badge
+                        variant="secondary"
+                        className={cn(item.badge.className)}
+                      >
+                        {item.badge.text}
+                      </Badge>
+                    </CommandShortcut>
+                  )}
                 </CommandItem>
               ))}
             </CommandGroup>

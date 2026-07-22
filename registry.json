@@ -132,6 +132,11 @@
           "path": "lib/glass.ts",
           "type": "registry:lib",
           "target": "lib/glass.ts"
+        },
+        {
+          "path": "hooks/use-meta-color.ts",
+          "type": "registry:hook",
+          "target": "hooks/use-meta-color.ts"
         }
       ]
     },
@@ -465,9 +470,19 @@
           "target": "components/brand-header.tsx"
         },
         {
-          "path": "components/search-command.tsx",
+          "path": "components/theme-toggle.tsx",
           "type": "registry:component",
-          "target": "components/search-command.tsx"
+          "target": "components/theme-toggle.tsx"
+        },
+        {
+          "path": "components/latency.tsx",
+          "type": "registry:component",
+          "target": "components/latency.tsx"
+        },
+        {
+          "path": "components/ny-clock.tsx",
+          "type": "registry:component",
+          "target": "components/ny-clock.tsx"
         }
       ],
       "dependencies": [
@@ -507,6 +522,16 @@
           "path": "components/nav-user.tsx",
           "type": "registry:component",
           "target": "components/nav-user.tsx"
+        },
+        {
+          "path": "components/settings-dialog.tsx",
+          "type": "registry:component",
+          "target": "components/settings-dialog.tsx"
+        },
+        {
+          "path": "components/search-command.tsx",
+          "type": "registry:component",
+          "target": "components/search-command.tsx"
         }
       ],
       "dependencies": [

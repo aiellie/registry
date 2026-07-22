@@ -1,13 +1,17 @@
 "use client"
 
+import * as React from "react"
+
 import {
-  CreditCardIcon,
+  MessageQuestionIcon,
   MoreVerticalCircle01Icon,
   Logout01Icon,
-  Notification01Icon,
-  UserCircle02Icon,
+  SettingsIcon,
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
+
+import { SettingsDialog } from "@/components/settings-dialog"
+import { FeedbackForm } from "@/components/feedback-form"
 
 import {
   Avatar,
@@ -41,6 +45,8 @@ export function NavUser({
 }) {
   const { isMobile, state } = useSidebar()
   const isCollapsed = state === "collapsed"
+  const [settingsOpen, setSettingsOpen] = React.useState(false)
+  const [feedbackOpen, setFeedbackOpen] = React.useState(false)
 
   return (
     <SidebarMenu>
@@ -54,7 +60,7 @@ export function NavUser({
               />
             }
           >
-            <Avatar className="h-8 w-8 rounded-lg grayscale">
+            <Avatar className="h-8 w-8 rounded-lg">
               <AvatarImage src={user.avatar} alt={user.name} />
               <AvatarFallback className="rounded-lg">CN</AvatarFallback>
             </Avatar>
@@ -64,10 +70,10 @@ export function NavUser({
                 {user.email}
               </span>
             </div>
-            <HugeiconsIcon icon={MoreVerticalCircle01Icon} strokeWidth={2} className="ml-auto size-4" />
+            <HugeiconsIcon icon={MoreVerticalCircle01Icon} strokeWidth={1.5} className="ml-auto size-4" />
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
+            className="w-(--radix-dropdown-menu-trigger-width) min-w-60 rounded-lg"
             side={isMobile ? "bottom" : isCollapsed ? "right" : "top"}
             align="end"
             sideOffset={4}
@@ -90,27 +96,25 @@ export function NavUser({
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <HugeiconsIcon icon={UserCircle02Icon} strokeWidth={2} className="size-4" />
-                Account
+              <DropdownMenuItem onClick={() => setSettingsOpen(true)}>
+                <HugeiconsIcon icon={SettingsIcon} strokeWidth={1.5} className="size-4" />
+                Settings
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <HugeiconsIcon icon={CreditCardIcon} strokeWidth={2} className="size-4" />
-                Billing
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <HugeiconsIcon icon={Notification01Icon} strokeWidth={2} className="size-4" />
-                Notifications
+              <DropdownMenuItem onClick={() => setFeedbackOpen(true)}>
+                <HugeiconsIcon icon={MessageQuestionIcon} strokeWidth={1.5} className="size-4" />
+                Feedback
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem variant="destructive">
-              <HugeiconsIcon icon={Logout01Icon} strokeWidth={2} className="size-4" />
+              <HugeiconsIcon icon={Logout01Icon} strokeWidth={1.5} className="size-4" />
               Log out
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>
+      <SettingsDialog open={settingsOpen} onOpenChange={setSettingsOpen} />
+      <FeedbackForm open={feedbackOpen} onOpenChange={setFeedbackOpen} />
     </SidebarMenu>
   )
 }
