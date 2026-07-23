@@ -64,25 +64,19 @@
 
 :root {
   /* Compact layout rhythm. Keep control and icon sizing independent. */
-  --layout-gutter: 1rem;
-  --section-spacing: 1.25rem;
-  --hero-spacing: 1.75rem;
-  --grid-spacing: 1rem;
-  --density-card-spacing: 0.75rem;
-  --site-header-height: 3rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.37 0.04 257);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.141 0.005 285.823);
+  --card-foreground: oklch(0.37 0.04 257);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.141 0.005 285.823);
+  --popover-foreground: oklch(0.37 0.04 257);
   --primary: oklch(0.457 0.24 277.023);
   --primary-foreground: oklch(0.962 0.018 272.314);
   --secondary: oklch(0.967 0.001 286.375);
   --secondary-foreground: oklch(0.37 0.04 257);
   --muted: oklch(0.967 0.001 286.375);
   --muted-foreground: oklch(70.5% 0.015 286.067);
-  --accent: oklch(0.962 0.018 272.314);
+  --accent:  oklch(0.457 0.24 277.023/4%);
   --accent-foreground: oklch(0.457 0.24 277.023);
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.92 0.004 286.32);
@@ -110,14 +104,6 @@
   --code-number: var(--muted-foreground);
 }
 
-@media (min-width: 48rem) {
-  :root {
-    --layout-gutter: 1.25rem;
-    --section-spacing: 1.75rem;
-    --hero-spacing: 2.5rem;
-    --grid-spacing: 1.25rem;
-  }
-}
 
 .dark {
   --background: oklch(0.141 0.005 285.823);
