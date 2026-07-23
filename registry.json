@@ -3095,6 +3095,22 @@
           "target": "components/ui/ai-orb.tsx"
         }
       ]
+    },
+    {
+      "name": "liquid",
+      "type": "registry:component",
+      "title": "Liquid",
+      "description": "Liquid with theme selector and call button.",
+      "registryDependencies": [
+        "https://ui.aiellie.dev/r/example.json"
+      ],
+      "files": [
+        {
+          "path": "components/canvasui/liquid.tsx",
+          "type": "registry:component",
+          "target": "components/ui/liquid.tsx"
+        }
+      ]
     }
   ]
 }

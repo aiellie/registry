@@ -9,6 +9,7 @@ import {
   AttachmentIcon,
   BarChartIcon,
   BlocksIcon,
+  BloodIcon,
   Bone01Icon,
   BrowserIcon,
   BubbleChatIcon,
@@ -105,6 +106,7 @@ export type CategoryId =
   | "display"
   | "feedback"
   | "layout"
+  | "animation"
 
 export interface Category {
   id: CategoryId
@@ -123,6 +125,7 @@ export const categories: Record<CategoryId, Category> = {
   display: { id: "display", label: "Data Display", icon: GridViewIcon },
   feedback: { id: "feedback", label: "Feedback", icon: Notification01Icon },
   layout: { id: "layout", label: "Layout", icon: LayoutTopIcon },
+  animation: { id: "animation", label: "Animation", icon: SparklesIcon },
 }
 
 /** Order category groups render in when sorting by category. */
@@ -136,6 +139,7 @@ export const categoryOrder: CategoryId[] = [
   "display",
   "feedback",
   "layout",
+  "animation",
 ]
 
 export interface Item {
@@ -252,6 +256,9 @@ export const items: Item[] = [
   { name: "resizable", icon: ArrowExpandIcon, type: "registry:ui", category: "layout", isNew: false },
   { name: "scroll-area", icon: MouseScroll01Icon, type: "registry:ui", category: "layout", isNew: false },
   { name: "separator", icon: SolidLine01Icon, type: "registry:ui", category: "layout", isNew: false },
+
+  // Animation
+  { name: "liquid", icon: BloodIcon, type: "registry:component", category: "animation", isNew: true },
 ]
 
 /** Icons for non-item sidebar entries (Getting Started nav + theme). */
