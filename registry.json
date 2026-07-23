@@ -450,7 +450,7 @@
     },
     {
       "name": "login-form",
-      "type": "registry:component",
+      "type": "registry:example",
       "title": "Login Form",
       "description": "Login page section with brand logo and social sign-in buttons.",
       "registryDependencies": [
@@ -463,7 +463,7 @@
       "files": [
         {
           "path": "components/login-form.tsx",
-          "type": "registry:component",
+          "type": "registry:example",
           "target": "components/login-form.tsx"
         }
       ]
