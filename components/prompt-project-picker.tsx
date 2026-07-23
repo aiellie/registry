@@ -3,7 +3,6 @@
 import * as React from "react"
 
 import {
-  ArrowLeft01Icon,
   ArrowRight01Icon,
   Cancel01Icon,
   Folder01Icon,
@@ -48,17 +47,13 @@ export function PromptProjectPicker({
   onOpenChange?: (open: boolean) => void
   trigger: React.ReactElement
 }) {
-  // `null` is the project list, "new" is the create-project drill-down. cmdk
-  // has no submenu primitive, so the list swaps in place and stays navigable.
-  const [page, setPage] = React.useState<"new" | null>(null)
-  const [search, setSearch] = React.useState("")
+  // The create-project options live in a nested sub-popover anchored to the
+  // "New project" row, rather than swapping the list in place.
+  const [newOpen, setNewOpen] = React.useState(false)
 
   const handleOpenChange = (next: boolean) => {
     onOpenChange?.(next)
-    if (!next) {
-      setPage(null)
-      setSearch("")
-    }
+    if (!next) setNewOpen(false)
   }
 
   const close = () => handleOpenChange(false)
@@ -66,108 +61,92 @@ export function PromptProjectPicker({
   return (
     <Popover open={open} onOpenChange={handleOpenChange}>
       <PopoverTrigger render={trigger} />
-      <PopoverContent
-        side="top"
-        align="start"
-        className="w-72 gap-0 p-0"
-        onKeyDown={(event) => {
-          if (page && event.key === "Backspace" && !search) {
-            event.preventDefault()
-            setPage(null)
-          }
-        }}
-      >
+      <PopoverContent side="top" align="start" className="w-72 gap-0 p-0">
         <Command>
-          <CommandInput
-            placeholder={page ? "New project" : "Search projects"}
-            value={search}
-            onValueChange={setSearch}
-          />
+          <CommandInput placeholder="Search projects" />
           <CommandList>
             <CommandEmpty>No projects found.</CommandEmpty>
-            {page === "new" ? (
-              <CommandGroup>
+            <CommandGroup>
+              {projects.map((project) => (
                 <CommandItem
+                  key={project.id}
+                  value={project.name}
+                  data-checked={project.id === value}
                   onSelect={() => {
-                    setPage(null)
-                    setSearch("")
-                  }}
-                >
-                  <HugeiconsIcon
-                    icon={ArrowLeft01Icon}
-                    strokeWidth={1.5}
-                    className="rtl:rotate-180"
-                  />
-                  Back
-                </CommandItem>
-                <CommandItem
-                  onSelect={() => {
-                    onCreateProject?.("scratch")
-                    close()
-                  }}
-                >
-                  <HugeiconsIcon icon={PlusSignIcon} strokeWidth={1.5} />
-                  Start from scratch
-                </CommandItem>
-                <CommandItem
-                  onSelect={() => {
-                    onCreateProject?.("existing")
+                    onValueChange(project.id)
                     close()
                   }}
                 >
                   <HugeiconsIcon icon={Folder01Icon} strokeWidth={1.5} />
-                  Use an existing folder
+                  {project.name}
                 </CommandItem>
-              </CommandGroup>
-            ) : (
-              <>
-                <CommandGroup>
-                  {projects.map((project) => (
+              ))}
+            </CommandGroup>
+            <CommandSeparator />
+            <CommandGroup>
+              <Popover open={newOpen} onOpenChange={setNewOpen}>
+                <PopoverTrigger
+                  nativeButton={false}
+                  render={
                     <CommandItem
-                      key={project.id}
-                      value={project.name}
-                      data-checked={project.id === value}
-                      onSelect={() => {
-                        onValueChange(project.id)
-                        close()
-                      }}
+                      value="New project"
+                      // cmdk selects on click; keep the row open as a submenu
+                      // trigger instead of running a select handler.
+                      onSelect={() => setNewOpen(true)}
                     >
-                      <HugeiconsIcon icon={Folder01Icon} strokeWidth={1.5} />
-                      {project.name}
+                      <HugeiconsIcon icon={PlusSignIcon} strokeWidth={1.5} />
+                      New project
+                      <HugeiconsIcon
+                        icon={ArrowRight01Icon}
+                        strokeWidth={1.5}
+                        className="ms-auto rtl:rotate-180"
+                      />
                     </CommandItem>
-                  ))}
-                </CommandGroup>
-                <CommandSeparator />
-                <CommandGroup>
-                  <CommandItem
-                    value="New project"
-                    className="[&>svg:last-child]:hidden"
-                    onSelect={() => {
-                      setSearch("")
-                      setPage("new")
-                    }}
-                  >
-                    <HugeiconsIcon icon={PlusSignIcon} strokeWidth={1.5} />
-                    New project
-                    <HugeiconsIcon
-                      icon={ArrowRight01Icon}
-                      strokeWidth={1.5}
-                      className="ms-auto rtl:rotate-180"
-                    />
-                  </CommandItem>
-                  <CommandItem
-                    value="Don't work in a project"
-                    onSelect={() => {
-                      onValueChange(null)
-                      close()
-                    }}
-                  >
-                    <HugeiconsIcon icon={Cancel01Icon} strokeWidth={1.5} />
-                    Don&apos;t work in a project
-                  </CommandItem>
-                </CommandGroup>
-              </>
-            )}
+                  }
+                />
+                <PopoverContent
+                  side="right"
+                  align="start"
+                  sideOffset={4}
+                  className="w-56 p-1"
+                >
+                  <Command>
+                    <CommandList>
+                      <CommandGroup>
+                        <CommandItem
+                          onSelect={() => {
+                            onCreateProject?.("scratch")
+                            close()
+                          }}
+                        >
+                          <HugeiconsIcon icon={PlusSignIcon} strokeWidth={1.5} />
+                          Start from scratch
+                        </CommandItem>
+                        <CommandItem
+                          onSelect={() => {
+                            onCreateProject?.("existing")
+                            close()
+                          }}
+                        >
+                          <HugeiconsIcon icon={Folder01Icon} strokeWidth={1.5} />
+                          Use existing folder
+                        </CommandItem>
+                      </CommandGroup>
+                    </CommandList>
+                  </Command>
+                </PopoverContent>
+              </Popover>
+              <CommandItem
+                value="Don't work in a project"
+                onSelect={() => {
+                  onValueChange(null)
+                  close()
+                }}
+              >
+                <HugeiconsIcon icon={Cancel01Icon} strokeWidth={1.5} />
+                Don&apos;t work in a project
+              </CommandItem>
+            </CommandGroup>
           </CommandList>
         </Command>
       </PopoverContent>

@@ -5,7 +5,7 @@ import * as React from "react"
 import {
   ArrowUp02Icon,
   Folder01Icon,
-  Mic01Icon,
+  Mic02Icon,
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
@@ -215,7 +215,7 @@ export function PromptInput({
               className="rounded-full"
               aria-label="Dictate"
             >
-              <HugeiconsIcon icon={Mic01Icon} strokeWidth={1.5} />
+              <HugeiconsIcon icon={Mic02Icon} strokeWidth={1.5} />
             </Button>
             <Button
               size="icon-sm"
