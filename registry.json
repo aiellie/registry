@@ -3111,6 +3111,38 @@
           "target": "components/ui/liquid.tsx"
         }
       ]
+    },
+    {
+      "name": "glass",
+      "type": "registry:component",
+      "title": "Glass",
+      "description": "A refractive glass lens rendered over live HTML that follows the cursor.",
+      "registryDependencies": [
+        "https://ui.aiellie.dev/r/example.json"
+      ],
+      "files": [
+        {
+          "path": "components/canvasui/Glass.tsx",
+          "type": "registry:component",
+          "target": "components/ui/glass.tsx"
+        }
+      ]
+    },
+    {
+      "name": "bubbles",
+      "type": "registry:component",
+      "title": "Bubbles",
+      "description": "A trail of refractive metaball bubbles that chase the cursor over live HTML.",
+      "registryDependencies": [
+        "https://ui.aiellie.dev/r/example.json"
+      ],
+      "files": [
+        {
+          "path": "components/canvasui/Bubble.tsx",
+          "type": "registry:component",
+          "target": "components/ui/bubbles.tsx"
+        }
+      ]
     }
   ]
 }

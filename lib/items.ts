@@ -13,6 +13,7 @@ import {
   Bone01Icon,
   BrowserIcon,
   BubbleChatIcon,
+  BubblesIcon,
   Cabinet01Icon,
   CalendarIcon,
   CarouselHorizontalIcon,
@@ -27,6 +28,7 @@ import {
   DistributeHorizontalCenterIcon,
   FileEmpty02Icon,
   FormIcon,
+  GlassWaterIcon,
   GlobeIcon,
   Grid2X2Icon,
   GridTableIcon,
@@ -259,6 +261,8 @@ export const items: Item[] = [
 
   // Animation
   { name: "liquid", icon: BloodIcon, type: "registry:component", category: "animation", isNew: true },
+  { name: "glass", icon: GlassWaterIcon, type: "registry:component", category: "animation", isNew: true },
+  { name: "bubbles", icon: BubblesIcon, type: "registry:component", category: "animation", isNew: true },
 ]
 
 /** Icons for non-item sidebar entries (Getting Started nav + theme). */

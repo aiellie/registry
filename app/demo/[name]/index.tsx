@@ -9,6 +9,8 @@ import { login } from "@/app/demo/[name]/blocks/login"
 import { brandFooter } from "@/app/demo/[name]/components/brand-footer"
 import { brandHeader } from "@/app/demo/[name]/components/brand-header"
 import { brandSidebar } from "@/app/demo/[name]/components/brand-sidebar"
+import BubblesExample from "@/app/demo/[name]/components/bubbles"
+import GlassExample from "@/app/demo/[name]/components/glass"
 import { hero } from "@/app/demo/[name]/components/hero"
 import LiquidExample from "@/app/demo/[name]/components/liquid"
 import { loginForm } from "@/app/demo/[name]/components/login-form"
@@ -112,6 +114,8 @@ export const demos: { [name: string]: Demo } = {
   "brand-sidebar": brandSidebar,
   hero,
   liquid: LiquidExample,
+  glass: GlassExample,
+  bubbles: BubblesExample,
   "login-form": loginForm,
   logo,
   "prompt-input": promptInput,

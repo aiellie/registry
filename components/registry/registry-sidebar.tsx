@@ -101,7 +101,7 @@ function RegistryItemGroup({
             <HugeiconsIcon
               icon={ArrowDown01Icon}
               strokeWidth={2}
-              className="size-3.5 shrink-0 transition-all duration-200 group-data-panel-open/collapsible:rotate-180"
+              className="size-3.5 shrink-0 -rotate-90 transition-all duration-200 group-data-panel-open/collapsible:rotate-0"
             />
           </SidebarGroupLabel>
         </CollapsibleTrigger>
@@ -182,7 +182,7 @@ export function RegistrySidebar() {
                   <HugeiconsIcon
                     icon={ArrowDown01Icon}
                     strokeWidth={2}
-                    className="size-3.5 shrink-0 transition-all duration-200 group-data-panel-open/collapsible:rotate-180"
+                    className="size-3.5 shrink-0 -rotate-90 transition-all duration-200 group-data-panel-open/collapsible:rotate-0"
                   />
                 </SidebarGroupLabel>
               </CollapsibleTrigger>
