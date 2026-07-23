@@ -9,7 +9,7 @@ import {
   PlusSignIcon,
   WebDesign02Icon,
   Calendar01Icon,
-  Folder01Icon,
+  DashboardCircleIcon
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
@@ -27,6 +27,7 @@ import {
   SidebarGroupContent,
   SidebarHeader,
   SidebarMenu,
+  SidebarMenuAction,
   SidebarMenuBadge,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -36,7 +37,6 @@ import {
   SidebarFooter,
 } from "@/components/ui/sidebar"
 import { cn } from "@/lib/utils"
-import { NavProjects } from "@/components/nav-projects"
 import { NavChats } from "@/components/nav-chats"
 import { NavUser } from "@/components/nav-user"
 import { SearchCommand } from "@/components/search-command"
@@ -70,6 +70,11 @@ const mainNavItems: NavItem[] = [
     icon: PlugIcon,
   },
   {
+    title: "Projects",
+    href: "#projects",
+    icon: DashboardCircleIcon,
+  },
+  {
     title: "Sites",
     href: "#sites",
     icon: WebDesign02Icon,
@@ -87,23 +92,6 @@ const data = {
     email: "hello@aiellie.dev",
     avatar: "/avatars/aiellie.png",
   },
-  projects: [
-    {
-      name: "Portfolio",
-      url: "#",
-      icon: Folder01Icon,
-    },
-    {
-      name: "Design Registry",
-      url: "#",
-      icon: Folder01Icon,
-    },
-    {
-      name: "MCP",
-      url: "#",
-      icon: Folder01Icon,
-    },
-  ],
   chats: [
     {
       name: "Onboarding flow ideas",
@@ -205,12 +193,30 @@ export function BrandSidebar({ className }: { className?: string }) {
                       {item.badge.text}
                     </SidebarMenuBadge>
                   )}
+                  {item.title === "Projects" && (
+                    <Tooltip>
+                      <TooltipTrigger
+                        render={
+                          <SidebarMenuAction title="Add Project" showOnHover>
+                            <HugeiconsIcon
+                              icon={PlusSignIcon}
+                              strokeWidth={2}
+                              className="size-4"
+                            />
+                            <span className="sr-only">Add Project</span>
+                          </SidebarMenuAction>
+                        }
+                      />
+                      <TooltipContent side="right" align="center">
+                        Add Project
+                      </TooltipContent>
+                    </Tooltip>
+                  )}
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-        <NavProjects projects={data.projects} />
         <NavChats chats={data.chats} />
       </SidebarContent>
       <SidebarFooter>

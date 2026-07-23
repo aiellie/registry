@@ -26,7 +26,7 @@ export default async function RegistryItemPage({
   }
 
   return (
-    <div className="container flex min-w-0 flex-col gap-6 p-5 md:p-10 lg:h-[calc(100svh-3.5rem)] lg:overflow-hidden">
+    <div className="container flex min-w-0 flex-col gap-6 p-5 md:p-10 lg:h-[calc(100svh-3.5rem)] overflow-y-auto">
 
 
       <BlockDisplay name={name} />

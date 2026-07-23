@@ -3,15 +3,16 @@
 import {
   BlocksIcon,
   ComponentIcon,
+  FilterIcon,
   Lightbulb,
   PuzzleIcon,
   SearchIcon,
 } from "@hugeicons/core-free-icons"
-import { HugeiconsIcon } from "@hugeicons/react"
+import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react"
 import { useRouter } from "next/navigation"
 import { useCallback, useEffect, useState } from "react"
 
-import { getItemIcon } from "@/lib/item-icons"
+import { getItemIcon, type SortMode } from "@/lib/items"
 import { Button } from "@/components/ui/button"
 import {
   Command,
@@ -22,6 +23,14 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import { Kbd, KbdGroup } from "@/components/ui/kbd"
 import { useSidebar } from "@/components/ui/sidebar"
 import {
@@ -39,6 +48,45 @@ const gettingStartedItems = [
 const blockItems = getBlocks()
 const componentItems = getComponents()
 const uiItems = getUIPrimitives()
+
+const SORT_OPTIONS = [
+  { value: "type", label: "By type", icon: PuzzleIcon },
+  { value: "category", label: "By category", icon: BlocksIcon },
+] satisfies { value: SortMode; label: string; icon: IconSvgElement }[]
+
+function SortMenu({
+  sort,
+  onSortChange,
+}: {
+  sort: SortMode
+  onSortChange: (sort: SortMode) => void
+}) {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger
+        render={
+          <Button variant="outline" size="icon-sm" aria-label="Sort registry" />
+        }
+      >
+        <HugeiconsIcon icon={FilterIcon} strokeWidth={2} />
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-44">
+        <DropdownMenuLabel>Sort</DropdownMenuLabel>
+        <DropdownMenuRadioGroup
+          value={sort}
+          onValueChange={(next) => onSortChange(next as SortMode)}
+        >
+          {SORT_OPTIONS.map((option) => (
+            <DropdownMenuRadioItem key={option.value} value={option.value}>
+              <HugeiconsIcon icon={option.icon} strokeWidth={2} />
+              {option.label}
+            </DropdownMenuRadioItem>
+          ))}
+        </DropdownMenuRadioGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
 
 function GroupHeading({
   icon,
@@ -79,7 +127,13 @@ function HighlightMatch({ text, query }: { text: string; query: string }) {
   )
 }
 
-export function SearchCommand() {
+export function SearchCommand({
+  sort,
+  onSortChange,
+}: {
+  sort?: SortMode
+  onSortChange?: (sort: SortMode) => void
+} = {}) {
   const router = useRouter()
   const { state, isMobile, setOpenMobile } = useSidebar()
   const [open, setOpen] = useState(false)
@@ -111,36 +165,50 @@ export function SearchCommand() {
   return (
     <>
       {collapsed ? (
-        <Tooltip>
-          <TooltipTrigger
-            render={
-              <Button
-                variant="outline"
-                size="icon-sm"
-                aria-label="Search registry"
-                onClick={() => setOpen(true)}
-              />
-            }
-          >
-            <HugeiconsIcon icon={SearchIcon} strokeWidth={2} />
-          </TooltipTrigger>
-          <TooltipContent side="right" align="center">
-            Search registry <Kbd>⌘K</Kbd>
-          </TooltipContent>
-        </Tooltip>
+        <div className="flex flex-col items-center gap-2">
+          <Tooltip>
+            <TooltipTrigger
+              render={
+                <Button
+                  variant="outline"
+                  size="icon-sm"
+                  aria-label="Search registry"
+                  onClick={() => setOpen(true)}
+                />
+              }
+            >
+              <HugeiconsIcon icon={SearchIcon} strokeWidth={2} />
+            </TooltipTrigger>
+            <TooltipContent side="right" align="center">
+              Search registry <Kbd>⌘K</Kbd>
+            </TooltipContent>
+          </Tooltip>
+          {sort != null && onSortChange != null && (
+            <SortMenu sort={sort} onSortChange={onSortChange} />
+          )}
+        </div>
       ) : (
-        <Button
-          variant="outline"
-          onClick={() => setOpen(true)}
-          className="w-full justify-start gap-2 bg-background font-normal text-muted-foreground shadow-none"
-        >
-          <HugeiconsIcon icon={SearchIcon} strokeWidth={2} className="size-4" />
-          <span>Search...</span>
-          <KbdGroup className="ms-auto">
-            <Kbd>⌘</Kbd>
-            <Kbd>K</Kbd>
-          </KbdGroup>
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            onClick={() => setOpen(true)}
+            className="min-w-0 flex-1 justify-start gap-2 bg-background font-normal text-muted-foreground shadow-none"
+          >
+            <HugeiconsIcon
+              icon={SearchIcon}
+              strokeWidth={2}
+              className="size-4"
+            />
+            <span>Search...</span>
+            <KbdGroup className="ms-auto">
+              <Kbd>⌘</Kbd>
+              <Kbd>K</Kbd>
+            </KbdGroup>
+          </Button>
+          {sort != null && onSortChange != null && (
+            <SortMenu sort={sort} onSortChange={onSortChange} />
+          )}
+        </div>
       )}
 
       <CommandDialog

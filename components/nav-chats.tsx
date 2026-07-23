@@ -6,7 +6,7 @@ import {
   MoreHorizontalIcon,
   PencilEdit02Icon,
   Delete01Icon,
-  BubbleChatIcon,
+  Comment02Icon,
   PlusSignIcon,
   ArrowDown01Icon,
 } from "@hugeicons/core-free-icons"
@@ -85,7 +85,7 @@ export function NavChats({
               {chats.map((item) => (
                 <SidebarMenuItem key={item.name}>
                   <SidebarMenuButton render={<a href={item.url} />} tooltip={item.name}>
-                    <HugeiconsIcon icon={BubbleChatIcon} strokeWidth={2} className="size-4" />
+                    <HugeiconsIcon icon={Comment02Icon} strokeWidth={2} className="size-4" />
                     <span>{item.name}</span>
                   </SidebarMenuButton>
                   <DropdownMenu>

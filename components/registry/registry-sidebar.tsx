@@ -10,8 +10,14 @@ import {
 import { HugeiconsIcon } from "@hugeicons/react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { useState } from "react"
 
-import { getItemIcon } from "@/lib/item-icons"
+import {
+  getItem,
+  getItemIcon,
+  groupByCategory,
+  type SortMode,
+} from "@/lib/items"
 import { NavUser } from "@/components/registry/nav-user"
 import { RegistryLogo } from "@/components/registry/registry-logo"
 import { SearchCommand } from "@/components/registry/search-command"
@@ -41,6 +47,25 @@ import { getBlocks, getComponents, getUIPrimitives } from "@/lib/registry"
 const uiItems = getUIPrimitives()
 const componentItems = getComponents()
 const blockItems = getBlocks()
+const allItems = [...blockItems, ...componentItems, ...uiItems]
+
+const typeGroups = [
+  { key: "blocks", title: "Blocks", icon: BlocksIcon, items: blockItems },
+  {
+    key: "components",
+    title: "Components",
+    icon: ComponentIcon,
+    items: componentItems,
+  },
+  { key: "ui", title: "UI Primitives", icon: PuzzleIcon, items: uiItems },
+]
+
+const categoryGroups = groupByCategory(allItems).map((group) => ({
+  key: group.category.id,
+  title: group.category.label,
+  icon: group.category.icon,
+  items: group.items,
+}))
 
 const gettingStartedItems = [
   { title: "Home", path: "/", icon: "home" },
@@ -102,6 +127,11 @@ function RegistryItemGroup({
                       className="size-3.5 shrink-0"
                     />
                     <span>{item.title}</span>
+                    {getItem(item.name)?.isNew && (
+                      <span className="ms-auto rounded-full bg-primary/10 px-1.5 py-px text-[10px] font-medium text-primary">
+                        New
+                      </span>
+                    )}
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
@@ -116,6 +146,9 @@ function RegistryItemGroup({
 export function RegistrySidebar() {
   const pathname = usePathname()
   const { setOpenMobile } = useSidebar()
+  const [sort, setSort] = useState<SortMode>("type")
+
+  const groups = sort === "category" ? categoryGroups : typeGroups
 
   return (
     <Sidebar collapsible={pathname === "/" || pathname === "/cards" ? "offcanvas" : "icon"}>
@@ -126,7 +159,7 @@ export function RegistrySidebar() {
           </Link>
         </div>
         <div className="group-data-[collapsible=icon]:flex group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0">
-          <SearchCommand />
+          <SearchCommand sort={sort} onSortChange={setSort} />
         </div>
       </SidebarHeader>
 
@@ -183,21 +216,14 @@ export function RegistrySidebar() {
             </SidebarGroup>
           </Collapsible>
 
-          <RegistryItemGroup
-            title="Blocks"
-            groupIcon={BlocksIcon}
-            items={blockItems}
-          />
-          <RegistryItemGroup
-            title="Components"
-            groupIcon={ComponentIcon}
-            items={componentItems}
-          />
-          <RegistryItemGroup
-            title="UI Primitives"
-            groupIcon={PuzzleIcon}
-            items={uiItems}
-          />
+          {groups.map((group) => (
+            <RegistryItemGroup
+              key={group.key}
+              title={group.title}
+              groupIcon={group.icon}
+              items={group.items}
+            />
+          ))}
         </ScrollArea>
       </SidebarContent>
 
