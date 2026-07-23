@@ -48,6 +48,7 @@ import {
   type MessageAnimationId,
 } from "@/lib/message-animations"
 import { MessageAnimated } from "@/components/ai/message-animated"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Bubble, BubbleContent } from "@/components/ui/bubble"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
@@ -74,7 +75,11 @@ import {
 } from "@/components/ui/input-group"
 import { Label } from "@/components/ui/label"
 import { Marker, MarkerContent } from "@/components/ui/marker"
-import { Message, MessageContent } from "@/components/ui/message"
+import {
+  Message,
+  MessageAvatar,
+  MessageContent,
+} from "@/components/ui/message"
 import {
   MessageScroller,
   MessageScrollerButton,
@@ -490,6 +495,10 @@ export default function MessageScrollerCompleteCard() {
                         message={message}
                         scrollAnchor={message.role === anchorRole}
                         animationPreset={animationPreset}
+                        userVariant="default"
+                        assistantVariant="secondary"
+                        userAvatar={<RoleAvatar role="user" />}
+                        assistantAvatar={<RoleAvatar role="assistant" />}
                       />
                     ))}
                   </MessageScrollerContent>
@@ -598,6 +607,19 @@ export default function MessageScrollerCompleteCard() {
 /*                              History messages                              */
 /* -------------------------------------------------------------------------- */
 
+function RoleAvatar({ role }: { role: AnchorRole }) {
+  return (
+    <Avatar>
+      <AvatarFallback>
+        <HugeiconsIcon
+          icon={role === "user" ? UserIcon : BotIcon}
+          className="size-4"
+        />
+      </AvatarFallback>
+    </Avatar>
+  )
+}
+
 function HistoryRow({
   message,
   anchorRole,
@@ -616,8 +638,11 @@ function HistoryRow({
       scrollAnchor={message.role === anchorRole}
     >
       <Message align={isUserMessage ? "end" : "start"}>
+        <MessageAvatar>
+          <RoleAvatar role={isUserMessage ? "user" : "assistant"} />
+        </MessageAvatar>
         <MessageContent>
-          <Bubble variant={isUserMessage ? "muted" : "ghost"}>
+          <Bubble variant={isUserMessage ? "default" : "secondary"}>
             <BubbleContent className="space-y-2">
               {paragraphs.map((paragraph, index) => (
                 <p key={index} className="whitespace-pre-wrap">

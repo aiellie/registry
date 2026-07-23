@@ -5,42 +5,47 @@ import { useState, useEffect, useRef } from "react"
 import { useAudioLevel } from "@/hooks/use-audio-level"
 import { Pane } from "tweakpane"
 
-type Theme = "default" | "angsty" | "tibor" | "minty"
+type Theme = "aiellie" | "openai" | "google" | "anthropic" | "x" | "deepseek"
 
 const DEFAULT_PARAMS = {
-  proportion: 0.35,
-  softness: 1,
-  distortion: 0.32,
-  swirl: 1,
-  swirlIterations: 0,
-  shape: "edge" as "checks" | "stripes" | "edge",
-  shapeScale: 0,
-  speed: 12.2,
-  scale: 0.31,
-  rotation: 176,
-  offsetX: 0.65,
-  offsetY: 0.09,
-  color1: "#ade7ff",
-  color2: "#ebf4ff",
-  color3: "#00bbff",
+proportion: 0.35,
+softness: 1,
+distortion: 0.32,
+swirl: 1,
+swirlIterations: 0,
+shape: "edge" as "checks" | "stripes" | "edge",
+shapeScale: 0,
+speed: 12.2,
+scale: 0.31,
+rotation: 176,
+offsetX: 0.65,
+offsetY: 0.09,
+color1: "#a5b4fc",
+color2: "#e0e7ff",
+color3: "#4f46e5",
 }
 
 const themes: Record<Theme, { color1: string; color2: string; color3: string }> = {
-  default: { color1: "#ade7ff", color2: "#ebf4ff", color3: "#00bbff" },
-  angsty: { color1: "#ffffff", color2: "#bfbfbf", color3: "#ffffff" },
-  tibor: { color1: "#ff6f00", color2: "#fec398", color3: "#ffffff" },
-  minty: { color1: "#00c853", color2: "#98fec3", color3: "#ffffff" },
+aiellie: { color1: "#a5b4fc", color2: "#e0e7ff", color3: "#4f46e5" },
+openai: { color1: "#10a37f", color2: "#d1f5e9", color3: "#0b7a5f" },
+google: { color1: "#4285f4", color2: "#fce8e6", color3: "#ea4335" },
+anthropic: { color1: "#d97757", color2: "#f5efe6", color3: "#8c4a2f" },
+x: { color1: "#71767b", color2: "#e7e9ea", color3: "#0f1419" },
+deepseek: { color1: "#4d6bfe", color2: "#e3e9ff", color3: "#1c2f9e" },
 }
 
 const themeLabels: Record<Theme, string> = {
-  default: "default",
-  angsty: "angsty teen",
-  tibor: "hello tibor",
-  minty: "minty fresh",
+aiellie: "aiellie",
+openai: "openai",
+google: "google",
+anthropic: "anthropic",
+x: "x",
+deepseek: "deepseek",
 }
 
+
 export default function AIOrbExample() {
-  const [theme, setTheme] = useState<Theme>("default")
+  const [theme, setTheme] = useState<Theme>("aiellie")
   const { audioLevel, isListening, startListening, stopListening } = useAudioLevel()
   const paneRef = useRef<Pane | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)

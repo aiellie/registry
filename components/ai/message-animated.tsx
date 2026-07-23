@@ -6,7 +6,11 @@ import { motion, useReducedMotion } from "motion/react"
 import type { MessageAnimationPreset } from "@/lib/message-animations"
 import { MESSAGE_ANIMATIONS } from "@/lib/message-animations"
 import { Bubble, BubbleContent } from "@/components/ui/bubble"
-import { Message, MessageContent } from "@/components/ui/message"
+import {
+  Message,
+  MessageAvatar,
+  MessageContent,
+} from "@/components/ui/message"
 import { MessageScrollerItem } from "@/components/ui/message-scroller"
 
 type MessageAnimatedPart = {
@@ -31,8 +35,10 @@ const MotionMessageScrollerItem = motion.create(MessageScrollerItem)
 function MessageAnimated({
   message,
   animationPreset = MESSAGE_ANIMATIONS["slide-up"],
+  assistantAvatar,
   assistantVariant = "ghost",
   scrollAnchor,
+  userAvatar,
   userVariant = "muted",
   ...props
 }: Omit<
@@ -40,8 +46,10 @@ function MessageAnimated({
   "animate" | "children" | "exit" | "initial" | "messageId" | "variants"
 > & {
   animationPreset?: MessageAnimationPreset
+  assistantAvatar?: React.ReactNode
   assistantVariant?: React.ComponentProps<typeof Bubble>["variant"]
   message: MessageAnimatedMessage
+  userAvatar?: React.ReactNode
   userVariant?: React.ComponentProps<typeof Bubble>["variant"]
 }) {
   const shouldReduceMotion = useReducedMotion()
@@ -60,7 +68,9 @@ function MessageAnimated({
       >
         <MessageAnimatedRow
           message={message}
+          assistantAvatar={assistantAvatar}
           assistantVariant={assistantVariant}
+          userAvatar={userAvatar}
           userVariant={userVariant}
         />
       </MotionMessageScrollerItem>
@@ -76,7 +86,9 @@ function MessageAnimated({
     >
       <MessageAnimatedRow
         message={message}
+        assistantAvatar={assistantAvatar}
         assistantVariant={assistantVariant}
+        userAvatar={userAvatar}
         userVariant={userVariant}
       />
     </MotionMessageScrollerItem>
@@ -85,18 +97,24 @@ function MessageAnimated({
 
 function MessageAnimatedRow({
   message,
+  assistantAvatar,
   assistantVariant,
+  userAvatar,
   userVariant,
 }: {
+  assistantAvatar?: React.ReactNode
   assistantVariant: React.ComponentProps<typeof Bubble>["variant"]
   message: MessageAnimatedMessage
+  userAvatar?: React.ReactNode
   userVariant: React.ComponentProps<typeof Bubble>["variant"]
 }) {
   const isUserMessage = message.role === "user"
   const textParts = getMessageAnimatedTextParts(message)
+  const avatar = isUserMessage ? userAvatar : assistantAvatar
 
   return (
     <Message align={isUserMessage ? "end" : "start"}>
+      {avatar != null && <MessageAvatar>{avatar}</MessageAvatar>}
       <MessageContent>
         {textParts.map((part) => {
           const paragraphs = part.text
