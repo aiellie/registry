@@ -3106,7 +3106,7 @@
       ],
       "files": [
         {
-          "path": "components/canvasui/liquid.tsx",
+          "path": "components/canvasui/Liquid.tsx",
           "type": "registry:component",
           "target": "components/ui/liquid.tsx"
         }
