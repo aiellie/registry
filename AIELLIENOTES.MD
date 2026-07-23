@@ -3,7 +3,7 @@ These are just my notes for remembering certain commands etc
 Create Push:
 
 git add .
-git commit -m "ai-orb"
+git commit -m "block"
 git push origin main
 
 git push origin main --force

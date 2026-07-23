@@ -122,7 +122,7 @@ function BlockViewerProvider({
       <div
         id={item.name}
         data-view={view}
-        className="group/block-view-wrapper flex min-w-0 scroll-mt-24 flex-col-reverse items-stretch gap-4 overflow-hidden md:flex-col lg:min-h-0 lg:flex-1"
+        className="group/block-view-wrapper flex min-w-0 scroll-mt-24 flex-col-reverse items-stretch gap-4 overflow-hidden md:flex-col lg:h-(--height) lg:min-h-(--height)"
         style={
           {
             "--height": iframeHeight ?? "930px",

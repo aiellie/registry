@@ -8,7 +8,7 @@ import {
   PageHeaderHeading,
 } from "@/components/registry/page-header"
 
-import { ComponentsDemo } from "@/components/registry/components-demo"
+import { BlockDisplay } from "@/components/registry/block-display"
 import { ScrollToComponentsButton } from "@/components/registry/scroll-to-components-button"
 import { RegistryFooter } from "@/components/registry/registry-footer"
 
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
   },
 }
 
-export default function IndexPage() {
+export default async function IndexPage() {
   return (
     <div className="flex flex-1 flex-col">
       <PageHeader className="md:**:[.container]:pb-8 lg:**:[.container]:pb-12">
@@ -54,12 +54,8 @@ export default function IndexPage() {
           <ScrollToComponentsButton />
         </PageActions>
       </PageHeader>
-      <div className="container-wrapper flex-1 p-0">
-        <div className=" overflow-hidden md:px-0 lg:max-w-none">
-        <div className="flex-1 overflow-hidden">
-        <ComponentsDemo />
-          </div>
-        </div>
+      <div className="flex min-w-0 flex-col gap-6 p-5 md:p-10">
+        <BlockDisplay name="dashboard" />
       </div>
       <RegistryFooter />
     </div>
