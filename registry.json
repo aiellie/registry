@@ -144,7 +144,7 @@
       "name": "typeset",
       "type": "registry:style",
       "title": "Typeset",
-      "description": "One stylesheet for HTML you did not write. Add `typeset` to a container and rendered markdown \u2014 headings, lists, tables, code \u2014 picks up the design system. Tuned with --typeset-size, --typeset-leading, and --typeset-flow.",
+      "description": "One stylesheet for HTML you did not write. Add `typeset` to a container and rendered markdown — headings, lists, tables, code — picks up the design system. Tuned with --typeset-size, --typeset-leading, and --typeset-flow.",
       "files": [
         {
           "path": "registry/common/typeset.css",
@@ -3080,13 +3080,32 @@
       ]
     },
     {
+      "name": "demo-controls",
+      "type": "registry:component",
+      "title": "Demo Controls",
+      "description": "A floating control panel of scrubbers, colour pickers and toggles for tuning a shader or canvas demo live.",
+      "registryDependencies": [
+        "https://ui.aiellie.dev/r/example.json",
+        "https://ui.aiellie.dev/r/select.json",
+        "https://ui.aiellie.dev/r/sonner.json"
+      ],
+      "files": [
+        {
+          "path": "components/canvasui/demo-controls.tsx",
+          "type": "registry:component",
+          "target": "components/canvasui/demo-controls.tsx"
+        }
+      ]
+    },
+    {
       "name": "ai-orb",
       "type": "registry:ui",
       "title": "AI Orb",
       "description": "AI Orb with theme selector and call button.",
       "registryDependencies": [
         "https://ui.aiellie.dev/r/example.json",
-        "https://ui.aiellie.dev/r/orb.json"
+        "https://ui.aiellie.dev/r/orb.json",
+        "https://ui.aiellie.dev/r/demo-controls.json"
       ],
       "files": [
         {
