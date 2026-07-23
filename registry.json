@@ -3065,6 +3065,23 @@
           "target": "components/ui/persona.tsx"
         }
       ]
+    },
+    {
+      "name": "ai-orb",
+      "type": "registry:component",
+      "title": "AI Orb",
+      "description": "AI Orb with theme selector and call button.",
+      "registryDependencies": [
+        "https://ui.aiellie.dev/r/example.json",
+        "https://ui.aiellie.dev/r/orb.json"
+      ],
+      "files": [
+        {
+          "path": "components/ai/ai-orb.tsx",
+          "type": "registry:component",
+          "target": "components/ui/ai-orb.tsx"
+        }
+      ]
     }
   ]
 }

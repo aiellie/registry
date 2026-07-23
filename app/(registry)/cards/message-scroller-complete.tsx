@@ -2,7 +2,43 @@
 
 import * as React from "react"
 import { useChat } from "@ai-sdk/react"
-import { ArrowUpIcon, RotateIcon } from "@hugeicons/core-free-icons"
+import {
+  AiMagicIcon,
+  AlignBottomIcon,
+  AlignTopIcon,
+  AlignVerticalCenterIcon,
+  AnchorIcon,
+  AnchorPointIcon,
+  ArrowDown01Icon,
+  ArrowExpand01Icon,
+  ArrowRight01Icon,
+  ArrowUp01Icon,
+  ArrowUpDownIcon,
+  ArrowUpIcon,
+  BlurIcon,
+  BotIcon,
+  BounceRightIcon,
+  CameraIcon,
+  CenterFocusIcon,
+  EyeClosedIcon,
+  EyeIcon,
+  FlashIcon,
+  GlobeIcon,
+  HistoryIcon,
+  Motion01Icon,
+  MouseScroll01Icon,
+  Navigation03Icon,
+  Paperclip,
+  PinIcon,
+  PlugIcon,
+  RotateIcon,
+  RulerIcon,
+  SparklesIcon,
+  Target02Icon,
+  Telescope01Icon,
+  UserIcon,
+  WaveIcon,
+} from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { toast } from "sonner"
 
@@ -14,15 +50,23 @@ import {
 import { MessageAnimated } from "@/components/ai/message-animated"
 import { Bubble, BubbleContent } from "@/components/ui/bubble"
 import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import {
-  Card,
-  CardAction,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card"
 import {
   InputGroup,
   InputGroupAddon,
@@ -30,10 +74,7 @@ import {
 } from "@/components/ui/input-group"
 import { Label } from "@/components/ui/label"
 import { Marker, MarkerContent } from "@/components/ui/marker"
-import {
-  Message,
-  MessageContent,
-} from "@/components/ui/message"
+import { Message, MessageContent } from "@/components/ui/message"
 import {
   MessageScroller,
   MessageScrollerButton,
@@ -46,18 +87,12 @@ import {
   useMessageScrollerVisibility,
 } from "@/components/ui/message-scroller"
 import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
-import { Separator } from "@/components/ui/separator"
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
 import { Slider } from "@/components/ui/slider"
-import { Switch } from "@/components/ui/switch"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
+import { Toggle } from "@/components/ui/toggle"
 import {
   Tooltip,
   TooltipContent,
@@ -96,28 +131,28 @@ const script = createChat()
     id: "turn-anchoring",
   })
   .assistant(
-    "Mark a row with `scrollAnchor` and the scroller treats it as the start of a turn. When it's appended, the viewport settles it near the top instead of snapping to the document bottom.\n\n`scrollMargin` controls the gap to the edge, and `scrollPreviousItemPeek` keeps a slice of the previous exchange visible so context never fully disappears. Try the sliders in the settings, then send the next message."
+    "Mark a row with `scrollAnchor` and the scroller treats it as the start of a turn. When it's appended, the viewport settles it near the top instead of snapping to the document bottom.\n\n`scrollMargin` controls the gap to the edge, and `scrollPreviousItemPeek` keeps a slice of the previous exchange visible so context never fully disappears. Try the sliders in the toolbar, then send the next message."
   )
   .user("What happens when someone loads older history mid-conversation?", {
     id: "turn-history",
   })
   .sleep(600)
   .assistant(
-    '`MessageScrollerViewport` sets `preserveScrollOnPrepend`, so rows prepended above the fold do not move what you are reading.\n\nPress "Load history" in the composer, scroll anywhere, and watch your place hold. Then flip the setting off to feel the difference.'
+    '`MessageScrollerViewport` sets `preserveScrollOnPrepend`, so rows prepended above the fold do not move what you are reading.\n\nPress "Load history" in the composer, scroll anywhere, and watch your place hold. Then flip the pin toggle off to feel the difference.'
   )
   .user("Can I drive the viewport from outside the transcript?", {
     id: "turn-commands",
   })
   .sleep(600)
   .assistant(
-    "`useMessageScroller` returns `scrollToMessage`, `scrollToStart`, and `scrollToEnd`. Every command takes `align`, `behavior`, and a `scrollMargin` override — the Commands section in the settings calls them directly.\n\n`MessageScrollerButton` is the packaged version: it appears only when there is somewhere to go and jumps to whichever `direction` you give it."
+    "`useMessageScroller` returns `scrollToMessage`, `scrollToStart`, and `scrollToEnd`. Every command takes `align`, `behavior`, and a `scrollMargin` override — the jump menu and the outline rail call them directly.\n\n`MessageScrollerButton` is the packaged version: it appears only when there is somewhere to go and jumps to whichever `direction` you give it."
   )
   .user("And how do I read the scroller's state for my own UI?", {
     id: "turn-state",
   })
   .sleep(600)
   .assistant(
-    "Two hooks. `useMessageScrollerScrollable` reports whether you can scroll toward `start` or `end` — the state chips in the settings are wired to it.\n\n`useMessageScrollerVisibility` tracks `visibleMessageIds` plus `currentAnchorId`, which powers the outline that highlights the turn you are reading right now."
+    "Two hooks. `useMessageScrollerScrollable` reports whether you can scroll toward `start` or `end` — the chips under the composer are wired to it.\n\n`useMessageScrollerVisibility` tracks `visibleMessageIds` plus `currentAnchorId`, which powers the outline rail that highlights the turn you are reading right now."
   )
 
 const allMessages = script.get()
@@ -133,6 +168,7 @@ type ScrollPosition = "start" | "end" | "last-anchor"
 type AnchorRole = "user" | "assistant"
 type ButtonDirection = "start" | "end"
 type JumpAlign = "start" | "center" | "end" | "nearest"
+type Turn = { id: string; text: string }
 
 const DEFAULT_SETTINGS = {
   autoScroll: true,
@@ -148,9 +184,15 @@ const DEFAULT_SETTINGS = {
   align: "start" as JumpAlign,
 }
 
-const SCROLL_POSITIONS: ScrollPosition[] = ["start", "end", "last-anchor"]
-const BEHAVIORS: ScrollBehavior[] = ["smooth", "instant", "auto"]
-const ALIGNS: JumpAlign[] = ["start", "center", "end", "nearest"]
+const ANIMATION_ICONS: Record<MessageAnimationId, typeof BlurIcon> = {
+  fade: BlurIcon,
+  "slide-up": ArrowUp01Icon,
+  "slide-side": ArrowRight01Icon,
+  pop: FlashIcon,
+  "spring-bounce": BounceRightIcon,
+  "blur-fade": EyeClosedIcon,
+  "scale-fade": ArrowExpand01Icon,
+}
 
 /* -------------------------------------------------------------------------- */
 /*                                    Card                                    */
@@ -158,9 +200,9 @@ const ALIGNS: JumpAlign[] = ["start", "center", "end", "nearest"]
 
 /**
  * The complete message scroller: a streaming AI SDK conversation with turn
- * anchoring, history prepending, imperative commands, and visibility state —
- * plus a settings panel exposing every provider, viewport, item, and button
- * option the component supports.
+ * anchoring, history prepending, imperative commands, and visibility state.
+ * Every provider, viewport, item, and button setting is an icon button in the
+ * toolbar; the outline rail on the right tracks the current anchored turn.
  */
 export default function MessageScrollerCompleteCard() {
   const [scrollerKey, setScrollerKey] = React.useState(0)
@@ -212,17 +254,13 @@ export default function MessageScrollerCompleteCard() {
   const renderedMessages = historyLoaded
     ? [...archiveMessages, ...messages]
     : messages
-  const anchoredTurns = renderedMessages
+  const anchoredTurns: Turn[] = renderedMessages
     .filter((message) => message.role === anchorRole)
     .map((message) => ({ id: message.id, text: getMessageText(message) }))
 
-  const resetConversation = () => {
+  const reset = () => {
     setMessages(initialMessages)
     setHistoryLoaded(false)
-    setScrollerKey((key) => key + 1)
-  }
-
-  const resetSettings = () => {
     setAutoScroll(DEFAULT_SETTINGS.autoScroll)
     setDefaultScrollPosition(DEFAULT_SETTINGS.defaultScrollPosition)
     setScrollMargin(DEFAULT_SETTINGS.scrollMargin)
@@ -254,35 +292,171 @@ export default function MessageScrollerCompleteCard() {
       scrollPreviousItemPeek={scrollPreviousItemPeek}
     >
       <div className="flex w-full flex-col items-center gap-4">
-        <div className="flex w-full max-w-4xl flex-col items-center gap-6 lg:flex-row lg:items-start lg:justify-center">
-          {/* ------------------------------ Chat ------------------------------ */}
-          <Card className="h-140 w-full max-w-sm gap-0 lg:shrink-0">
-            <CardHeader className="gap-1 border-b">
-              <CardTitle>Message Scroller</CardTitle>
-              <CardDescription>
-                Streaming, anchoring, history, and commands in one thread.
-              </CardDescription>
-              <CardAction>
+        <div className="relative w-full max-w-md">
+          <Card className="h-140 w-full gap-0">
+            {/* ----------------------------- Toolbar ----------------------------- */}
+            <div className="flex flex-wrap items-center gap-0.5 border-b px-2 pb-2">
+              <ToolbarToggle
+                icon={MouseScroll01Icon}
+                label="autoScroll"
+                pressed={autoScroll}
+                onPressedChange={setAutoScroll}
+              />
+              <ToolbarMenu
+                icon={Target02Icon}
+                label="defaultScrollPosition"
+                value={defaultScrollPosition}
+                onValueChange={(value) =>
+                  setDefaultScrollPosition(value as ScrollPosition)
+                }
+                options={[
+                  { value: "start", label: "start", icon: AlignTopIcon },
+                  { value: "end", label: "end", icon: AlignBottomIcon },
+                  {
+                    value: "last-anchor",
+                    label: "last-anchor",
+                    icon: AnchorPointIcon,
+                  },
+                ]}
+              />
+              <ToolbarSlider
+                icon={RulerIcon}
+                label="scrollMargin"
+                value={scrollMargin}
+                min={0}
+                max={64}
+                onChange={setScrollMargin}
+              />
+              <ToolbarSlider
+                icon={EyeIcon}
+                label="scrollPreviousItemPeek"
+                value={scrollPreviousItemPeek}
+                min={0}
+                max={128}
+                onChange={setScrollPreviousItemPeek}
+              />
+              <ToolbarSlider
+                icon={AlignBottomIcon}
+                label="scrollEdgeThreshold"
+                value={scrollEdgeThreshold}
+                min={0}
+                max={64}
+                onChange={setScrollEdgeThreshold}
+              />
+              <ToolbarToggle
+                icon={PinIcon}
+                label="preserveScrollOnPrepend"
+                pressed={preserveScrollOnPrepend}
+                onPressedChange={setPreserveScrollOnPrepend}
+              />
+              <ToolbarMenu
+                icon={AnchorIcon}
+                label="scrollAnchor role"
+                value={anchorRole}
+                onValueChange={(value) => setAnchorRole(value as AnchorRole)}
+                options={[
+                  { value: "user", label: "user", icon: UserIcon },
+                  { value: "assistant", label: "assistant", icon: BotIcon },
+                ]}
+              />
+              <ToolbarMenu
+                icon={SparklesIcon}
+                label="animation"
+                value={animationId}
+                onValueChange={(value) =>
+                  setAnimationId(value as MessageAnimationId)
+                }
+                options={Object.values(MESSAGE_ANIMATIONS).map((animation) => ({
+                  value: animation.id,
+                  label: animation.name,
+                  icon: ANIMATION_ICONS[animation.id],
+                }))}
+              />
+              <ToolbarMenu
+                icon={ArrowUpDownIcon}
+                label="button direction"
+                value={buttonDirection}
+                onValueChange={(value) =>
+                  setButtonDirection(value as ButtonDirection)
+                }
+                options={[
+                  { value: "start", label: "start", icon: ArrowUp01Icon },
+                  { value: "end", label: "end", icon: ArrowDown01Icon },
+                ]}
+              />
+              <ToolbarMenu
+                icon={Motion01Icon}
+                label="behavior"
+                value={behavior}
+                onValueChange={(value) => setBehavior(value as ScrollBehavior)}
+                options={[
+                  { value: "smooth", label: "smooth", icon: WaveIcon },
+                  { value: "instant", label: "instant", icon: FlashIcon },
+                  { value: "auto", label: "auto", icon: AiMagicIcon },
+                ]}
+              />
+              <ToolbarMenu
+                icon={AlignVerticalCenterIcon}
+                label="align"
+                value={align}
+                onValueChange={(value) => setAlign(value as JumpAlign)}
+                options={[
+                  { value: "start", label: "start", icon: AlignTopIcon },
+                  {
+                    value: "center",
+                    label: "center",
+                    icon: AlignVerticalCenterIcon,
+                  },
+                  { value: "end", label: "end", icon: AlignBottomIcon },
+                  { value: "nearest", label: "nearest", icon: CenterFocusIcon },
+                ]}
+              />
+              <div className="ms-auto flex items-center gap-0.5">
+                <ScrollStateChips />
                 <Tooltip>
                   <TooltipTrigger
                     render={
                       <Button
-                        variant="outline"
-                        size="icon"
-                        aria-label="Reset conversation"
+                        variant="ghost"
+                        size="icon-sm"
+                        aria-label="Load history"
+                        disabled={historyLoaded}
+                        onClick={loadHistory}
+                      >
+                        <HugeiconsIcon icon={HistoryIcon} />
+                      </Button>
+                    }
+                  />
+                  <TooltipContent>
+                    <p>{historyLoaded ? "History loaded" : "Load history"}</p>
+                  </TooltipContent>
+                </Tooltip>
+                <JumpMenu
+                  turns={anchoredTurns}
+                  align={align}
+                  behavior={behavior}
+                />
+                <Tooltip>
+                  <TooltipTrigger
+                    render={
+                      <Button
+                        variant="ghost"
+                        size="icon-sm"
+                        aria-label="Reset conversation and settings"
                         disabled={isBusy}
-                        onClick={resetConversation}
+                        onClick={reset}
                       >
                         <HugeiconsIcon icon={RotateIcon} />
                       </Button>
                     }
                   />
                   <TooltipContent>
-                    <p>Reset conversation</p>
+                    <p>Reset</p>
                   </TooltipContent>
                 </Tooltip>
-              </CardAction>
-            </CardHeader>
+              </div>
+            </div>
+            {/* ------------------------------ Thread ----------------------------- */}
             <CardContent className="min-h-0 flex-1 overflow-hidden p-0">
               <MessageScroller>
                 <MessageScrollerViewport
@@ -326,7 +500,8 @@ export default function MessageScrollerCompleteCard() {
                 />
               </MessageScroller>
             </CardContent>
-            <CardFooter className="flex-col gap-2 border-t pt-(--card-spacing)">
+            {/* ----------------------------- Composer ---------------------------- */}
+            <CardFooter className="flex-col gap-3 border-t pt-(--card-spacing)">
               <form
                 onSubmit={(e) => {
                   e.preventDefault()
@@ -338,7 +513,7 @@ export default function MessageScrollerCompleteCard() {
                 className="w-full"
               >
                 <InputGroup>
-                  <div className="h-14 w-full px-3 py-2.5">
+                  <div className="h-14 w-full  px-3 py-2.5">
                     <span
                       className="line-clamp-2 opacity-60 data-[status=ready]:opacity-100"
                       data-status={status}
@@ -353,21 +528,49 @@ export default function MessageScrollerCompleteCard() {
                     </span>
                   </div>
                   <InputGroupAddon align="block-end" className="pt-1">
-                    <InputGroupButton
-                      type="button"
-                      variant="outline"
-                      size="xs"
-                      disabled={historyLoaded}
-                      onClick={loadHistory}
-                    >
-                      {historyLoaded ? "History loaded" : "Load history"}
-                    </InputGroupButton>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger
+                        render={
+                          <InputGroupButton
+                            aria-label="Add files"
+                            type="button"
+                            size="icon-sm"
+                            variant="outline"
+                          >
+                            <HugeiconsIcon icon={PlugIcon} />
+                          </InputGroupButton>
+                        }
+                      />
+                      <DropdownMenuContent
+                        align="start"
+                        side="top"
+                        className="w-44"
+                      >
+                        <DropdownMenuItem>
+                          <HugeiconsIcon icon={Paperclip} />
+                          Add Photos & Files
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem>
+                          <HugeiconsIcon icon={CameraIcon} />
+                          Create Image
+                        </DropdownMenuItem>
+                        <DropdownMenuItem>
+                          <HugeiconsIcon icon={Telescope01Icon} />
+                          Deep Research
+                        </DropdownMenuItem>
+                        <DropdownMenuItem>
+                          <HugeiconsIcon icon={GlobeIcon} />
+                          Web Search
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                     <InputGroupButton
                       type="submit"
                       variant="default"
                       size="icon-sm"
-                      disabled={!nextMessage || isBusy}
                       className="ml-auto"
+                      disabled={!nextMessage || isBusy}
                     >
                       <HugeiconsIcon icon={ArrowUpIcon} />
                       <span className="sr-only">Send</span>
@@ -377,255 +580,14 @@ export default function MessageScrollerCompleteCard() {
               </form>
             </CardFooter>
           </Card>
-
-          {/* ---------------------------- Settings ---------------------------- */}
-          <Card className="w-full max-w-sm gap-0 lg:h-140 lg:w-80">
-            <CardHeader className="gap-1 border-b">
-              <CardTitle>Settings</CardTitle>
-              <CardDescription>
-                Every option the scroller exposes.
-              </CardDescription>
-              <CardAction>
-                <Button variant="ghost" size="sm" onClick={resetSettings}>
-                  Reset
-                </Button>
-              </CardAction>
-            </CardHeader>
-            <CardContent className="scrollbar-thin min-h-0 flex-1 space-y-5 overflow-y-auto pt-(--card-spacing)">
-              {/* Provider */}
-              <SettingsSection title="Provider">
-                <SwitchRow
-                  label="autoScroll"
-                  description="Follow streamed output at the live edge"
-                  checked={autoScroll}
-                  onCheckedChange={(checked) => setAutoScroll(checked)}
-                />
-                <div className="flex flex-col gap-2">
-                  <Label className="font-mono text-xs">
-                    defaultScrollPosition
-                  </Label>
-                  <Tabs
-                    value={defaultScrollPosition}
-                    onValueChange={(value) => {
-                      if (
-                        SCROLL_POSITIONS.includes(value as ScrollPosition)
-                      ) {
-                        setDefaultScrollPosition(value as ScrollPosition)
-                      }
-                    }}
-                    className="w-full"
-                  >
-                    <TabsList className="w-full">
-                      {SCROLL_POSITIONS.map((position) => (
-                        <TabsTrigger
-                          key={position}
-                          value={position}
-                          className="text-xs"
-                        >
-                          {position}
-                        </TabsTrigger>
-                      ))}
-                    </TabsList>
-                  </Tabs>
-                  <p className="text-xs text-muted-foreground">
-                    Where a reopened thread starts. Changing it remounts the
-                    scroller.
-                  </p>
-                </div>
-                <SliderRow
-                  label="scrollMargin"
-                  value={scrollMargin}
-                  min={0}
-                  max={64}
-                  onChange={setScrollMargin}
-                />
-                <SliderRow
-                  label="scrollPreviousItemPeek"
-                  value={scrollPreviousItemPeek}
-                  min={0}
-                  max={128}
-                  onChange={setScrollPreviousItemPeek}
-                />
-                <SliderRow
-                  label="scrollEdgeThreshold"
-                  value={scrollEdgeThreshold}
-                  min={0}
-                  max={64}
-                  onChange={setScrollEdgeThreshold}
-                />
-              </SettingsSection>
-              <Separator />
-              {/* Viewport */}
-              <SettingsSection title="Viewport">
-                <SwitchRow
-                  label="preserveScrollOnPrepend"
-                  description="Hold your place when history is prepended"
-                  checked={preserveScrollOnPrepend}
-                  onCheckedChange={(checked) =>
-                    setPreserveScrollOnPrepend(checked)
-                  }
-                />
-              </SettingsSection>
-              <Separator />
-              {/* Items */}
-              <SettingsSection title="Items">
-                <div className="flex flex-col gap-2">
-                  <Label className="font-mono text-xs">scrollAnchor</Label>
-                  <ToggleGroup
-                    aria-label="Select scroll anchor role"
-                    value={[anchorRole]}
-                    onValueChange={(value) => {
-                      const nextValue = value[0]
-                      if (
-                        nextValue === "user" ||
-                        nextValue === "assistant"
-                      ) {
-                        setAnchorRole(nextValue)
-                      }
-                    }}
-                    className="w-full"
-                  >
-                    <ToggleGroupItem
-                      value="user"
-                      aria-label="Anchor user messages"
-                      className="flex-1"
-                    >
-                      User
-                    </ToggleGroupItem>
-                    <ToggleGroupItem
-                      value="assistant"
-                      aria-label="Anchor assistant messages"
-                      className="flex-1"
-                    >
-                      Assistant
-                    </ToggleGroupItem>
-                  </ToggleGroup>
-                  <p className="text-xs text-muted-foreground">
-                    Which role settles near the top when a turn is appended.
-                  </p>
-                </div>
-                <div className="flex flex-col gap-2">
-                  <Label className="font-mono text-xs">animation</Label>
-                  <Select
-                    value={animationId}
-                    onValueChange={(value) =>
-                      setAnimationId(value as MessageAnimationId)
-                    }
-                  >
-                    <SelectTrigger aria-label="Animation preset">
-                      <SelectValue>{animationPreset.name}</SelectValue>
-                    </SelectTrigger>
-                    <SelectContent align="start">
-                      <SelectGroup>
-                        {Object.values(MESSAGE_ANIMATIONS).map((animation) => (
-                          <SelectItem key={animation.id} value={animation.id}>
-                            {animation.name}
-                          </SelectItem>
-                        ))}
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </SettingsSection>
-              <Separator />
-              {/* Button + commands */}
-              <SettingsSection title="Button & Commands">
-                <div className="flex flex-col gap-2">
-                  <Label className="font-mono text-xs">direction</Label>
-                  <ToggleGroup
-                    aria-label="Scroll button direction"
-                    value={[buttonDirection]}
-                    onValueChange={(value) => {
-                      const nextValue = value[0]
-                      if (nextValue === "start" || nextValue === "end") {
-                        setButtonDirection(nextValue)
-                      }
-                    }}
-                    className="w-full"
-                  >
-                    <ToggleGroupItem
-                      value="start"
-                      aria-label="Button scrolls to start"
-                      className="flex-1"
-                    >
-                      Start
-                    </ToggleGroupItem>
-                    <ToggleGroupItem
-                      value="end"
-                      aria-label="Button scrolls to end"
-                      className="flex-1"
-                    >
-                      End
-                    </ToggleGroupItem>
-                  </ToggleGroup>
-                </div>
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="flex flex-col gap-2">
-                    <Label className="font-mono text-xs">behavior</Label>
-                    <Select
-                      value={behavior}
-                      onValueChange={(value) =>
-                        setBehavior(value as ScrollBehavior)
-                      }
-                    >
-                      <SelectTrigger aria-label="Scroll behavior">
-                        <SelectValue>{behavior}</SelectValue>
-                      </SelectTrigger>
-                      <SelectContent align="start">
-                        <SelectGroup>
-                          {BEHAVIORS.map((option) => (
-                            <SelectItem key={option} value={option}>
-                              {option}
-                            </SelectItem>
-                          ))}
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <Label className="font-mono text-xs">align</Label>
-                    <Select
-                      value={align}
-                      onValueChange={(value) => setAlign(value as JumpAlign)}
-                    >
-                      <SelectTrigger aria-label="Scroll align">
-                        <SelectValue>{align}</SelectValue>
-                      </SelectTrigger>
-                      <SelectContent align="start">
-                        <SelectGroup>
-                          {ALIGNS.map((option) => (
-                            <SelectItem key={option} value={option}>
-                              {option}
-                            </SelectItem>
-                          ))}
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-                <JumpButtons behavior={behavior} />
-              </SettingsSection>
-              <Separator />
-              {/* Outline (visibility + commands) */}
-              <SettingsSection title="Outline">
-                <TurnOutline
-                  turns={anchoredTurns}
-                  align={align}
-                  behavior={behavior}
-                />
-              </SettingsSection>
-              <Separator />
-              {/* State */}
-              <SettingsSection title="State">
-                <ScrollStateChips />
-              </SettingsSection>
-            </CardContent>
-          </Card>
-        </div>
-        <div className="max-w-md px-0.5 text-center text-xs text-balance text-muted-foreground">
-          Demo is read-only — send steps through a scripted conversation
-          streamed with the AI SDK helper. Every setting on the right maps to a
-          prop, hook, or command of the message scroller.
+          {/* --------------------------- Outline rail --------------------------- */}
+          <div className="absolute top-1/2 -right-12 -translate-y-1/2">
+            <TranscriptOutline
+              turns={anchoredTurns}
+              align={align}
+              behavior={behavior}
+            />
+          </div>
         </div>
       </div>
     </MessageScrollerProvider>
@@ -671,59 +633,108 @@ function HistoryRow({
 }
 
 /* -------------------------------------------------------------------------- */
-/*                             Settings primitives                            */
+/*                              Toolbar controls                              */
 /* -------------------------------------------------------------------------- */
 
-function SettingsSection({
-  title,
-  children,
-}: {
-  title: string
-  children: React.ReactNode
-}) {
-  return (
-    <div className="flex flex-col gap-4">
-      <div className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
-        {title}
-      </div>
-      {children}
-    </div>
-  )
-}
+type ToolbarIcon = typeof MouseScroll01Icon
+type ToolbarOption = { value: string; label: string; icon: ToolbarIcon }
 
-function SwitchRow({
+function ToolbarToggle({
+  icon,
   label,
-  description,
-  checked,
-  onCheckedChange,
+  pressed,
+  onPressedChange,
 }: {
+  icon: ToolbarIcon
   label: string
-  description: string
-  checked: boolean
-  onCheckedChange: (checked: boolean) => void
+  pressed: boolean
+  onPressedChange: (pressed: boolean) => void
 }) {
   return (
-    <div className="flex items-center justify-between gap-3">
-      <div className="flex min-w-0 flex-col gap-0.5">
-        <Label className="font-mono text-xs">{label}</Label>
-        <span className="text-xs text-muted-foreground">{description}</span>
-      </div>
-      <Switch
-        checked={checked}
-        onCheckedChange={onCheckedChange}
-        aria-label={`Toggle ${label}`}
+    <Tooltip>
+      <TooltipTrigger
+        render={
+          <Toggle
+            pressed={pressed}
+            onPressedChange={onPressedChange}
+            aria-label={`Toggle ${label}`}
+            className="size-8 p-0"
+          >
+            <HugeiconsIcon icon={icon} />
+          </Toggle>
+        }
       />
-    </div>
+      <TooltipContent>
+        <p className="font-mono text-xs">
+          {label}: {pressed ? "on" : "off"}
+        </p>
+      </TooltipContent>
+    </Tooltip>
   )
 }
 
-function SliderRow({
+function ToolbarMenu({
+  icon,
+  label,
+  value,
+  onValueChange,
+  options,
+}: {
+  icon: ToolbarIcon
+  label: string
+  value: string
+  onValueChange: (value: string) => void
+  options: ToolbarOption[]
+}) {
+  return (
+    <DropdownMenu>
+      <Tooltip>
+        <TooltipTrigger
+          render={
+            <DropdownMenuTrigger
+              render={
+                <Button variant="ghost" size="icon-sm" aria-label={label}>
+                  <HugeiconsIcon icon={icon} />
+                </Button>
+              }
+            />
+          }
+        />
+        <TooltipContent>
+          <p className="font-mono text-xs">
+            {label}: {value}
+          </p>
+        </TooltipContent>
+      </Tooltip>
+      <DropdownMenuContent align="start" className="w-52">
+        <DropdownMenuRadioGroup
+          value={value}
+          onValueChange={(next) => onValueChange(String(next))}
+        >
+          <DropdownMenuLabel className="font-mono text-xs">
+            {label}
+          </DropdownMenuLabel>
+          {options.map((option) => (
+            <DropdownMenuRadioItem key={option.value} value={option.value}>
+              <HugeiconsIcon icon={option.icon} />
+              {option.label}
+            </DropdownMenuRadioItem>
+          ))}
+        </DropdownMenuRadioGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
+
+function ToolbarSlider({
+  icon,
   label,
   value,
   min,
   max,
   onChange,
 }: {
+  icon: ToolbarIcon
   label: string
   value: number
   min: number
@@ -731,96 +742,167 @@ function SliderRow({
   onChange: (value: number) => void
 }) {
   return (
-    <div className="flex flex-col gap-2">
-      <div className="flex items-center justify-between">
-        <Label className="font-mono text-xs">{label}</Label>
-        <span className="text-xs text-muted-foreground tabular-nums">
-          {value}px
-        </span>
-      </div>
-      <Slider
-        aria-label={label}
-        value={[value]}
-        min={min}
-        max={max}
-        step={1}
-        onValueChange={(next) => {
-          const nextValue = Array.isArray(next) ? next[0] : next
-          if (typeof nextValue === "number") {
-            onChange(nextValue)
+    <Popover>
+      <Tooltip>
+        <TooltipTrigger
+          render={
+            <PopoverTrigger
+              render={
+                <Button variant="ghost" size="icon-sm" aria-label={label}>
+                  <HugeiconsIcon icon={icon} />
+                </Button>
+              }
+            />
           }
-        }}
-      />
-    </div>
+        />
+        <TooltipContent>
+          <p className="font-mono text-xs">
+            {label}: {value}px
+          </p>
+        </TooltipContent>
+      </Tooltip>
+      <PopoverContent align="start" className="w-56">
+        <div className="flex items-center justify-between">
+          <Label className="font-mono text-xs">{label}</Label>
+          <span className="text-xs text-muted-foreground tabular-nums">
+            {value}px
+          </span>
+        </div>
+        <Slider
+          aria-label={label}
+          value={[value]}
+          min={min}
+          max={max}
+          step={1}
+          className="mt-3"
+          onValueChange={(next) => {
+            const nextValue = Array.isArray(next) ? next[0] : next
+            if (typeof nextValue === "number") {
+              onChange(nextValue)
+            }
+          }}
+        />
+      </PopoverContent>
+    </Popover>
   )
 }
 
 /* -------------------------------------------------------------------------- */
-/*                        Commands, outline, and state                        */
+/*                         Commands, outline, and state                       */
 /* -------------------------------------------------------------------------- */
 
-function JumpButtons({ behavior }: { behavior: ScrollBehavior }) {
-  const { scrollToStart, scrollToEnd } = useMessageScroller()
-  return (
-    <div className="grid grid-cols-2 gap-3">
-      <Button
-        type="button"
-        variant="outline"
-        size="sm"
-        onClick={() => scrollToStart({ behavior })}
-      >
-        scrollToStart
-      </Button>
-      <Button
-        type="button"
-        variant="outline"
-        size="sm"
-        onClick={() => scrollToEnd({ behavior })}
-      >
-        scrollToEnd
-      </Button>
-    </div>
-  )
+function trimTurnText(text: string) {
+  return text.length > 42 ? `${text.slice(0, 39)}...` : text
 }
 
-function TurnOutline({
+function JumpMenu({
   turns,
   align,
   behavior,
 }: {
-  turns: Array<{ id: string; text: string }>
+  turns: Turn[]
+  align: JumpAlign
+  behavior: ScrollBehavior
+}) {
+  const { scrollToMessage, scrollToStart, scrollToEnd } = useMessageScroller()
+  return (
+    <DropdownMenu>
+      <Tooltip>
+        <TooltipTrigger
+          render={
+            <DropdownMenuTrigger
+              render={
+                <Button variant="ghost" size="icon-sm" aria-label="Jump to...">
+                  <HugeiconsIcon icon={Navigation03Icon} />
+                </Button>
+              }
+            />
+          }
+        />
+        <TooltipContent>
+          <p>Jump to...</p>
+        </TooltipContent>
+      </Tooltip>
+      <DropdownMenuContent align="end" className="w-64">
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>Jump to</DropdownMenuLabel>
+          {turns.map((turn) => (
+            <DropdownMenuItem
+              key={turn.id}
+              onClick={() => scrollToMessage(turn.id, { align, behavior })}
+            >
+              <span className="line-clamp-1 min-w-0">
+                {trimTurnText(turn.text)}
+              </span>
+            </DropdownMenuItem>
+          ))}
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onClick={() => scrollToStart({ behavior })}>
+          Start of conversation
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => scrollToEnd({ behavior })}>
+          Latest message
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
+
+function TranscriptOutline({
+  turns,
+  align,
+  behavior,
+}: {
+  turns: Turn[]
   align: JumpAlign
   behavior: ScrollBehavior
 }) {
   const { scrollToMessage } = useMessageScroller()
   const { currentAnchorId } = useMessageScrollerVisibility()
   if (turns.length === 0) {
-    return (
-      <p className="text-xs text-muted-foreground">
-        No anchored turns yet — the selected role has no messages.
-      </p>
-    )
+    return null
   }
   return (
-    <div className="flex flex-col gap-1">
-      {turns.map((turn) => (
-        <button
-          key={turn.id}
-          type="button"
-          aria-current={currentAnchorId === turn.id ? "location" : undefined}
-          className="flex min-h-7 items-center rounded-md px-2 py-1 text-left text-xs transition-colors outline-none hover:bg-accent hover:text-accent-foreground focus-visible:bg-accent focus-visible:text-accent-foreground aria-current:bg-accent aria-current:text-accent-foreground"
-          onClick={() => scrollToMessage(turn.id, { align, behavior })}
-        >
-          <span className="line-clamp-1 min-w-0">
-            {turn.text.length > 48 ? `${turn.text.slice(0, 45)}...` : turn.text}
-          </span>
-        </button>
-      ))}
-      <p className="pt-1 text-xs text-muted-foreground">
-        The highlighted row is <span className="font-mono">currentAnchorId</span>.
-        Click a turn to <span className="font-mono">scrollToMessage</span>.
-      </p>
-    </div>
+    <HoverCard>
+      <HoverCardTrigger
+        render={
+          <button
+            type="button"
+            aria-label="Open transcript outline"
+            className="flex h-9 w-9 flex-col items-center justify-center gap-1 rounded-md transition-colors outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
+          />
+        }
+      >
+        {turns.map((turn) => (
+          <span
+            key={turn.id}
+            data-current={turn.id === currentAnchorId}
+            className="h-0.5 w-4 rounded-full bg-muted-foreground/40 data-[current=true]:bg-foreground"
+          />
+        ))}
+      </HoverCardTrigger>
+      <HoverCardContent
+        align="center"
+        side="left"
+        sideOffset={-28}
+        className="flex w-64 flex-col gap-1 rounded-2xl p-1"
+      >
+        {turns.map((turn) => (
+          <button
+            key={turn.id}
+            type="button"
+            aria-current={currentAnchorId === turn.id ? "location" : undefined}
+            className="flex min-h-7 items-center rounded-xl px-2 py-1.5 text-left text-sm transition-colors outline-none hover:bg-accent hover:text-accent-foreground focus-visible:bg-accent focus-visible:text-accent-foreground aria-current:bg-accent aria-current:text-accent-foreground"
+            onClick={() => scrollToMessage(turn.id, { align, behavior })}
+          >
+            <span className="line-clamp-1 min-w-0">
+              {trimTurnText(turn.text)}
+            </span>
+          </button>
+        ))}
+      </HoverCardContent>
+    </HoverCard>
   )
 }
 
@@ -835,16 +917,31 @@ function ScrollStateChips() {
     { label: `${visibleMessageIds.length} in view`, on: true },
   ]
   return (
-    <div className="flex flex-wrap gap-1.5">
-      {states.map((state) => (
-        <span
-          key={state.label}
-          data-on={state.on}
-          className="rounded-full border bg-background px-2 py-0.5 text-xs text-muted-foreground data-[on=true]:border-transparent data-[on=true]:bg-primary data-[on=true]:text-primary-foreground"
-        >
-          {state.label}
-        </span>
-      ))}
-    </div>
+    <HoverCard>
+      <HoverCardTrigger
+        render={
+          <Button
+            variant="ghost"
+            size="icon-sm"
+            aria-label="Scroll state"
+          >
+            <HugeiconsIcon icon={Navigation03Icon} />
+          </Button>
+        }
+      />
+      <HoverCardContent className="w-auto">
+        <div className="flex w-full flex-wrap justify-center gap-1.5">
+          {states.map((state) => (
+            <span
+              key={state.label}
+              data-on={state.on}
+              className="rounded-full border bg-background px-2 py-0.5 text-xs text-muted-foreground data-[on=true]:border-transparent data-[on=true]:bg-primary data-[on=true]:text-primary-foreground"
+            >
+              {state.label}
+            </span>
+          ))}
+        </div>
+      </HoverCardContent>
+    </HoverCard>
   )
 }

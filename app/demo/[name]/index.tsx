@@ -19,6 +19,7 @@ import ModelSelectorExample from "@/app/demo/[name]/ui/model-selector"
 import FileTreeExample from "@/app/demo/[name]/ui/file-tree"
 import WebPreviewExample from "@/app/demo/[name]/ui/web-preview"
 import PersonaExample from "@/app/demo/[name]/ui/persona"
+import AIOrbExample from "@/app/demo/[name]/ui/ai-orb"
 // ui
 import AccordionExample from "@/app/demo/[name]/ui/accordion"
 import AlertExample from "@/app/demo/[name]/ui/alert"
@@ -117,7 +118,7 @@ export const demos: { [name: string]: Demo } = {
   "file-tree": FileTreeExample,
   "web-preview": WebPreviewExample,
   persona: PersonaExample,
-
+  "ai-orb": AIOrbExample,
   // ui
   accordion: AccordionExample,
   alert: AlertExample,

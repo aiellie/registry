@@ -11,8 +11,9 @@ import {
   PageHeaderHeading,
 } from "@/components/registry/page-header"
 
-import { CardsDemo } from "./cards"
 import { ShimmerButton } from "@/components/ui/shimmer-button"
+import { ComponentsDemo } from "@/components/registry/components-demo"
+
 
 const title = "AIEllie Design System"
 const description =
@@ -63,9 +64,9 @@ export default function IndexPage() {
       </PageHeader>
       <div className="container-wrapper flex-1 p-0">
         <div className=" overflow-hidden md:px-0 lg:max-w-none">
-          <section>
-            <CardsDemo />
-          </section>
+        <div className="flex-1 overflow-hidden">
+        <ComponentsDemo />
+          </div>
         </div>
       </div>
     </div>
