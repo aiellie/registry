@@ -10,6 +10,7 @@ import { brandFooter } from "@/app/demo/[name]/components/brand-footer"
 import { brandHeader } from "@/app/demo/[name]/components/brand-header"
 import { brandSidebar } from "@/app/demo/[name]/components/brand-sidebar"
 import { hero } from "@/app/demo/[name]/components/hero"
+import LiquidExample from "@/app/demo/[name]/components/liquid"
 import { loginForm } from "@/app/demo/[name]/components/login-form"
 import { logo } from "@/app/demo/[name]/components/logo"
 import { promptInput } from "@/app/demo/[name]/components/prompt-input"
@@ -110,6 +111,7 @@ export const demos: { [name: string]: Demo } = {
   "brand-footer": brandFooter,
   "brand-sidebar": brandSidebar,
   hero,
+  liquid: LiquidExample,
   "login-form": loginForm,
   logo,
   "prompt-input": promptInput,
