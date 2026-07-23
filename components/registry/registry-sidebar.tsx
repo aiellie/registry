@@ -146,7 +146,7 @@ function RegistryItemGroup({
 export function RegistrySidebar() {
   const pathname = usePathname()
   const { setOpenMobile } = useSidebar()
-  const [sort, setSort] = useState<SortMode>("type")
+  const [sort, setSort] = useState<SortMode>("category")
 
   const groups = sort === "category" ? categoryGroups : typeGroups
 
