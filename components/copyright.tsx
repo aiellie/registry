@@ -7,7 +7,7 @@ type CopyrightProps = {
 }
 
 export function Copyright({
-  holder = "Aiellie",
+  holder = "AIEllie.",
   startYear,
   className,
 }: CopyrightProps) {
@@ -18,7 +18,7 @@ export function Copyright({
       : `${year}`
 
   return (
-    <p className={cn("text-xs text-muted-foreground text-mono", className)}>
+    <p className={cn("text-xs text-muted-foreground font-mono", className)}>
       © {range} {holder} All rights reserved.
     </p>
   )

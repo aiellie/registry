@@ -81,6 +81,7 @@ import {
   UserIcon,
   RoboticIcon,
   GlobeIcon,
+  SiriIcon,
   SiriNewIcon,
 } from "@hugeicons/core-free-icons"
 import type { IconSvgElement } from "@hugeicons/react"
@@ -110,6 +111,7 @@ const itemIcons: Record<string, IconSvgElement> = {
   promo: Megaphone01Icon,
 
   // ai elements
+  "ai-orb": SiriIcon,
   "model-selector": RoboticIcon,
   "file-tree": HierarchyFilesIcon,
   "web-preview": GlobeIcon,

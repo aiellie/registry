@@ -3081,7 +3081,7 @@
     },
     {
       "name": "ai-orb",
-      "type": "registry:component",
+      "type": "registry:ui",
       "title": "AI Orb",
       "description": "AI Orb with theme selector and call button.",
       "registryDependencies": [
@@ -3091,7 +3091,7 @@
       "files": [
         {
           "path": "components/ai/ai-orb.tsx",
-          "type": "registry:component",
+          "type": "registry:ui",
           "target": "components/ui/ai-orb.tsx"
         }
       ]

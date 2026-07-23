@@ -10,7 +10,7 @@ import {
 
 import { ComponentsDemo } from "@/components/registry/components-demo"
 import { ScrollToComponentsButton } from "@/components/registry/scroll-to-components-button"
-
+import { RegistryFooter } from "@/components/registry/registry-footer"
 
 const title = "AIEllie Design System"
 const description =
@@ -61,6 +61,7 @@ export default function IndexPage() {
           </div>
         </div>
       </div>
+      <RegistryFooter />
     </div>
   )
 }
