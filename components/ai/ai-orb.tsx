@@ -1,13 +1,18 @@
 "use client"
 
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import {
+  AiBrain01Icon,
   ApertureIcon,
   ArrowHorizontalIcon,
   ArrowVerticalIcon,
   BlurIcon,
+  CircleIcon,
   DashboardSpeed01Icon,
   DropletIcon,
+  EyeClosedIcon,
+  Megaphone01Icon,
+  Mic01Icon,
   RatioIcon,
   RepeatIcon,
   RippleIcon,
@@ -18,9 +23,18 @@ import {
   SpiralsIcon,
   ZoomIcon,
 } from "@hugeicons/core-free-icons"
+import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react"
 import { Warp } from "@paper-design/shaders-react"
+import { motion, useReducedMotion } from "motion/react"
 
 import { useAudioLevel } from "@/hooks/use-audio-level"
+import { Button } from "@/components/ui/button"
+import { ButtonGroup } from "@/components/ui/button-group"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 import {
   ColorRow,
   CopyRow,
@@ -35,6 +49,10 @@ import {
   valuesAreDefault,
   type ScrubberDef,
 } from "@/components/canvasui/demo-controls"
+
+/** Matches `PersonaState` so an orb and a Persona can be driven by the same
+ * conversation state. */
+export type OrbState = "idle" | "listening" | "thinking" | "speaking" | "asleep"
 
 type Preset = "aiellie" | "openai" | "google" | "anthropic" | "x" | "deepseek"
 
@@ -227,6 +245,138 @@ const CONTROLS: ScrubberDef<keyof OrbValues>[] = [
   },
 ]
 
+const CONTROL_BY_KEY = Object.fromEntries(
+  CONTROLS.map((control) => [control.key, control])
+) as Record<keyof OrbValues, ScrubberDef<keyof OrbValues>>
+
+const STATES: {
+  state: OrbState
+  icon: IconSvgElement
+  label: string
+}[] = [
+  { state: "idle", icon: CircleIcon, label: "Idle" },
+  { state: "listening", icon: Mic01Icon, label: "Listening" },
+  { state: "thinking", icon: AiBrain01Icon, label: "Thinking" },
+  { state: "speaking", icon: Megaphone01Icon, label: "Speaking" },
+  { state: "asleep", icon: EyeClosedIcon, label: "Asleep" },
+]
+
+/**
+ * Per-state multipliers on the tuned shader values. The seed still owns the
+ * look; a state only pushes it faster, calmer or more turbulent, so every
+ * palette reads as the same orb in five moods.
+ */
+const STATE_SHADER: Record<
+  OrbState,
+  Partial<Record<keyof OrbValues, number>>
+> = {
+  idle: { speed: 0.5 },
+  listening: { speed: 0.9, distortion: 1.2 },
+  thinking: { speed: 2.4, swirl: 1.25, distortion: 1.4 },
+  speaking: { speed: 1.7, swirl: 1.1, distortion: 1.25 },
+  asleep: { speed: 0.1, swirl: 0.6, distortion: 0.45 },
+}
+
+const clamp = (value: number, min: number, max: number) =>
+  Math.min(Math.max(value, min), max)
+
+function shaderValuesFor(
+  values: OrbValues,
+  state: OrbState,
+  audioLevel: number
+): OrbValues {
+  const next = { ...values }
+
+  for (const [key, factor] of Object.entries(STATE_SHADER[state]) as [
+    keyof OrbValues,
+    number,
+  ][]) {
+    const control = CONTROL_BY_KEY[key]
+    next[key] = clamp(values[key] * factor, control.min, control.max)
+  }
+
+  // Only distortion tracks the mic: it is a spatial term, so pushing it every
+  // audio frame warps the surface without stepping the shader clock.
+  if (state === "listening") {
+    next.distortion = clamp(next.distortion + audioLevel * 0.3, 0, 1)
+  }
+
+  return next
+}
+
+const STILL_SCALE: Record<OrbState, number> = {
+  idle: 1,
+  listening: 1,
+  thinking: 0.94,
+  speaking: 1,
+  asleep: 0.86,
+}
+
+/**
+ * How the orb itself moves in each state — the shader handles the surface,
+ * this handles the body language. Listening is the exception: its target is
+ * recomputed per audio frame, so it is built in the component instead.
+ */
+function motionFor(state: OrbState, still: boolean) {
+  if (still) {
+    return {
+      animate: {
+        scale: STILL_SCALE[state],
+        rotate: 0,
+        opacity: state === "asleep" ? 0.5 : 1,
+      },
+      transition: { duration: 0.3 },
+    }
+  }
+
+  switch (state) {
+    case "listening":
+      return {
+        animate: { scale: 1, rotate: 0, opacity: 1 },
+        transition: { type: "spring" as const, stiffness: 400, damping: 26 },
+      }
+    case "thinking":
+      return {
+        animate: { scale: 0.94, rotate: 360, opacity: 1 },
+        transition: {
+          rotate: { duration: 7, repeat: Infinity, ease: "linear" as const },
+          scale: { duration: 0.5 },
+          opacity: { duration: 0.3 },
+        },
+      }
+    case "speaking":
+      return {
+        animate: { scale: [1, 1.06, 0.99, 1.05, 1], rotate: 0, opacity: 1 },
+        transition: {
+          scale: {
+            duration: 1.1,
+            repeat: Infinity,
+            ease: "easeInOut" as const,
+          },
+          rotate: { duration: 0.5 },
+        },
+      }
+    case "asleep":
+      return {
+        animate: { scale: [0.86, 0.9, 0.86], rotate: 0, opacity: 0.5 },
+        transition: {
+          scale: { duration: 5, repeat: Infinity, ease: "easeInOut" as const },
+          opacity: { duration: 0.8 },
+          rotate: { duration: 0.5 },
+        },
+      }
+    default:
+      return {
+        animate: { scale: [1, 1.02, 1], rotate: 0, opacity: 1 },
+        transition: {
+          scale: { duration: 6, repeat: Infinity, ease: "easeInOut" as const },
+          rotate: { duration: 0.5 },
+          opacity: { duration: 0.3 },
+        },
+      }
+  }
+}
+
 function hslToHex(h: number, s: number, l: number): string {
   const a = (s / 100) * Math.min(l / 100, 1 - l / 100)
   const channel = (n: number) => {
@@ -278,13 +428,36 @@ function configFromSeed(text: string): OrbConfig {
  * hand-tuned config has no short name, so "Copy values" is its export. */
 const CUSTOM_SEED = "custom"
 
-export function AiOrb() {
+export function AiOrb({
+  /** Drive the orb from your own conversation state. Left off, the buttons
+   * under the orb control it. */
+  state,
+}: {
+  state?: OrbState
+} = {}) {
   const [seed, setSeed] = useState(DEFAULT_SEED)
   const [colors, setColors] = useState<OrbColors>(DEFAULT_COLORS)
   const [shape, setShape] = useState<WarpShape>(DEFAULT_SHAPE)
   const [values, setValues] = useState<OrbValues>(DEFAULT_VALUES)
+  const [internalState, setInternalState] = useState<OrbState>("idle")
   const { audioLevel, isListening, startListening, stopListening } =
     useAudioLevel()
+  const shouldReduceMotion = useReducedMotion()
+
+  const activeState = state ?? internalState
+  const shaderValues = shaderValuesFor(values, activeState, audioLevel)
+
+  // Memoised so a slider drag (or an audio frame) never hands motion a fresh
+  // keyframe array, which would restart the loop mid-pulse.
+  const orbMotion = useMemo(
+    () => motionFor(activeState, shouldReduceMotion ?? false),
+    [activeState, shouldReduceMotion]
+  )
+
+  const orbAnimate =
+    activeState === "listening" && !shouldReduceMotion
+      ? { scale: 1 + audioLevel * 0.22, rotate: 0, opacity: 1 }
+      : orbMotion.animate
 
   const isDefault =
     seed === DEFAULT_SEED &&
@@ -319,39 +492,69 @@ export function AiOrb() {
     setSeed(CUSTOM_SEED)
   }
 
-  const handleCall = () => {
-    if (isListening) {
+  // Listening is the one state backed by real hardware, so entering it opens
+  // the mic and leaving it closes it again.
+  const handleStateChange = (next: OrbState) => {
+    setInternalState(next)
+    if (next === "listening") {
+      if (!isListening) startListening()
+    } else if (isListening) {
       stopListening()
-    } else {
-      startListening()
     }
+  }
+
+  const handleCall = () => {
+    handleStateChange(isListening ? "idle" : "listening")
   }
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center gap-8 bg-background">
       {/* AI Orb - circular clipped shader */}
-      <div
+      <motion.div
         className="overflow-hidden rounded-full"
-        style={{
-          width: 280,
-          height: 280,
-          transform: `scale(${1 + audioLevel * 0.15})`,
-          transition: "transform 50ms ease-out",
-        }}
+        style={{ width: 280, height: 280 }}
+        animate={orbAnimate}
+        transition={orbMotion.transition}
       >
         <Warp
           width={280}
           height={280}
           colors={[colors.color1, colors.color2, colors.color3]}
           shape={shape}
-          {...values}
+          {...shaderValues}
         />
-      </div>
+      </motion.div>
+
+      {/* State selector */}
+      <ButtonGroup orientation="horizontal">
+        {STATES.map((entry) => (
+          <Tooltip key={entry.state}>
+            <TooltipTrigger
+              render={
+                <Button
+                  onClick={() => handleStateChange(entry.state)}
+                  size="icon-sm"
+                  variant={activeState === entry.state ? "default" : "outline"}
+                  disabled={state !== undefined}
+                />
+              }
+            >
+              <HugeiconsIcon
+                icon={entry.icon}
+                strokeWidth={2}
+                className="size-4"
+              />
+            </TooltipTrigger>
+            <TooltipContent>{entry.label}</TooltipContent>
+          </Tooltip>
+        ))}
+      </ButtonGroup>
 
       {/* Call button */}
       <button
         onClick={handleCall}
-        className={`rounded px-2.5 py-1 font-sans text-[10px] transition-colors ${
+        disabled={state !== undefined}
+        className={`rounded px-2.5 py-1 font-sans text-[10px] transition-colors disabled:pointer-events-none disabled:opacity-40 ${
           isListening
             ? "bg-foreground text-background"
             : "bg-muted text-muted-foreground hover:bg-muted/80"
