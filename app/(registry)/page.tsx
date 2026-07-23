@@ -1,7 +1,4 @@
 import { type Metadata } from "next"
-import Link from "next/link"
-import { ArrowRightIcon } from "@hugeicons/core-free-icons"
-import { HugeiconsIcon } from "@hugeicons/react"
 
 import { Announcement } from "@/components/registry/announcement"
 import {
@@ -11,8 +8,8 @@ import {
   PageHeaderHeading,
 } from "@/components/registry/page-header"
 
-import { ShimmerButton } from "@/components/ui/shimmer-button"
 import { ComponentsDemo } from "@/components/registry/components-demo"
+import { ScrollToComponentsButton } from "@/components/registry/scroll-to-components-button"
 
 
 const title = "AIEllie Design System"
@@ -54,12 +51,7 @@ export default function IndexPage() {
         <PageHeaderHeading className="max-w-4xl">{title}</PageHeaderHeading>
         <PageHeaderDescription>{description}</PageHeaderDescription>
         <PageActions>
-          <ShimmerButton  className="h-[31px] rounded-lg flex flex-row items-center gap-2">
-            <HugeiconsIcon icon={ArrowRightIcon} strokeWidth={2} className="size-4" />
-            <Link href="/components">
-              Explore Components 
-            </Link>
-          </ShimmerButton>
+          <ScrollToComponentsButton />
         </PageActions>
       </PageHeader>
       <div className="container-wrapper flex-1 p-0">

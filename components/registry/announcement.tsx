@@ -13,7 +13,7 @@ export function Announcement() {
       className="gap-2 py-1 transition-colors hover:bg-primary/10"
     >
       <StatusIndicator />
-      <StatusLabel>Updated Design System</StatusLabel>
+      <StatusLabel>Updated</StatusLabel>
       <HugeiconsIcon
         icon={ArrowRightIcon}
         strokeWidth={2}
