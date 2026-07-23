@@ -1,0 +1,104 @@
+import { Example, ExampleWrapper } from "@/components/example"
+import {
+  BarsLoader,
+  CircularLoader,
+  ClassicLoader,
+  DotsLoader,
+  Loader,
+  PulseDotLoader,
+  PulseLoader,
+  TerminalLoader,
+  TextBlinkLoader,
+  TextDotsLoader,
+  TextShimmerLoader,
+  TypingLoader,
+  VercelLoader,
+  WaveLoader,
+} from "@/components/ui/loader"
+
+export default function LoaderExample() {
+  return (
+    <ExampleWrapper className="lg:grid-cols-2 xl:grid-cols-3">
+      <LoaderVariants />
+      <LoaderSpinners />
+      <LoaderDots />
+      <LoaderText />
+      <LoaderSizes />
+    </ExampleWrapper>
+  )
+}
+
+function LoaderVariants() {
+  return (
+    <Example title="Variants">
+      <div className="flex flex-wrap items-center gap-6">
+        <CircularLoader />
+        <ClassicLoader />
+        <VercelLoader />
+        <PulseLoader />
+        <PulseDotLoader />
+        <DotsLoader />
+        <TypingLoader />
+        <WaveLoader />
+        <BarsLoader />
+        <TerminalLoader />
+      </div>
+    </Example>
+  )
+}
+
+function LoaderSpinners() {
+  return (
+    <Example title="Spinners">
+      <div className="flex flex-wrap items-center gap-6">
+        <CircularLoader />
+        <ClassicLoader />
+        <VercelLoader />
+        <PulseLoader />
+      </div>
+    </Example>
+  )
+}
+
+function LoaderDots() {
+  return (
+    <Example title="Dots">
+      <div className="flex flex-wrap items-center gap-6">
+        <PulseDotLoader />
+        <DotsLoader />
+        <TypingLoader />
+      </div>
+    </Example>
+  )
+}
+
+function LoaderText() {
+  return (
+    <Example title="Text">
+      <div className="flex flex-col gap-4">
+        <TextBlinkLoader text="Thinking" />
+        <TextShimmerLoader text="Generating" />
+        <TextDotsLoader text="Loading" />
+        <TerminalLoader />
+      </div>
+    </Example>
+  )
+}
+
+function LoaderSizes() {
+  return (
+    <Example title="Sizes">
+      <div className="flex flex-wrap items-end gap-6">
+        <Loader variant="circular" size="sm" />
+        <Loader variant="circular" size="md" />
+        <Loader variant="circular" size="lg" />
+        <Loader variant="bars" size="sm" />
+        <Loader variant="bars" size="md" />
+        <Loader variant="bars" size="lg" />
+        <Loader variant="wave" size="sm" />
+        <Loader variant="wave" size="md" />
+        <Loader variant="wave" size="lg" />
+      </div>
+    </Example>
+  )
+}

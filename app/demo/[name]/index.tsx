@@ -56,6 +56,7 @@ import InputOTPExample from "@/app/demo/[name]/ui/input-otp"
 import ItemExample from "@/app/demo/[name]/ui/item"
 import KbdExample from "@/app/demo/[name]/ui/kbd"
 import LabelExample from "@/app/demo/[name]/ui/label"
+import LoaderExample from "@/app/demo/[name]/ui/loader"
 import MarkerExamples from "@/app/demo/[name]/ui/marker"
 import MenubarExample from "@/app/demo/[name]/ui/menubar"
 import MessageExample from "@/app/demo/[name]/ui/message"
@@ -155,6 +156,7 @@ export const demos: { [name: string]: Demo } = {
   item: ItemExample,
   kbd: KbdExample,
   label: LabelExample,
+  loader: LoaderExample,
   marker: MarkerExamples,
   menubar: MenubarExample,
   message: MessageExample,

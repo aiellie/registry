@@ -1155,6 +1155,19 @@
       ]
     },
     {
+      "name": "loader",
+      "type": "registry:ui",
+      "title": "Loader",
+      "description": "Loader UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "components/ui/loader.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "marker",
       "type": "registry:ui",
       "title": "Marker",

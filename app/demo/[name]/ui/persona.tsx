@@ -2,6 +2,7 @@
 
 import type { PersonaState } from "@/components/ai-elements/persona";
 import { Persona } from "@/components/ai-elements/persona";
+import { Example, ExampleWrapper } from "@/components/example";
 import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
 import {
@@ -18,6 +19,8 @@ import {
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react";
 import { memo, useCallback, useState } from "react";
+
+type PersonaVariant = React.ComponentProps<typeof Persona>["variant"];
 
 const states: {
   state: PersonaState;
@@ -51,6 +54,15 @@ const states: {
   },
 ];
 
+const variants: { variant: PersonaVariant; title: string }[] = [
+  { title: "Obsidian", variant: "obsidian" },
+  { title: "Command", variant: "command" },
+  { title: "Glint", variant: "glint" },
+  { title: "Halo", variant: "halo" },
+  { title: "Mana", variant: "mana" },
+  { title: "Opal", variant: "opal" },
+];
+
 interface StateButtonProps {
   state: (typeof states)[0];
   currentState: PersonaState;
@@ -65,14 +77,16 @@ const StateButton = memo(
     );
     return (
       <Tooltip key={state.state}>
-        <TooltipTrigger>
-          <Button
-            onClick={handleClick}
-            size="icon-sm"
-            variant={currentState === state.state ? "default" : "outline"}
-          >
-            <HugeiconsIcon icon={state.icon} strokeWidth={2} className="size-4" />
-          </Button>
+        <TooltipTrigger
+          render={
+            <Button
+              onClick={handleClick}
+              size="icon-sm"
+              variant={currentState === state.state ? "default" : "outline"}
+            />
+          }
+        >
+          <HugeiconsIcon icon={state.icon} strokeWidth={2} className="size-4" />
         </TooltipTrigger>
         <TooltipContent>{state.label}</TooltipContent>
       </Tooltip>
@@ -82,7 +96,13 @@ const StateButton = memo(
 
 StateButton.displayName = "StateButton";
 
-const Example = () => {
+function PersonaVariantExample({
+  title,
+  variant,
+}: {
+  title: string;
+  variant: PersonaVariant;
+}) {
   const [currentState, setCurrentState] = useState<PersonaState>("idle");
 
   const handleStateChange = useCallback((state: PersonaState) => {
@@ -90,21 +110,35 @@ const Example = () => {
   }, []);
 
   return (
-    <div className="flex size-full flex-col items-center justify-center gap-4">
-      <Persona className="size-32" state={currentState} variant="obsidian" />
+    <Example title={title}>
+      <div className="flex size-full flex-col items-center justify-center gap-4">
+        <Persona className="size-32" state={currentState} variant={variant} />
 
-      <ButtonGroup orientation="horizontal">
-        {states.map((state) => (
-          <StateButton
-            currentState={currentState}
-            key={state.state}
-            onStateChange={handleStateChange}
-            state={state}
-          />
-        ))}
-      </ButtonGroup>
-    </div>
+        <ButtonGroup orientation="horizontal">
+          {states.map((state) => (
+            <StateButton
+              currentState={currentState}
+              key={state.state}
+              onStateChange={handleStateChange}
+              state={state}
+            />
+          ))}
+        </ButtonGroup>
+      </div>
+    </Example>
   );
-};
+}
 
-export default Example;
+export default function PersonaExample() {
+  return (
+    <ExampleWrapper className="w-full lg:grid-cols-2 2xl:grid-cols-3">
+      {variants.map((variant) => (
+        <PersonaVariantExample
+          key={variant.variant}
+          title={variant.title}
+          variant={variant.variant}
+        />
+      ))}
+    </ExampleWrapper>
+  );
+}
