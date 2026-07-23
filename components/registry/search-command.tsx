@@ -26,6 +26,7 @@ import {
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuLabel,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
@@ -71,7 +72,9 @@ function SortMenu({
         <HugeiconsIcon icon={FilterIcon} strokeWidth={2} />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-44">
-        <DropdownMenuLabel>Sort</DropdownMenuLabel>
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>Sort</DropdownMenuLabel>
+        </DropdownMenuGroup>
         <DropdownMenuRadioGroup
           value={sort}
           onValueChange={(next) => onSortChange(next as SortMode)}
