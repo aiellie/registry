@@ -124,7 +124,7 @@ function RegistryItemGroup({
                     <HugeiconsIcon
                       icon={getItemIcon(item.name)}
                       strokeWidth={2}
-                      className="size-3.5 shrink-0"
+                      className="size-3.5 shrink-0s"
                     />
                     <span>{item.title}</span>
                     {getItem(item.name)?.isNew && (
