@@ -25,7 +25,7 @@ Shadcn Preset:
 https://ui.shadcn.com/create?preset=b37aICLsO&pointer=true&rtl=true
 
 lsof -i :3000
-kill 22820
+kill 98039
 pkill -9 node
 
 todo: 
