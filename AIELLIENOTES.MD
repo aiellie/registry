@@ -3,7 +3,7 @@ These are just my notes for remembering certain commands etc
 Create Push:
 
 git add .
-git commit -m "scroll"
+git commit -m "remove the new chat button"
 git push origin main
 
 git push origin main --force

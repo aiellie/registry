@@ -18,8 +18,6 @@ import {
 import { HugeiconsIcon } from "@hugeicons/react"
 import { TeamSwitcher } from "@/components/team-switcher"
 
-import { Button } from "@/components/ui/button"
-import { Kbd } from "@/components/ui/kbd"
 import {
   Tooltip,
   TooltipContent,
@@ -158,38 +156,7 @@ export function BrandSidebar({ className }: { className?: string }) {
               isCollapsed ? "flex-col items-center" : "items-center"
             )}
           >
-            <Tooltip>
-              <TooltipTrigger
-                render={
-                  <Button
-                    variant="outline"
-                    className={cn(isCollapsed ? "size-8 p-0" : "flex-1")}
-                  >
-                    <HugeiconsIcon
-                      icon={PlusSignIcon}
-                      strokeWidth={2}
-                      className="size-4"
-                    />
-                    {!isCollapsed && (
-                      <>
-                        <span>New Chat</span>
-                        <Kbd className="ml-auto text-xs">⌘ N</Kbd>
-                      </>
-                    )}
-                  </Button>
-                }
-              />
-              <TooltipContent
-                side="right"
-                align="center"
-                hidden={!isCollapsed}
-              >
-                New Chat
-                <Kbd className="text-xs">⌘ N</Kbd>
-              </TooltipContent>
-            </Tooltip>
-
-            <SearchCommand variant="icon" />
+            <SearchCommand variant="sidebar" />
           </div>
         </div>
       </SidebarHeader>
