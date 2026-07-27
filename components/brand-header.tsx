@@ -11,7 +11,7 @@ import {
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
-import { Logo } from "@/components/logo"
+import { LogoIcon, LogoWordmark } from "@/components/logo"
 import { Button } from "@/components/ui/button"
 import { useSidebar } from "@/components/ui/sidebar"
 import { ModeToggle } from "@/components/theme-toggle"
@@ -50,8 +50,10 @@ export function BrandHeader() {
             />
           </Button>
 
-          <Link href="/" className="flex items-center">
-            <Logo />
+
+          <Link href="/" className="group flex items-center gap-2">
+            <LogoIcon className="size-6" />
+            <LogoWordmark as="span" className="text-sm font-medium" />
           </Link>
         </div>
 

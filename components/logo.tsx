@@ -82,13 +82,23 @@ export function LogoIcon({
         />
       </g>
 
-      <g className="hidden dark:block">
+      <g className="hidden dark:block dark:group-hover:hidden">
         <circle cx="50" cy="50" r="48" fill={`url(#${orbBw})`} />
         <circle cx="50" cy="50" r="48" fill={`url(#${shadeBw})`} />
         <circle cx="50" cy="50" r="48" fill={`url(#${specBw})`} />
         <g fill="none" stroke="#18181b" strokeWidth={4} strokeLinecap="round">
           <path d="M33 56 Q40 48 47 56" />
           <path d="M53 56 Q60 48 67 56" />
+        </g>
+      </g>
+
+      <g className="hidden dark:group-hover:block">
+        <circle cx="50" cy="50" r="48" fill={`url(#${orbBw})`} />
+        <circle cx="50" cy="50" r="48" fill={`url(#${shadeBw})`} />
+        <circle cx="50" cy="50" r="48" fill={`url(#${specBw})`} />
+        <g fill="none" stroke="#18181b" strokeWidth={4} strokeLinecap="round">
+          <path d="M33 56 Q40 48 47 56" />
+          <path d="M53 54 Q60 49 67 54" />
         </g>
       </g>
     </svg>
