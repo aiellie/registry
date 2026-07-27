@@ -9,6 +9,7 @@ import {
   Comment02Icon,
   PlusSignIcon,
   ArrowUp01Icon,
+  Pin02Icon,
 } from "@hugeicons/core-free-icons"
 import {
   Collapsible,
@@ -56,11 +57,11 @@ export function NavChats({
           render={<CollapsibleTrigger />}
           className="group/collapsible cursor-pointer"
         >
-          <span>Chats</span>
+          <span>Recents</span>
           <HugeiconsIcon
             icon={ArrowUp01Icon}
             strokeWidth={1.5}
-            className="ms-1 size-3 shrink-0 opacity-0 transition-all duration-200 group-focus-within/nav:opacity-100 group-hover/nav:opacity-100 group-data-panel-open/collapsible:rotate-180"
+            className="ms-1 size-3 shrink-0 rotate-90 opacity-0 transition-all duration-200 group-focus-within/nav:opacity-100 group-hover/nav:opacity-100 group-data-panel-open/collapsible:rotate-180 rtl:-rotate-90 group-data-panel-open/collapsible:rtl:rotate-180"
           />
         </SidebarGroupLabel>
         <Tooltip>
@@ -102,16 +103,20 @@ export function NavChats({
                       side={isMobile ? "bottom" : "right"}
                       align={isMobile ? "end" : "start"}
                     >
-                      <DropdownMenuItem>
-                        <HugeiconsIcon icon={PencilEdit02Icon} strokeWidth={2} className="size-4" />
-                        <span>Rename Chat</span>
+                      <DropdownMenuItem className="cursor-pointer">
+                        <HugeiconsIcon icon={Pin02Icon} strokeWidth={2} className="size-4" />
+                        <span>Pin</span>
                       </DropdownMenuItem>
-                      <DropdownMenuItem>
+                      <DropdownMenuItem className="cursor-pointer">
+                        <HugeiconsIcon icon={PencilEdit02Icon} strokeWidth={2} className="size-4" />
+                        <span>Rename</span>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem className="cursor-pointer">
                         <HugeiconsIcon icon={Share08Icon} strokeWidth={2} className="size-4" />
-                        <span>Share Chat</span>
+                        <span>Share</span>
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
-                      <DropdownMenuItem variant="destructive">
+                      <DropdownMenuItem variant="destructive" className="cursor-pointer">
                         <HugeiconsIcon icon={Delete01Icon} strokeWidth={2} className="size-4" />
                         <span>Delete Chat</span>
                       </DropdownMenuItem>

@@ -170,6 +170,7 @@ export const items: Item[] = [
 
   // Brand
   { name: "logo", icon: SparklesIcon, type: "registry:component", category: "brand", isNew: false },
+  { name: "brand-avatar", icon: SmileIcon, type: "registry:component", category: "brand", isNew: true },
   { name: "hero", icon: Image01Icon, type: "registry:component", category: "brand", isNew: false },
   { name: "brand-header", icon: LayoutTopIcon, type: "registry:component", category: "brand", isNew: false },
   { name: "brand-footer", icon: LayoutBottomIcon, type: "registry:component", category: "brand", isNew: false },

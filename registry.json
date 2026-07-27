@@ -431,6 +431,22 @@
       ]
     },
     {
+      "name": "brand-avatar",
+      "type": "registry:component",
+      "title": "Brand Avatar",
+      "description": "The aiellie orb as an expressive avatar — awake, sleeping, winking, dizzy and more.",
+      "registryDependencies": [
+        "https://ui.aiellie.dev/r/theme.json"
+      ],
+      "files": [
+        {
+          "path": "components/brand/brand-avatar.tsx",
+          "type": "registry:component",
+          "target": "components/brand/brand-avatar.tsx"
+        }
+      ]
+    },
+    {
       "name": "hero",
       "type": "registry:component",
       "title": "Hero",

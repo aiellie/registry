@@ -6,6 +6,7 @@ import { dashboard } from "@/app/demo/[name]/blocks/dashboard"
 import { login } from "@/app/demo/[name]/blocks/login"
 
 // components
+import BrandAvatarExample from "@/app/demo/[name]/components/brand-avatar"
 import { brandFooter } from "@/app/demo/[name]/components/brand-footer"
 import { brandHeader } from "@/app/demo/[name]/components/brand-header"
 import { brandSidebar } from "@/app/demo/[name]/components/brand-sidebar"
@@ -112,6 +113,7 @@ export const demos: { [name: string]: Demo } = {
   "brand-header": brandHeader,
   "brand-footer": brandFooter,
   "brand-sidebar": brandSidebar,
+  "brand-avatar": BrandAvatarExample,
   hero,
   liquid: LiquidExample,
   glass: GlassExample,
