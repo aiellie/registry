@@ -911,7 +911,12 @@ function ComboboxInPopup() {
           <ComboboxValue />
         </ComboboxTrigger>
         <ComboboxContent>
-          <ComboboxInput showTrigger={false} placeholder="Search" />
+          <ComboboxInput
+            showTrigger={false}
+            showSearchIcon
+            placeholder="Search"
+            className="h-8! rounded-none! border-x-0 border-t-0 border-input/30 bg-background shadow-none! *:data-[slot=input-group-addon]:ps-2!"
+          />
           <ComboboxEmpty>No items found.</ComboboxEmpty>
           <ComboboxList>
             {(item) => (

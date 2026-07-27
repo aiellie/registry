@@ -321,6 +321,7 @@ export type ModelSelectorComboboxInputProps = ComponentProps<
 >;
 
 export const ModelSelectorComboboxInput = ({
+  className,
   showTrigger = false,
   showSearchIcon = true,
   ...props
@@ -328,6 +329,10 @@ export const ModelSelectorComboboxInput = ({
   <ComboboxInput
     showSearchIcon={showSearchIcon}
     showTrigger={showTrigger}
+    className={cn(
+      "h-8! rounded-none! border-x-0 border-t-0 border-input/30 bg-background shadow-none! *:data-[slot=input-group-addon]:ps-2!",
+      className
+    )}
     {...props}
   />
 );
