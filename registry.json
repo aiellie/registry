@@ -599,6 +599,11 @@
           "path": "components/team-switcher.tsx",
           "type": "registry:component",
           "target": "components/team-switcher.tsx"
+        },
+        {
+          "path": "lib/sidebar-data.ts",
+          "type": "registry:lib",
+          "target": "lib/sidebar-data.ts"
         }
       ],
       "dependencies": [

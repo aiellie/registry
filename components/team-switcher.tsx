@@ -19,16 +19,47 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 
+interface Team {
+  name: string
+  logo: IconSvgElement
+  plan: string
+}
+
 export function TeamSwitcher({
   teams,
+  activeTeam: activeTeamProp,
+  onTeamChange,
 }: {
-  teams: {
-    name: string
-    logo: IconSvgElement
-    plan: string
-  }[]
+  teams: Team[]
+  /** Team name. Leave undefined to let the switcher own its selection. */
+  activeTeam?: string
+  onTeamChange?: (team: string) => void
 }) {
-  const [activeTeam, setActiveTeam] = React.useState(teams[0])
+  const [uncontrolledTeam, setUncontrolledTeam] = React.useState(teams[0]?.name)
+  const activeName = activeTeamProp ?? uncontrolledTeam
+  const activeTeam = teams.find((team) => team.name === activeName) ?? teams[0]
+
+  const selectTeam = React.useCallback(
+    (team: Team) => {
+      setUncontrolledTeam(team.name)
+      onTeamChange?.(team.name)
+    },
+    [onTeamChange]
+  )
+
+  React.useEffect(() => {
+    function onKeyDown(event: KeyboardEvent) {
+      if (!event.metaKey && !event.ctrlKey) return
+      const index = Number(event.key) - 1
+      const team = teams[index]
+      if (!Number.isInteger(index) || !team) return
+      event.preventDefault()
+      selectTeam(team)
+    }
+
+    window.addEventListener("keydown", onKeyDown)
+    return () => window.removeEventListener("keydown", onKeyDown)
+  }, [teams, selectTeam])
 
   if (!activeTeam) {
     return null
@@ -60,7 +91,7 @@ export function TeamSwitcher({
               {teams.map((team, index) => (
                 <DropdownMenuItem
                   key={team.name}
-                  onClick={() => setActiveTeam(team)}
+                  onClick={() => selectTeam(team)}
                   className="gap-2 p-2"
                 >
                   <div className="flex size-6 items-center justify-center rounded-md border">

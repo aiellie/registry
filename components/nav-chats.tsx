@@ -8,7 +8,7 @@ import {
   Delete01Icon,
   Comment02Icon,
   PlusSignIcon,
-  ArrowDown01Icon,
+  ArrowUp01Icon,
 } from "@hugeicons/core-free-icons"
 import {
   Collapsible,
@@ -58,9 +58,9 @@ export function NavChats({
         >
           <span>Chats</span>
           <HugeiconsIcon
-            icon={ArrowDown01Icon}
-            strokeWidth={2}
-            className="ms-1 size-3.5 shrink-0 opacity-0 transition-all duration-200 group-focus-within/nav:opacity-100 group-hover/nav:opacity-100 group-data-panel-open/collapsible:rotate-180"
+            icon={ArrowUp01Icon}
+            strokeWidth={1.5}
+            className="ms-1 size-3 shrink-0 opacity-0 transition-all duration-200 group-focus-within/nav:opacity-100 group-hover/nav:opacity-100 group-data-panel-open/collapsible:rotate-180"
           />
         </SidebarGroupLabel>
         <Tooltip>
