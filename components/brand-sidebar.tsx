@@ -9,9 +9,14 @@ import {
   PlusSignIcon,
   WebDesign02Icon,
   Calendar01Icon,
-  DashboardCircleIcon
+  DashboardCircleIcon,
+  Comment02Icon,
+  BashIcon,
+  BotMessageSquareIcon,
+  AiGenerativeIcon,
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
+import { TeamSwitcher } from "@/components/team-switcher"
 
 import { Button } from "@/components/ui/button"
 import { Kbd } from "@/components/ui/kbd"
@@ -31,7 +36,6 @@ import {
   SidebarMenuBadge,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarSeparator,
   useSidebar,
   SidebarRail,
   SidebarFooter,
@@ -87,6 +91,28 @@ const mainNavItems: NavItem[] = [
 ]
 
 const data = { 
+  teams: [
+    {
+      name: "Chat",
+      logo: Comment02Icon,
+      plan: "Enterprise",
+    },
+    {
+      name: "Code",
+      logo: BashIcon,
+      plan: "Free",
+    },
+    {
+      name: "Console",
+      logo: BotMessageSquareIcon,
+      plan: "Startup",
+    },
+    {
+      name: "Create",
+      logo: AiGenerativeIcon,
+      plan: "Free",
+    },
+  ],
   user: {
     name: "aiellie",
     email: "hello@aiellie.dev",
@@ -105,6 +131,7 @@ const data = {
       name: "Bug triage notes",
       url: "#",
     },
+    
   ],
 }
 
@@ -123,7 +150,8 @@ export function BrandSidebar({ className }: { className?: string }) {
       )}
     >
       <SidebarHeader>
-        <div className={cn(isCollapsed ? "py-2" : "px-0 pt-2")}>
+      <TeamSwitcher teams={data.teams} />
+      <div className={cn(isCollapsed ? "py-2" : "px-0 pt-2")}>
           <div
             className={cn(
               "flex gap-2",

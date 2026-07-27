@@ -594,6 +594,11 @@
           "path": "components/feedback-form.tsx",
           "type": "registry:component",
           "target": "components/feedback-form.tsx"
+        },
+        {
+          "path": "components/team-switcher.tsx",
+          "type": "registry:component",
+          "target": "components/team-switcher.tsx"
         }
       ],
       "dependencies": [
