@@ -54,7 +54,7 @@ export default async function IndexPage() {
           <ScrollToComponentsButton />
         </PageActions>
       </PageHeader>
-      <div className="flex min-w-0 flex-col gap-6 p-5 md:p-10">
+      <div className="flex min-w-0 flex-col gap-6 p-5 md:p-10 mb-14!">
         <BlockDisplay name="dashboard" />
       </div>
       <RegistryFooter />
