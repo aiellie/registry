@@ -2,6 +2,113 @@ import { useId, type ComponentProps, type ElementType } from "react";
 
 import { cn } from "@/lib/utils";
 
+function ElephantMark({
+  orb,
+  shade,
+  spec,
+  wink = false,
+}: {
+  orb: string;
+  shade: string;
+  spec: string;
+  wink?: boolean;
+}) {
+  return (
+    <>
+      {/* Ears */}
+      <path
+        d="M30 42C18 30 6 34 4 48c-2 14 8 26 22 28 4-10 6-18 6-26 0-4-1-6-2-8Z"
+        fill={`url(#${orb})`}
+      />
+      <path
+        d="M70 42C82 30 94 34 96 48c2 14-8 26-22 28-4-10-6-18-6-26 0-4 1-6 2-8Z"
+        fill={`url(#${orb})`}
+      />
+      <path
+        d="M30 42C18 30 6 34 4 48c-2 14 8 26 22 28 4-10 6-18 6-26 0-4-1-6-2-8Z"
+        fill={`url(#${shade})`}
+      />
+      <path
+        d="M70 42C82 30 94 34 96 48c2 14-8 26-22 28-4-10-6-18-6-26 0-4 1-6 2-8Z"
+        fill={`url(#${shade})`}
+      />
+
+      {/* Head */}
+      <ellipse cx="50" cy="46" rx="30" ry="28" fill={`url(#${orb})`} />
+      <ellipse cx="50" cy="46" rx="30" ry="28" fill={`url(#${shade})`} />
+      <ellipse cx="50" cy="46" rx="30" ry="28" fill={`url(#${spec})`} />
+
+      {/* Inner ear detail */}
+      <path
+        d="M26 48c-6-6-12-4-13 4-1 8 5 14 12 14 2-6 3-12 1-18Z"
+        fill="#2a1f57"
+        fillOpacity={0.12}
+      />
+      <path
+        d="M74 48c6-6 12-4 13 4 1 8-5 14-12 14-2-6-3-12-1-18Z"
+        fill="#2a1f57"
+        fillOpacity={0.12}
+      />
+
+      {/* Trunk */}
+      <path
+        d="M42 66c-1 8-6 14-4 22 2 7 12 8 14 2 1-5-1-9-1-14 0-4 3-7 6-8"
+        fill="none"
+        stroke={`url(#${orb})`}
+        strokeWidth={11}
+        strokeLinecap="round"
+      />
+      <path
+        d="M42 66c-1 8-6 14-4 22 2 7 12 8 14 2 1-5-1-9-1-14 0-4 3-7 6-8"
+        fill="none"
+        stroke={`url(#${shade})`}
+        strokeWidth={11}
+        strokeLinecap="round"
+      />
+      <path
+        d="M42 66c-1 8-6 14-4 22 2 7 12 8 14 2 1-5-1-9-1-14 0-4 3-7 6-8"
+        fill="none"
+        stroke="#2a1f57"
+        strokeOpacity={0.18}
+        strokeWidth={3.5}
+        strokeLinecap="round"
+      />
+
+      {/* Eyes */}
+      {wink ? (
+        <>
+          <ellipse cx="38" cy="46" rx="4.2" ry="5.4" fill="#2a1f57" />
+          <circle
+            cx="36.4"
+            cy="43.6"
+            r="1.35"
+            fill="#ffffff"
+            fillOpacity={0.92}
+          />
+          <path
+            d="M54 47q6-5 12 0"
+            fill="none"
+            stroke="#2a1f57"
+            strokeWidth={3.6}
+            strokeLinecap="round"
+          />
+        </>
+      ) : (
+        <>
+          <g fill="#2a1f57">
+            <ellipse cx="38" cy="46" rx="4.2" ry="5.4" />
+            <ellipse cx="62" cy="46" rx="4.2" ry="5.4" />
+          </g>
+          <g fill="#ffffff" fillOpacity={0.92}>
+            <circle cx="36.4" cy="43.6" r="1.35" />
+            <circle cx="60.4" cy="43.6" r="1.35" />
+          </g>
+        </>
+      )}
+    </>
+  );
+}
+
 export function LogoIcon({
   className,
   ...props
@@ -54,61 +161,19 @@ export function LogoIcon({
       </defs>
 
       <g className="group-hover:hidden dark:hidden">
-        <circle cx="50" cy="50" r="48" fill={`url(#${orb})`} />
-        <circle cx="50" cy="50" r="48" fill={`url(#${shade})`} />
-        <circle cx="50" cy="50" r="48" fill={`url(#${spec})`} />
-        <g fill="#2a1f57">
-          <ellipse cx="40" cy="53" rx="5" ry="6.4" />
-          <ellipse cx="60" cy="53" rx="5" ry="6.4" />
-        </g>
-        <g fill="#ffffff" fillOpacity={0.92}>
-          <circle cx="38.1" cy="50" r="1.6" />
-          <circle cx="58.1" cy="50" r="1.6" />
-        </g>
+        <ElephantMark orb={orb} shade={shade} spec={spec} />
       </g>
 
       <g className="hidden group-hover:block dark:group-hover:hidden">
-        <circle cx="50" cy="50" r="48" fill={`url(#${orb})`} />
-        <circle cx="50" cy="50" r="48" fill={`url(#${shade})`} />
-        <circle cx="50" cy="50" r="48" fill={`url(#${spec})`} />
-        <ellipse cx="40" cy="53" rx="5" ry="6.4" fill="#2a1f57" />
-        <circle cx="38.1" cy="50" r="1.6" fill="#ffffff" fillOpacity={0.92} />
-        <path
-          d="M53 54 Q60 49 67 54"
-          fill="none"
-          stroke="#2a1f57"
-          strokeWidth={4}
-          strokeLinecap="round"
-        />
+        <ElephantMark orb={orb} shade={shade} spec={spec} wink />
       </g>
 
       <g className="hidden dark:block dark:group-hover:hidden">
-        <circle cx="50" cy="50" r="48" fill={`url(#${orbBw})`} />
-        <circle cx="50" cy="50" r="48" fill={`url(#${shadeBw})`} />
-        <circle cx="50" cy="50" r="48" fill={`url(#${specBw})`} />
-        <g fill="#2a1f57">
-          <ellipse cx="40" cy="53" rx="5" ry="6.4" />
-          <ellipse cx="60" cy="53" rx="5" ry="6.4" />
-        </g>
-        <g fill="#ffffff" fillOpacity={0.92}>
-          <circle cx="38.1" cy="50" r="1.6" />
-          <circle cx="58.1" cy="50" r="1.6" />
-        </g>
+        <ElephantMark orb={orbBw} shade={shadeBw} spec={specBw} />
       </g>
 
       <g className="hidden dark:group-hover:block">
-        <circle cx="50" cy="50" r="48" fill={`url(#${orbBw})`} />
-        <circle cx="50" cy="50" r="48" fill={`url(#${shadeBw})`} />
-        <circle cx="50" cy="50" r="48" fill={`url(#${specBw})`} />
-        <ellipse cx="40" cy="53" rx="5" ry="6.4" fill="#2a1f57" />
-        <circle cx="38.1" cy="50" r="1.6" fill="#ffffff" fillOpacity={0.92} />
-        <path
-          d="M53 54 Q60 49 67 54"
-          fill="none"
-          stroke="#2a1f57"
-          strokeWidth={4}
-          strokeLinecap="round"
-        />
+        <ElephantMark orb={orbBw} shade={shadeBw} spec={specBw} wink />
       </g>
     </svg>
   );
@@ -125,13 +190,30 @@ export function LogoOutline({
       fill="none"
       stroke="currentColor"
       strokeLinecap="round"
+      strokeLinejoin="round"
       className={cn("size-8 shrink-0", className)}
       aria-hidden="true"
       {...props}
     >
-      <circle cx="50" cy="50" r="46" strokeWidth={1.5} />
-      <ellipse cx="40" cy="53" rx="5" ry="6.4" strokeWidth={1.5} />
-      <ellipse cx="60" cy="53" rx="5" ry="6.4" strokeWidth={1.5} />
+      {/* Ears */}
+      <path
+        d="M30 42C18 30 6 34 4 48c-2 14 8 26 22 28 4-10 6-18 6-26 0-4-1-6-2-8Z"
+        strokeWidth={1.5}
+      />
+      <path
+        d="M70 42C82 30 94 34 96 48c2 14-8 26-22 28-4-10-6-18-6-26 0-4 1-6 2-8Z"
+        strokeWidth={1.5}
+      />
+      {/* Head */}
+      <ellipse cx="50" cy="46" rx="30" ry="28" strokeWidth={1.5} />
+      {/* Trunk */}
+      <path
+        d="M42 66c-1 8-6 14-4 22 2 7 12 8 14 2 1-5-1-9-1-14 0-4 3-7 6-8"
+        strokeWidth={1.5}
+      />
+      {/* Eyes */}
+      <ellipse cx="38" cy="46" rx="4.2" ry="5.4" strokeWidth={1.5} />
+      <ellipse cx="62" cy="46" rx="4.2" ry="5.4" strokeWidth={1.5} />
     </svg>
   );
 }
