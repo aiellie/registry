@@ -38,6 +38,8 @@ export interface SidebarNavItem {
     title: string
     icon: IconSvgElement
   }
+  /** Keyboard shortcut hint. Shares its slot with `badge` and `action`. */
+  kbd?: string
 }
 
 export interface SidebarNavGroup {
@@ -73,7 +75,7 @@ export const teams: SidebarTeam[] = [
     groups: [
       {
         items: [
-          { title: "New Chat", href: "#chat", icon: PlusSignIcon },
+          { title: "New Chat", href: "#chat", icon: PlusSignIcon, kbd: "⌘N" },
           {
             title: "Projects",
             href: "#chat-projects",
@@ -98,7 +100,12 @@ export const teams: SidebarTeam[] = [
     groups: [
       {
         items: [
-          { title: "New Chat", href: "#cowork", icon: PlusSignIcon },
+          {
+            title: "New Chat",
+            href: "#cowork",
+            icon: PlusSignIcon,
+            kbd: "⌘N",
+          },
           {
             title: "Projects",
             href: "#cowork-projects",
@@ -127,7 +134,7 @@ export const teams: SidebarTeam[] = [
     groups: [
       {
         items: [
-          { title: "New Chat", href: "#code", icon: PlusSignIcon },
+          { title: "New Chat", href: "#code", icon: PlusSignIcon, kbd: "⌘N" },
           {
             title: "Pull Requests",
             href: "#code-pull-requests",

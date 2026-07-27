@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { TeamSwitcher } from "@/components/team-switcher"
 
+import { Kbd } from "@/components/ui/kbd"
 import {
   Tooltip,
   TooltipContent,
@@ -79,7 +80,17 @@ export function BrandSidebar({ className }: { className?: string }) {
                     <SidebarMenuButton
                       render={<Link href={item.href} />}
                       isActive={pathname === item.href}
-                      tooltip={item.title}
+                      tooltip={
+                        item.kbd
+                          ? {
+                              children: (
+                                <>
+                                  {item.title} <Kbd>{item.kbd}</Kbd>
+                                </>
+                              ),
+                            }
+                          : item.title
+                      }
                     >
                       <HugeiconsIcon
                         icon={item.icon}
@@ -91,6 +102,11 @@ export function BrandSidebar({ className }: { className?: string }) {
                     {item.badge && (
                       <SidebarMenuBadge className={item.badge.className}>
                         {item.badge.text}
+                      </SidebarMenuBadge>
+                    )}
+                    {item.kbd && (
+                      <SidebarMenuBadge className="px-0 transition-opacity group-focus-within/menu-item:opacity-100 group-hover/menu-item:opacity-100 md:opacity-0">
+                        <Kbd>{item.kbd}</Kbd>
                       </SidebarMenuBadge>
                     )}
                     {item.action && (
