@@ -151,7 +151,7 @@ export function RegistrySidebar() {
   const groups = sort === "category" ? categoryGroups : typeGroups
 
   return (
-    <Sidebar variant="floating" collapsible={pathname === "/" || pathname === "/cards" ? "offcanvas" : "icon"}>
+    <Sidebar variant="sidebar" collapsible={pathname === "/" || pathname === "/cards" ? "offcanvas" : "icon"}>
       <SidebarHeader className="">
         <div className="flex items-center px-2 py-2 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0">
           <Link href="/" className="flex min-w-0 items-center gap-2">
