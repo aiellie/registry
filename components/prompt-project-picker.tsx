@@ -108,7 +108,7 @@ export function PromptProjectPicker({
                   side="right"
                   align="start"
                   sideOffset={4}
-                  className="w-56 p-1"
+                  className="w-56 p-0"
                 >
                   <Command>
                     <CommandList>

@@ -18,11 +18,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
+import { ScrollArea } from "@/components/ui/scroll-area"
 import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
+  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -32,35 +34,142 @@ import {
 } from "@/components/ui/sidebar"
 import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react"
 import {
-  NotificationIcon,
-  Menu09Icon,
-  HomeIcon,
-  PaintBoardIcon,
-  MessageIcon,
+  AiBrain01Icon,
+  AnchorIcon,
+  Archive02Icon,
+  ArrowUpRight01Icon,
+  AtSignIcon,
+  BarChartIcon,
+  BookOpen02Icon,
+  BriefcaseIcon,
+  BrowserIcon,
+  CatIcon,
+  CheckListIcon,
+  Configuration01Icon,
+  CreditCardIcon,
+  FrameIcon,
+  GaugeIcon,
+  GitBranchIcon,
   Globe02Icon,
+  GlobeIcon,
+  Grid2X2Icon,
+  HistoryIcon,
+  HomeIcon,
   KeyboardIcon,
-  Tick02Icon,
-  RecordIcon,
   LinkIcon,
-  ShieldIcon,
+  Menu09Icon,
+  MessageIcon,
+  NotificationIcon,
+  PaintBoardIcon,
+  PlugIcon,
+  RecordIcon,
   SettingsIcon,
+  ShieldIcon,
+  SparklesIcon,
+  SplitIcon,
+  Sun01Icon,
+  TerminalIcon,
+  Tick02Icon,
+  UserCircle02Icon,
+  UserIcon,
+  VoiceIcon,
 } from "@hugeicons/core-free-icons"
 
-const data = {
-  nav: [
-    { name: "Notifications", icon: NotificationIcon },
-    { name: "Navigation", icon: Menu09Icon },
-    { name: "Home", icon: HomeIcon },
-    { name: "Appearance", icon: PaintBoardIcon },
-    { name: "Messages & media", icon: MessageIcon },
-    { name: "Language & region", icon: Globe02Icon },
-    { name: "Accessibility", icon: KeyboardIcon },
-    { name: "Mark as read", icon: Tick02Icon },
-    { name: "Audio & video", icon: RecordIcon },
-    { name: "Connected accounts", icon: LinkIcon },
-    { name: "Privacy & visibility", icon: ShieldIcon },
-    { name: "Advanced", icon: SettingsIcon },
-  ] satisfies { name: string; icon: IconSvgElement }[],
+type NavItem = {
+  name: string
+  icon: IconSvgElement
+  external?: boolean
+}
+
+const navCategories: { label: string; items: NavItem[] }[] = [
+  {
+    label: "Personal",
+    items: [
+      { name: "General", icon: SettingsIcon },
+      { name: "Profile", icon: UserCircle02Icon },
+      { name: "Appearance", icon: Sun01Icon },
+      { name: "Voice", icon: VoiceIcon },
+      { name: "Configuration", icon: Configuration01Icon },
+      { name: "Personalization", icon: HistoryIcon },
+      { name: "Pets", icon: CatIcon },
+      { name: "Keyboard shortcuts", icon: KeyboardIcon },
+      { name: "Usage & billing", icon: GaugeIcon },
+      { name: "Account", icon: UserIcon, external: true },
+      { name: "Home", icon: HomeIcon },
+      { name: "Navigation", icon: Menu09Icon },
+      { name: "Language & region", icon: Globe02Icon },
+    ],
+  },
+  {
+    label: "Integrations",
+    items: [
+      { name: "Appshots", icon: FrameIcon },
+      { name: "Plugins", icon: AtSignIcon },
+      { name: "Browser", icon: BrowserIcon },
+      { name: "Computer use", icon: SparklesIcon },
+      { name: "Connected accounts", icon: LinkIcon },
+    ],
+  },
+  {
+    label: "Coding",
+    items: [
+      { name: "Hooks", icon: AnchorIcon },
+      { name: "Connections", icon: GlobeIcon },
+      { name: "Git", icon: GitBranchIcon },
+      { name: "Environments", icon: TerminalIcon },
+      { name: "Worktrees", icon: SplitIcon },
+      { name: "Advanced", icon: SettingsIcon },
+    ],
+  },
+  {
+    label: "Archived",
+    items: [{ name: "Archived chats", icon: Archive02Icon }],
+  },
+  {
+    label: "Settings",
+    items: [
+      { name: "Privacy", icon: ShieldIcon },
+      { name: "Billing", icon: CreditCardIcon },
+      { name: "Usage", icon: BarChartIcon },
+      { name: "Capabilities", icon: BriefcaseIcon },
+      { name: "Cowork", icon: CheckListIcon },
+    ],
+  },
+  {
+    label: "Customize",
+    items: [
+      { name: "Skills", icon: BookOpen02Icon },
+      { name: "Connectors", icon: Grid2X2Icon },
+      { name: "Plugins", icon: PlugIcon },
+      { name: "Memory", icon: AiBrain01Icon },
+    ],
+  },
+  {
+    label: "Notifications",
+    items: [
+      { name: "Notifications", icon: NotificationIcon },
+      { name: "Mark as read", icon: Tick02Icon },
+    ],
+  },
+  {
+    label: "Communication",
+    items: [
+      { name: "Messages & media", icon: MessageIcon },
+      { name: "Audio & video", icon: RecordIcon },
+    ],
+  },
+  {
+    label: "Accessibility",
+    items: [{ name: "Accessibility", icon: PaintBoardIcon }],
+  },
+]
+
+const allNavItems = navCategories.flatMap((category) =>
+  category.items.map((item) => ({ ...item, category: category.label })),
+)
+
+function getItemKey(category: string, name: string) {
+  return `${category}::${name}`
 }
 
 export function SettingsDialog({
@@ -83,9 +192,13 @@ export function SettingsDialog({
     [isControlled, onOpenChange],
   )
 
-  const [activeName, setActiveName] = React.useState("Messages & media")
+  const [activeKey, setActiveKey] = React.useState(
+    getItemKey("Personal", "General"),
+  )
   const activeItem =
-    data.nav.find((item) => item.name === activeName) ?? data.nav[0]
+    allNavItems.find(
+      (item) => getItemKey(item.category, item.name) === activeKey,
+    ) ?? allNavItems[0]
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -97,27 +210,46 @@ export function SettingsDialog({
         <DialogDescription className="sr-only">
           Customize your settings here.
         </DialogDescription>
-        <SidebarProvider className="min-h-0 items-start">
-          <Sidebar collapsible="icon" className="hidden md:flex">
-            <SidebarContent>
-              <SidebarGroup>
-                <SidebarGroupContent>
-                  <SidebarMenu>
-                    {data.nav.map((item) => (
-                      <SidebarMenuItem key={item.name}>
-                        <SidebarMenuButton
-                          isActive={item.name === activeName}
-                          tooltip={item.name}
-                          onClick={() => setActiveName(item.name)}
-                        >
-                          <HugeiconsIcon icon={item.icon} strokeWidth={2} />
-                          <span>{item.name}</span>
-                        </SidebarMenuButton>
-                      </SidebarMenuItem>
-                    ))}
-                  </SidebarMenu>
-                </SidebarGroupContent>
-              </SidebarGroup>
+        <SidebarProvider className="min-h-0 items-start h-full">
+          <Sidebar collapsible="icon" className="hidden md:flex h-full">
+            <SidebarContent className="overflow-hidden group-data-[collapsible=icon]:overflow-hidden">
+              <ScrollArea className="min-h-0 flex-1">
+                {navCategories.map((category) => (
+                  <SidebarGroup key={category.label}>
+                    <SidebarGroupLabel>{category.label}</SidebarGroupLabel>
+                    <SidebarGroupContent>
+                      <SidebarMenu>
+                        {category.items.map((item) => {
+                          const itemKey = getItemKey(category.label, item.name)
+
+                          return (
+                            <SidebarMenuItem key={itemKey}>
+                              <SidebarMenuButton
+                                isActive={itemKey === activeKey}
+                                tooltip={item.name}
+                                onClick={() => setActiveKey(itemKey)}
+                              >
+                                <HugeiconsIcon
+                                  icon={item.icon}
+                                  strokeWidth={2}
+                                />
+                                <span>{item.name}</span>
+                                {item.external ? (
+                                  <HugeiconsIcon
+                                    icon={ArrowUpRight01Icon}
+                                    strokeWidth={2}
+                                    className="ms-auto size-3.5 opacity-60"
+                                  />
+                                ) : null}
+                              </SidebarMenuButton>
+                            </SidebarMenuItem>
+                          )
+                        })}
+                      </SidebarMenu>
+                    </SidebarGroupContent>
+                  </SidebarGroup>
+                ))}
+              </ScrollArea>
             </SidebarContent>
             <SidebarRail />
           </Sidebar>
