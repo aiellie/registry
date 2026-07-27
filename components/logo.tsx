@@ -86,9 +86,13 @@ export function LogoIcon({
         <circle cx="50" cy="50" r="48" fill={`url(#${orbBw})`} />
         <circle cx="50" cy="50" r="48" fill={`url(#${shadeBw})`} />
         <circle cx="50" cy="50" r="48" fill={`url(#${specBw})`} />
-        <g fill="none" stroke="#18181b" strokeWidth={4} strokeLinecap="round">
-          <path d="M33 56 Q40 48 47 56" />
-          <path d="M53 56 Q60 48 67 56" />
+        <g fill="#2a1f57">
+          <ellipse cx="40" cy="53" rx="5" ry="6.4" />
+          <ellipse cx="60" cy="53" rx="5" ry="6.4" />
+        </g>
+        <g fill="#ffffff" fillOpacity={0.92}>
+          <circle cx="38.1" cy="50" r="1.6" />
+          <circle cx="58.1" cy="50" r="1.6" />
         </g>
       </g>
 
@@ -96,10 +100,15 @@ export function LogoIcon({
         <circle cx="50" cy="50" r="48" fill={`url(#${orbBw})`} />
         <circle cx="50" cy="50" r="48" fill={`url(#${shadeBw})`} />
         <circle cx="50" cy="50" r="48" fill={`url(#${specBw})`} />
-        <g fill="none" stroke="#18181b" strokeWidth={4} strokeLinecap="round">
-          <path d="M33 56 Q40 48 47 56" />
-          <path d="M53 54 Q60 49 67 54" />
-        </g>
+        <ellipse cx="40" cy="53" rx="5" ry="6.4" fill="#2a1f57" />
+        <circle cx="38.1" cy="50" r="1.6" fill="#ffffff" fillOpacity={0.92} />
+        <path
+          d="M53 54 Q60 49 67 54"
+          fill="none"
+          stroke="#2a1f57"
+          strokeWidth={4}
+          strokeLinecap="round"
+        />
       </g>
     </svg>
   );

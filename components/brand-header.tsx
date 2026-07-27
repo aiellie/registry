@@ -56,7 +56,6 @@ export function BrandHeader() {
             <LogoWordmark as="span" className="text-sm font-medium" />
           </Link>
         </div>
-
         <div className="flex items-center gap-1">
           <ModeToggle />
           <span className="mx-1 h-3 w-px bg-border" />
