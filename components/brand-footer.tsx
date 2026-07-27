@@ -2,6 +2,7 @@ import { Copyright } from "@/components/copyright"
 import { Latency } from "@/components/latency"
 import { LoadStatus } from "@/components/load-status"
 import { NyClock } from "@/components/ny-clock"
+import { ModeToggle } from "@/components/theme-toggle"
 
 export function BrandFooter() {
   return (
@@ -16,6 +17,7 @@ export function BrandFooter() {
           <span className="h-3 w-px bg-border" />
           <LoadStatus />
         </div>
+        <ModeToggle />
       </div>
     </footer>
   )

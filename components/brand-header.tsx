@@ -14,7 +14,6 @@ import { HugeiconsIcon } from "@hugeicons/react"
 import { LogoIcon, LogoWordmark } from "@/components/logo"
 import { Button } from "@/components/ui/button"
 import { useSidebar } from "@/components/ui/sidebar"
-import { ModeToggle } from "@/components/theme-toggle"
 
 export function BrandHeader() {
   const { state, toggleSidebar } = useSidebar()
@@ -57,7 +56,6 @@ export function BrandHeader() {
           </Link>
         </div>
         <div className="flex items-center gap-1">
-          <ModeToggle />
           <span className="mx-1 h-3 w-px bg-border" />
           <Button variant="ghost" size="icon-sm">
             <HugeiconsIcon

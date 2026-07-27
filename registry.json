@@ -506,11 +506,6 @@
           "target": "components/brand-header.tsx"
         },
         {
-          "path": "components/theme-toggle.tsx",
-          "type": "registry:component",
-          "target": "components/theme-toggle.tsx"
-        },
-        {
           "path": "components/latency.tsx",
           "type": "registry:component",
           "target": "components/latency.tsx"
@@ -560,6 +555,11 @@
           "path": "components/ny-clock.tsx",
           "type": "registry:component",
           "target": "components/ny-clock.tsx"
+        },
+        {
+          "path": "components/theme-toggle.tsx",
+          "type": "registry:component",
+          "target": "components/theme-toggle.tsx"
         }
       ]
     },
