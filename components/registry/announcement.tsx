@@ -9,16 +9,10 @@ export function Announcement() {
     <Status
       variant="brand"
       pulse
-      render={<Link href="/docs/changelog" />}
       className="gap-2 py-1 transition-colors hover:bg-primary/10"
     >
       <StatusIndicator />
       <StatusLabel>Updated</StatusLabel>
-      <HugeiconsIcon
-        icon={ArrowRightIcon}
-        strokeWidth={2}
-        className="size-3 transition-transform group-hover/status:translate-x-0.5"
-      />
     </Status>
   )
 }
