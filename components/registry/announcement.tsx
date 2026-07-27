@@ -1,7 +1,3 @@
-import Link from "next/link"
-import { ArrowRightIcon } from "@hugeicons/core-free-icons"
-import { HugeiconsIcon } from "@hugeicons/react"
-
 import { Status, StatusIndicator, StatusLabel } from "@/components/ui/status"
 
 export function Announcement() {
