@@ -9,7 +9,6 @@ import {
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 import Link from "next/link"
-import { toast } from "sonner"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -19,6 +18,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { toast } from "@/components/ui/toast"
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard"
 
 function buildV0Url(registryUrl: string, title?: string, prompt?: string) {
@@ -56,9 +56,11 @@ export function BlockViewerDropdown({
   const openInV0 = () => {
     const url = buildV0Url(v0RegistryUrl, title, prompt)
     if (process.env.NODE_ENV === "development") {
-      toast.warning("You're on localhost", {
+      toast.add({
+        title: "You're on localhost",
         description:
           "Open in v0 does not work in development mode, please deploy first.",
+        type: "warning",
       })
     } else {
       window.open(url, "_blank", "noopener,noreferrer")
@@ -90,7 +92,10 @@ export function BlockViewerDropdown({
           closeOnClick={false}
           onClick={() => {
             copyToClipboard(`npx shadcn@latest add ${registryUrl}`)
-            toast.success("Copied npx command to clipboard")
+            toast.add({
+              title: "Copied npx command to clipboard",
+              type: "success",
+            })
           }}
         >
           <HugeiconsIcon

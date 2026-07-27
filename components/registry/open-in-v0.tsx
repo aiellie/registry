@@ -1,8 +1,8 @@
 import { type MouseEvent, useCallback } from "react"
 import type { ComponentProps } from "react"
-import { toast } from "sonner"
 
 import { Button } from "@/components/ui/button"
+import { toast } from "@/components/ui/toast"
 
 function buildV0Url(registryUrl: string, title?: string, prompt?: string) {
   const params = new URLSearchParams()
@@ -36,9 +36,11 @@ export function OpenInV0Button({
     (e: MouseEvent<HTMLButtonElement>) => {
       if (process.env.NODE_ENV === "development") {
         e.preventDefault()
-        toast.warning("You're on localhost", {
+        toast.add({
+          title: "You're on localhost",
           description:
             "Open in v0 does not work in development mode, please deploy first.",
+          type: "warning",
         })
       } else {
         window.open(url, "_blank", "noopener,noreferrer")

@@ -2,9 +2,8 @@
 
 import { Copy01Icon, Tick02Icon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { toast } from "sonner"
-
 import { Button } from "@/components/ui/button"
+import { toast } from "@/components/ui/toast"
 import {
   Tooltip,
   TooltipContent,
@@ -27,7 +26,7 @@ export function CopyButton({ content }: { content?: string }) {
           render={<Button variant="ghost" size="icon-sm" />}
           onClick={() => {
             copyToClipboard(content)
-            toast.success("Copied to clipboard")
+            toast.add({ title: "Copied to clipboard", type: "success" })
           }}
         >
           {isCopied ? (

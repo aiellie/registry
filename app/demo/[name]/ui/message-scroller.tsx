@@ -13,7 +13,6 @@ import {
   CameraIcon,
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { toast } from "sonner"
 import { createChat, getMessageText } from "@/lib/ai"
 import {
   MESSAGE_ANIMATIONS,
@@ -85,6 +84,7 @@ import {
 } from "@/components/ui/select"
 import { Slider } from "@/components/ui/slider"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { toast } from "@/components/ui/toast"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import {
   Tooltip,
@@ -1075,7 +1075,8 @@ function MessageScrollerLoadHistory() {
               disabled={!canLoadHistory}
               onClick={() => {
                 setVisibleCount(history.length)
-                toast("History loaded", {
+                toast.add({
+                  title: "History loaded",
                   description: "Scroll up to see earlier messages.",
                 })
               }}

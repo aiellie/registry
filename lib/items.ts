@@ -247,9 +247,9 @@ export const items: Item[] = [
   { name: "alert", icon: AlertCircleIcon, type: "registry:ui", category: "feedback", isNew: false },
   { name: "progress", icon: HourglassIcon, type: "registry:ui", category: "feedback", isNew: false },
   { name: "skeleton", icon: Bone01Icon, type: "registry:ui", category: "feedback", isNew: false },
-  { name: "sonner", icon: Notification01Icon, type: "registry:ui", category: "feedback", isNew: false },
   { name: "spinner", icon: LoadingIcon, type: "registry:ui", category: "feedback", isNew: false },
   { name: "status", icon: StatusIcon, type: "registry:ui", category: "feedback", isNew: false },
+  { name: "toast", icon: Notification01Icon, type: "registry:ui", category: "feedback", isNew: true },
   { name: "loader", icon: Loading03Icon, type: "registry:ui", category: "feedback", isNew: true },
 
   // Layout

@@ -217,13 +217,13 @@
         "https://ui.aiellie.dev/r/sidebar.json",
         "https://ui.aiellie.dev/r/skeleton.json",
         "https://ui.aiellie.dev/r/slider.json",
-        "https://ui.aiellie.dev/r/sonner.json",
         "https://ui.aiellie.dev/r/spinner.json",
         "https://ui.aiellie.dev/r/status.json",
         "https://ui.aiellie.dev/r/switch.json",
         "https://ui.aiellie.dev/r/table.json",
         "https://ui.aiellie.dev/r/tabs.json",
         "https://ui.aiellie.dev/r/textarea.json",
+        "https://ui.aiellie.dev/r/toast.json",
         "https://ui.aiellie.dev/r/toggle.json",
         "https://ui.aiellie.dev/r/toggle-group.json",
         "https://ui.aiellie.dev/r/tooltip.json",
@@ -283,12 +283,12 @@
         "https://ui.aiellie.dev/r/sidebar-example.json",
         "https://ui.aiellie.dev/r/skeleton-example.json",
         "https://ui.aiellie.dev/r/slider-example.json",
-        "https://ui.aiellie.dev/r/sonner-example.json",
         "https://ui.aiellie.dev/r/spinner-example.json",
         "https://ui.aiellie.dev/r/switch-example.json",
         "https://ui.aiellie.dev/r/table-example.json",
         "https://ui.aiellie.dev/r/tabs-example.json",
         "https://ui.aiellie.dev/r/textarea-example.json",
+        "https://ui.aiellie.dev/r/toast-example.json",
         "https://ui.aiellie.dev/r/toggle-example.json",
         "https://ui.aiellie.dev/r/toggle-group-example.json",
         "https://ui.aiellie.dev/r/tooltip-example.json"
@@ -371,13 +371,13 @@
         "https://ui.aiellie.dev/r/sidebar.json",
         "https://ui.aiellie.dev/r/skeleton.json",
         "https://ui.aiellie.dev/r/slider.json",
-        "https://ui.aiellie.dev/r/sonner.json",
         "https://ui.aiellie.dev/r/spinner.json",
         "https://ui.aiellie.dev/r/status.json",
         "https://ui.aiellie.dev/r/switch.json",
         "https://ui.aiellie.dev/r/table.json",
         "https://ui.aiellie.dev/r/tabs.json",
         "https://ui.aiellie.dev/r/textarea.json",
+        "https://ui.aiellie.dev/r/toast.json",
         "https://ui.aiellie.dev/r/toggle.json",
         "https://ui.aiellie.dev/r/toggle-group.json",
         "https://ui.aiellie.dev/r/tooltip.json",
@@ -1484,24 +1484,6 @@
       ]
     },
     {
-      "name": "sonner",
-      "type": "registry:ui",
-      "title": "Sonner",
-      "description": "Sonner UI primitive styled with the Aiellie design system.",
-      "registryDependencies": [],
-      "files": [
-        {
-          "path": "components/ui/sonner.tsx",
-          "type": "registry:ui"
-        }
-      ],
-      "dependencies": [
-        "@hugeicons/core-free-icons",
-        "@hugeicons/react",
-        "sonner"
-      ]
-    },
-    {
       "name": "spinner",
       "type": "registry:ui",
       "title": "Spinner",
@@ -1591,6 +1573,26 @@
           "path": "components/ui/textarea.tsx",
           "type": "registry:ui"
         }
+      ]
+    },
+    {
+      "name": "toast",
+      "type": "registry:ui",
+      "title": "Toast",
+      "description": "Toast UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://ui.aiellie.dev/r/button.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/toast.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
       ]
     },
     {
@@ -1842,6 +1844,7 @@
         "https://ui.aiellie.dev/r/example.json",
         "https://ui.aiellie.dev/r/marker.json",
         "https://ui.aiellie.dev/r/popover.json",
+        "https://ui.aiellie.dev/r/toast.json",
         "https://ui.aiellie.dev/r/tooltip.json"
       ],
       "files": [
@@ -2030,7 +2033,8 @@
         "https://ui.aiellie.dev/r/input.json",
         "https://ui.aiellie.dev/r/input-group.json",
         "https://ui.aiellie.dev/r/item.json",
-        "https://ui.aiellie.dev/r/select.json"
+        "https://ui.aiellie.dev/r/select.json",
+        "https://ui.aiellie.dev/r/toast.json"
       ],
       "files": [
         {
@@ -2310,6 +2314,7 @@
         "https://ui.aiellie.dev/r/popover.json",
         "https://ui.aiellie.dev/r/spinner.json",
         "https://ui.aiellie.dev/r/textarea.json",
+        "https://ui.aiellie.dev/r/toast.json",
         "https://ui.aiellie.dev/r/tooltip.json"
       ],
       "files": [
@@ -2410,7 +2415,8 @@
         "https://ui.aiellie.dev/r/drawer.json",
         "https://ui.aiellie.dev/r/example.json",
         "https://ui.aiellie.dev/r/marker.json",
-        "https://ui.aiellie.dev/r/spinner.json"
+        "https://ui.aiellie.dev/r/spinner.json",
+        "https://ui.aiellie.dev/r/toast.json"
       ],
       "files": [
         {
@@ -2482,6 +2488,7 @@
         "https://ui.aiellie.dev/r/select.json",
         "https://ui.aiellie.dev/r/slider.json",
         "https://ui.aiellie.dev/r/tabs.json",
+        "https://ui.aiellie.dev/r/toast.json",
         "https://ui.aiellie.dev/r/toggle-group.json",
         "https://ui.aiellie.dev/r/tooltip.json"
       ],
@@ -2756,23 +2763,6 @@
       ]
     },
     {
-      "name": "sonner-example",
-      "type": "registry:example",
-      "title": "Sonner Example",
-      "description": "Sonner UI primitive styled with the Aiellie design system.",
-      "registryDependencies": [
-        "https://ui.aiellie.dev/r/button.json",
-        "https://ui.aiellie.dev/r/example.json"
-      ],
-      "files": [
-        {
-          "path": "app/demo/[name]/ui/sonner.tsx",
-          "type": "registry:example",
-          "target": "components/examples/sonner-example.tsx"
-        }
-      ]
-    },
-    {
       "name": "spinner-example",
       "type": "registry:example",
       "title": "Spinner Example",
@@ -2887,6 +2877,24 @@
           "path": "app/demo/[name]/ui/textarea.tsx",
           "type": "registry:example",
           "target": "components/examples/textarea-example.tsx"
+        }
+      ]
+    },
+    {
+      "name": "toast-example",
+      "type": "registry:example",
+      "title": "Toast Example",
+      "description": "Toast UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://ui.aiellie.dev/r/button.json",
+        "https://ui.aiellie.dev/r/example.json",
+        "https://ui.aiellie.dev/r/toast.json"
+      ],
+      "files": [
+        {
+          "path": "app/demo/[name]/ui/toast.tsx",
+          "type": "registry:example",
+          "target": "components/examples/toast-example.tsx"
         }
       ]
     },
@@ -3087,7 +3095,7 @@
       "registryDependencies": [
         "https://ui.aiellie.dev/r/example.json",
         "https://ui.aiellie.dev/r/select.json",
-        "https://ui.aiellie.dev/r/sonner.json"
+        "https://ui.aiellie.dev/r/toast.json"
       ],
       "files": [
         {

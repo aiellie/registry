@@ -4,7 +4,7 @@ import { BrandFooter } from "@/components/brand-footer"
 import { BrandHeader } from "@/components/brand-header"
 import { BrandSidebar } from "@/components/brand-sidebar"
 import { SidebarProvider } from "@/components/ui/sidebar"
-import { Toaster } from "@/components/ui/sonner"
+import { Toaster } from "@/components/ui/toast"
 
 export default function ShellLayout({
   children,

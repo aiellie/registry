@@ -2,9 +2,8 @@
 
 import { Download01Icon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { toast } from "sonner"
-
 import { Button } from "@/components/ui/button"
+import { toast } from "@/components/ui/toast"
 import {
   Tooltip,
   TooltipContent,
@@ -35,7 +34,7 @@ export function DownloadButton({
     link.click()
     document.body.removeChild(link)
     URL.revokeObjectURL(url)
-    toast.success(`Downloaded ${fileName}`)
+    toast.add({ title: `Downloaded ${fileName}`, type: "success" })
   }
 
   return (

@@ -10,7 +10,6 @@ import {
   Tick02Icon,
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { toast } from "sonner"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -23,6 +22,7 @@ import {
 } from "@/components/ui/empty"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group"
 import { ThemeDialog, type ThemeSource } from "@/components/registry/theme-dialog"
+import { toast } from "@/components/ui/toast"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard"
 import { resolveColor } from "@/lib/color"
@@ -243,8 +243,13 @@ export function TokensView({
               size="sm"
               onClick={async () => {
                 const copied = await copyToClipboard(data.themeCss)
-                if (copied) toast.success("Copied theme CSS")
-                else toast.error("Couldn’t reach the clipboard")
+                if (copied)
+                  toast.add({ title: "Copied theme CSS", type: "success" })
+                else
+                  toast.add({
+                    title: "Couldn’t reach the clipboard",
+                    type: "error",
+                  })
               }}
             >
               <HugeiconsIcon

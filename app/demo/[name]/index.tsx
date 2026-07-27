@@ -78,13 +78,13 @@ import SheetExample from "@/app/demo/[name]/ui/sheet"
 import SidebarExample from "@/app/demo/[name]/ui/sidebar"
 import SkeletonExample from "@/app/demo/[name]/ui/skeleton"
 import SliderExample from "@/app/demo/[name]/ui/slider"
-import SonnerExample from "@/app/demo/[name]/ui/sonner"
 import SpinnerExample from "@/app/demo/[name]/ui/spinner"
 import StatusExample from "@/app/demo/[name]/ui/status"
 import SwitchExample from "@/app/demo/[name]/ui/switch"
 import TableExample from "@/app/demo/[name]/ui/table"
 import TabsExample from "@/app/demo/[name]/ui/tabs"
 import TextareaExample from "@/app/demo/[name]/ui/textarea"
+import ToastExample from "@/app/demo/[name]/ui/toast"
 import ToggleExample from "@/app/demo/[name]/ui/toggle"
 import ToggleGroupExample from "@/app/demo/[name]/ui/toggle-group"
 import TooltipExample from "@/app/demo/[name]/ui/tooltip"
@@ -181,13 +181,13 @@ export const demos: { [name: string]: Demo } = {
   sidebar: SidebarExample,
   skeleton: SkeletonExample,
   slider: SliderExample,
-  sonner: SonnerExample,
   spinner: SpinnerExample,
   status: StatusExample,
   switch: SwitchExample,
   table: TableExample,
   tabs: TabsExample,
   textarea: TextareaExample,
+  toast: ToastExample,
   toggle: ToggleExample,
   "toggle-group": ToggleGroupExample,
   tooltip: TooltipExample,

@@ -2,9 +2,8 @@
 
 import { TerminalIcon, Tick02Icon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { toast } from "sonner"
-
 import { Button } from "@/components/ui/button"
+import { toast } from "@/components/ui/toast"
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard"
 
 export function CopyCommandButton({
@@ -21,7 +20,10 @@ export function CopyCommandButton({
       variant="outline"
       onClick={() => {
         copyToClipboard(`npx shadcn@latest add ${registryUrl}`)
-        toast.success("Copied npx command to clipboard")
+        toast.add({
+          title: "Copied npx command to clipboard",
+          type: "success",
+        })
       }}
     >
       {isCopied ? (

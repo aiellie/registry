@@ -16,10 +16,17 @@ import {
   Tick02Icon,
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { toast } from "sonner"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 import {
   Empty,
   EmptyDescription,
@@ -28,6 +35,13 @@ import {
   EmptyTitle,
 } from "@/components/ui/empty"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group"
+import { toast } from "@/components/ui/toast"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard"
 import {
   type CompactElement,
@@ -68,30 +82,33 @@ const IconCell = memo(function IconCell({
   onSelect: (entry: IconEntry) => void
 }) {
   return (
-    <button
-      type="button"
-      onClick={() => onSelect(entry)}
-      title={entry.name}
-      className="group flex aspect-square cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border border-transparent p-1.5 transition-colors hover:border-border hover:bg-accent focus-visible:border-border focus-visible:bg-accent focus-visible:outline-none"
-    >
-      <span className="flex flex-1 items-center justify-center">
-        {elements ? (
-          <HugeiconsIcon
-            icon={toSvgElement(elements)}
-            size={size}
-            strokeWidth={strokeWidth}
-          />
-        ) : (
-          <span
-            className="animate-pulse rounded-sm bg-muted"
-            style={{ width: size, height: size }}
-          />
-        )}
-      </span>
-      <span className="w-full truncate text-center text-[10px] leading-none text-muted-foreground group-hover:text-foreground">
-        {entry.name.replace(/Icon$/, "")}
-      </span>
-    </button>
+    <Tooltip>
+      <TooltipTrigger
+        onClick={() => onSelect(entry)}
+        className="group flex aspect-square cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border border-transparent p-1.5 transition-colors hover:border-border hover:bg-accent focus-visible:border-border focus-visible:bg-accent focus-visible:outline-none"
+      >
+        <span className="flex flex-1 items-center justify-center">
+          {elements ? (
+            <HugeiconsIcon
+              icon={toSvgElement(elements)}
+              size={size}
+              strokeWidth={strokeWidth}
+            />
+          ) : (
+            <span
+              className="animate-pulse rounded-sm bg-muted"
+              style={{ width: size, height: size }}
+            />
+          )}
+        </span>
+        <span className="w-full truncate text-center text-[10px] leading-none text-muted-foreground group-hover:text-foreground">
+          {entry.name.replace(/Icon$/, "")}
+        </span>
+      </TooltipTrigger>
+      {/* The label under the icon is truncated, so the tooltip carries the full
+          export name — the thing you'd actually paste into an import. */}
+      <TooltipContent className="font-mono">{entry.name}</TooltipContent>
+    </Tooltip>
   )
 })
 
@@ -109,18 +126,22 @@ function IconGrid({
   onSelect: (entry: IconEntry) => void
 }) {
   return (
-    <div className="grid grid-cols-[repeat(auto-fill,minmax(76px,1fr))] gap-1">
-      {entries.map((entry) => (
-        <IconCell
-          key={entry.name}
-          entry={entry}
-          elements={shards.get(entry.name)}
-          size={size}
-          strokeWidth={strokeWidth}
-          onSelect={onSelect}
-        />
-      ))}
-    </div>
+    // One provider per grid: the shared delay keeps a tooltip from firing on
+    // every icon the pointer happens to cross on its way somewhere else.
+    <TooltipProvider delay={300}>
+      <div className="grid grid-cols-[repeat(auto-fill,minmax(76px,1fr))] gap-1">
+        {entries.map((entry) => (
+          <IconCell
+            key={entry.name}
+            entry={entry}
+            elements={shards.get(entry.name)}
+            size={size}
+            strokeWidth={strokeWidth}
+            onSelect={onSelect}
+          />
+        ))}
+      </div>
+    </TooltipProvider>
   )
 }
 
@@ -129,7 +150,7 @@ export function IconsView({ meta }: { meta: IconsMeta }) {
   const [query, setQuery] = useState("")
   const [categories, setCategories] = useState<IconCategory[]>([])
   const [strokeWidth, setStrokeWidth] = useState(2)
-  const [size, setSize] = useState(24)
+  const [size, setSize] = useState(16)
   const [limit, setLimit] = useState(PAGE_SIZE)
   const [selected, setSelected] = useState<IconEntry | null>(null)
   const { copyToClipboard, isCopied } = useCopyToClipboard()
@@ -142,7 +163,11 @@ export function IconsView({ meta }: { meta: IconsMeta }) {
         if (active) setManifest(data)
       })
       .catch(() => {
-        if (active) toast.error("Couldn’t load the icon manifest")
+        if (active)
+          toast.add({
+            title: "Couldn’t load the icon manifest",
+            type: "error",
+          })
       })
     return () => {
       active = false
@@ -364,8 +389,12 @@ export function IconsView({ meta }: { meta: IconsMeta }) {
               const copied = await copyToClipboard(
                 `import { ${names} } from "@hugeicons/core-free-icons"`
               )
-              if (copied) toast.success("Copied imports")
-              else toast.error("Couldn’t reach the clipboard")
+              if (copied) toast.add({ title: "Copied imports", type: "success" })
+              else
+                toast.add({
+                  title: "Couldn’t reach the clipboard",
+                  type: "error",
+                })
             }}
           >
             <HugeiconsIcon icon={isCopied ? Tick02Icon : Copy01Icon} strokeWidth={2} />
@@ -414,28 +443,30 @@ export function IconsView({ meta }: { meta: IconsMeta }) {
           </EmptyHeader>
         </Empty>
       ) : isFeaturedView ? (
-        <div className="space-y-10">
+        <div className="space-y-4">
           {featuredGroups.map((group) => (
-            <section key={group.title}>
-              <div className="mb-1 flex items-baseline gap-2">
-                <h2 className="text-base font-medium tracking-tight">
-                  {group.title}
-                </h2>
-                <span className="font-mono text-xs text-muted-foreground tabular-nums">
-                  {group.entries.length}
-                </span>
-              </div>
-              <p className="mb-3 max-w-prose text-sm text-muted-foreground">
-                {group.description}
-              </p>
-              <IconGrid
-                entries={group.entries}
-                shards={shards}
-                size={size}
-                strokeWidth={strokeWidth}
-                onSelect={handleSelect}
-              />
-            </section>
+            <Card key={group.title}>
+              <CardHeader>
+                <CardTitle>{group.title}</CardTitle>
+                <CardDescription className="max-w-prose">
+                  {group.description}
+                </CardDescription>
+                <CardAction>
+                  <Badge variant="secondary" className="font-mono tabular-nums">
+                    {group.entries.length}
+                  </Badge>
+                </CardAction>
+              </CardHeader>
+              <CardContent>
+                <IconGrid
+                  entries={group.entries}
+                  shards={shards}
+                  size={size}
+                  strokeWidth={strokeWidth}
+                  onSelect={handleSelect}
+                />
+              </CardContent>
+            </Card>
           ))}
         </div>
       ) : (

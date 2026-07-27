@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import { toast } from "sonner"
 
 import {
   Example,
@@ -52,6 +51,7 @@ import {
 } from "@/components/ui/popover"
 import { Spinner } from "@/components/ui/spinner"
 import { Textarea } from "@/components/ui/textarea"
+import { toast } from "@/components/ui/toast"
 import {
   Tooltip,
   TooltipContent,
@@ -185,7 +185,7 @@ function InputGroupWithAddons() {
               <HugeiconsIcon icon={StarIcon} strokeWidth={2} />
               <InputGroupButton
                 size="icon-xs"
-                onClick={() => toast("Copied to clipboard")}
+                onClick={() => toast.add({ title: "Copied to clipboard" })}
               >
                 <HugeiconsIcon icon={CopyIcon} strokeWidth={2} />
               </InputGroupButton>
@@ -372,7 +372,7 @@ function InputGroupWithTooltip({
             <InputGroupAddon align="inline-end">
               <InputGroupButton
                 size="icon-xs"
-                onClick={() => toast("Added to favorites")}
+                onClick={() => toast.add({ title: "Added to favorites" })}
               >
                 <HugeiconsIcon icon={StarIcon} strokeWidth={2} />
               </InputGroupButton>

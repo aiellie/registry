@@ -5,7 +5,6 @@ import { RegistryHeader } from "@/components/registry/registry-header"
 import { RegistrySidebar } from "@/components/registry/registry-sidebar"
 import { Button } from "@/components/ui/button"
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
-import { Toaster } from "@/components/ui/sonner"
 import { getRootUrl } from "@/lib/mcp-config"
 import { getHighlightedMcpConfig } from "@/lib/mcp-config.server"
 
@@ -51,7 +50,6 @@ export default async function NotFound() {
           </div>
         </main>
       </SidebarInset>
-      <Toaster />
     </SidebarProvider>
   )
 }

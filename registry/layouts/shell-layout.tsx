@@ -5,7 +5,7 @@ import { BrandHeader } from "@/components/brand-header"
 import { BrandSidebar } from "@/components/brand-sidebar"
 import { BrandFooter } from "@/components/brand-footer"
 import { SidebarProvider } from "@/components/ui/sidebar"
-import { Toaster } from "@/components/ui/sonner"
+import { Toaster } from "@/components/ui/toast"
 import { cn } from "@/lib/utils"
 
 import "@/app/globals.css"

@@ -1,7 +1,6 @@
 "use client"
 
 import * as React from "react"
-import { toast } from "sonner"
 
 import {
   Example,
@@ -63,6 +62,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { toast } from "@/components/ui/toast"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { Globe02Icon, UnfoldMoreIcon } from "@hugeicons/core-free-icons"
 
@@ -776,7 +776,7 @@ function ComboboxWithForm() {
     event.preventDefault()
     const formData = new FormData(event.target as HTMLFormElement)
     const framework = formData.get("framework") as string
-    toast(`You selected ${framework} as your framework.`)
+    toast.add({ title: `You selected ${framework} as your framework.` })
   }
 
   return (
@@ -1207,7 +1207,7 @@ function ComboboxInDialog() {
             <Button
               type="button"
               onClick={() => {
-                toast("Framework selected.")
+                toast.add({ title: "Framework selected." })
                 setOpen(false)
               }}
             >

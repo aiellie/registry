@@ -40,7 +40,6 @@ import {
   WaveIcon,
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { toast } from "sonner"
 
 import { createChat, getMessageText } from "@/lib/ai"
 import {
@@ -97,6 +96,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { Slider } from "@/components/ui/slider"
+import { toast } from "@/components/ui/toast"
 import { Toggle } from "@/components/ui/toggle"
 import {
   Tooltip,
@@ -282,7 +282,8 @@ export default function MessageScrollerCompleteCard() {
 
   const loadHistory = () => {
     setHistoryLoaded(true)
-    toast("History loaded", {
+    toast.add({
+      title: "History loaded",
       description: "Scroll up — your reading position is preserved.",
     })
   }

@@ -1,7 +1,6 @@
 "use client"
 
 import * as React from "react"
-import { toast } from "sonner"
 
 import {
   Example,
@@ -27,6 +26,7 @@ import {
   PopoverTitle,
   PopoverTrigger,
 } from "@/components/ui/popover"
+import { toast } from "@/components/ui/toast"
 import {
   Tooltip,
   TooltipContent,
@@ -386,7 +386,9 @@ function BubbleReactionsButtons() {
               variant="outline"
               size="xs"
               onClick={() =>
-                toast("You clicked the button in the bubble reaction")
+                toast.add({
+                  title: "You clicked the button in the bubble reaction",
+                })
               }
             >
               Button
@@ -399,7 +401,7 @@ function BubbleReactionsButtons() {
             <Button
               variant="ghost"
               size="icon-xs"
-              onClick={() => toast("Confetti!")}
+              onClick={() => toast.add({ title: "Confetti!" })}
             >
               🎉
             </Button>
@@ -414,7 +416,7 @@ function BubbleReactionsButtons() {
               variant="secondary"
               size="icon-xs"
               aria-label="Thumbs up"
-              onClick={() => toast("You agree!")}
+              onClick={() => toast.add({ title: "You agree!" })}
             >
               <HugeiconsIcon icon={ThumbsUpIcon} strokeWidth={2} />
             </Button>
@@ -422,7 +424,7 @@ function BubbleReactionsButtons() {
               variant="secondary"
               size="icon-xs"
               aria-label="Thumbs down"
-              onClick={() => toast("You disagree!")}
+              onClick={() => toast.add({ title: "You disagree!" })}
             >
               <HugeiconsIcon icon={ThumbsDownIcon} strokeWidth={2} />
             </Button>
@@ -572,7 +574,10 @@ function BubbleButtonLinks() {
               <BubbleContent
                 className="border-dashed border-primary"
                 render={
-                  <button type="button" onClick={() => toast(reply.message)} />
+                  <button
+                    type="button"
+                    onClick={() => toast.add({ title: reply.message })}
+                  />
                 }
               >
                 {reply.label}

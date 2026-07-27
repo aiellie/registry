@@ -4,7 +4,6 @@ import { RegistryHeader } from "@/components/registry/registry-header"
 import { RegistrySidebar } from "@/components/registry/registry-sidebar"
 import { RegistrySidebarProvider } from "@/components/registry/registry-sidebar-provider"
 import { SidebarInset } from "@/components/ui/sidebar"
-import { Toaster } from "@/components/ui/sonner"
 import { getThemeSources } from "@/lib/design-tokens.server"
 import { getRootUrl } from "@/lib/mcp-config"
 import { getHighlightedMcpConfig } from "@/lib/mcp-config.server"
@@ -34,7 +33,6 @@ export default async function RegistryLayout({
         />
         <main className="flex w-full justify-center">{children}</main>
       </SidebarInset>
-      <Toaster />
     </RegistrySidebarProvider>
   )
 }

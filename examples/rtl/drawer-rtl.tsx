@@ -1,7 +1,6 @@
 "use client"
 
 import * as React from "react"
-import { toast } from "sonner"
 
 import { useIsMobile } from "@/hooks/use-mobile"
 import {
@@ -31,6 +30,7 @@ import {
   RadioGroup,
   RadioGroupItem,
 } from "@/components/ui/radio-group"
+import { toast } from "@/components/ui/toast"
 
 const translations = {
   en: {
@@ -160,7 +160,8 @@ export function DrawerRtl() {
     }
 
     setOpen(false)
-    toast(t.toastTitle, {
+    toast.add({
+      title: t.toastTitle,
       description: t[selected.labelKey],
     })
   }

@@ -17,7 +17,6 @@ import {
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react"
 import { AnimatePresence, motion, useReducedMotion } from "motion/react"
-import { toast } from "sonner"
 
 import {
   Select,
@@ -27,6 +26,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { toast } from "@/components/ui/toast"
 import { cn } from "@/lib/utils"
 
 const EASE = [0.23, 1, 0.32, 1] as const
@@ -951,11 +951,15 @@ export function CopyRow({
           .writeText(typeof value === "function" ? value() : value)
           .then(() => {
             setCopied(true)
-            if (toastMessage) toast.success(toastMessage)
+            if (toastMessage)
+              toast.add({ title: toastMessage, type: "success" })
           })
           .catch(() => {
             setCopied(false)
-            toast.error("Couldn't reach the clipboard")
+            toast.add({
+              title: "Couldn't reach the clipboard",
+              type: "error",
+            })
           })
       }}
     />

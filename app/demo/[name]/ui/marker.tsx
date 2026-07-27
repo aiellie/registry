@@ -1,7 +1,5 @@
 "use client"
 
-import { toast } from "sonner"
-
 import {
   Example,
   ExampleWrapper,
@@ -29,6 +27,7 @@ import {
   MarkerIcon,
 } from "@/components/ui/marker"
 import { Spinner } from "@/components/ui/spinner"
+import { toast } from "@/components/ui/toast"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { File01Icon, GitBranchIcon, Clock01Icon, ArrowRight01Icon, UserCircleIcon, Search01Icon, Tick02Icon, SearchIcon } from "@hugeicons/core-free-icons"
 
@@ -82,7 +81,7 @@ function MarkerExample() {
       <Marker
         render={
           <button
-            onClick={() => toast("You clicked the button")}
+            onClick={() => toast.add({ title: "You clicked the button" })}
             className="transition-colors hover:text-foreground"
           />
         }

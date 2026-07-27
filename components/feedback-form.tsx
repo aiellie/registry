@@ -2,7 +2,6 @@
 
 import * as React from "react"
 
-import { toast } from "sonner"
 import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react"
 import {
   Bug01Icon,
@@ -28,6 +27,7 @@ import {
   FieldLabel,
 } from "@/components/ui/field"
 import { Textarea } from "@/components/ui/textarea"
+import { toast } from "@/components/ui/toast"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 
 const FEEDBACK_TYPES = [
@@ -73,8 +73,10 @@ export function FeedbackForm({
     try {
       // TODO: wire up to your feedback endpoint
       await new Promise((resolve) => setTimeout(resolve, 600))
-      toast.success("Thanks for your feedback!", {
+      toast.add({
+        title: "Thanks for your feedback!",
         description: "We've received your message and will take a look.",
+        type: "success",
       })
       reset()
       setOpen(false)

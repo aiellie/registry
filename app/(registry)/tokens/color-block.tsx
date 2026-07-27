@@ -3,9 +3,9 @@
 import type { CSSProperties } from "react"
 import { Copy01Icon, Moon02Icon, Sun01Icon, Tick02Icon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { toast } from "sonner"
 
 import { Badge } from "@/components/ui/badge"
+import { toast } from "@/components/ui/toast"
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard"
 import type { ResolvedColor } from "@/lib/color"
 import type { DesignToken, TokenValue } from "@/lib/design-tokens"
@@ -126,8 +126,10 @@ export function ColorBlock({
       type="button"
       onClick={async () => {
         const copied = await copyToClipboard(`var(${variable})`)
-        if (copied) toast.success(`Copied var(${variable})`)
-        else toast.error("Couldn’t reach the clipboard")
+        if (copied)
+          toast.add({ title: `Copied var(${variable})`, type: "success" })
+        else
+          toast.add({ title: "Couldn’t reach the clipboard", type: "error" })
       }}
       className="group flex w-full items-start gap-3 rounded-xl border bg-card p-2.5 text-start transition-colors hover:border-ring hover:bg-accent/40 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
     >
