@@ -50,7 +50,7 @@ export function BrandSidebar({ className }: { className?: string }) {
         className
       )}
     >
-      <SidebarHeader>
+      <SidebarHeader className="pb-0">
         <TeamSwitcher
           teams={teams}
           activeTeam={activeTeam.name}
