@@ -401,7 +401,7 @@ function Tree({ item, index }: { item: FileTree; index: number }) {
           data-index={index}
           style={
             {
-              "--index": `${index * (index === 2 ? 1.2 : 1.3)}rem`,
+              "--index": `${index * (index === 2 ? 0.7 : 0.8)}rem`,
             } as React.CSSProperties
           }
         >

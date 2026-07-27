@@ -151,7 +151,7 @@ export function BrandSidebar({ className }: { className?: string }) {
     >
       <SidebarHeader>
       <TeamSwitcher teams={data.teams} />
-      <div className={cn(isCollapsed ? "py-2" : "px-0 pt-2")}>
+      <div className={cn(isCollapsed ? "py-0" : "px-0 pt-0")}>
           <div
             className={cn(
               "flex gap-2",

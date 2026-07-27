@@ -39,12 +39,12 @@ export function TeamSwitcher({
       <SidebarMenuItem>
         <DropdownMenu>
           <DropdownMenuTrigger
-            render={<SidebarMenuButton className="w-full px-1.5" />}
+            render={<SidebarMenuButton className="w-full px-1.5 group-data-[collapsible=icon]:p-1!" />}
           >
-            <div className="flex aspect-square size-5 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground">
+            <div className="flex aspect-square size-6 items-center justify-center rounded-md bg-sidebar-accent text-sidebar-primary">
               <HugeiconsIcon icon={activeTeam.logo} className="size-3" />
             </div>
-            <span className="truncate font-medium">{activeTeam.name}</span>
+            <span className="truncate text-sm">{activeTeam.name}</span>
             <HugeiconsIcon icon={ChevronDown} className="opacity-50 ml-auto" />
           </DropdownMenuTrigger>
           <DropdownMenuContent
@@ -63,7 +63,7 @@ export function TeamSwitcher({
                   onClick={() => setActiveTeam(team)}
                   className="gap-2 p-2"
                 >
-                  <div className="flex size-6 items-center justify-center rounded-xs border">
+                  <div className="flex size-6 items-center justify-center rounded-md border">
                     <HugeiconsIcon
                       icon={team.logo}
                       className="size-3.5 shrink-0"
