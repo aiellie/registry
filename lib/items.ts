@@ -23,6 +23,7 @@ import {
   CollapseIcon,
   ColorPickerIcon,
   Comment01Icon,
+  ComputerTerminal01Icon,
   CreditCardIcon,
   CubeIcon,
   CursorInfo01Icon,
@@ -261,6 +262,13 @@ export const items: Item[] = [
   {
     name: "web-preview",
     icon: GlobeIcon,
+    type: "registry:ui",
+    category: "ai",
+    isNew: true,
+  },
+  {
+    name: "terminal",
+    icon: ComputerTerminal01Icon,
     type: "registry:ui",
     category: "ai",
     isNew: true,

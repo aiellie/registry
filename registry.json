@@ -597,7 +597,8 @@
         "https://ui.aiellie.dev/r/scroll-area.json",
         "https://ui.aiellie.dev/r/separator.json",
         "https://ui.aiellie.dev/r/sidebar.json",
-        "https://ui.aiellie.dev/r/tabs.json",
+        "https://ui.aiellie.dev/r/dropdown-menu.json",
+        "https://ui.aiellie.dev/r/terminal.json",
         "https://ui.aiellie.dev/r/theme.json",
         "https://ui.aiellie.dev/r/tooltip.json",
         "https://ui.aiellie.dev/r/web-preview.json"
@@ -657,6 +658,11 @@
           "path": "components/team-switcher.tsx",
           "type": "registry:component",
           "target": "components/team-switcher.tsx"
+        },
+        {
+          "path": "components/new-tab-dropdown.tsx",
+          "type": "registry:component",
+          "target": "components/new-tab-dropdown.tsx"
         },
         {
           "path": "lib/sidebar-data.ts",
@@ -3146,6 +3152,33 @@
           "path": "components/ai-elements/web-preview.tsx",
           "type": "registry:ui",
           "target": "components/ai-elements/web-preview.tsx"
+        }
+      ]
+    },
+    {
+      "name": "terminal",
+      "type": "registry:ui",
+      "title": "Terminal",
+      "description": "Terminal with theme-aware Shiki highlighting, a streaming cursor, tabs, an interactive prompt with command history, and copy and clear actions.",
+      "registryDependencies": [
+        "https://ui.aiellie.dev/r/button.json",
+        "https://ui.aiellie.dev/r/tooltip.json"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react",
+        "shiki"
+      ],
+      "files": [
+        {
+          "path": "components/ai-elements/terminal.tsx",
+          "type": "registry:ui",
+          "target": "components/ai-elements/terminal.tsx"
+        },
+        {
+          "path": "lib/highlight.ts",
+          "type": "registry:lib",
+          "target": "lib/highlight.ts"
         }
       ]
     },

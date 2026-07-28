@@ -84,9 +84,88 @@ export type ModelTool =
   // oxlint-disable-next-line typescript-eslint(ban-types) -- autocomplete-friendly string union
   | (string & {});
 
+/** Tailwind palette name for chef accent (see https://tailwindcss.com/docs/colors). */
+export type ChefColor =
+  | "emerald"
+  | "orange"
+  | "sky"
+  | "zinc"
+  | "blue"
+  | "stone";
+
+export type ChefSlug =
+  | "openai"
+  | "anthropic"
+  | "google"
+  | "xai"
+  | "deepseek"
+  | "v0";
+
+export interface Chef {
+  name: string;
+  slug: ChefSlug;
+  /** Tailwind color name used for accents (effort bars, etc.). */
+  color: ChefColor;
+  /** Solid bar / filled accent. Full class so Tailwind can detect it. */
+  colorClass: string;
+  /** Inactive / track accent. */
+  colorMutedClass: string;
+}
+
+/** Canonical chef list — colors from the Tailwind default palette. */
+export const chefs: Record<ChefSlug, Chef> = {
+  openai: {
+    name: "OpenAI",
+    slug: "openai",
+    color: "emerald",
+    colorClass: "bg-emerald-500",
+    colorMutedClass: "bg-emerald-500/25",
+  },
+  anthropic: {
+    name: "Anthropic",
+    slug: "anthropic",
+    color: "orange",
+    colorClass: "bg-orange-500",
+    colorMutedClass: "bg-orange-500/25",
+  },
+  google: {
+    name: "Google",
+    slug: "google",
+    color: "sky",
+    colorClass: "bg-sky-500",
+    colorMutedClass: "bg-sky-500/25",
+  },
+  xai: {
+    name: "xAI",
+    slug: "xai",
+    color: "zinc",
+    colorClass: "bg-zinc-500",
+    colorMutedClass: "bg-zinc-500/25",
+  },
+  deepseek: {
+    name: "DeepSeek",
+    slug: "deepseek",
+    color: "blue",
+    colorClass: "bg-blue-500",
+    colorMutedClass: "bg-blue-500/25",
+  },
+  v0: {
+    name: "Vercel",
+    slug: "v0",
+    color: "stone",
+    colorClass: "bg-stone-500",
+    colorMutedClass: "bg-stone-500/25",
+  },
+};
+
+export function getChef(slug: string | undefined | null): Chef | undefined {
+  if (!slug) return undefined;
+  return chefs[slug as ChefSlug];
+}
+
 export interface Model {
   chef: string;
-  chefSlug: string;
+  chefSlug: ChefSlug | (string & {});
   id: string;
   name: string;
   description?: string;

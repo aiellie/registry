@@ -13,15 +13,26 @@ import {
 import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react"
 
 import {
+  Terminal,
+  TerminalContent,
+  TerminalInput,
+  TerminalTab,
+  TerminalTabs,
+} from "@/components/ai-elements/terminal"
+import {
   readPanelStorage,
   useBrandPanels,
   writePanelStorage,
 } from "@/components/brand-panels"
+import {
+  NEW_TAB_OPTIONS,
+  NewTabDropdown,
+  type NewTabType,
+} from "@/components/new-tab-dropdown"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { ResizableHandle, ResizablePanel } from "@/components/ui/resizable"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {
   Tooltip,
   TooltipContent,
@@ -34,10 +45,7 @@ const BOTTOM_PANEL_DEFAULT_SIZE = "16rem"
 const BOTTOM_PANEL_MIN_SIZE = "8rem"
 const BOTTOM_PANEL_MAX_SIZE = "70%"
 
-const BOTTOM_TAB_KEY = "brand-panels:bottom-tab"
 const BOTTOM_SIZE_KEY = "brand-panels:bottom-size"
-
-const BOTTOM_TABS = ["console", "problems", "network"] as const
 
 type LogLevel = "info" | "success" | "warn" | "error"
 
@@ -126,6 +134,52 @@ const networkLines: LogLine[] = [
   },
 ]
 
+const TERMINAL_PROMPT = "stashd@Mac ui.aiellie.dev %"
+
+const TERMINAL_HELP = [
+  "Available commands:",
+  "  help  ls  pwd  whoami  date  echo <text>  clear",
+].join("\n")
+
+interface PanelTab {
+  id: number
+  type: NewTabType
+  /** Terminal scrollback; unused by the log views. */
+  output: string
+}
+
+const TAB_META = Object.fromEntries(
+  NEW_TAB_OPTIONS.map((option) => [option.type, option])
+) as Record<NewTabType, (typeof NEW_TAB_OPTIONS)[number]>
+
+const LOG_LINES: Record<Exclude<NewTabType, "terminal">, LogLine[]> = {
+  console: consoleLines,
+  network: networkLines,
+  problems: problemLines,
+}
+
+function runCommand(command: string) {
+  const [name, ...rest] = command.trim().split(/\s+/)
+  switch (name) {
+    case "help":
+      return TERMINAL_HELP
+    case "ls":
+      return "app  components  lib  public  package.json  registry.json"
+    case "pwd":
+      return "/Users/stashd/ui.aiellie.dev"
+    case "whoami":
+      return "stashd"
+    case "date":
+      return new Date().toString()
+    case "echo":
+      return rest.join(" ")
+    case "":
+      return ""
+    default:
+      return `zsh: command not found: ${name}`
+  }
+}
+
 function LogList({ lines }: { lines: LogLine[] }) {
   return (
     <ScrollArea className="h-full">
@@ -154,20 +208,68 @@ function LogList({ lines }: { lines: LogLine[] }) {
 export function BrandSidebarBottom({ className }: { className?: string }) {
   const { bottomOpen, setBottomOpen } = useBrandPanels()
 
+  const [tabs, setTabs] = React.useState<PanelTab[]>([
+    { id: 1, output: "", type: "console" },
+    { id: 2, output: "", type: "problems" },
+    { id: 3, output: "", type: "network" },
+    { id: 4, output: "", type: "terminal" },
+  ])
+  const [activeId, setActiveId] = React.useState(4)
+  const nextId = React.useRef(5)
+
   // The panel only renders after the client restored the open state, so the
-  // lazy reads never disagree with server HTML.
-  const [tab, setTab] = React.useState<string>(() => {
-    const stored = readPanelStorage<string>(BOTTOM_TAB_KEY)
-    return stored && (BOTTOM_TABS as readonly string[]).includes(stored)
-      ? stored
-      : "console"
-  })
+  // lazy read never disagrees with server HTML.
   const [initialSize] = React.useState(() =>
     readPanelStorage<number>(BOTTOM_SIZE_KEY)
   )
 
   if (!bottomOpen) {
     return null
+  }
+
+  const activeTab = tabs.find((tab) => tab.id === activeId) ?? tabs[0]
+
+  const setOutput = (id: number, update: (current: string) => string) =>
+    setTabs((current) =>
+      current.map((tab) =>
+        tab.id === id ? { ...tab, output: update(tab.output) } : tab
+      )
+    )
+
+  const run = (command: string) => {
+    if (command.trim() === "clear") {
+      setOutput(activeTab.id, () => "")
+      return
+    }
+    const result = runCommand(command)
+    const echoed = `${TERMINAL_PROMPT} ${command}`.trimEnd()
+    const entry = result ? `${echoed}\n${result}` : echoed
+    setOutput(activeTab.id, (current) =>
+      current ? `${current}\n${entry}` : entry
+    )
+  }
+
+  // Terminals stack like shell sessions; the log views are singletons that
+  // refocus their existing tab instead of duplicating it.
+  const openTab = (type: NewTabType) => {
+    if (type !== "terminal") {
+      const existing = tabs.find((tab) => tab.type === type)
+      if (existing) {
+        setActiveId(existing.id)
+        return
+      }
+    }
+    const id = nextId.current++
+    setTabs((current) => [...current, { id, output: "", type }])
+    setActiveId(id)
+  }
+
+  const closeTab = (id: number) => {
+    const remaining = tabs.filter((tab) => tab.id !== id)
+    setTabs(remaining)
+    if (id === activeId && remaining.length > 0) {
+      setActiveId(remaining[0].id)
+    }
   }
 
   return (
@@ -198,42 +300,48 @@ export function BrandSidebarBottom({ className }: { className?: string }) {
         }}
         style={{ overflow: "hidden" }}
       >
-        <Tabs
-          value={tab}
-          onValueChange={(value) => {
-            const next = String(value)
-            setTab(next)
-            writePanelStorage(BOTTOM_TAB_KEY, next)
-          }}
+        <div
           data-slot="brand-sidebar-bottom"
           className={cn(
-            "h-full w-full gap-0 border-border bg-sidebar text-sidebar-foreground",
+            "flex h-full w-full flex-col border-border bg-sidebar text-sidebar-foreground",
             className
           )}
         >
           <div className="flex h-10 shrink-0 items-center gap-1 border-b border-sidebar-border px-1 sm:gap-2 sm:px-2">
             {/* The tab strip scrolls rather than squeezing the actions out. */}
-            <TabsList
-              variant="line"
-              className="h-8 min-w-0 [scrollbar-width:none] justify-start overflow-x-auto [&::-webkit-scrollbar]:hidden"
-            >
-              <TabsTrigger value="console" className="flex-none">
-                Console
-              </TabsTrigger>
-              <TabsTrigger value="problems" className="flex-none">
-                Problems
-                <Badge variant="secondary">{problemLines.length}</Badge>
-              </TabsTrigger>
-              <TabsTrigger value="network" className="flex-none">
-                Network
-              </TabsTrigger>
-            </TabsList>
+            <TerminalTabs className="min-w-0 flex-1 [scrollbar-width:none] justify-start overflow-x-auto border-0 p-0 [&::-webkit-scrollbar]:hidden">
+              {tabs.map((tab) => (
+                <TerminalTab
+                  active={tab.id === activeTab.id}
+                  className="flex-none"
+                  icon={TAB_META[tab.type].icon}
+                  key={tab.id}
+                  onClick={() => setActiveId(tab.id)}
+                  onClose={tabs.length > 1 ? () => closeTab(tab.id) : undefined}
+                >
+                  {tab.type === "terminal" ? "zsh" : TAB_META[tab.type].label}
+                  {tab.type === "problems" && (
+                    <Badge className="ms-1.5" variant="secondary">
+                      {problemLines.length}
+                    </Badge>
+                  )}
+                </TerminalTab>
+              ))}
+              <NewTabDropdown className="flex-none" onSelect={openTab} />
+            </TerminalTabs>
 
             <div className="ms-auto flex shrink-0 items-center gap-1">
               <Tooltip>
                 <TooltipTrigger
                   render={
-                    <Button variant="ghost" size="icon-xs">
+                    <Button
+                      variant="ghost"
+                      size="icon-xs"
+                      disabled={
+                        activeTab.type !== "terminal" || activeTab.output === ""
+                      }
+                      onClick={() => setOutput(activeTab.id, () => "")}
+                    >
                       <HugeiconsIcon
                         icon={EraserIcon}
                         strokeWidth={2}
@@ -267,16 +375,21 @@ export function BrandSidebarBottom({ className }: { className?: string }) {
             </div>
           </div>
 
-          <TabsContent value="console" className="min-h-0">
-            <LogList lines={consoleLines} />
-          </TabsContent>
-          <TabsContent value="problems" className="min-h-0">
-            <LogList lines={problemLines} />
-          </TabsContent>
-          <TabsContent value="network" className="min-h-0">
-            <LogList lines={networkLines} />
-          </TabsContent>
-        </Tabs>
+          <div className="min-h-0 flex-1">
+            {activeTab.type === "terminal" ? (
+              <Terminal
+                className="h-full rounded-none border-0 bg-transparent"
+                output={activeTab.output}
+              >
+                <TerminalContent className="h-full max-h-none">
+                  <TerminalInput onSubmit={run} prompt={TERMINAL_PROMPT} />
+                </TerminalContent>
+              </Terminal>
+            ) : (
+              <LogList lines={LOG_LINES[activeTab.type]} />
+            )}
+          </div>
+        </div>
       </ResizablePanel>
     </>
   )

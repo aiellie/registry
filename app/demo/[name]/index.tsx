@@ -23,6 +23,7 @@ import ModelSelectorExample from "@/app/demo/[name]/ui/model-selector"
 import FileTreeExample from "@/app/demo/[name]/ui/file-tree"
 import FindInPageExample from "@/app/demo/[name]/ui/find-in-page"
 import WebPreviewExample from "@/app/demo/[name]/ui/web-preview"
+import TerminalExample from "@/app/demo/[name]/ui/terminal"
 import PersonaExample from "@/app/demo/[name]/ui/persona"
 import AIOrbExample from "@/app/demo/[name]/ui/ai-orb"
 import MicSelectorExample from "@/app/demo/[name]/ui/mic-selector"
@@ -131,6 +132,7 @@ export const demos: { [name: string]: Demo } = {
   "model-selector": ModelSelectorExample,
   "file-tree": FileTreeExample,
   "web-preview": WebPreviewExample,
+  terminal: TerminalExample,
   "find-in-page": FindInPageExample,
   persona: PersonaExample,
   "ai-orb": AIOrbExample,

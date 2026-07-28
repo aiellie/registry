@@ -1,9 +1,7 @@
 import {
-  ChatIcon,
-  CodeIcon,
-  ConsoleIcon,
-  PlusSignIcon,
-  UserGroupIcon,
+  Comment02Icon,
+  BashIcon,
+  AiGenerativeIcon,
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
@@ -28,8 +26,8 @@ export function BrandNavMenubar() {
   return (
     <Menubar className="border-none">
       <MenubarMenu>
-        <MenubarTrigger className="gap-1.5 text-xs text-muted-foreground">
-          <HugeiconsIcon icon={ChatIcon} strokeWidth={2} className="size-3.5" />
+        <MenubarTrigger className="gap-1.5 text-sm text-muted-foreground">
+          <HugeiconsIcon icon={Comment02Icon} strokeWidth={2} className="size-4" />
           Chat
         </MenubarTrigger>
         <MenubarContent>
@@ -64,51 +62,8 @@ export function BrandNavMenubar() {
         </MenubarContent>
       </MenubarMenu>
       <MenubarMenu>
-        <MenubarTrigger className="gap-1.5 text-xs text-muted-foreground">
-          <HugeiconsIcon
-            icon={UserGroupIcon}
-            strokeWidth={2}
-            className="size-3.5"
-          />
-          Cowork
-        </MenubarTrigger>
-        <MenubarContent>
-          <MenubarGroup>
-            <MenubarItem>
-              Undo <MenubarShortcut>⌘Z</MenubarShortcut>
-            </MenubarItem>
-            <MenubarItem>
-              Redo <MenubarShortcut>⇧⌘Z</MenubarShortcut>
-            </MenubarItem>
-          </MenubarGroup>
-          <MenubarSeparator />
-          <MenubarGroup>
-            <MenubarSub>
-              <MenubarSubTrigger>Find</MenubarSubTrigger>
-              <MenubarSubContent>
-                <MenubarGroup>
-                  <MenubarItem>Search the web</MenubarItem>
-                </MenubarGroup>
-                <MenubarSeparator />
-                <MenubarGroup>
-                  <MenubarItem>Find...</MenubarItem>
-                  <MenubarItem>Find Next</MenubarItem>
-                  <MenubarItem>Find Previous</MenubarItem>
-                </MenubarGroup>
-              </MenubarSubContent>
-            </MenubarSub>
-          </MenubarGroup>
-          <MenubarSeparator />
-          <MenubarGroup>
-            <MenubarItem>Cut</MenubarItem>
-            <MenubarItem>Copy</MenubarItem>
-            <MenubarItem>Paste</MenubarItem>
-          </MenubarGroup>
-        </MenubarContent>
-      </MenubarMenu>
-      <MenubarMenu>
-        <MenubarTrigger className="gap-1.5 text-xs text-muted-foreground">
-          <HugeiconsIcon icon={CodeIcon} strokeWidth={2} className="size-3.5" />
+        <MenubarTrigger className="gap-1.5 text-sm text-muted-foreground">
+          <HugeiconsIcon icon={BashIcon} strokeWidth={2} className="size-4" />
           Code
         </MenubarTrigger>
         <MenubarContent className="w-44">
@@ -136,36 +91,11 @@ export function BrandNavMenubar() {
         </MenubarContent>
       </MenubarMenu>
       <MenubarMenu>
-        <MenubarTrigger className="gap-1.5 text-xs text-muted-foreground">
+        <MenubarTrigger className="gap-1.5 text-sm text-muted-foreground">
           <HugeiconsIcon
-            icon={ConsoleIcon}
+            icon={AiGenerativeIcon}
             strokeWidth={2}
-            className="size-3.5"
-          />
-          Console
-        </MenubarTrigger>
-        <MenubarContent>
-          <MenubarRadioGroup value="benoit">
-            <MenubarRadioItem value="andy">Andy</MenubarRadioItem>
-            <MenubarRadioItem value="benoit">Benoit</MenubarRadioItem>
-            <MenubarRadioItem value="Luis">Luis</MenubarRadioItem>
-          </MenubarRadioGroup>
-          <MenubarSeparator />
-          <MenubarGroup>
-            <MenubarItem inset>Edit...</MenubarItem>
-          </MenubarGroup>
-          <MenubarSeparator />
-          <MenubarGroup>
-            <MenubarItem inset>Add Profile...</MenubarItem>
-          </MenubarGroup>
-        </MenubarContent>
-      </MenubarMenu>
-      <MenubarMenu>
-        <MenubarTrigger className="gap-1.5 text-xs text-muted-foreground">
-          <HugeiconsIcon
-            icon={PlusSignIcon}
-            strokeWidth={2}
-            className="size-3.5"
+            className="size-4"
           />
           Create
         </MenubarTrigger>
