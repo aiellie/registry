@@ -25,6 +25,8 @@ import FindInPageExample from "@/app/demo/[name]/ui/find-in-page"
 import WebPreviewExample from "@/app/demo/[name]/ui/web-preview"
 import PersonaExample from "@/app/demo/[name]/ui/persona"
 import AIOrbExample from "@/app/demo/[name]/ui/ai-orb"
+import MicSelectorExample from "@/app/demo/[name]/ui/mic-selector"
+import SpeechInputExample from "@/app/demo/[name]/ui/speech-input"
 // ui
 import AccordionExample from "@/app/demo/[name]/ui/accordion"
 import AlertExample from "@/app/demo/[name]/ui/alert"
@@ -131,6 +133,8 @@ export const demos: { [name: string]: Demo } = {
   "find-in-page": FindInPageExample,
   persona: PersonaExample,
   "ai-orb": AIOrbExample,
+  "mic-selector": MicSelectorExample,
+  "speech-input": SpeechInputExample,
   // ui
   accordion: AccordionExample,
   alert: AlertExample,

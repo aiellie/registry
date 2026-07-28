@@ -177,13 +177,14 @@ export const MicSelector = ({
     prop: controlledOpen,
   });
   const [width, setWidth] = useState(200);
-  const { devices, loading, hasPermission, loadDevices } = useAudioDevices();
+  const { devices, loading, hasPermission, loadDevices, error } =
+    useAudioDevices();
 
   useEffect(() => {
-    if (open && !hasPermission && !loading) {
+    if (open && !hasPermission && !loading && !error) {
       loadDevices();
     }
-  }, [open, hasPermission, loading, loadDevices]);
+  }, [open, hasPermission, loading, loadDevices, error]);
 
   const contextValue = useMemo(
     () => ({

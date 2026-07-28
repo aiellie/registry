@@ -2,10 +2,16 @@
 
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { Mic01Icon, SquareIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import type { ComponentProps } from "react";
+import type { ComponentProps, ReactNode } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 interface SpeechRecognition extends EventTarget {
@@ -70,6 +76,12 @@ export type SpeechInputProps = ComponentProps<typeof Button> & {
    */
   onAudioRecorded?: (audioBlob: Blob) => Promise<string>;
   lang?: string;
+  /**
+   * Tooltip label for the icon button. Defaults to a state-aware label;
+   * pass `null` to render without a tooltip.
+   */
+  tooltip?: ReactNode;
+  tooltipSide?: ComponentProps<typeof TooltipContent>["side"];
 };
 
 const detectSpeechInputMode = (): SpeechInputMode => {
@@ -93,6 +105,8 @@ export const SpeechInput = ({
   onTranscriptionChange,
   onAudioRecorded,
   lang = "en-US",
+  tooltip,
+  tooltipSide = "top",
   ...props
 }: SpeechInputProps) => {
   const [isListening, setIsListening] = useState(false);
@@ -287,6 +301,38 @@ export const SpeechInput = ({
     (mode === "media-recorder" && !onAudioRecorded) ||
     isProcessing;
 
+  const tooltipContent =
+    tooltip === undefined
+      ? isProcessing
+        ? "Transcribing..."
+        : isListening
+          ? "Stop listening"
+          : "Start voice input"
+      : tooltip;
+
+  const button = (
+    <Button
+      className={cn(
+        "relative z-10 rounded-full transition-all duration-300",
+        isListening
+          ? "bg-destructive text-white hover:bg-destructive/80 hover:text-white"
+          : "bg-primary text-primary-foreground hover:bg-primary/80 hover:text-primary-foreground",
+        className
+      )}
+      disabled={isDisabled}
+      onClick={toggleListening}
+      {...props}
+    >
+      {isProcessing && <Spinner />}
+      {!isProcessing && isListening && (
+        <HugeiconsIcon className="size-4" icon={SquareIcon} strokeWidth={2} />
+      )}
+      {!(isProcessing || isListening) && (
+        <HugeiconsIcon className="size-4" icon={Mic01Icon} strokeWidth={2} />
+      )}
+    </Button>
+  );
+
   return (
     <div className="relative inline-flex items-center justify-center">
       {/* Animated pulse rings */}
@@ -303,26 +349,16 @@ export const SpeechInput = ({
         ))}
 
       {/* Main record button */}
-      <Button
-        className={cn(
-          "relative z-10 rounded-full transition-all duration-300",
-          isListening
-            ? "bg-destructive text-white hover:bg-destructive/80 hover:text-white"
-            : "bg-primary text-primary-foreground hover:bg-primary/80 hover:text-primary-foreground",
-          className
-        )}
-        disabled={isDisabled}
-        onClick={toggleListening}
-        {...props}
-      >
-        {isProcessing && <Spinner />}
-        {!isProcessing && isListening && (
-          <HugeiconsIcon className="size-4" icon={SquareIcon} strokeWidth={2} />
-        )}
-        {!(isProcessing || isListening) && (
-          <HugeiconsIcon className="size-4" icon={Mic01Icon} strokeWidth={2} />
-        )}
-      </Button>
+      {tooltipContent == null ? (
+        button
+      ) : (
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger render={button} />
+            <TooltipContent side={tooltipSide}>{tooltipContent}</TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      )}
     </div>
   );
 };

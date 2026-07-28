@@ -74,7 +74,7 @@ export function PromptInput({
   const [projectId, setProjectId] = React.useState<string | null>(defaultProjectId)
   const [projectPickerOpen, setProjectPickerOpen] = React.useState(false)
   const [approval, setApproval] = React.useState<ApprovalMode>("ask")
-  const [model, setModel] = React.useState("claude-opus-4.8")
+  const [model, setModel] = React.useState("claude-opus-5")
   const [effort, setEffort] = React.useState("light")
   const [fast, setFast] = React.useState(false)
 

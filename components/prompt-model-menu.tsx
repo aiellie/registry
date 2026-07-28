@@ -1,33 +1,39 @@
 "use client"
 
 import * as React from "react"
-import { ArrowDown01Icon, FlashIcon } from "@hugeicons/core-free-icons"
-import { HugeiconsIcon } from "@hugeicons/react"
 
+import {
+  ModelSelectorLogo,
+  ModelSelectorName,
+} from "@/components/ai-elements/model-selector"
 import { Button } from "@/components/ui/button"
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuLabel,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuSeparator,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+  Combobox,
+  ComboboxCollection,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxGroup,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxLabel,
+  ComboboxList,
+  ComboboxTrigger,
+  ComboboxValue,
+} from "@/components/ui/combobox"
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
-import { models } from "@/lib/models"
+import { type Model, models } from "@/lib/models"
 import { cn } from "@/lib/utils"
+import { Separator } from "./ui/separator"
 
 const CHEFS = [...new Set(models.map((model) => model.chef))]
 
-function modelsByChef(chef: string) {
-  return models.filter((model) => model.chef === chef)
-}
+type ModelGroup = { value: string; items: Model[] }
+
+const MODEL_GROUPS: ModelGroup[] = CHEFS.map((chef) => ({
+  value: chef,
+  items: models.filter((model) => model.chef === chef),
+}))
 
 export const EFFORT_LEVELS = [
   { value: "light", label: "Light" },
@@ -56,12 +62,19 @@ export function PromptModelMenu({
   className?: string
 }) {
   const fastId = React.useId()
-  const activeModel = models.find((item) => item.id === model)
+  const selected = models.find((item) => item.id === model) ?? null
   const activeEffort = EFFORT_LEVELS.find((item) => item.value === effort)
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger
+    <Combobox
+      items={MODEL_GROUPS}
+      value={selected}
+      onValueChange={(next) => {
+        if (next) onModelChange(next.id)
+      }}
+      itemToStringValue={(item: Model) => `${item.name} ${item.chef}`}
+    >
+      <ComboboxTrigger
         render={
           <Button
             variant="ghost"
@@ -70,65 +83,78 @@ export function PromptModelMenu({
           />
         }
       >
-        <HugeiconsIcon icon={FlashIcon} strokeWidth={1.5} />
-        {activeModel?.name}
+        <ComboboxValue>
+          {(value: Model | null) =>
+            value ? (
+              <>
+                <ModelSelectorLogo
+                  provider={value.chefSlug}
+                  variant="color"
+                  className="size-3.5"
+                />
+                <ModelSelectorName>{value.name}</ModelSelectorName>
+              </>
+            ) : (
+              <ModelSelectorName className="text-muted-foreground">
+                Model
+              </ModelSelectorName>
+            )
+          }
+        </ComboboxValue>
         <span className="text-muted-foreground">{activeEffort?.label}</span>
-        <HugeiconsIcon
-          icon={ArrowDown01Icon}
-          strokeWidth={1.5}
-          className="text-muted-foreground"
+      </ComboboxTrigger>
+      <ComboboxContent
+        side="top"
+        align="end"
+        sideOffset={8}
+        className="w-72 min-w-72"
+      >
+        <ComboboxInput
+          showTrigger={false}
+          showSearchIcon
+          placeholder="Search models..."
+          className="h-8! rounded-none! border-x-0 border-0 bg-background shadow-none! *:data-[slot=input-group-addon]:ps-2!"
         />
-      </DropdownMenuTrigger>
-      <DropdownMenuContent side="top" align="end" sideOffset={8} className="w-56">
-        <DropdownMenuGroup>
-          <DropdownMenuSub>
-            <DropdownMenuSubTrigger>
-              <span className="grow">Model</span>
-              <span className="text-muted-foreground">{activeModel?.name}</span>
-            </DropdownMenuSubTrigger>
-            <DropdownMenuSubContent className="max-h-80 w-64 overflow-y-auto">
-              <DropdownMenuRadioGroup
-                value={model}
-                onValueChange={(next) => onModelChange(next as string)}
+        <Separator />
+        <ComboboxEmpty>No models found.</ComboboxEmpty>
+        <ComboboxList className="max-h-64">
+          {(group: ModelGroup) => (
+            <ComboboxGroup key={group.value} items={group.items}>
+              <ComboboxLabel>{group.value}</ComboboxLabel>
+              <ComboboxCollection>
+                {(item: Model) => (
+                  <ComboboxItem key={item.id} value={item}>
+                    <ModelSelectorLogo
+                      provider={item.chefSlug}
+                      variant="color"
+                    />
+                    <ModelSelectorName>{item.name}</ModelSelectorName>
+                  </ComboboxItem>
+                )}
+              </ComboboxCollection>
+            </ComboboxGroup>
+          )}
+        </ComboboxList>
+        <div
+          className="border-t p-1.5"
+          onPointerDown={(event) => event.preventDefault()}
+        >
+          <div className="px-1.5 py-1 text-xs text-muted-foreground">Effort</div>
+          <div className="flex flex-wrap gap-0.5">
+            {EFFORT_LEVELS.map((item) => (
+              <Button
+                key={item.value}
+                type="button"
+                variant={effort === item.value ? "secondary" : "ghost"}
+                size="sm"
+                className="h-7 rounded-md px-2 font-normal"
+                onClick={() => onEffortChange(item.value)}
               >
-                {CHEFS.map((chef) => (
-                  <DropdownMenuGroup key={chef}>
-                    <DropdownMenuLabel>{chef}</DropdownMenuLabel>
-                    {modelsByChef(chef).map((item) => (
-                      <DropdownMenuRadioItem key={item.id} value={item.id}>
-                        {item.name}
-                      </DropdownMenuRadioItem>
-                    ))}
-                  </DropdownMenuGroup>
-                ))}
-              </DropdownMenuRadioGroup>
-            </DropdownMenuSubContent>
-          </DropdownMenuSub>
-          <DropdownMenuSub>
-            <DropdownMenuSubTrigger>
-              <span className="grow">Effort</span>
-              <span className="text-muted-foreground">
-                {activeEffort?.label}
-              </span>
-            </DropdownMenuSubTrigger>
-            <DropdownMenuSubContent>
-              <DropdownMenuRadioGroup
-                value={effort}
-                onValueChange={(next) => onEffortChange(next as string)}
-              >
-                {EFFORT_LEVELS.map((item) => (
-                  <DropdownMenuRadioItem key={item.value} value={item.value}>
-                    {item.label}
-                  </DropdownMenuRadioItem>
-                ))}
-              </DropdownMenuRadioGroup>
-            </DropdownMenuSubContent>
-          </DropdownMenuSub>
-        </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          <DropdownMenuLabel>Speed</DropdownMenuLabel>
-          <div className="flex items-center justify-between gap-2 rounded-md px-1.5 py-1.5">
+                {item.label}
+              </Button>
+            ))}
+          </div>
+          <div className="mt-1 flex items-center justify-between gap-2 rounded-md px-1.5 py-1.5">
             <Label htmlFor={fastId} className="cursor-pointer font-normal">
               Fast mode
             </Label>
@@ -139,8 +165,8 @@ export function PromptModelMenu({
               onCheckedChange={onFastChange}
             />
           </div>
-        </DropdownMenuGroup>
-      </DropdownMenuContent>
-    </DropdownMenu>
+        </div>
+      </ComboboxContent>
+    </Combobox>
   )
 }

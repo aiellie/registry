@@ -3158,6 +3158,45 @@
       ]
     },
     {
+      "name": "mic-selector",
+      "type": "registry:ui",
+      "title": "Mic Selector",
+      "description": "Microphone picker with permission-aware device list, search, and device ID labels.",
+      "registryDependencies": [
+        "https://ui.aiellie.dev/r/button.json",
+        "https://ui.aiellie.dev/r/command.json",
+        "https://ui.aiellie.dev/r/popover.json"
+      ],
+      "files": [
+        {
+          "path": "components/ai-elements/mic-selector.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/mic-selector.tsx"
+        }
+      ],
+      "dependencies": [
+        "@radix-ui/react-use-controllable-state"
+      ]
+    },
+    {
+      "name": "speech-input",
+      "type": "registry:ui",
+      "title": "Speech Input",
+      "description": "Push-to-talk button with Web Speech API transcription and a MediaRecorder fallback.",
+      "registryDependencies": [
+        "https://ui.aiellie.dev/r/button.json",
+        "https://ui.aiellie.dev/r/spinner.json",
+        "https://ui.aiellie.dev/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "components/ai-elements/speech-input.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/speech-input.tsx"
+        }
+      ]
+    },
+    {
       "name": "color-picker",
       "type": "registry:ui",
       "title": "Color Picker",
