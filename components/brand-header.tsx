@@ -31,8 +31,8 @@ export function BrandHeader() {
   return (
     <header className="fixed z-50 w-full border-b border-border bg-background">
       <div className="flex h-10 items-center gap-2 px-2 sm:px-4">
-        <div className="flex min-w-0 flex-1 items-center gap-2 sm:gap-4">
-          <Link href="/" className="group flex min-w-0 items-center gap-2">
+        <div className="flex min-w-fit flex-1 items-center gap-2 sm:gap-4">
+          <Link href="/" className="group flex shrink-0 items-center gap-2">
             <LogoIcon className="size-6 shrink-0" strokeWidth={1.5} fill="none" />
           </Link>
           <span className="hidden h-3 w-px bg-border lg:block" />
