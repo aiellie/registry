@@ -2,6 +2,9 @@
 
 import * as React from "react"
 
+import { FlashIcon } from "@hugeicons/core-free-icons"
+import { HugeiconsIcon } from "@hugeicons/react"
+
 import {
   ModelSelectorLogo,
   ModelSelectorName,
@@ -21,10 +24,11 @@ import {
   ComboboxValue,
 } from "@/components/ui/combobox"
 import { Label } from "@/components/ui/label"
+import { Separator } from "@/components/ui/separator"
+import { Slider } from "@/components/ui/slider"
 import { Switch } from "@/components/ui/switch"
 import { type Model, models } from "@/lib/models"
 import { cn } from "@/lib/utils"
-import { Separator } from "./ui/separator"
 
 const CHEFS = [...new Set(models.map((model) => model.chef))]
 
@@ -63,7 +67,11 @@ export function PromptModelMenu({
 }) {
   const fastId = React.useId()
   const selected = models.find((item) => item.id === model) ?? null
-  const activeEffort = EFFORT_LEVELS.find((item) => item.value === effort)
+  const effortIndex = Math.max(
+    0,
+    EFFORT_LEVELS.findIndex((item) => item.value === effort)
+  )
+  const activeEffort = EFFORT_LEVELS[effortIndex]
 
   return (
     <Combobox
@@ -101,7 +109,27 @@ export function PromptModelMenu({
             )
           }
         </ComboboxValue>
-        <span className="text-muted-foreground">{activeEffort?.label}</span>
+        <span
+          className="flex h-3 items-center gap-1"
+          aria-label={`Effort: ${activeEffort?.label}`}
+        >
+          {EFFORT_LEVELS.map((level, index) => (
+            <span
+              key={level.value}
+              className={cn(
+                "h-full w-0.5 rounded-full",
+                index <= effortIndex ? "bg-foreground" : "bg-muted"
+              )}
+            />
+          ))}
+        </span>
+        {fast ? (
+          <HugeiconsIcon
+            icon={FlashIcon}
+            strokeWidth={2}
+            className="size-3.5 text-muted-foreground"
+          />
+        ) : null}
       </ComboboxTrigger>
       <ComboboxContent
         side="top"
@@ -139,20 +167,24 @@ export function PromptModelMenu({
           className="border-t p-1.5"
           onPointerDown={(event) => event.preventDefault()}
         >
-          <div className="px-1.5 py-1 text-xs text-muted-foreground">Effort</div>
-          <div className="flex flex-wrap gap-0.5">
-            {EFFORT_LEVELS.map((item) => (
-              <Button
-                key={item.value}
-                type="button"
-                variant={effort === item.value ? "secondary" : "ghost"}
-                size="sm"
-                className="h-7 rounded-md px-2 font-normal"
-                onClick={() => onEffortChange(item.value)}
-              >
-                {item.label}
-              </Button>
-            ))}
+          <div className="flex items-center justify-between gap-2 px-1.5 py-1">
+            <span className="text-xs text-muted-foreground">Effort</span>
+            <span className="text-xs text-muted-foreground">
+              {activeEffort?.label}
+            </span>
+          </div>
+          <div className="px-1.5 pb-1">
+            <Slider
+              value={[effortIndex]}
+              min={0}
+              max={EFFORT_LEVELS.length - 1}
+              step={1}
+              onValueChange={(value) => {
+                const index = Array.isArray(value) ? (value[0] ?? 0) : value
+                const next = EFFORT_LEVELS[index]
+                if (next) onEffortChange(next.value)
+              }}
+            />
           </div>
           <div className="mt-1 flex items-center justify-between gap-2 rounded-md px-1.5 py-1.5">
             <Label htmlFor={fastId} className="cursor-pointer font-normal">

@@ -1,5 +1,6 @@
 import {
   AiChat01Icon,
+  AiChat02Icon,
   AlertCircleIcon,
   AlertDiamondIcon,
   AppWindowIcon,
@@ -124,7 +125,7 @@ export interface Category {
 export const categories: Record<CategoryId, Category> = {
   blocks: { id: "blocks", label: "Blocks", icon: BlocksIcon },
   brand: { id: "brand", label: "Brand", icon: SparklesIcon },
-  ai: { id: "ai", label: "AI", icon: SiriIcon },
+  ai: { id: "ai", label: "AI", icon: AiChat02Icon },
   forms: { id: "forms", label: "Forms & Inputs", icon: FormIcon },
   navigation: { id: "navigation", label: "Navigation", icon: Navigation03Icon },
   overlays: { id: "overlays", label: "Overlays", icon: AppWindowIcon },
