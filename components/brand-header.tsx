@@ -12,7 +12,7 @@ import {
 import { HugeiconsIcon } from "@hugeicons/react"
 
 import { useBrandPanels } from "@/components/brand-panels"
-import { LogoIcon, LogoWordmark } from "@/components/logo"
+import { LogoIcon } from "@/components/logo"
 import { Button } from "@/components/ui/button"
 import { useSidebar } from "@/components/ui/sidebar"
 import {
@@ -75,8 +75,7 @@ export function BrandHeader() {
           </Tooltip>
 
           <Link href="/" className="group flex min-w-0 items-center gap-2">
-            <LogoIcon className="size-6 shrink-0" />
-            <LogoWordmark as="span" className="truncate text-sm font-medium" />
+            <LogoIcon className="size-6 shrink-0" strokeWidth={1.5} fill="none" />
           </Link>
         </div>
         <div className="flex shrink-0 items-center gap-1">
