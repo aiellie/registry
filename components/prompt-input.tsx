@@ -6,10 +6,10 @@ import {
   ArrowUp02Icon,
   AudioWave01Icon,
   Folder01Icon,
-  Mic02Icon,
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
+import { SpeechInput } from "@/components/ai-elements/speech-input"
 import {
   PromptAddMenu,
 } from "@/components/prompt-add-menu"
@@ -210,8 +210,7 @@ export function PromptInput({
             }}
           />
           <PromptApprovalMenu value={approval} onValueChange={setApproval} />
-          <div className="ms-auto flex items-center gap-0.5">
-            <PromptModelMenu
+          <PromptModelMenu
               model={model}
               onModelChange={setModel}
               effort={effort}
@@ -219,21 +218,17 @@ export function PromptInput({
               fast={fast}
               onFastChange={setFast}
             />
-            <Tooltip>
-              <TooltipTrigger
-                render={
-                  <Button
-                    variant="ghost"
-                    size="icon-sm"
-                    className="rounded-full"
-                    aria-label="Dictate"
-                  >
-                    <HugeiconsIcon icon={Mic02Icon} strokeWidth={1.5} />
-                  </Button>
-                }
-              />
-              <TooltipContent>Dictate</TooltipContent>
-            </Tooltip>
+          <div className="ms-auto flex items-center gap-0.5">
+            <SpeechInput
+              aria-label="Dictate"
+              tooltip="Dictate"
+              onTranscriptionChange={(text) => {
+                setValue((current) =>
+                  current ? `${current.trimEnd()} ${text}` : text
+                )
+                setCommandsDismissed(false)
+              }}
+            />
             {canSubmit ? (
               <Tooltip>
                 <TooltipTrigger

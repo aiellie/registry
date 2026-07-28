@@ -83,14 +83,22 @@ export function PromptModelMenu({
       itemToStringValue={(item: Model) => `${item.name} ${item.chef}`}
     >
       <ComboboxTrigger
+        showIcon={false}
         render={
           <Button
             variant="ghost"
             size="sm"
-            className={cn("gap-1.5 rounded-full px-2 font-normal", className)}
+            className={cn("bg-background gap-1.5 rounded-full px-2 font-normal", className)}
           />
         }
       >
+        {fast ? (
+          <HugeiconsIcon
+            icon={FlashIcon}
+            strokeWidth={2}
+            className="size-3.5 fill-muted-foreground text-muted-foreground"
+          />
+        ) : null}
         <ComboboxValue>
           {(value: Model | null) =>
             value ? (
@@ -98,9 +106,8 @@ export function PromptModelMenu({
                 <ModelSelectorLogo
                   provider={value.chefSlug}
                   variant="color"
-                  className="size-3.5"
+                  className="size-4"
                 />
-                <ModelSelectorName>{value.name}</ModelSelectorName>
               </>
             ) : (
               <ModelSelectorName className="text-muted-foreground">
@@ -123,13 +130,6 @@ export function PromptModelMenu({
             />
           ))}
         </span>
-        {fast ? (
-          <HugeiconsIcon
-            icon={FlashIcon}
-            strokeWidth={2}
-            className="size-3.5 text-muted-foreground"
-          />
-        ) : null}
       </ComboboxTrigger>
       <ComboboxContent
         side="top"

@@ -9,7 +9,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
-import { Mic01Icon, SquareIcon } from "@hugeicons/core-free-icons";
+import { Mic02Icon, CircleSmallIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import type { ComponentProps, ReactNode } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -312,23 +312,23 @@ export const SpeechInput = ({
 
   const button = (
     <Button
-      className={cn(
-        "relative z-10 rounded-full transition-all duration-300",
-        isListening
-          ? "bg-destructive text-white hover:bg-destructive/80 hover:text-white"
-          : "bg-primary text-primary-foreground hover:bg-primary/80 hover:text-primary-foreground",
-        className
-      )}
+      className={cn("relative z-10 rounded-full", className)}
       disabled={isDisabled}
       onClick={toggleListening}
       {...props}
+      size="icon-sm"
+      variant={isListening ? "destructive" : "ghost"}
     >
       {isProcessing && <Spinner />}
       {!isProcessing && isListening && (
-        <HugeiconsIcon className="size-4" icon={SquareIcon} strokeWidth={2} />
+        <HugeiconsIcon
+          className="size-2 fill-current"
+          icon={CircleSmallIcon}
+          strokeWidth={2}
+        />
       )}
       {!(isProcessing || isListening) && (
-        <HugeiconsIcon className="size-4" icon={Mic01Icon} strokeWidth={2} />
+        <HugeiconsIcon icon={Mic02Icon} strokeWidth={1.5} />
       )}
     </Button>
   );
