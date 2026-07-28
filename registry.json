@@ -351,12 +351,14 @@
         "https://ui.aiellie.dev/r/input-group.json",
         "https://ui.aiellie.dev/r/input-otp.json",
         "https://ui.aiellie.dev/r/item.json",
+        "https://ui.aiellie.dev/r/icons.json",
         "https://ui.aiellie.dev/r/kbd.json",
         "https://ui.aiellie.dev/r/label.json",
         "https://ui.aiellie.dev/r/marker.json",
         "https://ui.aiellie.dev/r/menubar.json",
         "https://ui.aiellie.dev/r/message.json",
         "https://ui.aiellie.dev/r/message-scroller.json",
+        "https://ui.aiellie.dev/r/model-selector.json",
         "https://ui.aiellie.dev/r/native-select.json",
         "https://ui.aiellie.dev/r/navigation-menu.json",
         "https://ui.aiellie.dev/r/pagination.json",
@@ -3077,7 +3079,7 @@
         {
           "path": "components/ai-elements/model-selector.tsx",
           "type": "registry:ui",
-          "target": "components/ui/model-selector.tsx"
+          "target": "components/ai-elements/model-selector.tsx"
         }
       ]
     },
@@ -3088,14 +3090,25 @@
       "description": "File tree with file name, file type, and file size.",
       "registryDependencies": [
         "https://ui.aiellie.dev/r/collapsible.json",
-        "https://ui.aiellie.dev/r/context-menu.json"
+        "https://ui.aiellie.dev/r/context-menu.json",
+        "https://ui.aiellie.dev/r/icons.json"
       ],
       "files": [
         {
           "path": "components/ai-elements/file-tree.tsx",
           "type": "registry:ui",
           "target": "components/ui/file-tree.tsx"
-        },
+        }
+      ]
+    },
+    {
+      "name": "icons",
+      "type": "registry:component",
+      "title": "Icons",
+      "description": "Icons for the Aiellie design system.",
+      "registryDependencies": [
+      ],
+      "files": [
         {
           "path": "components/icons.tsx",
           "type": "registry:component",
