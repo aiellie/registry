@@ -16,6 +16,7 @@ import {
   WebPreview,
   WebPreviewAnnotateToggle,
   WebPreviewBody,
+  WebPreviewConnection,
   WebPreviewConsole,
   WebPreviewMenu,
   WebPreviewNavigation,
@@ -28,10 +29,6 @@ import { cn } from "@/lib/utils"
 import {
   ArrowLeft01Icon,
   ArrowRight01Icon,
-  Home01Icon,
-  LinkSquare02Icon,
-  Maximize01Icon,
-  Minimize01Icon,
   RefreshIcon,
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
@@ -340,6 +337,7 @@ function BrowserExample() {
       >
         <WebPreview
           className={cn("h-[460px]", expanded && "h-full")}
+          onReload={() => setReloadKey((current) => current + 1)}
           onUrlChange={navigate}
           url={url}
         >
@@ -376,17 +374,25 @@ function BrowserExample() {
                 strokeWidth={2}
               />
             </WebPreviewNavigationButton>
-            <WebPreviewNavigationButton
-              onClick={() => navigate(HOME_URL)}
-              tooltip="Home"
-            >
-              <HugeiconsIcon
-                className="size-4"
-                icon={Home01Icon}
-                strokeWidth={2}
-              />
-            </WebPreviewNavigationButton>
-            <WebPreviewUrl />
+
+            <WebPreviewUrl
+              connectionContent={
+                <div className="flex flex-col gap-2">
+                  <WebPreviewConnection url={url} />
+                  <div className="border-t pt-2 text-xs text-muted-foreground">
+                    Served{" "}
+                    {resolved?.mode === "proxy" ? (
+                      <>
+                        through <code>/api/web-preview</code>, which strips this
+                        site&rsquo;s framing headers.
+                      </>
+                    ) : (
+                      <>directly — this site allows being framed.</>
+                    )}
+                  </div>
+                </div>
+              }
+            />
             <WebPreviewAnnotateToggle
               active={annotating}
               onActiveChange={(next) => {
@@ -396,28 +402,9 @@ function BrowserExample() {
                 log("log", next ? "Annotating enabled" : "Annotating disabled")
               }}
             />
-            <WebPreviewNavigationButton
-              onClick={() => window.open(url, "_blank", "noopener,noreferrer")}
-              tooltip="Open in new tab"
-            >
-              <HugeiconsIcon
-                className="size-4"
-                icon={LinkSquare02Icon}
-                strokeWidth={2}
-              />
-            </WebPreviewNavigationButton>
-            <WebPreviewNavigationButton
-              onClick={() => setExpanded((current) => !current)}
-              tooltip={expanded ? "Exit full screen" : "Full screen"}
-            >
-              <HugeiconsIcon
-                className="size-4"
-                icon={expanded ? Minimize01Icon : Maximize01Icon}
-                strokeWidth={2}
-              />
-            </WebPreviewNavigationButton>
             <WebPreviewMenu
               deviceToolbar={device !== null}
+              fullScreen={expanded}
               onClearCache={() => {
                 log("log", "Cache cleared — reloading")
                 setReloadKey((current) => current + 1)
@@ -429,6 +416,7 @@ function BrowserExample() {
                 if (!requireBridge("find in page")) return
                 setFind((current) => ({ ...current, open: true }))
               }}
+              onFullScreenChange={setExpanded}
               onPrint={() => {
                 if (!requireBridge("print")) return
                 send("print")

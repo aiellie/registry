@@ -16,7 +16,17 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Input } from "@/components/ui/input"
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+} from "@/components/ui/input-group"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
 import {
   Tooltip,
   TooltipContent,
@@ -33,7 +43,11 @@ import {
   DatabaseIcon,
   Download01Icon,
   Key01Icon,
+  LinkSquare02Icon,
+  LockKeyIcon,
+  Maximize01Icon,
   MinusSignIcon,
+  Minimize01Icon,
   MoreVerticalIcon,
   PlusSignCircleIcon,
   PlusSignIcon,
@@ -44,6 +58,7 @@ import {
   Settings01Icon,
   SmartPhone01Icon,
   SquareLockPasswordIcon,
+  UnavailableIcon,
   UserSquareIcon,
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
@@ -59,6 +74,8 @@ import {
 export interface WebPreviewContextValue {
   url: string
   setUrl: (url: string) => void
+  /** Re-loads the current document, even when the URL has not changed. */
+  reload: () => void
   consoleOpen: boolean
   setConsoleOpen: (open: boolean) => void
 }
@@ -82,6 +99,11 @@ export type WebPreviewProps = ComponentProps<"div"> & {
    */
   url?: string
   onUrlChange?: (url: string) => void
+  /**
+   * Called when the current document should be re-loaded — pressing Enter in
+   * the URL bar reloads even when the URL itself did not change.
+   */
+  onReload?: () => void
 }
 
 export const WebPreview = ({
@@ -90,6 +112,7 @@ export const WebPreview = ({
   defaultUrl = "",
   url: controlledUrl,
   onUrlChange,
+  onReload,
   ...props
 }: WebPreviewProps) => {
   const [uncontrolledUrl, setUncontrolledUrl] = useState(defaultUrl)
@@ -108,14 +131,17 @@ export const WebPreview = ({
     [isControlled, onUrlChange]
   )
 
+  const reload = useCallback(() => onReload?.(), [onReload])
+
   const contextValue = useMemo<WebPreviewContextValue>(
     () => ({
       consoleOpen,
+      reload,
       setConsoleOpen,
       setUrl: handleUrlChange,
       url,
     }),
-    [consoleOpen, handleUrlChange, url]
+    [consoleOpen, handleUrlChange, reload, url]
   )
 
   return (
@@ -182,15 +208,32 @@ export const WebPreviewNavigationButton = ({
   </TooltipProvider>
 )
 
-export type WebPreviewUrlProps = ComponentProps<typeof Input>
+export type WebPreviewUrlProps = Omit<ComponentProps<"input">, "size"> & {
+  /**
+   * Body of the connection popover opened from the leading icon. Defaults to a
+   * short summary of the current origin.
+   */
+  connectionContent?: ReactNode
+  /** Overrides opening the current URL in a new tab. */
+  onOpenExternal?: (url: string) => void
+}
 
+/**
+ * The address bar: a connection popover on the leading end, the editable URL,
+ * and an open-in-new-tab button on the trailing end. Pressing Enter commits
+ * the URL *and* reloads, matching how a real address bar behaves when you
+ * re-submit the page you are already on.
+ */
 export const WebPreviewUrl = ({
+  className,
   value,
   onChange,
   onKeyDown,
+  connectionContent,
+  onOpenExternal,
   ...props
 }: WebPreviewUrlProps) => {
-  const { url, setUrl } = useWebPreview()
+  const { url, setUrl, reload } = useWebPreview()
   const [prevUrl, setPrevUrl] = useState(url)
   const [inputValue, setInputValue] = useState(url)
 
@@ -210,21 +253,117 @@ export const WebPreviewUrl = ({
       if (event.key === "Enter") {
         const target = event.target as HTMLInputElement
         setUrl(target.value)
+        reload()
       }
       onKeyDown?.(event)
     },
-    [setUrl, onKeyDown]
+    [setUrl, reload, onKeyDown]
   )
 
+  const current = (value as string) ?? inputValue
+  const secure = /^https:/i.test(current)
+
+  const openExternal = () => {
+    if (!current) return
+    if (onOpenExternal) {
+      onOpenExternal(current)
+      return
+    }
+    window.open(current, "_blank", "noopener,noreferrer")
+  }
+
   return (
-    <Input
-      className="h-8 flex-1 text-sm"
-      onChange={handleChange}
-      onKeyDown={handleKeyDown}
-      placeholder="Enter URL..."
-      value={value ?? inputValue}
-      {...props}
-    />
+    <InputGroup className="flex-1">
+      <InputGroupAddon align="inline-start">
+        <Popover>
+          <PopoverTrigger
+            render={
+              <InputGroupButton
+                aria-label="Connection information"
+                size="icon-xs"
+              />
+            }
+          >
+            <HugeiconsIcon
+              className={cn("size-3.5", !secure && "text-muted-foreground")}
+              icon={secure ? LockKeyIcon : UnavailableIcon}
+              strokeWidth={2}
+            />
+          </PopoverTrigger>
+          <PopoverContent align="start" className="w-72 p-3">
+            {connectionContent ?? <WebPreviewConnection url={current} />}
+          </PopoverContent>
+        </Popover>
+      </InputGroupAddon>
+
+      <InputGroupInput
+        className={cn("text-sm", className)}
+        onChange={handleChange}
+        onKeyDown={handleKeyDown}
+        placeholder="Enter URL..."
+        value={current}
+        {...props}
+      />
+
+      <InputGroupAddon align="inline-end">
+        <InputGroupButton
+          aria-label="Open in new tab"
+          disabled={!current}
+          onClick={openExternal}
+          size="icon-xs"
+        >
+          <HugeiconsIcon
+            className="size-3.5"
+            icon={LinkSquare02Icon}
+            strokeWidth={2}
+          />
+        </InputGroupButton>
+      </InputGroupAddon>
+    </InputGroup>
+  )
+}
+
+export type WebPreviewConnectionProps = ComponentProps<"div"> & {
+  url: string
+}
+
+/** Default body of the connection popover. */
+export const WebPreviewConnection = ({
+  className,
+  url,
+  ...props
+}: WebPreviewConnectionProps) => {
+  let origin = url
+  let secure = false
+  try {
+    const parsed = new URL(url)
+    origin = parsed.host
+    secure = parsed.protocol === "https:"
+  } catch {
+    // Half-typed URLs are expected; fall back to the raw string.
+  }
+
+  return (
+    <div className={cn("flex flex-col gap-2", className)} {...props}>
+      <div className="flex items-center gap-2">
+        <HugeiconsIcon
+          className={cn("size-4", secure ? "text-primary" : "text-destructive")}
+          icon={secure ? LockKeyIcon : UnavailableIcon}
+          strokeWidth={2}
+        />
+        <span className="text-sm font-medium">
+          {secure ? "Connection is secure" : "Connection is not secure"}
+        </span>
+      </div>
+      <p className="text-sm break-all text-muted-foreground">
+        {origin || "No page loaded"}
+      </p>
+      <p className="text-xs text-muted-foreground">
+        {secure
+          ? "This page was served over HTTPS."
+          : "Information sent to this site could be seen by others."}
+      </p>
+    </div>
   )
 }
 
@@ -419,6 +558,8 @@ export type WebPreviewMenuProps = {
   onPrint?: () => void
   zoom?: number
   onZoomChange?: (zoom: number) => void
+  fullScreen?: boolean
+  onFullScreenChange?: (fullScreen: boolean) => void
   deviceToolbar?: boolean
   onDeviceToolbarChange?: (open: boolean) => void
   onScreenshot?: () => void
@@ -443,6 +584,8 @@ export const WebPreviewMenu = ({
   onPrint,
   zoom = 100,
   onZoomChange,
+  fullScreen = false,
+  onFullScreenChange,
   deviceToolbar = false,
   onDeviceToolbarChange,
   onScreenshot,
@@ -555,6 +698,13 @@ export const WebPreviewMenu = ({
 
       <DropdownMenuSeparator />
 
+      <WebPreviewMenuItem
+        disabled={!onFullScreenChange}
+        icon={fullScreen ? Minimize01Icon : Maximize01Icon}
+        onClick={() => onFullScreenChange?.(!fullScreen)}
+      >
+        {fullScreen ? "Exit full screen" : "Full screen"}
+      </WebPreviewMenuItem>
       <WebPreviewMenuItem
         disabled={!onDeviceToolbarChange}
         icon={SmartPhone01Icon}
