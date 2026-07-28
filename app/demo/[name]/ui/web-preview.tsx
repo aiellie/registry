@@ -13,12 +13,14 @@ import {
 } from "@/components/ai-elements/web-preview"
 import { Button } from "@/components/ui/button"
 import { Spinner } from "@/components/ui/spinner"
+import { cn } from "@/lib/utils"
 import {
   ArrowLeft01Icon,
   ArrowRight01Icon,
-  Cursor02Icon,
+  Home01Icon,
   LinkSquare02Icon,
   Maximize01Icon,
+  Minimize01Icon,
   RefreshIcon,
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
@@ -27,46 +29,14 @@ import { HugeiconsIcon } from "@hugeicons/react"
 /*                                    Data                                     */
 /* -------------------------------------------------------------------------- */
 
-/**
- * Renders a self-contained page inside the iframe via `srcDoc`, so the demos
- * load instantly with zero network requests (no slow external previews).
- */
-function previewDoc(url = "https://example.com") {
-  return `<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <style>
-      *{box-sizing:border-box}
-      body{margin:0;min-height:100vh;font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color:#0a0a0a;background:linear-gradient(180deg,#fafafa,#f4f4f5)}
-      header{display:flex;align-items:center;gap:6px;padding:14px 20px;border-bottom:1px solid #e4e4e7;background:#fff}
-      .dot{width:9px;height:9px;border-radius:999px;background:#d4d4d8}
-      main{max-width:560px;margin:0 auto;padding:44px 24px}
-      h1{margin:0 0 10px;font-size:26px;letter-spacing:-.02em}
-      p{margin:0 0 22px;color:#52525b;line-height:1.6}
-      .card{padding:18px;border:1px solid #e4e4e7;border-radius:12px;background:#fff;font-size:14px;color:#52525b}
-      code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
-      @media (prefers-color-scheme:dark){
-        body{color:#fafafa;background:linear-gradient(180deg,#09090b,#18181b)}
-        header{background:#0a0a0a;border-color:#27272a}
-        p,.card{color:#a1a1aa}
-        .card{background:#111113;border-color:#27272a}
-      }
-    </style>
-  </head>
-  <body>
-    <header><span class="dot"></span><span class="dot"></span><span class="dot"></span></header>
-    <main>
-      <h1>Preview</h1>
-      <p>Showing <code>${url}</code></p>
-      <div class="card">Rendered instantly from <code>srcDoc</code> — no network request.</div>
-    </main>
-  </body>
-</html>`
-}
+const HOME_URL = "https://ui.aiellie.dev"
 
-const PREVIEW_DOC = previewDoc()
+const URL_PRESETS = [
+  "https://ui.aiellie.dev",
+  "https://wikipedia.org",
+  "https://news.ycombinator.com",
+  "https://github.com",
+]
 
 type ConsoleLog = {
   level: "log" | "warn" | "error"
@@ -74,34 +44,27 @@ type ConsoleLog = {
   timestamp: Date
 }
 
-const INITIAL_LOGS: ConsoleLog[] = [
-  {
-    level: "log",
-    message: "Page loaded successfully",
-    timestamp: new Date(Date.now() - 10_000),
-  },
-  {
-    level: "warn",
-    message: "Deprecated API usage detected",
-    timestamp: new Date(Date.now() - 5000),
-  },
-  {
-    level: "error",
-    message: "Failed to load resource: net::ERR_CONNECTION_REFUSED",
-    timestamp: new Date(),
-  },
-]
+type LoadMode = "direct" | "proxy"
 
-const URL_PRESETS = [
-  "https://example.com",
-  "https://example.org",
-  "https://example.net",
-]
-
-const noop = (label: string) => () => {
-  // Wire these up to your own history / router in a real app.
-  console.log(label)
+type ProbeResult = {
+  ok: boolean
+  url?: string
+  status?: number
+  framable?: boolean
+  reason?: string
+  proxyable?: boolean
+  error?: string
 }
+
+/** Lets people type `example.com` and still get somewhere. */
+function normalizeUrl(input: string) {
+  const trimmed = input.trim()
+  if (!trimmed) return ""
+  return /^[a-z][a-z0-9+.-]*:/i.test(trimmed) ? trimmed : `https://${trimmed}`
+}
+
+const proxyUrl = (url: string) =>
+  `/api/web-preview?url=${encodeURIComponent(url)}`
 
 /* -------------------------------------------------------------------------- */
 /*                                  Examples                                   */
@@ -109,119 +72,323 @@ const noop = (label: string) => () => {
 
 export default function WebPreviewExample() {
   return (
-    <ExampleWrapper>
-      <DefaultExample />
+    <ExampleWrapper className="md:grid-cols-1">
+      <BrowserExample />
+      <MinimalExample />
+      <ConsoleExample />
     </ExampleWrapper>
   )
 }
 
-function DefaultExample() {
+/* -------------------------------------------------------------------------- */
+
+function BrowserExample() {
+  const [history, setHistory] = React.useState({
+    entries: [HOME_URL],
+    index: 0,
+  })
+  const [src, setSrc] = React.useState<string | null>(null)
+  const [mode, setMode] = React.useState<LoadMode>("direct")
+  const [loading, setLoading] = React.useState(true)
+  const [error, setError] = React.useState<string | null>(null)
+  const [expanded, setExpanded] = React.useState(false)
+  const [reloadKey, setReloadKey] = React.useState(0)
+  const [logs, setLogs] = React.useState<ConsoleLog[]>([])
+
+  const frameRef = React.useRef<HTMLIFrameElement>(null)
+  const url = history.entries[history.index]
+
+  const log = React.useCallback(
+    (level: ConsoleLog["level"], message: string) => {
+      setLogs((current) =>
+        [...current, { level, message, timestamp: new Date() }].slice(-50)
+      )
+    },
+    []
+  )
+
+  /** Push a new entry, discarding anything ahead of the current position. */
+  const navigate = React.useCallback((next: string) => {
+    const target = normalizeUrl(next)
+    if (!target) return
+
+    setHistory((current) => {
+      if (current.entries[current.index] === target) return current
+      const entries = [...current.entries.slice(0, current.index + 1), target]
+      return { entries, index: entries.length - 1 }
+    })
+  }, [])
+
+  const go = React.useCallback((delta: number) => {
+    setHistory((current) => {
+      const index = Math.min(
+        current.entries.length - 1,
+        Math.max(0, current.index + delta)
+      )
+      return index === current.index ? current : { ...current, index }
+    })
+  }, [])
+
+  // A new target invalidates whatever is on screen right now. Adjusting state
+  // during render (rather than in an effect) avoids a frame of stale content.
+  const request = `${url}#${reloadKey}`
+  const [pendingRequest, setPendingRequest] = React.useState(request)
+  if (pendingRequest !== request) {
+    setPendingRequest(request)
+    setSrc(null)
+    setLoading(true)
+    setError(null)
+  }
+
+  // Ask the server whether the target can be framed as-is. If it can't (most
+  // real sites), fall back to the proxy, which strips the framing headers.
+  React.useEffect(() => {
+    if (!url) return
+
+    let cancelled = false
+
+    fetch(`/api/web-preview?probe=1&url=${encodeURIComponent(url)}`)
+      .then((response) => response.json() as Promise<ProbeResult>)
+      .then((probe) => {
+        if (cancelled) return
+
+        if (!probe.ok || probe.error) {
+          setSrc(null)
+          setLoading(false)
+          setError(
+            probe.error ??
+              `${url} responded with ${probe.status ?? "an error"}.`
+          )
+          log("error", probe.error ?? `Request failed (${probe.status}).`)
+          return
+        }
+
+        const resolved = probe.url ?? url
+        if (probe.framable) {
+          setMode("direct")
+          setSrc(resolved)
+          log("log", `Framing ${resolved} directly`)
+        } else {
+          setMode("proxy")
+          setSrc(proxyUrl(resolved))
+          log(
+            "warn",
+            `${probe.reason ?? "Framing blocked"} — serving through the proxy.`
+          )
+        }
+      })
+      .catch(() => {
+        if (cancelled) return
+        setSrc(null)
+        setLoading(false)
+        setError(`Could not reach ${url}.`)
+        log("error", `Could not reach ${url}.`)
+      })
+
+    return () => {
+      cancelled = true
+    }
+  }, [url, reloadKey, log])
+
+  // Links inside a proxied page can't navigate themselves — the bridge script
+  // posts them up here so the address bar and history stay in charge.
+  React.useEffect(() => {
+    const onMessage = (event: MessageEvent) => {
+      if (event.source !== frameRef.current?.contentWindow) return
+      const data = event.data
+      if (!data || data.source !== "web-preview") return
+      if (typeof data.url !== "string" || !/^https?:/i.test(data.url)) return
+      if (data.type === "navigate") navigate(data.url)
+    }
+
+    window.addEventListener("message", onMessage)
+    return () => window.removeEventListener("message", onMessage)
+  }, [navigate])
+
+  const canGoBack = history.index > 0
+  const canGoForward = history.index < history.entries.length - 1
+  const host = React.useMemo(() => {
+    try {
+      return new URL(url).host
+    } catch {
+      return url
+    }
+  }, [url])
+
   return (
-    <Example title="Default">
-      <WebPreview
-        className="h-[420px]"
-        defaultUrl="https://example.com"
-        onUrlChange={noop("URL changed")}
+    <Example
+      title="Browser — loads any public URL"
+      className={cn(expanded && "p-0")}
+    >
+      <div
+        className={cn(
+          "flex w-full flex-col gap-3",
+          expanded &&
+            "fixed inset-0 z-50 gap-0 bg-background p-4 sm:p-6 [&>p]:hidden"
+        )}
       >
-        <WebPreviewNavigation>
-          <WebPreviewNavigationButton
-            onClick={noop("Go back")}
-            tooltip="Go back"
-          >
-            <HugeiconsIcon className="size-4" icon={ArrowLeft01Icon} />
-          </WebPreviewNavigationButton>
-          <WebPreviewNavigationButton
-            onClick={noop("Go forward")}
-            tooltip="Go forward"
-          >
-            <HugeiconsIcon className="size-4" icon={ArrowRight01Icon} />
-          </WebPreviewNavigationButton>
-          <WebPreviewNavigationButton
-            onClick={noop("Reload")}
-            tooltip="Reload"
-          >
-            <HugeiconsIcon className="size-4" icon={RefreshIcon} />
-          </WebPreviewNavigationButton>
-          <WebPreviewUrl />
-          <WebPreviewNavigationButton
-            onClick={noop("Select")}
-            tooltip="Select"
-          >
-            <HugeiconsIcon className="size-4" icon={Cursor02Icon} />
-          </WebPreviewNavigationButton>
-          <WebPreviewNavigationButton
-            onClick={noop("Open in new tab")}
-            tooltip="Open in new tab"
-          >
-            <HugeiconsIcon className="size-4" icon={LinkSquare02Icon} />
-          </WebPreviewNavigationButton>
-          <WebPreviewNavigationButton
-            onClick={noop("Maximize")}
-            tooltip="Maximize"
-          >
-            <HugeiconsIcon className="size-4" icon={Maximize01Icon} />
-          </WebPreviewNavigationButton>
-        </WebPreviewNavigation>
-        <WebPreviewBody srcDoc={PREVIEW_DOC} />
-        <WebPreviewConsole logs={INITIAL_LOGS} />
-      </WebPreview>
+        <WebPreview
+          className={cn("h-[460px]", expanded && "h-full")}
+          onUrlChange={navigate}
+          url={url}
+        >
+          <WebPreviewNavigation>
+            <WebPreviewNavigationButton
+              disabled={!canGoBack}
+              onClick={() => go(-1)}
+              tooltip="Go back"
+            >
+              <HugeiconsIcon
+                className="size-4 rtl:rotate-180"
+                icon={ArrowLeft01Icon}
+                strokeWidth={2}
+              />
+            </WebPreviewNavigationButton>
+            <WebPreviewNavigationButton
+              disabled={!canGoForward}
+              onClick={() => go(1)}
+              tooltip="Go forward"
+            >
+              <HugeiconsIcon
+                className="size-4 rtl:rotate-180"
+                icon={ArrowRight01Icon}
+                strokeWidth={2}
+              />
+            </WebPreviewNavigationButton>
+            <WebPreviewNavigationButton
+              onClick={() => setReloadKey((current) => current + 1)}
+              tooltip="Reload"
+            >
+              <HugeiconsIcon
+                className="size-4"
+                icon={RefreshIcon}
+                strokeWidth={2}
+              />
+            </WebPreviewNavigationButton>
+            <WebPreviewNavigationButton
+              onClick={() => navigate(HOME_URL)}
+              tooltip="Home"
+            >
+              <HugeiconsIcon
+                className="size-4"
+                icon={Home01Icon}
+                strokeWidth={2}
+              />
+            </WebPreviewNavigationButton>
+            <WebPreviewUrl />
+            <WebPreviewNavigationButton
+              onClick={() => window.open(url, "_blank", "noopener,noreferrer")}
+              tooltip="Open in new tab"
+            >
+              <HugeiconsIcon
+                className="size-4"
+                icon={LinkSquare02Icon}
+                strokeWidth={2}
+              />
+            </WebPreviewNavigationButton>
+            <WebPreviewNavigationButton
+              onClick={() => setExpanded((current) => !current)}
+              tooltip={expanded ? "Exit full screen" : "Full screen"}
+            >
+              <HugeiconsIcon
+                className="size-4"
+                icon={expanded ? Minimize01Icon : Maximize01Icon}
+                strokeWidth={2}
+              />
+            </WebPreviewNavigationButton>
+          </WebPreviewNavigation>
+
+          <WebPreviewBody
+            key={`${src}-${reloadKey}`}
+            loading={
+              error ? (
+                <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-background p-6 text-center">
+                  <p className="text-sm text-muted-foreground">{error}</p>
+                  <Button
+                    onClick={() => setReloadKey((current) => current + 1)}
+                    size="sm"
+                    variant="outline"
+                  >
+                    Try again
+                  </Button>
+                </div>
+              ) : loading ? (
+                <div className="absolute inset-0 flex items-center justify-center gap-2 bg-background/80 text-sm text-muted-foreground backdrop-blur-sm">
+                  <Spinner />
+                  Loading {host}…
+                </div>
+              ) : null
+            }
+            onLoad={() => {
+              setLoading(false)
+              log("log", `Loaded ${url} (${mode})`)
+            }}
+            ref={frameRef}
+            src={src ?? undefined}
+          />
+
+          <WebPreviewConsole logs={logs} />
+        </WebPreview>
+
+        <div className="flex flex-wrap items-center gap-2">
+          {URL_PRESETS.map((preset) => (
+            <Button
+              key={preset}
+              onClick={() => navigate(preset)}
+              size="sm"
+              variant={preset === url ? "default" : "outline"}
+            >
+              {preset.replace("https://", "")}
+            </Button>
+          ))}
+        </div>
+        <p className="text-sm text-muted-foreground">
+          Type any URL and press Enter. Sites that refuse to be framed are
+          served through <code>/api/web-preview</code>, which strips their
+          framing headers and rewrites the document.
+        </p>
+      </div>
     </Example>
   )
 }
+
+/* -------------------------------------------------------------------------- */
 
 function MinimalExample() {
+  const [url, setUrl] = React.useState("https://wikipedia.org")
+
   return (
     <Example title="Minimal — URL bar only">
-      <WebPreview className="h-[420px]" defaultUrl="https://example.com">
+      <WebPreview className="h-[380px]" defaultUrl={url} onUrlChange={setUrl}>
         <WebPreviewNavigation>
           <WebPreviewUrl />
         </WebPreviewNavigation>
-        <WebPreviewBody srcDoc={PREVIEW_DOC} />
+        <WebPreviewBody key={url} src={proxyUrl(url)} />
       </WebPreview>
     </Example>
   )
 }
 
-function NavigationExample() {
-  return (
-    <Example title="Navigation controls">
-      <WebPreview className="h-[420px]" defaultUrl="https://example.com">
-        <WebPreviewNavigation>
-          <WebPreviewNavigationButton
-            onClick={noop("Go back")}
-            tooltip="Go back"
-          >
-            <HugeiconsIcon className="size-4" icon={ArrowLeft01Icon} />
-          </WebPreviewNavigationButton>
-          <WebPreviewNavigationButton
-            disabled
-            onClick={noop("Go forward")}
-            tooltip="Go forward"
-          >
-            <HugeiconsIcon className="size-4" icon={ArrowRight01Icon} />
-          </WebPreviewNavigationButton>
-          <WebPreviewNavigationButton
-            onClick={noop("Reload")}
-            tooltip="Reload"
-          >
-            <HugeiconsIcon className="size-4" icon={RefreshIcon} />
-          </WebPreviewNavigationButton>
-          <WebPreviewUrl />
-          <WebPreviewNavigationButton
-            onClick={noop("Open in new tab")}
-            tooltip="Open in new tab"
-          >
-            <HugeiconsIcon className="size-4" icon={LinkSquare02Icon} />
-          </WebPreviewNavigationButton>
-        </WebPreviewNavigation>
-        <WebPreviewBody srcDoc={PREVIEW_DOC} />
-      </WebPreview>
-    </Example>
-  )
-}
+/* -------------------------------------------------------------------------- */
 
 function ConsoleExample() {
-  const [logs, setLogs] = React.useState<ConsoleLog[]>(INITIAL_LOGS)
+  const [logs, setLogs] = React.useState<ConsoleLog[]>([
+    {
+      level: "log",
+      message: "Build completed in 1.2s",
+      timestamp: new Date(),
+    },
+    {
+      level: "warn",
+      message: "Deprecated API usage detected",
+      timestamp: new Date(),
+    },
+    {
+      level: "error",
+      message: "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+      timestamp: new Date(),
+    },
+  ])
 
   const addLog = React.useCallback(() => {
     setLogs((current) => [
@@ -237,17 +404,11 @@ function ConsoleExample() {
   return (
     <Example title="Console output">
       <div className="flex w-full flex-col gap-3">
-        <WebPreview className="h-[420px]" defaultUrl="https://example.com">
+        <WebPreview className="h-[380px]" defaultUrl="https://example.com">
           <WebPreviewNavigation>
-            <WebPreviewNavigationButton
-              onClick={noop("Reload")}
-              tooltip="Reload"
-            >
-              <HugeiconsIcon className="size-4" icon={RefreshIcon} />
-            </WebPreviewNavigationButton>
             <WebPreviewUrl />
           </WebPreviewNavigation>
-          <WebPreviewBody srcDoc={PREVIEW_DOC} />
+          <WebPreviewBody src={proxyUrl("https://example.com")} />
           <WebPreviewConsole logs={logs} />
         </WebPreview>
         <div className="flex items-center gap-2">
@@ -258,85 +419,6 @@ function ConsoleExample() {
             Expand the console to view {logs.length} entries.
           </p>
         </div>
-      </div>
-    </Example>
-  )
-}
-
-function LoadingExample() {
-  const [loading, setLoading] = React.useState(true)
-
-  const reload = React.useCallback(() => {
-    setLoading(true)
-    const timeout = setTimeout(() => setLoading(false), 1500)
-    return () => clearTimeout(timeout)
-  }, [])
-
-  React.useEffect(() => reload(), [reload])
-
-  return (
-    <Example title="Loading state">
-      <WebPreview className="h-[420px]" defaultUrl="https://example.com">
-        <WebPreviewNavigation>
-          <WebPreviewNavigationButton onClick={reload} tooltip="Reload">
-            <HugeiconsIcon className="size-4" icon={RefreshIcon} />
-          </WebPreviewNavigationButton>
-          <WebPreviewUrl />
-        </WebPreviewNavigation>
-        <WebPreviewBody
-          loading={
-            loading ? (
-              <div className="absolute inset-0 flex items-center justify-center gap-2 bg-background/80 text-sm text-muted-foreground backdrop-blur-sm">
-                <Spinner />
-                Loading preview…
-              </div>
-            ) : null
-          }
-          srcDoc={PREVIEW_DOC}
-        />
-      </WebPreview>
-    </Example>
-  )
-}
-
-function ControlledUrlExample() {
-  const [url, setUrl] = React.useState(URL_PRESETS[0])
-
-  return (
-    <Example title="Controlled URL">
-      <div className="flex w-full flex-col gap-3">
-        <div className="flex flex-wrap gap-2">
-          {URL_PRESETS.map((preset) => (
-            <Button
-              key={preset}
-              onClick={() => setUrl(preset)}
-              size="sm"
-              variant={preset === url ? "default" : "outline"}
-            >
-              {preset.replace("https://", "")}
-            </Button>
-          ))}
-        </div>
-        <WebPreview
-          className="h-[420px]"
-          defaultUrl={url}
-          key={url}
-          onUrlChange={setUrl}
-        >
-          <WebPreviewNavigation>
-            <WebPreviewNavigationButton
-              onClick={noop("Reload")}
-              tooltip="Reload"
-            >
-              <HugeiconsIcon className="size-4" icon={RefreshIcon} />
-            </WebPreviewNavigationButton>
-            <WebPreviewUrl />
-          </WebPreviewNavigation>
-          <WebPreviewBody srcDoc={previewDoc(url)} />
-        </WebPreview>
-        <p className="text-sm text-muted-foreground">
-          Current URL: <span className="text-foreground">{url}</span>
-        </p>
       </div>
     </Example>
   )

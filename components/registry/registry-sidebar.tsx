@@ -10,7 +10,7 @@ import {
 import { HugeiconsIcon } from "@hugeicons/react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { useState } from "react"
+import { useLayoutEffect, useRef, useState } from "react"
 
 import {
   getItem,
@@ -67,6 +67,9 @@ const categoryGroups = groupByCategory(allItems).map((group) => ({
   icon: group.category.icon,
   items: group.items,
 }))
+
+/** Frames to keep re-checking for a laid-out scroll area before giving up. */
+const MAX_ALIGN_FRAMES = 30
 
 const gettingStartedItems = [
   { title: "Home", path: "/", icon: "home" },
@@ -151,8 +154,75 @@ export function RegistrySidebar() {
   const pathname = usePathname()
   const { setOpenMobile } = useSidebar()
   const [sort, setSort] = useState<SortMode>("category")
+  const scrollAreaRef = useRef<HTMLDivElement>(null)
+  const hasScrolledRef = useRef(false)
 
   const groups = sort === "category" ? categoryGroups : typeGroups
+
+  // The list is ~3000px tall, so deep-linking to an item (or re-sorting the
+  // groups) usually leaves the active entry far outside the viewport. Bring it
+  // back into view, but leave the scroll position alone when it is already
+  // visible so clicking a neighbouring item never yanks the list around.
+  useLayoutEffect(() => {
+    /**
+     * Nothing here may be hoisted out of the retry: Base UI swaps the viewport
+     * element after mount, so a node captured earlier ends up detached (and
+     * permanently 0px tall). Re-read it every attempt.
+     */
+    const align = () => {
+      const viewport = scrollAreaRef.current?.querySelector<HTMLElement>(
+        '[data-slot="scroll-area-viewport"]'
+      )
+      const active = viewport?.querySelector<HTMLElement>("[data-active]")
+
+      if (!viewport || !active || viewport.clientHeight === 0) {
+        return false
+      }
+
+      const itemRect = active.getBoundingClientRect()
+      const viewportRect = viewport.getBoundingClientRect()
+      const isVisible =
+        itemRect.top >= viewportRect.top &&
+        itemRect.bottom <= viewportRect.bottom
+
+      if (!isVisible) {
+        viewport.scrollTo({
+          top:
+            viewport.scrollTop +
+            itemRect.top -
+            viewportRect.top -
+            (viewportRect.height - itemRect.height) / 2,
+          // Jump on the first pass (it reads as the page's initial state),
+          // animate afterwards, once the user is already looking at the list.
+          behavior: hasScrolledRef.current ? "smooth" : "instant",
+        })
+      }
+
+      hasScrolledRef.current = true
+      return true
+    }
+
+    // A client-side navigation lands on the first try, before the browser
+    // paints, so the list is never seen at the wrong offset. A fresh page load
+    // needs the scroll area to be laid out first, which takes a frame or two.
+    if (align()) {
+      return
+    }
+
+    let frame = 0
+    let attempts = 0
+
+    const retry = () => {
+      if (align() || (attempts += 1) > MAX_ALIGN_FRAMES) {
+        return
+      }
+      frame = requestAnimationFrame(retry)
+    }
+
+    frame = requestAnimationFrame(retry)
+
+    return () => cancelAnimationFrame(frame)
+  }, [pathname, sort])
 
   return (
     <Sidebar variant="sidebar" collapsible={pathname === "/" || pathname === "/cards" ? "offcanvas" : "icon"}>
@@ -168,7 +238,10 @@ export function RegistrySidebar() {
       </SidebarHeader>
 
       <SidebarContent>
-        <ScrollArea className="h-full w-full pe-2 group-data-[collapsible=icon]:pe-0">
+        <ScrollArea
+          ref={scrollAreaRef}
+          className="h-full w-full pe-2 group-data-[collapsible=icon]:pe-0"
+        >
           <Collapsible defaultOpen={true}>
             <SidebarGroup>
               <CollapsibleTrigger className="group/collapsible w-full">

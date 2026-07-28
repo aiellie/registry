@@ -24,24 +24,16 @@ export default function LiquidExample() {
   const { rainbow, color } = presets[preset]
 
   return (
-    <div className="relative min-h-screen w-full overflow-hidden bg-neutral-950">
+    <div className="relative min-h-screen w-full overflow-hidden">
       <Liquid
         rainbow={rainbow}
         color={color}
         style={{ position: "absolute", inset: 0 }}
       >
-        <div className="flex h-full w-full select-none flex-col items-center justify-center gap-4 px-6 text-center">
-          <span className="rounded-full border border-white/15 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.2em] text-white/50">
-            Canvas UI
-          </span>
-          <h1 className="text-6xl font-semibold tracking-tight text-white sm:text-8xl">
-            Liquid
-          </h1>
-          <p className="max-w-md text-balance text-sm leading-relaxed text-white/50">
-            A pointer-driven fluid simulation rendered over live HTML. Move your
-            cursor across the surface to stir the flow.
-          </p>
-        </div>
+        <div
+          className="h-full w-full bg-cover bg-center"
+          style={{ backgroundImage: "url(/brand/aiellie.clouds.png)" }}
+        />
       </Liquid>
 
       {/* Preset selector — sits above the fluid canvas so it stays interactive. */}

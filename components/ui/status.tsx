@@ -71,7 +71,7 @@ function StatusIndicator({
     <span
       data-slot="status-indicator"
       className={cn(
-        "relative flex size-2 shrink-0 items-center justify-center",
+        "relative flex size-1.5 shrink-0 items-center justify-center",
         className
       )}
       {...props}
