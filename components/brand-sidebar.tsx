@@ -253,13 +253,14 @@ export function BrandSidebar({ className }: { className?: string }) {
       >
         {sidebar}
       </ResizablePanel>
+      {/* The grip only shows up once the handle is hovered, dragged or focused. */}
       <ResizableHandle
         withHandle
         className={cn(
           "[&>div]:opacity-0 [&>div]:transition-opacity",
-          "data-[separator=hover]:[&>div]:opacity-100",
-          "data-[separator=active]:[&>div]:opacity-100",
-          "data-[separator=focus]:[&>div]:opacity-100"
+          "hover:[&>div]:opacity-100",
+          "active:[&>div]:opacity-100",
+          "focus-visible:[&>div]:opacity-100"
         )}
       />
     </>

@@ -3,7 +3,7 @@ These are just my notes for remembering certain commands etc
 Create Push:
 
 git add .
-git commit -m "sidebaricons"
+git commit -m "claudemd"
 git push origin main
 
 git push origin main --force

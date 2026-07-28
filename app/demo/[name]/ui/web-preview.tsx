@@ -111,11 +111,6 @@ export default function WebPreviewExample() {
   return (
     <ExampleWrapper>
       <DefaultExample />
-      <MinimalExample />
-      <NavigationExample />
-      <ConsoleExample />
-      <LoadingExample />
-      <ControlledUrlExample />
     </ExampleWrapper>
   )
 }
