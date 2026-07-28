@@ -72,7 +72,7 @@ export function TeamSwitcher({
           <DropdownMenuTrigger
             render={<SidebarMenuButton className="w-full px-1.5 group-data-[collapsible=icon]:p-1!" />}
           >
-            <div className="flex aspect-square size-6 items-center justify-center rounded-md bg-sidebar-accent text-sidebar-primary">
+            <div className="flex aspect-square size-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
               <HugeiconsIcon icon={activeTeam.logo} className="size-3" />
             </div>
             <span className="truncate text-sm">{activeTeam.name}</span>

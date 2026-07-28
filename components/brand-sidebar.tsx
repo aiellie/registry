@@ -144,7 +144,6 @@ export function BrandSidebar({ className }: { className?: string }) {
               isCollapsed ? "flex-col items-center" : "items-center"
             )}
           >
-            <SearchCommand variant="sidebar" />
           </div>
         </div>
       </SidebarHeader>
