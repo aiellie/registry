@@ -122,60 +122,14 @@ export function LogoIcon({
   const specBw = `${id}-spec-bw`;
 
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 100 100"
-      className={cn("size-8 shrink-0", className)}
-      {...props}
-    >
-      <defs>
-        <radialGradient id={orb} cx="36%" cy="30%" r="74%">
-          <stop offset="0%" stopColor="#ffffff" />
-          <stop offset="20%" stopColor="#fce7f3" />
-          <stop offset="46%" stopColor="#e9d5ff" />
-          <stop offset="73%" stopColor="#c4b5fd" />
-          <stop offset="100%" stopColor="#a5b4fc" />
-        </radialGradient>
-        <radialGradient id={shade} cx="30%" cy="80%" r="58%">
-          <stop offset="58%" stopColor="#8b7ff0" stopOpacity={0} />
-          <stop offset="100%" stopColor="#7d6fe8" stopOpacity={0.42} />
-        </radialGradient>
-        <radialGradient id={spec} cx="68%" cy="22%" r="26%">
-          <stop offset="0%" stopColor="#ffffff" stopOpacity={0.95} />
-          <stop offset="100%" stopColor="#ffffff" stopOpacity={0} />
-        </radialGradient>
-        <radialGradient id={orbBw} cx="36%" cy="30%" r="74%">
-          <stop offset="0%" stopColor="#ffffff" />
-          <stop offset="34%" stopColor="#e4e4e7" />
-          <stop offset="70%" stopColor="#a1a1aa" />
-          <stop offset="100%" stopColor="#52525b" />
-        </radialGradient>
-        <radialGradient id={shadeBw} cx="30%" cy="82%" r="58%">
-          <stop offset="54%" stopColor="#18181b" stopOpacity={0} />
-          <stop offset="100%" stopColor="#18181b" stopOpacity={0.45} />
-        </radialGradient>
-        <radialGradient id={specBw} cx="68%" cy="22%" r="26%">
-          <stop offset="0%" stopColor="#ffffff" stopOpacity={0.95} />
-          <stop offset="100%" stopColor="#ffffff" stopOpacity={0} />
-        </radialGradient>
-      </defs>
-
-      <g className="group-hover:hidden dark:hidden">
-        <ElephantMark orb={orb} shade={shade} spec={spec} />
-      </g>
-
-      <g className="hidden group-hover:block dark:group-hover:hidden">
-        <ElephantMark orb={orb} shade={shade} spec={spec} wink />
-      </g>
-
-      <g className="hidden dark:block dark:group-hover:hidden">
-        <ElephantMark orb={orbBw} shade={shadeBw} spec={specBw} />
-      </g>
-
-      <g className="hidden dark:group-hover:block">
-        <ElephantMark orb={orbBw} shade={shadeBw} spec={specBw} wink />
-      </g>
-    </svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="#141B34" fill="none">
+    <path d="M7.3 6.9C4.6 5.6 2.2 7.3 2.2 10C2.2 12.7 4.4 14.4 7 13.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M16.7 6.9C19.4 5.6 21.8 7.3 21.8 10C21.8 12.7 19.6 14.4 17 13.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M6.5 10C6.5 6.8 8.9 4.4 12 4.4C15.1 4.4 17.5 6.8 17.5 10C17.5 11.9 16.8 13.5 15.5 14.6C15 15.05 14.35 15.35 13.6 15.45L13.6 18.3C13.6 19.35 12.9 20.05 12 20.05C11.1 20.05 10.4 19.35 10.4 18.3L10.4 15.45C9.65 15.35 9 15.05 8.5 14.6C7.2 13.5 6.5 11.9 6.5 10Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M9.8 9.4L9.81 9.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M14.2 9.4L14.21 9.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+  </svg>
+  
   );
 }
 
