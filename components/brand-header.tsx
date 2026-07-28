@@ -10,7 +10,7 @@ import {
   SidebarBottomIcon,
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
-
+import { BrandNavMenubar } from "@/components/brand-nav-menubar"
 import { useBrandPanels } from "@/components/brand-panels"
 import { LogoIcon } from "@/components/logo"
 import { Button } from "@/components/ui/button"
@@ -20,6 +20,8 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import { SearchCommand } from "@/components/search-command"
+
 
 export function BrandHeader() {
   const { state, toggleSidebar } = useSidebar()
@@ -28,13 +30,20 @@ export function BrandHeader() {
 
   return (
     <header className="fixed z-50 w-full border-b border-border bg-background">
-      <div className="flex h-10 items-center justify-between gap-2 px-2 sm:px-4">
-        <div className="flex min-w-0 items-center gap-2 sm:gap-4">
+      <div className="flex h-10 items-center gap-2 px-2 sm:px-4">
+        <div className="flex min-w-0 flex-1 items-center gap-2 sm:gap-4">
           <Link href="/" className="group flex min-w-0 items-center gap-2">
             <LogoIcon className="size-6 shrink-0" strokeWidth={1.5} fill="none" />
           </Link>
+          <span className="hidden h-3 w-px bg-border lg:block" />
+          <div className="hidden lg:block">
+            <BrandNavMenubar />
+          </div>
         </div>
-        <div className="flex shrink-0 items-center gap-1">
+        <div className="flex items-center">
+          <SearchCommand variant="header" />
+        </div>
+        <div className="flex flex-1 shrink-0 items-center justify-end gap-1">
           <span className="mx-1 h-3 w-px bg-border" />
           <Tooltip>
             <TooltipTrigger

@@ -136,6 +136,29 @@ export function SearchCommand({
     [router, setOpenMobile]
   )
 
+  const searchButton = (
+    <Button
+      variant="outline"
+      size="sm"
+      onClick={() => setOpen(true)}
+      className={cn(
+        "justify-start gap-2 rounded-xl bg-background font-normal text-muted-foreground shadow-none",
+        variant === "sidebar" ? "w-full" : "hidden min-w-56 md:inline-flex"
+      )}
+    >
+      <HugeiconsIcon
+        icon={Search01Icon}
+        strokeWidth={2}
+        className="size-3.5"
+      />
+      <span>Search...</span>
+      <KbdGroup className="ms-auto">
+        <Kbd className="size-4 text-xs">⌘</Kbd>
+        <Kbd className="size-4 text-xs">K</Kbd>
+      </KbdGroup>
+    </Button>
+  )
+
   const trigger =
     variant === "icon" ? (
       <Tooltip>
@@ -160,19 +183,7 @@ export function SearchCommand({
       </Tooltip>
     ) : variant === "header" ? (
       <>
-        <Button
-          variant="outline"
-          size="default"
-          className="hidden text-foreground md:inline-flex"
-          onClick={() => setOpen(true)}
-        >
-          <HugeiconsIcon icon={Search01Icon} strokeWidth={2} className="size-4" />
-          <span>Search</span>
-          <KbdGroup className="ms-2">
-            <Kbd>⌘</Kbd>
-            <Kbd>K</Kbd>
-          </KbdGroup>
-        </Button>
+        {searchButton}
         <Button
           variant="ghost"
           size="xs"
@@ -180,7 +191,11 @@ export function SearchCommand({
           aria-label="Search"
           onClick={() => setOpen(true)}
         >
-          <HugeiconsIcon icon={Search01Icon} strokeWidth={2} className="size-5" />
+          <HugeiconsIcon
+            icon={Search01Icon}
+            strokeWidth={2}
+            className="size-5"
+          />
         </Button>
       </>
     ) : collapsed ? (
@@ -202,18 +217,7 @@ export function SearchCommand({
         </TooltipContent>
       </Tooltip>
     ) : (
-      <Button
-        variant="outline"
-        onClick={() => setOpen(true)}
-        className="w-full justify-start gap-2 bg-background font-normal text-muted-foreground shadow-none"
-      >
-        <HugeiconsIcon icon={Search01Icon} strokeWidth={2} className="size-4" />
-        <span>Search...</span>
-        <KbdGroup className="ms-auto">
-          <Kbd>⌘</Kbd>
-          <Kbd>K</Kbd>
-        </KbdGroup>
-      </Button>
+      searchButton
     )
 
   return (

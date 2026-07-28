@@ -1,5 +1,7 @@
 "use client"
 
+import * as React from "react"
+
 import {
   AlertCircleIcon,
   Cancel01Icon,
@@ -10,7 +12,11 @@ import {
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react"
 
-import { useBrandPanels } from "@/components/brand-panels"
+import {
+  readPanelStorage,
+  useBrandPanels,
+  writePanelStorage,
+} from "@/components/brand-panels"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { ResizableHandle, ResizablePanel } from "@/components/ui/resizable"
@@ -27,6 +33,11 @@ const BOTTOM_PANEL_ID = "sidebar-bottom"
 const BOTTOM_PANEL_DEFAULT_SIZE = "16rem"
 const BOTTOM_PANEL_MIN_SIZE = "8rem"
 const BOTTOM_PANEL_MAX_SIZE = "70%"
+
+const BOTTOM_TAB_KEY = "brand-panels:bottom-tab"
+const BOTTOM_SIZE_KEY = "brand-panels:bottom-size"
+
+const BOTTOM_TABS = ["console", "problems", "network"] as const
 
 type LogLevel = "info" | "success" | "warn" | "error"
 
@@ -143,6 +154,18 @@ function LogList({ lines }: { lines: LogLine[] }) {
 export function BrandSidebarBottom({ className }: { className?: string }) {
   const { bottomOpen, setBottomOpen } = useBrandPanels()
 
+  // The panel only renders after the client restored the open state, so the
+  // lazy reads never disagree with server HTML.
+  const [tab, setTab] = React.useState<string>(() => {
+    const stored = readPanelStorage<string>(BOTTOM_TAB_KEY)
+    return stored && (BOTTOM_TABS as readonly string[]).includes(stored)
+      ? stored
+      : "console"
+  })
+  const [initialSize] = React.useState(() =>
+    readPanelStorage<number>(BOTTOM_SIZE_KEY)
+  )
+
   if (!bottomOpen) {
     return null
   }
@@ -161,14 +184,27 @@ export function BrandSidebarBottom({ className }: { className?: string }) {
       />
       <ResizablePanel
         id={BOTTOM_PANEL_ID}
-        defaultSize={BOTTOM_PANEL_DEFAULT_SIZE}
+        defaultSize={
+          typeof initialSize === "number" && initialSize > 0
+            ? initialSize
+            : BOTTOM_PANEL_DEFAULT_SIZE
+        }
         minSize={BOTTOM_PANEL_MIN_SIZE}
         maxSize={BOTTOM_PANEL_MAX_SIZE}
         groupResizeBehavior="preserve-pixel-size"
+        onResize={(size, _id, previous) => {
+          // Only user- or layout-driven changes, not the mount measurement.
+          if (previous) writePanelStorage(BOTTOM_SIZE_KEY, size.inPixels)
+        }}
         style={{ overflow: "hidden" }}
       >
         <Tabs
-          defaultValue="console"
+          value={tab}
+          onValueChange={(value) => {
+            const next = String(value)
+            setTab(next)
+            writePanelStorage(BOTTOM_TAB_KEY, next)
+          }}
           data-slot="brand-sidebar-bottom"
           className={cn(
             "h-full w-full gap-0 border-border bg-sidebar text-sidebar-foreground",

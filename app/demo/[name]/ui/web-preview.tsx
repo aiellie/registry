@@ -348,7 +348,7 @@ function BrowserExample() {
               tooltip="Go back"
             >
               <HugeiconsIcon
-                className="size-4 rtl:rotate-180"
+                className="rtl:rotate-180"
                 icon={ArrowLeft01Icon}
                 strokeWidth={2}
               />
@@ -359,7 +359,7 @@ function BrowserExample() {
               tooltip="Go forward"
             >
               <HugeiconsIcon
-                className="size-4 rtl:rotate-180"
+                className="rtl:rotate-180"
                 icon={ArrowRight01Icon}
                 strokeWidth={2}
               />
@@ -369,7 +369,6 @@ function BrowserExample() {
               tooltip="Reload"
             >
               <HugeiconsIcon
-                className="size-4"
                 icon={RefreshIcon}
                 strokeWidth={2}
               />
