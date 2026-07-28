@@ -1,22 +1,28 @@
 "use client"
 
+import * as React from "react"
+
 import {
+  ArrowLeft01Icon,
+  ArrowRight01Icon,
   Cancel01Icon,
-  Comment01Icon,
-  GitCommitIcon,
-  GitPullRequestIcon,
-  RocketIcon,
+  Globe02Icon,
+  RefreshIcon,
   SidebarRightIcon,
 } from "@hugeicons/core-free-icons"
-import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react"
+import { HugeiconsIcon } from "@hugeicons/react"
 
+import {
+  WebPreview,
+  WebPreviewBody,
+  WebPreviewMenu,
+  WebPreviewNavigation,
+  WebPreviewNavigationButton,
+  WebPreviewUrl,
+} from "@/components/ai-elements/web-preview"
 import { useBrandPanels } from "@/components/brand-panels"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { ResizableHandle, ResizablePanel } from "@/components/ui/resizable"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Separator } from "@/components/ui/separator"
 import {
   Sheet,
   SheetContent,
@@ -37,65 +43,50 @@ const RIGHT_PANEL_DEFAULT_SIZE = "20rem"
 const RIGHT_PANEL_MIN_SIZE = "15rem"
 const RIGHT_PANEL_MAX_SIZE = "30rem"
 
-interface ActivityEntry {
-  id: string
-  author: string
-  initials: string
-  icon: IconSvgElement
-  action: string
-  target: string
-  time: string
+/** Lets people type `example.com` and still get somewhere. */
+function normalizeUrl(input: string) {
+  const trimmed = input.trim()
+  if (!trimmed) return ""
+  return /^[a-z][a-z0-9+.-]*:/i.test(trimmed) ? trimmed : `https://${trimmed}`
 }
 
-const activity: ActivityEntry[] = [
-  {
-    id: "deploy",
-    author: "aiellie",
-    initials: "AE",
-    icon: RocketIcon,
-    action: "deployed",
-    target: "production",
-    time: "2m ago",
-  },
-  {
-    id: "review",
-    author: "Noor",
-    initials: "NO",
-    icon: GitPullRequestIcon,
-    action: "approved",
-    target: "#428 · Sidebar panels",
-    time: "18m ago",
-  },
-  {
-    id: "commit",
-    author: "Rania",
-    initials: "RA",
-    icon: GitCommitIcon,
-    action: "pushed 3 commits to",
-    target: "main",
-    time: "1h ago",
-  },
-  {
-    id: "comment",
-    author: "Yusuf",
-    initials: "YU",
-    icon: Comment01Icon,
-    action: "commented on",
-    target: "Tokens: spacing scale",
-    time: "3h ago",
-  },
-]
-
-const details: { label: string; value: string }[] = [
-  { label: "Owner", value: "aiellie" },
-  { label: "Environment", value: "Production" },
-  { label: "Region", value: "iad1" },
-  { label: "Updated", value: "Today, 14:02" },
-]
+// Served through the proxy so sites that refuse to be framed still load.
+const proxyUrl = (url: string) =>
+  `/api/web-preview?url=${encodeURIComponent(url)}`
 
 export function BrandSidebarRight({ className }: { className?: string }) {
   const { rightOpen, setRightOpen } = useBrandPanels()
   const { isMobile } = useSidebar()
+
+  const [history, setHistory] = React.useState<{
+    entries: string[]
+    index: number
+  }>({ entries: [], index: -1 })
+  const [reloadKey, setReloadKey] = React.useState(0)
+
+  const url = history.index >= 0 ? history.entries[history.index] : ""
+  const canGoBack = history.index > 0
+  const canGoForward = history.index < history.entries.length - 1
+
+  const navigate = React.useCallback((next: string) => {
+    const target = normalizeUrl(next)
+    if (!target) return
+    setHistory((current) => {
+      if (current.entries[current.index] === target) return current
+      const entries = [...current.entries.slice(0, current.index + 1), target]
+      return { entries, index: entries.length - 1 }
+    })
+  }, [])
+
+  const go = React.useCallback((delta: number) => {
+    setHistory((current) => {
+      const index = Math.min(
+        current.entries.length - 1,
+        Math.max(0, current.index + delta)
+      )
+      return index === current.index ? current : { ...current, index }
+    })
+  }, [])
 
   const panel = (
     <div
@@ -111,7 +102,7 @@ export function BrandSidebarRight({ className }: { className?: string }) {
           strokeWidth={2}
           className="size-4 text-muted-foreground"
         />
-        <span className="flex-1 truncate text-sm font-medium">Activity</span>
+        <span className="flex-1 truncate text-sm font-medium">Preview</span>
         <Tooltip>
           <TooltipTrigger
             render={
@@ -125,7 +116,7 @@ export function BrandSidebarRight({ className }: { className?: string }) {
                   strokeWidth={2}
                   className="text-muted-foreground"
                 />
-                <span className="sr-only">Close activity panel</span>
+                <span className="sr-only">Close preview panel</span>
               </Button>
             }
           />
@@ -133,58 +124,70 @@ export function BrandSidebarRight({ className }: { className?: string }) {
         </Tooltip>
       </div>
 
-      <ScrollArea className="min-h-0 flex-1">
-        <div className="flex flex-col gap-1 p-2">
-          <p className="px-2 py-1 text-xs font-medium text-muted-foreground">
-            Today
-          </p>
-          {activity.map((entry) => (
-            <div
-              key={entry.id}
-              className="flex items-start gap-2 rounded-md p-2 transition-colors hover:bg-sidebar-accent"
-            >
-              <Avatar className="size-6 shrink-0">
-                <AvatarFallback className="text-[0.625rem]">
-                  {entry.initials}
-                </AvatarFallback>
-              </Avatar>
-              <div className="min-w-0 flex-1">
-                <p className="text-sm leading-snug">
-                  <span className="font-medium">{entry.author}</span>{" "}
-                  <span className="text-muted-foreground">{entry.action}</span>{" "}
-                  <span className="font-medium">{entry.target}</span>
-                </p>
-                <p className="mt-0.5 flex items-center gap-1 text-xs text-muted-foreground">
-                  <HugeiconsIcon
-                    icon={entry.icon}
-                    strokeWidth={2}
-                    className="size-3"
-                  />
-                  {entry.time}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
+      <WebPreview
+        className="min-h-0 flex-1 rounded-none border-0 bg-transparent"
+        url={url}
+        onUrlChange={navigate}
+        onReload={() => setReloadKey((current) => current + 1)}
+      >
+        <WebPreviewNavigation>
+          <WebPreviewNavigationButton
+            disabled={!canGoBack}
+            onClick={() => go(-1)}
+            tooltip="Go back"
+          >
+            <HugeiconsIcon
+              className="size-4 rtl:rotate-180"
+              icon={ArrowLeft01Icon}
+              strokeWidth={2}
+            />
+          </WebPreviewNavigationButton>
+          <WebPreviewNavigationButton
+            disabled={!canGoForward}
+            onClick={() => go(1)}
+            tooltip="Go forward"
+          >
+            <HugeiconsIcon
+              className="size-4 rtl:rotate-180"
+              icon={ArrowRight01Icon}
+              strokeWidth={2}
+            />
+          </WebPreviewNavigationButton>
+          <WebPreviewNavigationButton
+            disabled={!url}
+            onClick={() => setReloadKey((current) => current + 1)}
+            tooltip="Reload"
+          >
+            <HugeiconsIcon
+              className="size-4"
+              icon={RefreshIcon}
+              strokeWidth={2}
+            />
+          </WebPreviewNavigationButton>
+          <WebPreviewUrl />
+          <WebPreviewMenu />
+        </WebPreviewNavigation>
 
-        <Separator className="bg-sidebar-border" />
-
-        <div className="flex flex-col gap-1 p-2">
-          <p className="flex items-center justify-between px-2 py-1 text-xs font-medium text-muted-foreground">
-            Details
-            <Badge variant="secondary">Live</Badge>
-          </p>
-          {details.map((detail) => (
-            <div
-              key={detail.label}
-              className="flex items-center justify-between gap-2 px-2 py-1.5 text-sm"
-            >
-              <span className="text-muted-foreground">{detail.label}</span>
-              <span className="truncate font-medium">{detail.value}</span>
-            </div>
-          ))}
-        </div>
-      </ScrollArea>
+        {url ? (
+          <WebPreviewBody
+            key={`${url}-${reloadKey}`}
+            className="bg-background"
+            src={proxyUrl(url)}
+          />
+        ) : (
+          <div className="flex flex-1 flex-col items-center justify-center gap-1 p-6 text-center">
+            <HugeiconsIcon
+              icon={Globe02Icon}
+              strokeWidth={2}
+              className="mb-2 size-8 text-muted-foreground"
+            />
+            <p className="text-sm font-medium">Start browsing</p>
+            <p className="text-sm text-muted-foreground">
+              Enter a URL to open a page
+            </p>
+          </div>
+        )}
+      </WebPreview>
     </div>
   )
 
@@ -199,9 +202,9 @@ export function BrandSidebarRight({ className }: { className?: string }) {
           className="gap-0 p-0"
         >
           <SheetHeader className="sr-only">
-            <SheetTitle>Activity</SheetTitle>
+            <SheetTitle>Preview</SheetTitle>
             <SheetDescription>
-              Recent activity and deployment details.
+              Browse the web in a side panel.
             </SheetDescription>
           </SheetHeader>
           {panel}

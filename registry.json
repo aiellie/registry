@@ -134,6 +134,11 @@
           "target": "lib/glass.ts"
         },
         {
+          "path": "lib/models.ts",
+          "type": "registry:lib",
+          "target": "lib/models.ts"
+        },
+        {
           "path": "hooks/use-meta-color.ts",
           "type": "registry:hook",
           "target": "hooks/use-meta-color.ts"
