@@ -17,6 +17,13 @@ import { Button } from "@/components/ui/button"
 import { ResizableHandle, ResizablePanel } from "@/components/ui/resizable"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Separator } from "@/components/ui/separator"
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet"
 import { useSidebar } from "@/components/ui/sidebar"
 import {
   Tooltip,
@@ -90,9 +97,120 @@ export function BrandSidebarRight({ className }: { className?: string }) {
   const { rightOpen, setRightOpen } = useBrandPanels()
   const { isMobile } = useSidebar()
 
-  // The panel takes width from the content panel, which leaves nothing behind
-  // on a phone — the header toggle is desktop-only for the same reason.
-  if (!rightOpen || isMobile) {
+  const panel = (
+    <div
+      data-slot="brand-sidebar-right"
+      className={cn(
+        "flex h-full w-full flex-col bg-sidebar text-sidebar-foreground",
+        className
+      )}
+    >
+      <div className="flex h-10 shrink-0 items-center gap-2 border-b border-sidebar-border px-2">
+        <HugeiconsIcon
+          icon={SidebarRightIcon}
+          strokeWidth={2}
+          className="size-4 text-muted-foreground"
+        />
+        <span className="flex-1 truncate text-sm font-medium">Activity</span>
+        <Tooltip>
+          <TooltipTrigger
+            render={
+              <Button
+                variant="ghost"
+                size="icon-xs"
+                onClick={() => setRightOpen(false)}
+              >
+                <HugeiconsIcon
+                  icon={Cancel01Icon}
+                  strokeWidth={2}
+                  className="text-muted-foreground"
+                />
+                <span className="sr-only">Close activity panel</span>
+              </Button>
+            }
+          />
+          <TooltipContent side="bottom">Close panel</TooltipContent>
+        </Tooltip>
+      </div>
+
+      <ScrollArea className="min-h-0 flex-1">
+        <div className="flex flex-col gap-1 p-2">
+          <p className="px-2 py-1 text-xs font-medium text-muted-foreground">
+            Today
+          </p>
+          {activity.map((entry) => (
+            <div
+              key={entry.id}
+              className="flex items-start gap-2 rounded-md p-2 transition-colors hover:bg-sidebar-accent"
+            >
+              <Avatar className="size-6 shrink-0">
+                <AvatarFallback className="text-[0.625rem]">
+                  {entry.initials}
+                </AvatarFallback>
+              </Avatar>
+              <div className="min-w-0 flex-1">
+                <p className="text-sm leading-snug">
+                  <span className="font-medium">{entry.author}</span>{" "}
+                  <span className="text-muted-foreground">{entry.action}</span>{" "}
+                  <span className="font-medium">{entry.target}</span>
+                </p>
+                <p className="mt-0.5 flex items-center gap-1 text-xs text-muted-foreground">
+                  <HugeiconsIcon
+                    icon={entry.icon}
+                    strokeWidth={2}
+                    className="size-3"
+                  />
+                  {entry.time}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <Separator className="bg-sidebar-border" />
+
+        <div className="flex flex-col gap-1 p-2">
+          <p className="flex items-center justify-between px-2 py-1 text-xs font-medium text-muted-foreground">
+            Details
+            <Badge variant="secondary">Live</Badge>
+          </p>
+          {details.map((detail) => (
+            <div
+              key={detail.label}
+              className="flex items-center justify-between gap-2 px-2 py-1.5 text-sm"
+            >
+              <span className="text-muted-foreground">{detail.label}</span>
+              <span className="truncate font-medium">{detail.value}</span>
+            </div>
+          ))}
+        </div>
+      </ScrollArea>
+    </div>
+  )
+
+  // A phone has no width to give away, so the panel slides over the content as
+  // a sheet instead of taking a column from it.
+  if (isMobile) {
+    return (
+      <Sheet open={rightOpen} onOpenChange={setRightOpen}>
+        <SheetContent
+          side="right"
+          showCloseButton={false}
+          className="gap-0 p-0"
+        >
+          <SheetHeader className="sr-only">
+            <SheetTitle>Activity</SheetTitle>
+            <SheetDescription>
+              Recent activity and deployment details.
+            </SheetDescription>
+          </SheetHeader>
+          {panel}
+        </SheetContent>
+      </Sheet>
+    )
+  }
+
+  if (!rightOpen) {
     return null
   }
 
@@ -116,98 +234,7 @@ export function BrandSidebarRight({ className }: { className?: string }) {
         groupResizeBehavior="preserve-pixel-size"
         style={{ overflow: "hidden" }}
       >
-        <div
-          data-slot="brand-sidebar-right"
-          className={cn(
-            "flex h-full w-full flex-col bg-sidebar text-sidebar-foreground",
-            className
-          )}
-        >
-          <div className="flex h-10 shrink-0 items-center gap-2 border-b border-sidebar-border px-2">
-            <HugeiconsIcon
-              icon={SidebarRightIcon}
-              strokeWidth={2}
-              className="size-4 text-muted-foreground"
-            />
-            <span className="flex-1 truncate text-sm font-medium">
-              Activity
-            </span>
-            <Tooltip>
-              <TooltipTrigger
-                render={
-                  <Button
-                    variant="ghost"
-                    size="icon-xs"
-                    onClick={() => setRightOpen(false)}
-                  >
-                    <HugeiconsIcon
-                      icon={Cancel01Icon}
-                      strokeWidth={2}
-                      className="text-muted-foreground"
-                    />
-                    <span className="sr-only">Close activity panel</span>
-                  </Button>
-                }
-              />
-              <TooltipContent side="bottom">Close panel</TooltipContent>
-            </Tooltip>
-          </div>
-
-          <ScrollArea className="min-h-0 flex-1">
-            <div className="flex flex-col gap-1 p-2">
-              <p className="px-2 py-1 text-xs font-medium text-muted-foreground">
-                Today
-              </p>
-              {activity.map((entry) => (
-                <div
-                  key={entry.id}
-                  className="flex items-start gap-2 rounded-md p-2 transition-colors hover:bg-sidebar-accent"
-                >
-                  <Avatar className="size-6 shrink-0">
-                    <AvatarFallback className="text-[0.625rem]">
-                      {entry.initials}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="min-w-0 flex-1">
-                    <p className="text-sm leading-snug">
-                      <span className="font-medium">{entry.author}</span>{" "}
-                      <span className="text-muted-foreground">
-                        {entry.action}
-                      </span>{" "}
-                      <span className="font-medium">{entry.target}</span>
-                    </p>
-                    <p className="mt-0.5 flex items-center gap-1 text-xs text-muted-foreground">
-                      <HugeiconsIcon
-                        icon={entry.icon}
-                        strokeWidth={2}
-                        className="size-3"
-                      />
-                      {entry.time}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <Separator className="bg-sidebar-border" />
-
-            <div className="flex flex-col gap-1 p-2">
-              <p className="flex items-center justify-between px-2 py-1 text-xs font-medium text-muted-foreground">
-                Details
-                <Badge variant="secondary">Live</Badge>
-              </p>
-              {details.map((detail) => (
-                <div
-                  key={detail.label}
-                  className="flex items-center justify-between gap-2 px-2 py-1.5 text-sm"
-                >
-                  <span className="text-muted-foreground">{detail.label}</span>
-                  <span className="truncate font-medium">{detail.value}</span>
-                </div>
-              ))}
-            </div>
-          </ScrollArea>
-        </div>
+        {panel}
       </ResizablePanel>
     </>
   )

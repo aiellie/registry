@@ -20,8 +20,8 @@ export default function ShellLayout({
       style={
         {
           "--sidebar-width": "calc(var(--spacing) * 72)",
-          "--header-height": "calc(var(--spacing) * 12)",
-          "--footer-height": "calc(var(--spacing) * 10)",
+          "--header-height": "calc(var(--spacing) * 10)",
+          "--footer-height": "calc(var(--spacing) * 8)",
         } as CSSProperties
       }
     >

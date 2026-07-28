@@ -175,17 +175,25 @@ export function BrandSidebarBottom({ className }: { className?: string }) {
             className
           )}
         >
-          <div className="flex h-10 shrink-0 items-center gap-2 border-b border-sidebar-border px-2">
-            <TabsList variant="line" className="h-8">
-              <TabsTrigger value="console">Console</TabsTrigger>
-              <TabsTrigger value="problems">
+          <div className="flex h-10 shrink-0 items-center gap-1 border-b border-sidebar-border px-1 sm:gap-2 sm:px-2">
+            {/* The tab strip scrolls rather than squeezing the actions out. */}
+            <TabsList
+              variant="line"
+              className="h-8 min-w-0 [scrollbar-width:none] justify-start overflow-x-auto [&::-webkit-scrollbar]:hidden"
+            >
+              <TabsTrigger value="console" className="flex-none">
+                Console
+              </TabsTrigger>
+              <TabsTrigger value="problems" className="flex-none">
                 Problems
                 <Badge variant="secondary">{problemLines.length}</Badge>
               </TabsTrigger>
-              <TabsTrigger value="network">Network</TabsTrigger>
+              <TabsTrigger value="network" className="flex-none">
+                Network
+              </TabsTrigger>
             </TabsList>
 
-            <div className="ms-auto flex items-center gap-1">
+            <div className="ms-auto flex shrink-0 items-center gap-1">
               <Tooltip>
                 <TooltipTrigger
                   render={

@@ -11,7 +11,8 @@ function formatNYTime(date: Date) {
     hour12: false,
   }).formatToParts(date)
 
-  const get = (type: string) => parts.find((p) => p.type === type)?.value ?? "00"
+  const get = (type: string) =>
+    parts.find((p) => p.type === type)?.value ?? "00"
 
   return `${get("hour")}:${get("minute")}:${get("second")}`
 }
@@ -25,9 +26,13 @@ export function NyClock() {
   }, [])
 
   return (
-    <div className="flex items-center gap-2 text-xs text-muted-foreground">
-      <span>New York</span>
-      <span className="font-mono tabular-nums tracking-tight text-foreground" suppressHydrationWarning>
+    <div className="flex shrink-0 items-center gap-1.5 text-xs whitespace-nowrap text-muted-foreground sm:gap-2">
+      <span className="sm:hidden">NY</span>
+      <span className="hidden sm:inline">New York</span>
+      <span
+        className="font-mono tracking-tight text-foreground tabular-nums"
+        suppressHydrationWarning
+      >
         {time}
       </span>
     </div>

@@ -39,7 +39,7 @@ export function ModeToggle({
         render={
           <Button
             variant={variant}
-            size="icon"
+            size="icon-xs"
             className={cn("group/toggle extend-touch-target size-8", className)}
             onClick={toggleTheme}
           >

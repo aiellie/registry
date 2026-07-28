@@ -18,8 +18,15 @@ export function Copyright({
       : `${year}`
 
   return (
-    <p className={cn("text-xs text-muted-foreground font-mono", className)}>
-      © {range} {holder} All rights reserved.
+    <p
+      className={cn(
+        "font-mono text-xs whitespace-nowrap text-muted-foreground",
+        className
+      )}
+    >
+      © {range} {holder}
+      {/* The tail is the first thing to go when the bar gets narrow. */}
+      <span className="hidden sm:inline"> All rights reserved.</span>
     </p>
   )
 }

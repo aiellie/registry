@@ -44,7 +44,7 @@ export function LoadStatus() {
       variant={variant}
       pulse={status === null || ok}
       aria-label="Load status"
-      className="font-mono text-xs font-normal"
+      className="shrink-0 font-mono text-xs font-normal"
     >
       <StatusIndicator />
       <StatusLabel className="tracking-tight tabular-nums">

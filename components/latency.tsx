@@ -37,11 +37,18 @@ export function Latency() {
   }, [])
 
   return (
-    <div className="flex items-center gap-2 text-xs text-muted-foreground" aria-label="Latency">
-      <svg viewBox="0 0 8 8" className="size-2 shrink-0 fill-current" aria-hidden="true">
+    <div
+      className="flex shrink-0 items-center gap-1.5 text-xs whitespace-nowrap text-muted-foreground sm:gap-2"
+      aria-label="Latency"
+    >
+      <svg
+        viewBox="0 0 8 8"
+        className="size-2 shrink-0 fill-current"
+        aria-hidden="true"
+      >
         <polygon points="4,0 8,8 0,8" />
       </svg>
-      <span className="font-mono tabular-nums tracking-tight text-foreground">
+      <span className="font-mono tracking-tight text-foreground tabular-nums">
         {latency === null ? "—" : `${latency}ms`}
       </span>
     </div>
