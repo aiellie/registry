@@ -1,5 +1,6 @@
 "use client"
 
+import * as React from "react"
 import { ArrowDown01Icon, FlashIcon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
@@ -12,17 +13,23 @@ import {
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { Label } from "@/components/ui/label"
+import { Switch } from "@/components/ui/switch"
+import { models } from "@/lib/models"
 import { cn } from "@/lib/utils"
 
-export const PROMPT_MODELS = [
-  { value: "opus-4-8", label: "Opus 4.8", description: "Most capable" },
-  { value: "sonnet-5", label: "Sonnet 5", description: "Balanced" },
-  { value: "haiku-4-5", label: "Haiku 4.5", description: "Fastest" },
-]
+const CHEFS = [...new Set(models.map((model) => model.chef))]
 
-export const REASONING_LEVELS = [
+function modelsByChef(chef: string) {
+  return models.filter((model) => model.chef === chef)
+}
+
+export const EFFORT_LEVELS = [
   { value: "light", label: "Light" },
   { value: "medium", label: "Medium" },
   { value: "high", label: "High" },
@@ -34,18 +41,23 @@ export const REASONING_LEVELS = [
 export function PromptModelMenu({
   model,
   onModelChange,
-  reasoning,
-  onReasoningChange,
+  effort,
+  onEffortChange,
+  fast,
+  onFastChange,
   className,
 }: {
   model: string
   onModelChange: (value: string) => void
-  reasoning: string
-  onReasoningChange: (value: string) => void
+  effort: string
+  onEffortChange: (value: string) => void
+  fast: boolean
+  onFastChange: (value: boolean) => void
   className?: string
 }) {
-  const activeModel = PROMPT_MODELS.find((item) => item.value === model)
-  const activeReasoning = REASONING_LEVELS.find((item) => item.value === reasoning)
+  const fastId = React.useId()
+  const activeModel = models.find((item) => item.id === model)
+  const activeEffort = EFFORT_LEVELS.find((item) => item.value === effort)
 
   return (
     <DropdownMenu>
@@ -59,8 +71,8 @@ export function PromptModelMenu({
         }
       >
         <HugeiconsIcon icon={FlashIcon} strokeWidth={1.5} />
-        {activeModel?.label}
-        <span className="text-muted-foreground">{activeReasoning?.label}</span>
+        {activeModel?.name}
+        <span className="text-muted-foreground">{activeEffort?.label}</span>
         <HugeiconsIcon
           icon={ArrowDown01Icon}
           strokeWidth={1.5}
@@ -69,34 +81,64 @@ export function PromptModelMenu({
       </DropdownMenuTrigger>
       <DropdownMenuContent side="top" align="end" sideOffset={8} className="w-56">
         <DropdownMenuGroup>
-          <DropdownMenuLabel>Model</DropdownMenuLabel>
-          <DropdownMenuRadioGroup
-            value={model}
-            onValueChange={(next) => onModelChange(next as string)}
-          >
-            {PROMPT_MODELS.map((item) => (
-              <DropdownMenuRadioItem key={item.value} value={item.value}>
-                {item.label}
-                <span className="text-xs text-muted-foreground">
-                  {item.description}
-                </span>
-              </DropdownMenuRadioItem>
-            ))}
-          </DropdownMenuRadioGroup>
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger>
+              <span className="grow">Model</span>
+              <span className="text-muted-foreground">{activeModel?.name}</span>
+            </DropdownMenuSubTrigger>
+            <DropdownMenuSubContent className="max-h-80 w-64 overflow-y-auto">
+              <DropdownMenuRadioGroup
+                value={model}
+                onValueChange={(next) => onModelChange(next as string)}
+              >
+                {CHEFS.map((chef) => (
+                  <DropdownMenuGroup key={chef}>
+                    <DropdownMenuLabel>{chef}</DropdownMenuLabel>
+                    {modelsByChef(chef).map((item) => (
+                      <DropdownMenuRadioItem key={item.id} value={item.id}>
+                        {item.name}
+                      </DropdownMenuRadioItem>
+                    ))}
+                  </DropdownMenuGroup>
+                ))}
+              </DropdownMenuRadioGroup>
+            </DropdownMenuSubContent>
+          </DropdownMenuSub>
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger>
+              <span className="grow">Effort</span>
+              <span className="text-muted-foreground">
+                {activeEffort?.label}
+              </span>
+            </DropdownMenuSubTrigger>
+            <DropdownMenuSubContent>
+              <DropdownMenuRadioGroup
+                value={effort}
+                onValueChange={(next) => onEffortChange(next as string)}
+              >
+                {EFFORT_LEVELS.map((item) => (
+                  <DropdownMenuRadioItem key={item.value} value={item.value}>
+                    {item.label}
+                  </DropdownMenuRadioItem>
+                ))}
+              </DropdownMenuRadioGroup>
+            </DropdownMenuSubContent>
+          </DropdownMenuSub>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuLabel>Reasoning</DropdownMenuLabel>
-          <DropdownMenuRadioGroup
-            value={reasoning}
-            onValueChange={(next) => onReasoningChange(next as string)}
-          >
-            {REASONING_LEVELS.map((item) => (
-              <DropdownMenuRadioItem key={item.value} value={item.value}>
-                {item.label}
-              </DropdownMenuRadioItem>
-            ))}
-          </DropdownMenuRadioGroup>
+          <DropdownMenuLabel>Speed</DropdownMenuLabel>
+          <div className="flex items-center justify-between gap-2 rounded-md px-1.5 py-1.5">
+            <Label htmlFor={fastId} className="cursor-pointer font-normal">
+              Fast mode
+            </Label>
+            <Switch
+              id={fastId}
+              size="sm"
+              checked={fast}
+              onCheckedChange={onFastChange}
+            />
+          </div>
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>

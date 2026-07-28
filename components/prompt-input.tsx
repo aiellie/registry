@@ -41,7 +41,8 @@ export type PromptSubmitValue = {
   projectId: string | null
   approval: ApprovalMode
   model: string
-  reasoning: string
+  effort: string
+  fast: boolean
 }
 
 const DEFAULT_PROJECTS: PromptProject[] = [
@@ -73,8 +74,9 @@ export function PromptInput({
   const [projectId, setProjectId] = React.useState<string | null>(defaultProjectId)
   const [projectPickerOpen, setProjectPickerOpen] = React.useState(false)
   const [approval, setApproval] = React.useState<ApprovalMode>("ask")
-  const [model, setModel] = React.useState("opus-4-8")
-  const [reasoning, setReasoning] = React.useState("light")
+  const [model, setModel] = React.useState("claude-opus-4.8")
+  const [effort, setEffort] = React.useState("light")
+  const [fast, setFast] = React.useState(false)
 
   // Slash commands only apply to a single leading line, so `/` in the middle of
   // a prompt never triggers the menu.
@@ -101,7 +103,7 @@ export function PromptInput({
 
   const submit = () => {
     if (!canSubmit) return
-    onSubmit?.({ text: value.trim(), projectId, approval, model, reasoning })
+    onSubmit?.({ text: value.trim(), projectId, approval, model, effort, fast })
     setValue("")
     setCommandsDismissed(false)
   }
@@ -212,8 +214,10 @@ export function PromptInput({
             <PromptModelMenu
               model={model}
               onModelChange={setModel}
-              reasoning={reasoning}
-              onReasoningChange={setReasoning}
+              effort={effort}
+              onEffortChange={setEffort}
+              fast={fast}
+              onFastChange={setFast}
             />
             <Tooltip>
               <TooltipTrigger
