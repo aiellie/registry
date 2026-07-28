@@ -550,19 +550,6 @@ export function AiOrb({
         ))}
       </ButtonGroup>
 
-      {/* Call button */}
-      <button
-        onClick={handleCall}
-        disabled={state !== undefined}
-        className={`rounded px-2.5 py-1 font-sans text-[10px] transition-colors disabled:pointer-events-none disabled:opacity-40 ${
-          isListening
-            ? "bg-foreground text-background"
-            : "bg-muted text-muted-foreground hover:bg-muted/80"
-        }`}
-      >
-        {isListening ? "end call" : "call me"}
-      </button>
-
       <DemoControls
         title="Shader controls"
         isDefault={isDefault}
