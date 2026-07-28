@@ -21,7 +21,7 @@ export function BrandHeader() {
 
   return (
     <header className="fixed z-50 w-full border-b border-border bg-background">
-      <div className="flex h-12 items-center justify-between px-2">
+      <div className="flex h-12 items-center justify-between px-3">
         <div className="flex items-center gap-4">
           <Button
             variant="ghost"

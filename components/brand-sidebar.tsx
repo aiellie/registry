@@ -4,9 +4,11 @@ import * as React from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { HugeiconsIcon } from "@hugeicons/react"
+import { usePanelRef } from "react-resizable-panels"
 import { TeamSwitcher } from "@/components/team-switcher"
 
 import { Kbd } from "@/components/ui/kbd"
+import { ResizableHandle, ResizablePanel } from "@/components/ui/resizable"
 import {
   Tooltip,
   TooltipContent,
@@ -25,7 +27,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-  SidebarRail,
   SidebarFooter,
 } from "@/components/ui/sidebar"
 import { cn } from "@/lib/utils"
@@ -34,20 +35,79 @@ import { NavChats } from "@/components/nav-chats"
 import { NavUser } from "@/components/nav-user"
 import { SearchCommand } from "@/components/search-command"
 
+// Panel sizes mirror the sidebar tokens: collapsed matches --sidebar-width-icon.
+const SIDEBAR_PANEL_ID = "sidebar"
+const SIDEBAR_PANEL_DEFAULT_SIZE = "18rem"
+const SIDEBAR_PANEL_MIN_SIZE = "12rem"
+const SIDEBAR_PANEL_MAX_SIZE = "28rem"
+const SIDEBAR_PANEL_COLLAPSED_SIZE = "3rem"
+
 export function BrandSidebar({ className }: { className?: string }) {
   const pathname = usePathname()
-  const { state } = useSidebar()
+  const { state, isMobile, setOpen } = useSidebar()
   const isCollapsed = state === "collapsed"
+  const panelRef = usePanelRef()
+  const panelElementRef = React.useRef<HTMLDivElement>(null)
   const [activeTeamName, setActiveTeamName] = React.useState(teams[0].name)
   const activeTeam =
     teams.find((team) => team.name === activeTeamName) ?? teams[0]
 
-  return (
+  // Last state both sides agree on, so neither direction echoes the other back.
+  // It also keeps the panel API untouched on mount, before the group has
+  // registered its constraints.
+  const syncedRef = React.useRef(isCollapsed)
+
+  // The header trigger and ⌘B toggle the sidebar: drive the panel from them.
+  React.useEffect(() => {
+    const panel = panelRef.current
+    if (!panel || isMobile || syncedRef.current === isCollapsed) {
+      return
+    }
+
+    syncedRef.current = isCollapsed
+    if (isCollapsed) {
+      panel.collapse()
+    } else {
+      panel.expand()
+    }
+  }, [isCollapsed, isMobile, panelRef])
+
+  // Dragging the handle past the collapse threshold toggles it the other way.
+  // The panel `onResize` prop only fires on mount, so watch the element itself.
+  React.useEffect(() => {
+    const panel = panelRef.current
+    const element = panelElementRef.current
+    if (!panel || !element || isMobile) {
+      return
+    }
+
+    let measured = false
+    const observer = new ResizeObserver(() => {
+      // Skip the observer's initial call: nothing has changed yet.
+      if (!measured) {
+        measured = true
+        return
+      }
+
+      const collapsed = panel.isCollapsed()
+      if (collapsed !== syncedRef.current) {
+        syncedRef.current = collapsed
+        setOpen(!collapsed)
+      }
+    })
+
+    observer.observe(element)
+    return () => observer.disconnect()
+  }, [isMobile, panelRef, setOpen])
+
+  const sidebar = (
     <Sidebar
       variant="sidebar"
       collapsible="icon"
       className={cn(
-        "inset-auto top-[var(--header-height,3rem)] bottom-[var(--footer-height,2.5rem)] h-auto",
+        // The panel owns the width and position, the sidebar just fills it.
+        "relative inset-y-auto h-full w-full transition-none",
+        "group-data-[collapsible=icon]:w-full group-data-[side=left]:border-e-0",
         className
       )}
     >
@@ -144,7 +204,32 @@ export function BrandSidebar({ className }: { className?: string }) {
       <SidebarFooter>
         <NavUser user={user} />
       </SidebarFooter>
-      <SidebarRail />
     </Sidebar>
+  )
+
+  // On mobile the sidebar is a sheet, so it stays out of the panel group.
+  if (isMobile) {
+    return sidebar
+  }
+
+  return (
+    <>
+      <ResizablePanel
+        id={SIDEBAR_PANEL_ID}
+        panelRef={panelRef}
+        elementRef={panelElementRef}
+        collapsible
+        collapsedSize={SIDEBAR_PANEL_COLLAPSED_SIZE}
+        defaultSize={SIDEBAR_PANEL_DEFAULT_SIZE}
+        minSize={SIDEBAR_PANEL_MIN_SIZE}
+        maxSize={SIDEBAR_PANEL_MAX_SIZE}
+        groupResizeBehavior="preserve-pixel-size"
+        style={{ overflow: "hidden" }}
+        className="[&>[data-slot=sidebar]]:h-full [&_[data-slot=sidebar-gap]]:hidden"
+      >
+        {sidebar}
+      </ResizablePanel>
+      <ResizableHandle withHandle />
+    </>
   )
 }

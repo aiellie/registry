@@ -571,6 +571,7 @@
       "registryDependencies": [
         "https://ui.aiellie.dev/r/button.json",
         "https://ui.aiellie.dev/r/kbd.json",
+        "https://ui.aiellie.dev/r/resizable.json",
         "https://ui.aiellie.dev/r/sidebar.json",
         "https://ui.aiellie.dev/r/theme.json",
         "https://ui.aiellie.dev/r/tooltip.json"
@@ -624,7 +625,8 @@
       ],
       "dependencies": [
         "@hugeicons/core-free-icons",
-        "@hugeicons/react"
+        "@hugeicons/react",
+        "react-resizable-panels"
       ]
     },
     {

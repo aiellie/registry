@@ -9,7 +9,6 @@ import {
   Delete01Icon,
   Comment02Icon,
   PlusSignIcon,
-  PreferenceVerticalIcon,
   ArrowUp01Icon,
   Pin02Icon,
   Archive02Icon,
@@ -180,10 +179,10 @@ export function NavChats({
                   render={
                     <SidebarGroupAction
                       title="Filter Chats"
-                      className="end-9 opacity-0 transition-opacity group-focus-within/nav:opacity-100 group-hover/nav:opacity-100 data-popup-open:opacity-100"
+                      className="end-9 opacity-0 transition-opacity group-focus-within/nav:opacity-100 group-hover/nav:opacity-100 data-popup-open:opacity-100 text-muted-foreground hover:text-sidebar-primary"
                     >
                       <HugeiconsIcon
-                        icon={PreferenceVerticalIcon}
+                        icon={MoreHorizontalIcon}
                         strokeWidth={2}
                         className="size-3.5"
                       />
@@ -252,7 +251,7 @@ export function NavChats({
             render={
               <SidebarGroupAction
                 title="New Chat"
-                className="opacity-0 transition-opacity group-focus-within/nav:opacity-100 group-hover/nav:opacity-100"
+                className="opacity-0 transition-opacity group-focus-within/nav:opacity-100 group-hover/nav:opacity-100 text-muted-foreground hover:text-sidebar-primary"
               >
                 <HugeiconsIcon icon={PlusSignIcon} strokeWidth={2} className="size-3.5" />
                 <span className="sr-only">New Chat</span>
@@ -276,7 +275,7 @@ export function NavChats({
                     <DropdownMenuTrigger
                       render={
                         <SidebarMenuAction showOnHover>
-                          <HugeiconsIcon icon={MoreHorizontalIcon} strokeWidth={2} className="size-4" />
+                          <HugeiconsIcon icon={MoreHorizontalIcon} strokeWidth={2} className="size-4 text-muted-foreground hover:text-sidebar-primary" />
                           <span className="sr-only">More</span>
                         </SidebarMenuAction>
                       }
