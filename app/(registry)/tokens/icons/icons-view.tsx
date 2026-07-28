@@ -1,6 +1,7 @@
 "use client"
 
 import {
+  type CSSProperties,
   memo,
   useCallback,
   useDeferredValue,
@@ -17,6 +18,7 @@ import {
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
+import { ColorPicker } from "@/components/canvasui/color-picker"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
@@ -34,7 +36,11 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@/components/ui/empty"
-import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group"
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "@/components/ui/input-group"
 import { toast } from "@/components/ui/toast"
 import {
   Tooltip,
@@ -58,6 +64,13 @@ import { FEATURED_GROUPS } from "@/lib/hugeicons-featured"
 
 import { IconCategories } from "./icon-categories"
 import { IconDetail } from "./icon-detail"
+import {
+  type LocalIconName,
+  LOCAL_GROUPS,
+  LOCAL_ICON_COUNT,
+  LocalIconGrid,
+  localIconSnippet,
+} from "./local-icons"
 import { SizeDropdown } from "./size-dropdown"
 import { StrokeDropdown } from "./stroke-dropdown"
 import { useIconShards } from "./use-icon-shards"
@@ -67,6 +80,16 @@ const PAGE_SIZE = 96
 
 const STROKE_WIDTHS = [1.5, 2]
 const SIZES = [16, 20, 24, 32]
+
+/**
+ * The filter bar's tint, read straight by every icon — see `--icon-tint` below.
+ *
+ * A plain inherited `color` on a wrapper would not reach them: each cell is a
+ * `<button>`, and the UA stylesheet colors form controls rather than letting
+ * them inherit. Going through a variable also keeps the memoized cells out of
+ * the re-render while the color wheel is being dragged.
+ */
+const TINT = "text-[color:var(--icon-tint)]"
 
 const IconCell = memo(function IconCell({
   entry,
@@ -93,6 +116,7 @@ const IconCell = memo(function IconCell({
               icon={toSvgElement(elements)}
               size={size}
               strokeWidth={strokeWidth}
+              className={TINT}
             />
           ) : (
             <span
@@ -151,6 +175,8 @@ export function IconsView({ meta }: { meta: IconsMeta }) {
   const [categories, setCategories] = useState<IconCategory[]>([])
   const [strokeWidth, setStrokeWidth] = useState(2)
   const [size, setSize] = useState(16)
+  /** `null` is "whatever the theme says" — the picker calls that Auto. */
+  const [tint, setTint] = useState<string | null>(null)
   const [limit, setLimit] = useState(PAGE_SIZE)
   const [selected, setSelected] = useState<IconEntry | null>(null)
   const { copyToClipboard, isCopied } = useCopyToClipboard()
@@ -174,7 +200,10 @@ export function IconsView({ meta }: { meta: IconsMeta }) {
     }
   }, [meta.version])
 
-  const entries = useMemo(() => (manifest ? buildEntries(manifest) : []), [manifest])
+  const entries = useMemo(
+    () => (manifest ? buildEntries(manifest) : []),
+    [manifest]
+  )
   const byName = useMemo(
     () => new Map(entries.map((entry) => [entry.name, entry])),
     [entries]
@@ -238,7 +267,9 @@ export function IconsView({ meta }: { meta: IconsMeta }) {
   // The featured view renders every group at once, so its icons need shards too.
   const needsShards = useMemo(
     () =>
-      isFeaturedView ? featuredGroups.flatMap((group) => group.entries) : visible,
+      isFeaturedView
+        ? featuredGroups.flatMap((group) => group.entries)
+        : visible,
     [isFeaturedView, featuredGroups, visible]
   )
   const shards = useIconShards(needsShards, meta, manifest?.featuredElements)
@@ -262,11 +293,26 @@ export function IconsView({ meta }: { meta: IconsMeta }) {
 
   const handleSelect = useCallback((entry: IconEntry) => setSelected(entry), [])
 
+  // The local marks carry no manifest entry to open a detail dialog against, so
+  // a click puts the JSX on the clipboard instead.
+  const handleCopyLocal = useCallback(
+    async (name: LocalIconName) => {
+      const copied = await copyToClipboard(localIconSnippet(name))
+      toast.add({
+        title: copied
+          ? `Copied <Icons.${name} />`
+          : "Couldn’t reach the clipboard",
+        type: copied ? "success" : "error",
+      })
+    },
+    [copyToClipboard]
+  )
+
   const isLoading = manifest === null
   const nothingFound = !isLoading && !isFeaturedView && results.length === 0
   const featuredCount = featuredGroups.reduce(
     (sum, group) => sum + group.entries.length,
-    0
+    LOCAL_ICON_COUNT
   )
 
   const countLabel = isLoading
@@ -278,19 +324,21 @@ export function IconsView({ meta }: { meta: IconsMeta }) {
   return (
     <div className="container p-5 md:p-10">
       <header className="mb-8">
-        <h1 className="text-3xl font-medium tracking-tight md:text-4xl">Icons</h1>
+        <h1 className="text-3xl font-medium tracking-tight md:text-4xl">
+          Icons
+        </h1>
         <p className="mt-2 max-w-prose text-muted-foreground">
           The icons this system actually uses, up front — then the complete{" "}
           <a
             href="https://hugeicons.com/icons/stroke-rounded"
             target="_blank"
             rel="noreferrer"
-            className="underline underline-offset-4"
+            className="font-medium text-primary underline decoration-primary/40 underline-offset-4 transition-colors hover:decoration-primary"
           >
             HugeIcons stroke-rounded
           </a>{" "}
-          set behind the search box. Filter by category, then copy the import, the
-          JSX, or the raw SVG.
+          set behind the search box. Filter by category, then copy the import,
+          the JSX, or the raw SVG.
         </p>
 
         <div className="mt-4 flex flex-wrap items-center gap-2">
@@ -313,7 +361,11 @@ export function IconsView({ meta }: { meta: IconsMeta }) {
         <div className="flex flex-wrap items-center gap-2">
           <InputGroup className="h-8 w-full sm:w-64">
             <InputGroupAddon>
-              <HugeiconsIcon icon={Search01Icon} strokeWidth={2} className="size-4" />
+              <HugeiconsIcon
+                icon={Search01Icon}
+                strokeWidth={2}
+                className="size-4"
+              />
             </InputGroupAddon>
             <InputGroupInput
               value={query}
@@ -356,6 +408,25 @@ export function IconsView({ meta }: { meta: IconsMeta }) {
 
           <SizeDropdown value={size} options={SIZES} onValueChange={setSize} />
 
+          <TooltipProvider>
+            <Tooltip>
+              {/* The picker renders a button plus its portalled popover, so the
+                  tooltip hangs off a wrapper rather than the trigger itself. */}
+              <TooltipTrigger render={<span className="inline-flex" />}>
+                <ColorPicker
+                  label="Icon"
+                  // No hex while on Auto: the swatch inherits the page's
+                  // foreground, which is what the icons are drawing in.
+                  value={tint ?? "currentColor"}
+                  displayValue={tint ? undefined : "Auto"}
+                  onValueChange={setTint}
+                  className="h-8 rounded-lg border border-border bg-background px-2.5 text-sm hover:bg-muted dark:border-input dark:bg-input/30 dark:hover:bg-input/50"
+                />
+              </TooltipTrigger>
+              <TooltipContent>Tint the previews</TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+
           <span
             className="font-mono text-xs text-muted-foreground tabular-nums"
             aria-live="polite"
@@ -363,13 +434,14 @@ export function IconsView({ meta }: { meta: IconsMeta }) {
             {countLabel}
           </span>
 
-          {!isFeaturedView && (
+          {(!isFeaturedView || tint) && (
             <Button
               variant="ghost"
               size="sm"
               onClick={() => {
                 setQuery("")
                 setCategories([])
+                setTint(null)
               }}
             >
               <HugeiconsIcon icon={Cancel01Icon} />
@@ -389,7 +461,8 @@ export function IconsView({ meta }: { meta: IconsMeta }) {
               const copied = await copyToClipboard(
                 `import { ${names} } from "@hugeicons/core-free-icons"`
               )
-              if (copied) toast.add({ title: "Copied imports", type: "success" })
+              if (copied)
+                toast.add({ title: "Copied imports", type: "success" })
               else
                 toast.add({
                   title: "Couldn’t reach the clipboard",
@@ -397,104 +470,150 @@ export function IconsView({ meta }: { meta: IconsMeta }) {
                 })
             }}
           >
-            <HugeiconsIcon icon={isCopied ? Tick02Icon : Copy01Icon} strokeWidth={2} />
+            <HugeiconsIcon
+              icon={isCopied ? Tick02Icon : Copy01Icon}
+              strokeWidth={2}
+            />
             Copy imports
           </Button>
         </div>
       </div>
 
-      {isLoading ? (
-        <div className="grid grid-cols-[repeat(auto-fill,minmax(76px,1fr))] gap-1">
-          {Array.from({ length: PAGE_SIZE }, (_, index) => (
-            <div
-              key={index}
-              className="flex aspect-square animate-pulse flex-col items-center justify-center gap-2 p-1.5"
-            >
-              <span className="flex flex-1 items-center justify-center">
-                <span
-                  className="rounded-sm bg-muted"
-                  style={{ width: size, height: size }}
-                />
-              </span>
-              <span className="h-2 w-10 rounded-sm bg-muted" />
-            </div>
-          ))}
-        </div>
-      ) : nothingFound ? (
-        <Empty className="rounded-xl border">
-          <EmptyHeader>
-            <EmptyMedia variant="icon">
-              <HugeiconsIcon icon={Search01Icon} strokeWidth={2} />
-            </EmptyMedia>
-            <EmptyTitle>
-              {trimmed
-                ? `No icons match “${query}”`
-                : categories.length > 1
-                  ? "Nothing in these categories"
-                  : "Nothing in this category"}
-            </EmptyTitle>
-            <EmptyDescription>
-              {categories.length > 0
-                ? `Try clearing the ${categories
-                    .map((category) => category.label)
-                    .join(", ")} filter${categories.length > 1 ? "s" : ""}, or search the whole set.`
-                : "Try a single broader word — “chart”, “user”, “arrow” — or the thing the icon shows rather than its name."}
-            </EmptyDescription>
-          </EmptyHeader>
-        </Empty>
-      ) : isFeaturedView ? (
-        <div className="space-y-4">
-          {featuredGroups.map((group) => (
-            <Card key={group.title}>
-              <CardHeader>
-                <CardTitle>{group.title}</CardTitle>
-                <CardDescription className="max-w-prose">
-                  {group.description}
-                </CardDescription>
-                <CardAction>
-                  <Badge variant="secondary" className="font-mono tabular-nums">
-                    {group.entries.length}
-                  </Badge>
-                </CardAction>
-              </CardHeader>
-              <CardContent>
-                <IconGrid
-                  entries={group.entries}
-                  shards={shards}
-                  size={size}
-                  strokeWidth={strokeWidth}
-                  onSelect={handleSelect}
-                />
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      ) : (
-        <>
-          <IconGrid
-            entries={visible}
-            shards={shards}
-            size={size}
-            strokeWidth={strokeWidth}
-            onSelect={handleSelect}
-          />
-
-          {hasMore && (
-            <div ref={sentinelRef} className="mt-6 flex justify-center">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setLimit((current) => current + PAGE_SIZE)}
+      {/* `currentColor` is the Auto case: the icons fall back to whatever the
+          theme is already painting them. Nothing else here reads the variable,
+          so no label or chrome moves with it. */}
+      <div style={{ "--icon-tint": tint ?? "currentColor" } as CSSProperties}>
+        {isLoading ? (
+          <div className="grid grid-cols-[repeat(auto-fill,minmax(76px,1fr))] gap-1">
+            {Array.from({ length: PAGE_SIZE }, (_, index) => (
+              <div
+                key={index}
+                className="flex aspect-square animate-pulse flex-col items-center justify-center gap-2 p-1.5"
               >
-                Show more
-                <span className="font-mono text-xs text-muted-foreground tabular-nums">
-                  {(results.length - limit).toLocaleString()} left
+                <span className="flex flex-1 items-center justify-center">
+                  <span
+                    className="rounded-sm bg-muted"
+                    style={{ width: size, height: size }}
+                  />
                 </span>
-              </Button>
-            </div>
-          )}
-        </>
-      )}
+                <span className="h-2 w-10 rounded-sm bg-muted" />
+              </div>
+            ))}
+          </div>
+        ) : nothingFound ? (
+          <Empty className="rounded-xl border">
+            <EmptyHeader>
+              <EmptyMedia variant="icon">
+                <HugeiconsIcon icon={Search01Icon} strokeWidth={2} />
+              </EmptyMedia>
+              <EmptyTitle>
+                {trimmed
+                  ? `No icons match “${query}”`
+                  : categories.length > 1
+                    ? "Nothing in these categories"
+                    : "Nothing in this category"}
+              </EmptyTitle>
+              <EmptyDescription>
+                {categories.length > 0
+                  ? `Try clearing the ${categories
+                      .map((category) => category.label)
+                      .join(
+                        ", "
+                      )} filter${categories.length > 1 ? "s" : ""}, or search the whole set.`
+                  : "Try a single broader word — “chart”, “user”, “arrow” — or the thing the icon shows rather than its name."}
+              </EmptyDescription>
+            </EmptyHeader>
+          </Empty>
+        ) : isFeaturedView ? (
+          <div className="space-y-4">
+            {/* First, because these are the marks with no substitute: they come
+                from `components/icons.tsx` rather than the HugeIcons manifest,
+                so nothing behind the search box can stand in for them. */}
+            {LOCAL_GROUPS.map((group) => (
+              <Card key={group.title}>
+                <CardHeader>
+                  <CardTitle>{group.title}</CardTitle>
+                  <CardDescription className="max-w-prose">
+                    {group.description} Click one to copy its JSX —{" "}
+                    <code className="font-mono">
+                      {`import { Icons } from "@/components/icons"`}
+                    </code>
+                    .
+                  </CardDescription>
+                  <CardAction>
+                    <Badge
+                      variant="secondary"
+                      className="font-mono tabular-nums"
+                    >
+                      {group.icons.length}
+                    </Badge>
+                  </CardAction>
+                </CardHeader>
+                <CardContent>
+                  <LocalIconGrid
+                    icons={group.icons}
+                    size={size}
+                    onSelect={handleCopyLocal}
+                  />
+                </CardContent>
+              </Card>
+            ))}
+
+            {featuredGroups.map((group) => (
+              <Card key={group.title}>
+                <CardHeader>
+                  <CardTitle>{group.title}</CardTitle>
+                  <CardDescription className="max-w-prose">
+                    {group.description}
+                  </CardDescription>
+                  <CardAction>
+                    <Badge
+                      variant="secondary"
+                      className="font-mono tabular-nums"
+                    >
+                      {group.entries.length}
+                    </Badge>
+                  </CardAction>
+                </CardHeader>
+                <CardContent>
+                  <IconGrid
+                    entries={group.entries}
+                    shards={shards}
+                    size={size}
+                    strokeWidth={strokeWidth}
+                    onSelect={handleSelect}
+                  />
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        ) : (
+          <>
+            <IconGrid
+              entries={visible}
+              shards={shards}
+              size={size}
+              strokeWidth={strokeWidth}
+              onSelect={handleSelect}
+            />
+
+            {hasMore && (
+              <div ref={sentinelRef} className="mt-6 flex justify-center">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setLimit((current) => current + PAGE_SIZE)}
+                >
+                  Show more
+                  <span className="font-mono text-xs text-muted-foreground tabular-nums">
+                    {(results.length - limit).toLocaleString()} left
+                  </span>
+                </Button>
+              </div>
+            )}
+          </>
+        )}
+      </div>
 
       <IconDetail
         entry={selected}
@@ -502,6 +621,7 @@ export function IconsView({ meta }: { meta: IconsMeta }) {
         categories={manifest?.categories ?? []}
         strokeWidth={strokeWidth}
         size={size}
+        color={tint}
         onOpenChange={(open) => {
           if (!open) setSelected(null)
         }}
@@ -509,11 +629,13 @@ export function IconsView({ meta }: { meta: IconsMeta }) {
 
       <footer className="mt-14 border-t pt-5 text-xs text-muted-foreground">
         Featured icons are the set this registry imports today — edit{" "}
-        <code className="font-mono">lib/hugeicons-featured.ts</code> to change them.
-        Categories mirror the HugeIcons taxonomy; the {meta.count.toLocaleString()}{" "}
-        icons and their geometry are generated from{" "}
-        <code className="font-mono">@hugeicons/core-free-icons</code> at build time
-        and fetched in shards as you scroll.
+        <code className="font-mono">lib/hugeicons-featured.ts</code> to change
+        them. Brands and code languages are not HugeIcons at all; they live in{" "}
+        <code className="font-mono">components/icons.tsx</code>. Categories
+        mirror the HugeIcons taxonomy; the {meta.count.toLocaleString()} icons
+        and their geometry are generated from{" "}
+        <code className="font-mono">@hugeicons/core-free-icons</code> at build
+        time and fetched in shards as you scroll.
       </footer>
     </div>
   )

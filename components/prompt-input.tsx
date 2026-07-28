@@ -4,6 +4,7 @@ import * as React from "react"
 
 import {
   ArrowUp02Icon,
+  AudioWave01Icon,
   Folder01Icon,
   Mic02Icon,
 } from "@hugeicons/core-free-icons"
@@ -28,6 +29,11 @@ import {
 } from "@/components/prompt-project-picker"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 import { cn } from "@/lib/utils"
 
 export type PromptSubmitValue = {
@@ -139,7 +145,7 @@ export function PromptInput({
 
   return (
     <div className={cn("w-full max-w-3xl", className)}>
-      <div className="-mb-4 mx-3 flex items-center rounded-t-2xl bg-muted px-3 pt-1.5 pb-5">
+      <div className="-mb-4 mx-3 flex items-center rounded-t-2xl bg-muted px-3 pt-2 pb-5">
         <PromptProjectPicker
           projects={projects}
           value={projectId}
@@ -154,7 +160,7 @@ export function PromptInput({
               <HugeiconsIcon
                 icon={Folder01Icon}
                 strokeWidth={1.5}
-                className="size-4 text-muted-foreground"
+                className="size-3.5 text-muted-foreground"
               />
               {project?.name ?? (
                 <span className="text-muted-foreground">Choose project</span>
@@ -164,7 +170,7 @@ export function PromptInput({
         />
       </div>
 
-      <div className="relative rounded-2xl border bg-background shadow-sm transition-colors focus-within:border-ring">
+      <div className="relative rounded-2xl border bg-background shadow-xs transition-colors focus-within:border-ring">
         {commandMenuOpen ? (
           <PromptCommandMenu
             id={commandListId}
@@ -209,23 +215,53 @@ export function PromptInput({
               reasoning={reasoning}
               onReasoningChange={setReasoning}
             />
-            <Button
-              variant="ghost"
-              size="icon-sm"
-              className="rounded-full"
-              aria-label="Dictate"
-            >
-              <HugeiconsIcon icon={Mic02Icon} strokeWidth={1.5} />
-            </Button>
-            <Button
-              size="icon-sm"
-              className="rounded-full"
-              disabled={!canSubmit}
-              onClick={submit}
-              aria-label="Send"
-            >
-              <HugeiconsIcon icon={ArrowUp02Icon} strokeWidth={2} />
-            </Button>
+            <Tooltip>
+              <TooltipTrigger
+                render={
+                  <Button
+                    variant="ghost"
+                    size="icon-sm"
+                    className="rounded-full"
+                    aria-label="Dictate"
+                  >
+                    <HugeiconsIcon icon={Mic02Icon} strokeWidth={1.5} />
+                  </Button>
+                }
+              />
+              <TooltipContent>Dictate</TooltipContent>
+            </Tooltip>
+            {canSubmit ? (
+              <Tooltip>
+                <TooltipTrigger
+                  render={
+                    <Button
+                      size="icon-sm"
+                      className="rounded-full"
+                      onClick={submit}
+                      aria-label="Send"
+                    >
+                      <HugeiconsIcon icon={ArrowUp02Icon} strokeWidth={2} />
+                    </Button>
+                  }
+                />
+                <TooltipContent>Send</TooltipContent>
+              </Tooltip>
+            ) : (
+              <Tooltip>
+                <TooltipTrigger
+                  render={
+                    <Button
+                      size="icon-sm"
+                      className="rounded-full"
+                      aria-label="Start voice chat"
+                    >
+                      <HugeiconsIcon icon={AudioWave01Icon} strokeWidth={2} />
+                    </Button>
+                  }
+                />
+                <TooltipContent>Start voice chat</TooltipContent>
+              </Tooltip>
+            )}
           </div>
         </div>
       </div>

@@ -5,6 +5,7 @@ import {
   useEffect,
   useId,
   useLayoutEffect,
+  useMemo,
   useRef,
   useState,
   useSyncExternalStore,
@@ -710,6 +711,75 @@ function BrightnessBand({
   )
 }
 
+/* ------------------------------------------------------------- swatches */
+
+export interface ColorSwatch {
+  /** Any CSS color; a `var(--token)` reference resolves against the theme. */
+  value: string
+  label: string
+}
+
+/**
+ * The theme's own ramp. Held as `var()` references rather than literals so the
+ * row follows light/dark — and a consumer's retheme — with no second list to
+ * keep in sync.
+ */
+export const THEME_SWATCHES: readonly ColorSwatch[] = [
+  { label: "Primary", value: "var(--primary)" },
+  { label: "Chart 1", value: "var(--chart-1)" },
+  { label: "Chart 2", value: "var(--chart-2)" },
+  { label: "Chart 3", value: "var(--chart-3)" },
+  { label: "Chart 4", value: "var(--chart-4)" },
+  { label: "Chart 5", value: "var(--chart-5)" },
+  { label: "Destructive", value: "var(--destructive)" },
+  { label: "Foreground", value: "var(--foreground)" },
+]
+
+/**
+ * Any CSS color down to `#rrggbb`, with the browser doing the parsing twice
+ * over: `getComputedStyle` substitutes the custom property, then canvas
+ * converts whatever space it serialized in — Chrome hands back CIE `lab()` for
+ * an `oklch()` token — to sRGB bytes. Null when the color does not parse.
+ */
+function resolveCssColor(
+  color: string,
+  ctx: CanvasRenderingContext2D
+): string | null {
+  const probe = document.createElement("span")
+  probe.style.color = color
+  document.body.append(probe)
+  const computed = getComputedStyle(probe).color
+  probe.remove()
+
+  // An unparseable value leaves fillStyle untouched, which is the only signal
+  // canvas gives that it rejected the assignment.
+  const sentinel = "#010203"
+  ctx.fillStyle = sentinel
+  ctx.fillStyle = computed
+  if (ctx.fillStyle === sentinel) return null
+
+  ctx.fillRect(0, 0, 1, 1)
+  const [r, g, b] = ctx.getImageData(0, 0, 1, 1).data
+  return rgbToHex(r, g, b)
+}
+
+/** Resolved once per open, so the row always reflects the theme in force. */
+function useSwatchHexes(swatches: readonly ColorSwatch[]) {
+  return useMemo(() => {
+    const canvas = document.createElement("canvas")
+    canvas.width = 1
+    canvas.height = 1
+    const ctx = canvas.getContext("2d", { willReadFrequently: true })
+    if (!ctx) return []
+    return swatches
+      .map((swatch) => ({ swatch, hex: resolveCssColor(swatch.value, ctx) }))
+      .filter(
+        (entry): entry is { swatch: ColorSwatch; hex: string } =>
+          entry.hex !== null
+      )
+  }, [swatches])
+}
+
 /* ----------------------------------------------------------- eyedropper */
 
 const emptySubscribe = () => () => {}
@@ -737,6 +807,7 @@ function ColorPopover({
   onClose,
   format,
   onFormatChange,
+  swatches,
 }: {
   id: string
   anchorRef: RefObject<HTMLButtonElement | null>
@@ -745,6 +816,7 @@ function ColorPopover({
   onClose: () => void
   format: ColorFormat
   onFormatChange: (format: ColorFormat) => void
+  swatches: readonly ColorSwatch[]
 }) {
   const popRef = useRef<HTMLDivElement>(null)
   const [pos, setPos] = useState<{
@@ -754,6 +826,7 @@ function ColorPopover({
   } | null>(null)
   const shouldReduceMotion = useReducedMotion()
   const eyeDropper = useEyeDropper()
+  const swatchHexes = useSwatchHexes(swatches)
   const [copied, setCopied] = useState(false)
 
   useEffect(() => {
@@ -788,10 +861,20 @@ function ColorPopover({
     onValueChange(hex)
   }
 
+  /**
+   * Sets the color from an exact hex rather than from a wheel position. The
+   * Okhsv round-trip can land a channel a step off, so a token or a typed value
+   * is kept verbatim instead of being re-derived from the hsv it produced.
+   */
+  const applyHex = (hex: string) => {
+    setState({ hsv: hexToHsv(hex), draft: formatColor(hex, format), seen: hex })
+    onValueChange(hex)
+  }
+
   const commitDraft = () => {
     const hex = parseColor(state.draft, format)
     if (hex && hex !== hsvToHex(state.hsv)) {
-      apply(hexToHsv(hex))
+      applyHex(hex)
     } else {
       setState((prev) => ({
         ...prev,
@@ -957,6 +1040,37 @@ function ColorPopover({
           </motion.div>
         </div>
       </div>
+      {swatchHexes.length > 0 && (
+        <TooltipProvider>
+          <div className="flex items-center justify-between px-0.5">
+            {swatchHexes.map(({ swatch, hex }) => (
+              <Tooltip key={swatch.label}>
+                <TooltipTrigger
+                  render={
+                    <button
+                      type="button"
+                      aria-label={swatch.label}
+                      aria-pressed={hex === state.seen}
+                      onClick={() => applyHex(hex)}
+                      className={cn(
+                        "size-5 cursor-pointer rounded-full border border-foreground/15 transition-transform active:scale-90",
+                        hex === state.seen &&
+                          "ring-2 ring-foreground ring-offset-2 ring-offset-popover"
+                      )}
+                      // The token, not the resolved hex, so the dot keeps
+                      // tracking the theme while the popover is open.
+                      style={{ background: swatch.value }}
+                    />
+                  }
+                />
+                <TooltipContent className="tabular-nums">
+                  {swatch.label} · {hex}
+                </TooltipContent>
+              </Tooltip>
+            ))}
+          </div>
+        </TooltipProvider>
+      )}
       <InputGroup className="h-7 rounded-md border-0 bg-muted/70 transition-colors hover:bg-muted has-[[data-slot=input-group-control]:focus-visible]:ring-0 dark:bg-muted/70 dark:hover:bg-muted">
         <InputGroupAddon align="inline-start" className="ps-0.5 pe-0">
           <Select
@@ -1036,7 +1150,7 @@ function ColorPopover({
                           .open()
                           .then((result) => {
                             const hex = normalizeHex(result.sRGBHex)
-                            if (hex) apply(hexToHsv(hex))
+                            if (hex) applyHex(hex)
                           })
                           .catch(() => {})
                       }}
@@ -1075,6 +1189,8 @@ export interface ColorPickerProps {
   hideValue?: boolean
   /** Notation the field opens in; the select switches it from there. */
   defaultFormat?: ColorFormat
+  /** One-click colors under the wheel; defaults to the theme's own ramp. */
+  swatches?: readonly ColorSwatch[]
   className?: string
 }
 
@@ -1090,6 +1206,7 @@ export function ColorPicker({
   displayValue,
   hideValue = false,
   defaultFormat = "hex",
+  swatches = THEME_SWATCHES,
   className,
 }: ColorPickerProps) {
   const [open, setOpen] = useState(false)
@@ -1146,6 +1263,7 @@ export function ColorPicker({
             onClose={close}
             format={format}
             onFormatChange={setFormat}
+            swatches={swatches}
           />
         )}
       </AnimatePresence>

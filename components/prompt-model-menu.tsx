@@ -24,8 +24,11 @@ export const PROMPT_MODELS = [
 
 export const REASONING_LEVELS = [
   { value: "light", label: "Light" },
-  { value: "standard", label: "Standard" },
-  { value: "deep", label: "Deep" },
+  { value: "medium", label: "Medium" },
+  { value: "high", label: "High" },
+  { value: "extra", label: "Extra" },
+  { value: "max", label: "Max" },
+  { value: "ultra", label: "Ultra" },
 ]
 
 export function PromptModelMenu({

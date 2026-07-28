@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { type CSSProperties, useEffect, useState } from "react"
 import { HugeiconsIcon } from "@hugeicons/react"
 
 import { CopyButton } from "@/components/registry/copy-button"
@@ -64,7 +64,9 @@ function CopyRow({
   return (
     <div className="space-y-1.5">
       <div className="flex items-center justify-between gap-2">
-        <span className="text-xs font-medium text-muted-foreground">{label}</span>
+        <span className="text-xs font-medium text-muted-foreground">
+          {label}
+        </span>
         <div className="flex items-center gap-0.5">
           {download && <DownloadButton content={value} name={download} />}
           <CopyButton content={value} />
@@ -90,6 +92,7 @@ export function IconDetail({
   categories,
   strokeWidth,
   size,
+  color,
   onOpenChange,
 }: {
   entry: IconEntry | null
@@ -98,6 +101,8 @@ export function IconDetail({
   strokeWidth: number
   /** The size chosen by the grid filters; the preview renders at exactly this. */
   size: number
+  /** The tint chosen by the filter bar; `null` leaves the icon on `foreground`. */
+  color: string | null
   onOpenChange: (open: boolean) => void
 }) {
   const icon = elements ? toSvgElement(elements) : null
@@ -130,10 +135,20 @@ export function IconDetail({
               </DialogDescription>
             </DialogHeader>
 
-            <div className="flex items-center justify-center rounded-xl border py-10">
+            <div
+              className="flex items-center justify-center rounded-xl border py-10"
+              style={
+                { "--icon-tint": color ?? "currentColor" } as CSSProperties
+              }
+            >
               {icon ? (
                 <div className="flex flex-col items-center gap-2">
-                  <HugeiconsIcon icon={icon} size={size} strokeWidth={strokeWidth} />
+                  <HugeiconsIcon
+                    icon={icon}
+                    size={size}
+                    strokeWidth={strokeWidth}
+                    className="text-[color:var(--icon-tint)]"
+                  />
                   <span className="font-mono text-[10px] text-muted-foreground tabular-nums">
                     {size}px
                   </span>
@@ -147,7 +162,9 @@ export function IconDetail({
 
             {labels.length > 0 && (
               <div className="flex flex-wrap items-center gap-1.5">
-                <span className="text-xs text-muted-foreground">Categories</span>
+                <span className="text-xs text-muted-foreground">
+                  Categories
+                </span>
                 {labels.map((label) => (
                   <Badge key={label} variant="outline" className="text-xs">
                     {label}
@@ -158,9 +175,15 @@ export function IconDetail({
 
             {entry.aliases.length > 0 && (
               <div className="flex flex-wrap items-center gap-1.5">
-                <span className="text-xs text-muted-foreground">Also known as</span>
+                <span className="text-xs text-muted-foreground">
+                  Also known as
+                </span>
                 {entry.aliases.map((alias) => (
-                  <Badge key={alias} variant="secondary" className="font-mono text-xs">
+                  <Badge
+                    key={alias}
+                    variant="secondary"
+                    className="font-mono text-xs"
+                  >
                     {alias}
                   </Badge>
                 ))}

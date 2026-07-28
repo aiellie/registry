@@ -15,6 +15,11 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 import { cn } from "@/lib/utils"
 
 export type ApprovalMode = "ask" | "auto" | "full"
@@ -60,22 +65,29 @@ export function PromptApprovalMenu({
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger
-        render={
-          <Button
-            variant="ghost"
-            size="sm"
-            className={cn(
-              "gap-1.5 rounded-full px-2 font-normal text-muted-foreground",
-              active?.destructive && "text-destructive",
-              className
-            )}
-          />
-        }
-      >
-        <HugeiconsIcon icon={active?.icon ?? HandIcon} strokeWidth={1.5} />
-        {active?.label}
-      </DropdownMenuTrigger>
+      <Tooltip>
+        <TooltipTrigger
+          render={
+            <DropdownMenuTrigger
+              render={
+                <Button
+                  variant="ghost"
+                  size="icon-sm"
+                  className={cn(
+                    "rounded-full text-muted-foreground",
+                    active?.destructive && "text-destructive",
+                    className
+                  )}
+                  aria-label="Change permissions"
+                />
+              }
+            />
+          }
+        >
+          <HugeiconsIcon icon={active?.icon ?? HandIcon} strokeWidth={1.5} />
+        </TooltipTrigger>
+        <TooltipContent side="top">Change permissions</TooltipContent>
+      </Tooltip>
       <DropdownMenuContent
         side="top"
         align="start"

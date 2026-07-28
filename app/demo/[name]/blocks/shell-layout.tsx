@@ -40,9 +40,12 @@ export default function ShellLayout({
             {/* The bottom panel splits the content area, so it stops short of
                 the sidebar and the right panel. */}
             <ResizablePanelGroup orientation="vertical">
-              <ResizablePanel id="content-main" style={{ overflow: "auto" }}>
-                <main className="flex min-h-full w-full justify-center">
-                  <div className="container">{children}</div>
+              {/* h-full, not min-h-full: the page measures itself against the
+                  space the panel actually has, so opening the bottom panel
+                  squeezes the content instead of pushing it out of sight. */}
+              <ResizablePanel id="content-main" style={{ overflow: "hidden" }}>
+                <main className="flex h-full w-full justify-center overflow-auto">
+                  <div className="container h-full">{children}</div>
                 </main>
               </ResizablePanel>
               <BrandSidebarBottom />
