@@ -1,9 +1,9 @@
 "use client"
 
 import {
-  AlertCircleIcon,
-  ComputerTerminal01Icon,
-  WavingHand01Icon,
+  SecurityWarningIcon,
+  WebProtectionIcon,
+  HandIcon,
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react"
 
@@ -24,19 +24,19 @@ export const APPROVAL_MODES = [
     value: "ask",
     label: "Ask for approval",
     description: "Always ask to edit external files and use the internet",
-    icon: WavingHand01Icon,
+    icon: HandIcon,
   },
   {
     value: "auto",
     label: "Approve for me",
     description: "Only ask for actions detected as potentially unsafe",
-    icon: ComputerTerminal01Icon,
+    icon: WebProtectionIcon,
   },
   {
     value: "full",
     label: "Full access",
-    description: "Unrestricted access to the internet and any file on your computer",
-    icon: AlertCircleIcon,
+    description: "Unrestricted access web and file access",
+    icon: SecurityWarningIcon,
     destructive: true,
   },
 ] satisfies {
@@ -73,7 +73,7 @@ export function PromptApprovalMenu({
           />
         }
       >
-        <HugeiconsIcon icon={active?.icon ?? WavingHand01Icon} strokeWidth={1.5} />
+        <HugeiconsIcon icon={active?.icon ?? HandIcon} strokeWidth={1.5} />
         {active?.label}
       </DropdownMenuTrigger>
       <DropdownMenuContent
@@ -109,14 +109,14 @@ export function PromptApprovalMenu({
               <HugeiconsIcon
                 icon={mode.icon}
                 strokeWidth={1.5}
-                className="mt-0.5 size-4.5"
+                className="mt-0.5 size-4"
               />
               <div className="grid gap-0.5">
-                <span className="font-medium">{mode.label}</span>
+                <span className="font-normal">{mode.label}</span>
                 <span
                   className={cn(
                     "text-xs text-muted-foreground",
-                    mode.destructive && "text-destructive/80!"
+                    mode.destructive && "text-destructive/80! "
                   )}
                 >
                   {mode.description}

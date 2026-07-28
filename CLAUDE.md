@@ -85,3 +85,7 @@ Other repo-wide rules:
 - RTL is enabled — use logical utilities (`ms-`/`me-`/`ps-`/`pe-`/`start-`/`end-`) and `rtl:rotate-180` on directional arrows. RTL-specific examples live in `examples/rtl/`.
 - Prettier: no semicolons, double quotes, 80 cols, with `prettier-plugin-tailwindcss` sorting classes against `app/globals.css` (`cn`/`cva` included).
 - Theme tokens live only in `app/globals.css` (`@theme inline` + `:root`/`.dark` oklch vars); never hardcode colors in components.
+
+
+## Rules From AIELLIE (USER)
+1. for any and all icon buttons add a tooltip from @/components/ui/tooltip

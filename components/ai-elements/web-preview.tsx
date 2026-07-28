@@ -6,6 +6,16 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
 import {
   Tooltip,
@@ -14,7 +24,28 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { cn } from "@/lib/utils"
-import { ArrowDown01Icon } from "@hugeicons/core-free-icons"
+import {
+  ArrowDown01Icon,
+  BrushIcon,
+  Camera01Icon,
+  Clock01Icon,
+  CookieIcon,
+  DatabaseIcon,
+  Download01Icon,
+  Key01Icon,
+  MinusSignIcon,
+  MoreVerticalIcon,
+  PlusSignCircleIcon,
+  PlusSignIcon,
+  PrinterIcon,
+  RefreshIcon,
+  Search01Icon,
+  SearchAddIcon,
+  Settings01Icon,
+  SmartPhone01Icon,
+  SquareLockPasswordIcon,
+  UserSquareIcon,
+} from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 import type { ComponentProps, ReactNode } from "react"
 import {
@@ -213,8 +244,10 @@ export const WebPreviewBody = ({
     <div className="relative flex-1">
       <iframe
         className={cn("size-full", className)}
+        // `allow-modals` lets the framed document open `window.print()`, which
+        // is what the menu's Print entry drives.
         // oxlint-disable-next-line eslint-plugin-react(iframe-missing-sandbox)
-        sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-presentation"
+        sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-presentation allow-modals"
         src={(src ?? url) || undefined}
         title="Preview"
         {...props}
@@ -298,3 +331,341 @@ export const WebPreviewConsole = ({
     </Collapsible>
   )
 }
+
+/* -------------------------------------------------------------------------- */
+/*                                Annotate toggle                              */
+/* -------------------------------------------------------------------------- */
+
+export type WebPreviewAnnotateToggleProps = Omit<
+  ComponentProps<typeof Button>,
+  "onChange"
+> & {
+  active?: boolean
+  onActiveChange?: (active: boolean) => void
+  label?: string
+}
+
+/**
+ * Collapses to an icon when idle and expands into a labelled pill while
+ * annotating, so the active mode is obvious at a glance.
+ */
+export const WebPreviewAnnotateToggle = ({
+  active = false,
+  onActiveChange,
+  label = "Annotating",
+  className,
+  onClick,
+  ...props
+}: WebPreviewAnnotateToggleProps) => (
+  <Button
+    aria-label={label}
+    aria-pressed={active}
+    className={cn(
+      "h-8 gap-1.5 px-2 text-muted-foreground transition-colors",
+      active &&
+        "bg-primary/10 px-3 text-primary hover:bg-primary/15 hover:text-primary",
+      className
+    )}
+    data-slot="web-preview-annotate-toggle"
+    onClick={(event) => {
+      onClick?.(event)
+      onActiveChange?.(!active)
+    }}
+    size="sm"
+    variant="ghost"
+    {...props}
+  >
+    <HugeiconsIcon
+      className="size-4"
+      icon={PlusSignCircleIcon}
+      strokeWidth={2}
+    />
+    {active && <span className="text-sm font-medium">{label}</span>}
+  </Button>
+)
+
+/* -------------------------------------------------------------------------- */
+/*                                    Menu                                     */
+/* -------------------------------------------------------------------------- */
+
+/** Chrome's zoom stops, so the `-`/`+` buttons land on familiar values. */
+const ZOOM_STEPS = [25, 33, 50, 67, 75, 80, 90, 100, 110, 125, 150, 175, 200]
+
+const stepZoom = (zoom: number, delta: 1 | -1) => {
+  const index = ZOOM_STEPS.findIndex((step) => step >= zoom)
+  const current = index === -1 ? ZOOM_STEPS.length - 1 : index
+  return ZOOM_STEPS[
+    Math.min(ZOOM_STEPS.length - 1, Math.max(0, current + delta))
+  ]
+}
+
+type MenuItemProps = ComponentProps<typeof DropdownMenuItem> & {
+  icon: typeof Search01Icon
+}
+
+const WebPreviewMenuItem = ({ icon, children, ...props }: MenuItemProps) => (
+  <DropdownMenuItem className="gap-2.5" {...props}>
+    <HugeiconsIcon
+      className="size-4 shrink-0 text-muted-foreground"
+      icon={icon}
+      strokeWidth={2}
+    />
+    {children}
+  </DropdownMenuItem>
+)
+
+export type WebPreviewMenuProps = {
+  onFindInPage?: () => void
+  onPrint?: () => void
+  zoom?: number
+  onZoomChange?: (zoom: number) => void
+  deviceToolbar?: boolean
+  onDeviceToolbarChange?: (open: boolean) => void
+  onScreenshot?: () => void
+  onImportCookiesAndPasswords?: () => void
+  onPasswordManager?: () => void
+  onContactInfo?: () => void
+  onDownloads?: () => void
+  onClearCookies?: () => void
+  onClearCache?: () => void
+  onDeleteDownloadHistory?: () => void
+  onBrowserSettings?: () => void
+  className?: string
+}
+
+/**
+ * The preview's overflow menu. Every entry is inert until the matching handler
+ * is supplied — the credential-related entries in particular are labels only,
+ * this component never reads or stores any credential itself.
+ */
+export const WebPreviewMenu = ({
+  onFindInPage,
+  onPrint,
+  zoom = 100,
+  onZoomChange,
+  deviceToolbar = false,
+  onDeviceToolbarChange,
+  onScreenshot,
+  onImportCookiesAndPasswords,
+  onPasswordManager,
+  onContactInfo,
+  onDownloads,
+  onClearCookies,
+  onClearCache,
+  onDeleteDownloadHistory,
+  onBrowserSettings,
+  className,
+}: WebPreviewMenuProps) => (
+  <DropdownMenu>
+    <DropdownMenuTrigger
+      render={
+        <Button
+          aria-label="Preview menu"
+          className={cn("size-8 p-0 text-muted-foreground", className)}
+          size="sm"
+          variant="ghost"
+        />
+      }
+    >
+      <HugeiconsIcon
+        className="size-4"
+        icon={MoreVerticalIcon}
+        strokeWidth={2}
+      />
+    </DropdownMenuTrigger>
+
+    <DropdownMenuContent align="end" className="w-72">
+      <WebPreviewMenuItem
+        disabled={!onFindInPage}
+        icon={Search01Icon}
+        onClick={onFindInPage}
+      >
+        Find in page
+      </WebPreviewMenuItem>
+      <WebPreviewMenuItem
+        disabled={!onPrint}
+        icon={PrinterIcon}
+        onClick={onPrint}
+      >
+        Print
+      </WebPreviewMenuItem>
+
+      <DropdownMenuSeparator />
+
+      {/* Not a menu item: the row stays open while the zoom is adjusted. */}
+      <div className="flex items-center justify-between gap-2 px-2 py-1.5">
+        <span className="flex items-center gap-2.5 text-sm">
+          <HugeiconsIcon
+            className="size-4 shrink-0 text-muted-foreground"
+            icon={SearchAddIcon}
+            strokeWidth={2}
+          />
+          Zoom
+        </span>
+        <span className="flex items-center gap-1">
+          <span className="flex items-center rounded-md bg-muted">
+            <Button
+              aria-label="Zoom out"
+              className="size-7 p-0"
+              disabled={!onZoomChange || zoom <= ZOOM_STEPS[0]}
+              onClick={() => onZoomChange?.(stepZoom(zoom, -1))}
+              size="sm"
+              variant="ghost"
+            >
+              <HugeiconsIcon
+                className="size-4"
+                icon={MinusSignIcon}
+                strokeWidth={2}
+              />
+            </Button>
+            <span className="w-11 text-center text-sm tabular-nums">
+              {zoom}%
+            </span>
+            <Button
+              aria-label="Zoom in"
+              className="size-7 p-0"
+              disabled={!onZoomChange || zoom >= ZOOM_STEPS.at(-1)!}
+              onClick={() => onZoomChange?.(stepZoom(zoom, 1))}
+              size="sm"
+              variant="ghost"
+            >
+              <HugeiconsIcon
+                className="size-4"
+                icon={PlusSignIcon}
+                strokeWidth={2}
+              />
+            </Button>
+          </span>
+          <Button
+            aria-label="Reset zoom"
+            className="size-7 p-0 text-muted-foreground"
+            disabled={!onZoomChange || zoom === 100}
+            onClick={() => onZoomChange?.(100)}
+            size="sm"
+            variant="ghost"
+          >
+            <HugeiconsIcon
+              className="size-4"
+              icon={RefreshIcon}
+              strokeWidth={2}
+            />
+          </Button>
+        </span>
+      </div>
+
+      <DropdownMenuSeparator />
+
+      <WebPreviewMenuItem
+        disabled={!onDeviceToolbarChange}
+        icon={SmartPhone01Icon}
+        onClick={() => onDeviceToolbarChange?.(!deviceToolbar)}
+      >
+        {deviceToolbar ? "Hide device toolbar" : "Show device toolbar"}
+      </WebPreviewMenuItem>
+      <WebPreviewMenuItem
+        disabled={!onScreenshot}
+        icon={Camera01Icon}
+        onClick={onScreenshot}
+      >
+        Take a screenshot
+      </WebPreviewMenuItem>
+
+      <DropdownMenuSeparator />
+
+      <WebPreviewMenuItem
+        disabled={!onImportCookiesAndPasswords}
+        icon={CookieIcon}
+        onClick={onImportCookiesAndPasswords}
+      >
+        Import cookies and passwords…
+      </WebPreviewMenuItem>
+
+      <DropdownMenuSub>
+        <DropdownMenuSubTrigger
+          className="gap-2.5"
+          disabled={!onPasswordManager && !onContactInfo}
+        >
+          <HugeiconsIcon
+            className="size-4 shrink-0 text-muted-foreground"
+            icon={SquareLockPasswordIcon}
+            strokeWidth={2}
+          />
+          Passwords and autofill
+        </DropdownMenuSubTrigger>
+        <DropdownMenuSubContent className="w-56">
+          <WebPreviewMenuItem
+            disabled={!onPasswordManager}
+            icon={Key01Icon}
+            onClick={onPasswordManager}
+          >
+            Password manager
+          </WebPreviewMenuItem>
+          <WebPreviewMenuItem
+            disabled={!onContactInfo}
+            icon={UserSquareIcon}
+            onClick={onContactInfo}
+          >
+            Contact info
+          </WebPreviewMenuItem>
+        </DropdownMenuSubContent>
+      </DropdownMenuSub>
+
+      <WebPreviewMenuItem
+        disabled={!onDownloads}
+        icon={Download01Icon}
+        onClick={onDownloads}
+      >
+        Downloads
+      </WebPreviewMenuItem>
+
+      <DropdownMenuSub>
+        <DropdownMenuSubTrigger
+          className="gap-2.5"
+          disabled={
+            !onClearCookies && !onClearCache && !onDeleteDownloadHistory
+          }
+        >
+          <HugeiconsIcon
+            className="size-4 shrink-0 text-muted-foreground"
+            icon={BrushIcon}
+            strokeWidth={2}
+          />
+          Clear browsing data
+        </DropdownMenuSubTrigger>
+        <DropdownMenuSubContent className="w-56">
+          <WebPreviewMenuItem
+            disabled={!onClearCookies}
+            icon={CookieIcon}
+            onClick={onClearCookies}
+          >
+            Clear cookies
+          </WebPreviewMenuItem>
+          <WebPreviewMenuItem
+            disabled={!onClearCache}
+            icon={DatabaseIcon}
+            onClick={onClearCache}
+          >
+            Clear cache
+          </WebPreviewMenuItem>
+          <WebPreviewMenuItem
+            disabled={!onDeleteDownloadHistory}
+            icon={Clock01Icon}
+            onClick={onDeleteDownloadHistory}
+          >
+            Delete download history
+          </WebPreviewMenuItem>
+        </DropdownMenuSubContent>
+      </DropdownMenuSub>
+
+      <DropdownMenuSeparator />
+
+      <WebPreviewMenuItem
+        disabled={!onBrowserSettings}
+        icon={Settings01Icon}
+        onClick={onBrowserSettings}
+      >
+        Browser settings
+      </WebPreviewMenuItem>
+    </DropdownMenuContent>
+  </DropdownMenu>
+)

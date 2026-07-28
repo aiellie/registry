@@ -4,9 +4,20 @@ import * as React from "react"
 
 import { Example, ExampleWrapper } from "@/components/example"
 import {
+  FindInPage,
+  FindInPageActions,
+  FindInPageBar,
+  FindInPageClose,
+  FindInPageInput,
+  FindInPageResults,
+  FindInPageSeparator,
+} from "@/components/ai-elements/find-in-page"
+import {
   WebPreview,
+  WebPreviewAnnotateToggle,
   WebPreviewBody,
   WebPreviewConsole,
+  WebPreviewMenu,
   WebPreviewNavigation,
   WebPreviewNavigationButton,
   WebPreviewUrl,
@@ -66,6 +77,14 @@ function normalizeUrl(input: string) {
 const proxyUrl = (url: string) =>
   `/api/web-preview?url=${encodeURIComponent(url)}`
 
+type DeviceName = "mobile" | "tablet" | "desktop"
+
+const DEVICES: { name: DeviceName; label: string; width: string }[] = [
+  { label: "Mobile", name: "mobile", width: "max-w-[375px]" },
+  { label: "Tablet", name: "tablet", width: "max-w-[768px]" },
+  { label: "Desktop", name: "desktop", width: "max-w-full" },
+]
+
 /* -------------------------------------------------------------------------- */
 /*                                  Examples                                   */
 /* -------------------------------------------------------------------------- */
@@ -98,6 +117,21 @@ function BrowserExample() {
   const [expanded, setExpanded] = React.useState(false)
   const [reloadKey, setReloadKey] = React.useState(0)
   const [logs, setLogs] = React.useState<ConsoleLog[]>([])
+
+  // Page tools run inside the injected bridge, which only exists on proxied
+  // documents — using one escalates this tab to the proxy for good.
+  const [forceProxy, setForceProxy] = React.useState(false)
+  const [bridgeReady, setBridgeReady] = React.useState(false)
+  const [find, setFind] = React.useState({
+    open: false,
+    query: "",
+    total: 0,
+    active: 0,
+  })
+  const [zoom, setZoom] = React.useState(100)
+  const [device, setDevice] = React.useState<DeviceName | null>(null)
+  const [annotating, setAnnotating] = React.useState(false)
+  const [annotations, setAnnotations] = React.useState(0)
 
   const frameRef = React.useRef<HTMLIFrameElement>(null)
   const url = history.entries[history.index]
@@ -135,13 +169,14 @@ function BrowserExample() {
 
   // A new target invalidates whatever is on screen right now. Adjusting state
   // during render (rather than in an effect) avoids a frame of stale content.
-  const request = `${url}#${reloadKey}`
+  const request = `${url}#${reloadKey}#${forceProxy}`
   const [pendingRequest, setPendingRequest] = React.useState(request)
   if (pendingRequest !== request) {
     setPendingRequest(request)
     setResolved(null)
     setLoading(true)
     setError(null)
+    setBridgeReady(false)
   }
 
   // Ask the server whether the target can be framed as-is. If it can't (most
@@ -168,14 +203,16 @@ function BrowserExample() {
         }
 
         const target = probe.url ?? url
-        if (probe.framable) {
+        if (probe.framable && !forceProxy) {
           setResolved({ mode: "direct", src: target })
           log("log", `Framing ${target} directly`)
         } else {
           setResolved({ mode: "proxy", src: proxyUrl(target) })
           log(
-            "warn",
-            `${probe.reason ?? "Framing blocked"} — serving through the proxy.`
+            probe.framable ? "log" : "warn",
+            probe.framable
+              ? `Proxying ${target} so the page tools stay available.`
+              : `${probe.reason ?? "Framing blocked"} — serving through the proxy.`
           )
         }
       })
@@ -190,22 +227,94 @@ function BrowserExample() {
     return () => {
       cancelled = true
     }
-  }, [url, reloadKey, log])
+  }, [url, reloadKey, forceProxy, log])
 
-  // Links inside a proxied page can't navigate themselves — the bridge script
-  // posts them up here so the address bar and history stay in charge.
+  /** Commands travel to the injected bridge; it owns the framed document. */
+  const send = React.useCallback((type: string, data?: object) => {
+    frameRef.current?.contentWindow?.postMessage(
+      { source: "web-preview-host", type, ...data },
+      "*"
+    )
+  }, [])
+
+  /**
+   * Find, zoom, print and annotation all need the bridge, which only ships
+   * with proxied documents. Escalate rather than silently doing nothing.
+   */
+  const requireBridge = React.useCallback(
+    (what: string) => {
+      if (resolved?.mode === "proxy" || forceProxy) return true
+      setForceProxy(true)
+      log("warn", `Reloading through the proxy to enable ${what}.`)
+      return false
+    },
+    [forceProxy, log, resolved]
+  )
+
+  // Messages from the framed document: link clicks, find counts, annotations.
   React.useEffect(() => {
     const onMessage = (event: MessageEvent) => {
       if (event.source !== frameRef.current?.contentWindow) return
       const data = event.data
       if (!data || data.source !== "web-preview") return
-      if (typeof data.url !== "string" || !/^https?:/i.test(data.url)) return
-      if (data.type === "navigate") navigate(data.url)
+
+      if (data.type === "navigate") {
+        if (typeof data.url === "string" && /^https?:/i.test(data.url)) {
+          navigate(data.url)
+        }
+        return
+      }
+
+      if (data.type === "loaded") {
+        setBridgeReady(true)
+        return
+      }
+
+      if (data.type === "find:results") {
+        setFind((current) => ({
+          ...current,
+          active: Number(data.active) || 0,
+          total: Number(data.total) || 0,
+        }))
+        if (data.supported === false) {
+          log("warn", "This browser has no CSS Custom Highlight API.")
+        }
+        return
+      }
+
+      if (data.type === "annotate:select") {
+        const element = data.element ?? {}
+        setAnnotations((current) => current + 1)
+        log(
+          "log",
+          `Annotated <${element.tag}> ${element.width}×${element.height}`
+        )
+      }
     }
 
     window.addEventListener("message", onMessage)
     return () => window.removeEventListener("message", onMessage)
-  }, [navigate])
+  }, [log, navigate])
+
+  // Read by the re-apply effect below. Held in a ref so that effect fires only
+  // when a new document appears, not every time the toolbar state changes —
+  // re-sending `find` on each keystroke would reset the active match to 1.
+  const toolbar = React.useRef({ annotating, find, zoom })
+  React.useEffect(() => {
+    toolbar.current = { annotating, find, zoom }
+  })
+
+  // A fresh document starts at 100% with annotation off; re-apply the toolbar
+  // state once the new bridge announces itself.
+  React.useEffect(() => {
+    if (!bridgeReady) return
+    const current = toolbar.current
+    if (current.zoom !== 100) send("zoom", { zoom: current.zoom })
+    if (current.annotating) send("annotate", { enabled: true })
+    if (current.find.open && current.find.query) {
+      send("find", { query: current.find.query })
+    }
+  }, [bridgeReady, send])
 
   const canGoBack = history.index > 0
   const canGoForward = history.index < history.entries.length - 1
@@ -278,6 +387,15 @@ function BrowserExample() {
               />
             </WebPreviewNavigationButton>
             <WebPreviewUrl />
+            <WebPreviewAnnotateToggle
+              active={annotating}
+              onActiveChange={(next) => {
+                if (next && !requireBridge("annotation")) return
+                setAnnotating(next)
+                send("annotate", { enabled: next })
+                log("log", next ? "Annotating enabled" : "Annotating disabled")
+              }}
+            />
             <WebPreviewNavigationButton
               onClick={() => window.open(url, "_blank", "noopener,noreferrer")}
               tooltip="Open in new tab"
@@ -298,9 +416,84 @@ function BrowserExample() {
                 strokeWidth={2}
               />
             </WebPreviewNavigationButton>
+            <WebPreviewMenu
+              deviceToolbar={device !== null}
+              onClearCache={() => {
+                log("log", "Cache cleared — reloading")
+                setReloadKey((current) => current + 1)
+              }}
+              onDeviceToolbarChange={(open) =>
+                setDevice(open ? "desktop" : null)
+              }
+              onFindInPage={() => {
+                if (!requireBridge("find in page")) return
+                setFind((current) => ({ ...current, open: true }))
+              }}
+              onPrint={() => {
+                if (!requireBridge("print")) return
+                send("print")
+              }}
+              onZoomChange={(next) => {
+                if (!requireBridge("zoom")) return
+                setZoom(next)
+                send("zoom", { zoom: next })
+              }}
+              zoom={zoom}
+            />
           </WebPreviewNavigation>
 
+          {device !== null && (
+            <div className="flex items-center gap-1 border-b p-2">
+              {DEVICES.map((option) => (
+                <Button
+                  key={option.name}
+                  onClick={() => setDevice(option.name)}
+                  size="sm"
+                  variant={option.name === device ? "secondary" : "ghost"}
+                >
+                  {option.label}
+                </Button>
+              ))}
+              <span className="ms-auto text-xs text-muted-foreground">
+                {annotations > 0 && `${annotations} annotation(s)`}
+              </span>
+            </div>
+          )}
+
+          {find.open && (
+            <div className="border-b p-2">
+              <FindInPage
+                active={find.active}
+                className="max-w-none shadow-none ring-0"
+                onClose={() => {
+                  setFind({ active: 0, open: false, query: "", total: 0 })
+                  send("find", { query: "" })
+                }}
+                onQueryChange={(query) => {
+                  setFind((current) => ({ ...current, query }))
+                  send("find", { query })
+                }}
+                onStep={(delta) => send("find:step", { delta })}
+                query={find.query}
+                total={find.total}
+              >
+                <FindInPageBar>
+                  <FindInPageInput autoFocus />
+                  <FindInPageActions>
+                    <FindInPageSeparator />
+                    <FindInPageClose />
+                  </FindInPageActions>
+                </FindInPageBar>
+                <FindInPageResults />
+              </FindInPage>
+            </div>
+          )}
+
           <WebPreviewBody
+            className={cn(
+              "mx-auto",
+              device && DEVICES.find((d) => d.name === device)?.width
+            )}
             key={`${resolved?.src ?? "blank"}-${reloadKey}`}
             loading={
               error ? (
@@ -329,7 +522,9 @@ function BrowserExample() {
               log("log", `Loaded ${url} (${resolved.mode})`)
             }}
             ref={frameRef}
-            src={resolved?.src}
+            // Explicitly blank while probing: WebPreviewBody otherwise falls
+            // back to the context URL and frames the raw (often blocked) target.
+            src={resolved?.src ?? "about:blank"}
           />
 
           <WebPreviewConsole logs={logs} />

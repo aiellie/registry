@@ -3082,12 +3082,12 @@
       "name": "web-preview",
       "type": "registry:ui",
       "title": "Web Preview",
-      "description": "Web preview with URL input, navigation buttons, console logs, and iframe body.",
+      "description": "Web preview with URL input, navigation buttons, an overflow menu, annotation toggle, console logs, and iframe body.",
       "registryDependencies": [
         "https://ui.aiellie.dev/r/button.json",
         "https://ui.aiellie.dev/r/collapsible.json",
+        "https://ui.aiellie.dev/r/dropdown-menu.json",
         "https://ui.aiellie.dev/r/input.json",
-        "https://ui.aiellie.dev/r/iframe.json",
         "https://ui.aiellie.dev/r/tooltip.json"
       ],
       "files": [
@@ -3095,6 +3095,23 @@
           "path": "components/ai-elements/web-preview.tsx",
           "type": "registry:ui",
           "target": "components/ui/web-preview.tsx"
+        }
+      ]
+    },
+    {
+      "name": "find-in-page",
+      "type": "registry:ui",
+      "title": "Find in Page",
+      "description": "Browser-style find bar with match stepping, a result counter, and a hook that highlights matches in any DOM subtree.",
+      "registryDependencies": [
+        "https://ui.aiellie.dev/r/button.json",
+        "https://ui.aiellie.dev/r/separator.json"
+      ],
+      "files": [
+        {
+          "path": "components/ai-elements/find-in-page.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/find-in-page.tsx"
         }
       ]
     },

@@ -21,6 +21,7 @@ import { promptInput } from "@/app/demo/[name]/components/prompt-input"
 // ai elements
 import ModelSelectorExample from "@/app/demo/[name]/ui/model-selector"
 import FileTreeExample from "@/app/demo/[name]/ui/file-tree"
+import FindInPageExample from "@/app/demo/[name]/ui/find-in-page"
 import WebPreviewExample from "@/app/demo/[name]/ui/web-preview"
 import PersonaExample from "@/app/demo/[name]/ui/persona"
 import AIOrbExample from "@/app/demo/[name]/ui/ai-orb"
@@ -126,6 +127,7 @@ export const demos: { [name: string]: Demo } = {
   "model-selector": ModelSelectorExample,
   "file-tree": FileTreeExample,
   "web-preview": WebPreviewExample,
+  "find-in-page": FindInPageExample,
   persona: PersonaExample,
   "ai-orb": AIOrbExample,
   // ui
