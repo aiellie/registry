@@ -5,6 +5,7 @@ import * as React from "react"
 import {
   ArrowRight01Icon,
   Cancel01Icon,
+  CancelCircleIcon,
   Folder01Icon,
   PlusSignIcon,
 } from "@hugeicons/core-free-icons"
@@ -19,11 +20,17 @@ import {
   CommandList,
   CommandSeparator,
 } from "@/components/ui/command"
+import { Kbd } from "@/components/ui/kbd"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 export type PromptProject = {
   id: string
@@ -60,7 +67,39 @@ export function PromptProjectPicker({
 
   return (
     <Popover open={open} onOpenChange={handleOpenChange}>
-      <PopoverTrigger render={trigger} />
+      <span className="group/project relative inline-flex items-center">
+        <Tooltip>
+          <TooltipTrigger render={<PopoverTrigger render={trigger} />} />
+          <TooltipContent>
+            Change the project for this chat
+            <Kbd>⌥⇧⌘O</Kbd>
+          </TooltipContent>
+        </Tooltip>
+        {value != null ? (
+          <Tooltip>
+            <TooltipTrigger
+              render={
+                <button
+                  type="button"
+                  data-slot="prompt-project-clear"
+                  aria-label="Remove project"
+                  onClick={() => onValueChange(null)}
+                  // Sits over the trigger's leading icon; the trigger hides
+                  // that icon on group hover so this reads as a swap.
+                  className="pointer-events-none absolute inset-y-0 start-0 z-10 flex items-center rounded-sm opacity-0 outline-none transition-opacity group-hover/project:pointer-events-auto group-hover/project:opacity-100 focus-visible:pointer-events-auto focus-visible:opacity-100 focus-visible:ring-3 focus-visible:ring-ring/50"
+                >
+                  <HugeiconsIcon
+                    icon={CancelCircleIcon}
+                    strokeWidth={1.5}
+                    className="size-3.5 text-muted-foreground"
+                  />
+                </button>
+              }
+            />
+            <TooltipContent>Remove project</TooltipContent>
+          </Tooltip>
+        ) : null}
+      </span>
       <PopoverContent side="top" align="start" className="w-72 gap-0 p-0">
         <Command className="p-0">
           <CommandInput placeholder="Search projects" />

@@ -3052,6 +3052,21 @@
           "target": "components/prompt-input.tsx"
         },
         {
+          "path": "components/branch-picker.tsx",
+          "type": "registry:component",
+          "target": "components/branch-picker.tsx"
+        },
+        {
+          "path": "components/environment-picker.tsx",
+          "type": "registry:component",
+          "target": "components/environment-picker.tsx"
+        },
+        {
+          "path": "components/start-in-picker.tsx",
+          "type": "registry:component",
+          "target": "components/start-in-picker.tsx"
+        },
+        {
           "path": "components/prompt-add-menu.tsx",
           "type": "registry:component",
           "target": "components/prompt-add-menu.tsx"

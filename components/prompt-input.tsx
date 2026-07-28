@@ -6,10 +6,20 @@ import {
   ArrowUp02Icon,
   AudioWave01Icon,
   Folder01Icon,
+  GitBranchIcon,
+  Settings01Icon,
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
 import { SpeechInput } from "@/components/ai-elements/speech-input"
+import {
+  BranchPicker,
+  type PromptBranch,
+} from "@/components/branch-picker"
+import {
+  EnvironmentPicker,
+  type PromptEnvironment,
+} from "@/components/environment-picker"
 import {
   PromptAddMenu,
 } from "@/components/prompt-add-menu"
@@ -27,6 +37,11 @@ import {
   PromptProjectPicker,
   type PromptProject,
 } from "@/components/prompt-project-picker"
+import {
+  START_IN_OPTIONS,
+  StartInPicker,
+  type StartIn,
+} from "@/components/start-in-picker"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import {
@@ -39,6 +54,9 @@ import { cn } from "@/lib/utils"
 export type PromptSubmitValue = {
   text: string
   projectId: string | null
+  startIn: StartIn
+  branch: string
+  environmentId: string | null
   approval: ApprovalMode
   model: string
   effort: string
@@ -52,8 +70,16 @@ const DEFAULT_PROJECTS: PromptProject[] = [
   { id: "shadcn-inspired", name: "shadcn.inspired" },
 ]
 
+const DEFAULT_BRANCHES: PromptBranch[] = [
+  { name: "main", hint: "Uncommitted: 1 file" },
+]
+
+const DEFAULT_ENVIRONMENTS: PromptEnvironment[] = []
+
 export function PromptInput({
   projects = DEFAULT_PROJECTS,
+  branches = DEFAULT_BRANCHES,
+  environments = DEFAULT_ENVIRONMENTS,
   placeholder = "Do anything",
   defaultProjectId = projects[0]?.id ?? null,
   onSubmit,
@@ -61,6 +87,8 @@ export function PromptInput({
   className,
 }: {
   projects?: PromptProject[]
+  branches?: PromptBranch[]
+  environments?: PromptEnvironment[]
   placeholder?: string
   defaultProjectId?: string | null
   onSubmit?: (value: PromptSubmitValue) => void
@@ -73,6 +101,12 @@ export function PromptInput({
   const [value, setValue] = React.useState("")
   const [projectId, setProjectId] = React.useState<string | null>(defaultProjectId)
   const [projectPickerOpen, setProjectPickerOpen] = React.useState(false)
+  const [startIn, setStartIn] = React.useState<StartIn>("local")
+  const [startInOpen, setStartInOpen] = React.useState(false)
+  const [branch, setBranch] = React.useState(branches[0]?.name ?? "main")
+  const [branchOpen, setBranchOpen] = React.useState(false)
+  const [environmentId, setEnvironmentId] = React.useState<string | null>(null)
+  const [environmentOpen, setEnvironmentOpen] = React.useState(false)
   const [approval, setApproval] = React.useState<ApprovalMode>("ask")
   const [model, setModel] = React.useState("claude-opus-5")
   const [effort, setEffort] = React.useState("light")
@@ -100,11 +134,25 @@ export function PromptInput({
   }
 
   const project = projects.find((item) => item.id === projectId)
+  const startInOption =
+    START_IN_OPTIONS.find((option) => option.value === startIn) ??
+    START_IN_OPTIONS[0]
+  const environment = environments.find((item) => item.id === environmentId)
   const canSubmit = value.trim().length > 0
 
   const submit = () => {
     if (!canSubmit) return
-    onSubmit?.({ text: value.trim(), projectId, approval, model, effort, fast })
+    onSubmit?.({
+      text: value.trim(),
+      projectId,
+      startIn,
+      branch,
+      environmentId,
+      approval,
+      model,
+      effort,
+      fast,
+    })
     setValue("")
     setCommandsDismissed(false)
   }
@@ -148,7 +196,7 @@ export function PromptInput({
 
   return (
     <div className={cn("w-full max-w-3xl", className)}>
-      <div className="-mb-4 mx-3 flex items-center rounded-t-2xl bg-muted px-3 pt-2 pb-5">
+      <div className="-mb-4 mx-3 flex items-center gap-4 rounded-t-2xl bg-muted px-3 pt-2 pb-5">
         <PromptProjectPicker
           projects={projects}
           value={projectId}
@@ -163,7 +211,11 @@ export function PromptInput({
               <HugeiconsIcon
                 icon={Folder01Icon}
                 strokeWidth={1.5}
-                className="size-3.5 text-muted-foreground"
+                className={cn(
+                  "size-3.5 text-muted-foreground",
+                  project &&
+                    "transition-opacity group-hover/project:opacity-0 group-has-[[data-slot=prompt-project-clear]:focus-visible]/project:opacity-0"
+                )}
               />
               {project?.name ?? (
                 <span className="text-muted-foreground">Choose project</span>
@@ -171,6 +223,100 @@ export function PromptInput({
             </button>
           }
         />
+        {project ? (
+          <>
+            <Tooltip>
+              <StartInPicker
+                value={startIn}
+                onValueChange={(next) => {
+                  setStartIn(next)
+                  if (next !== "worktree") setEnvironmentId(null)
+                }}
+                open={startInOpen}
+                onOpenChange={setStartInOpen}
+                trigger={
+                  <TooltipTrigger
+                    render={
+                      <button
+                        type="button"
+                        className="flex items-center gap-1.5 rounded-md text-sm outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
+                      >
+                        <HugeiconsIcon
+                          icon={startInOption.icon}
+                          strokeWidth={1.5}
+                          className="size-3.5 text-muted-foreground"
+                        />
+                        {startInOption.triggerLabel}
+                      </button>
+                    }
+                  />
+                }
+              />
+              <TooltipContent side="top">
+                Select where to run the chat
+              </TooltipContent>
+            </Tooltip>
+            {startIn === "worktree" ? (
+              <Tooltip>
+                <EnvironmentPicker
+                  environments={environments}
+                  value={environmentId}
+                  onValueChange={setEnvironmentId}
+                  open={environmentOpen}
+                  onOpenChange={setEnvironmentOpen}
+                  trigger={
+                    <TooltipTrigger
+                      render={
+                        <button
+                          type="button"
+                          className="flex items-center gap-1.5 rounded-md text-sm outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
+                        >
+                          <HugeiconsIcon
+                            icon={Settings01Icon}
+                            strokeWidth={1.5}
+                            className="size-3.5 text-muted-foreground"
+                          />
+                          {environment?.name ?? "No environment"}
+                        </button>
+                      }
+                    />
+                  }
+                />
+                <TooltipContent side="top">Select environment</TooltipContent>
+              </Tooltip>
+            ) : null}
+            <Tooltip>
+              <BranchPicker
+                branches={branches}
+                value={branch}
+                onValueChange={setBranch}
+                localChanges={Boolean(
+                  branches.find((item) => item.name === branch)?.hint
+                )}
+                open={branchOpen}
+                onOpenChange={setBranchOpen}
+                trigger={
+                  <TooltipTrigger
+                    render={
+                      <button
+                        type="button"
+                        className="flex items-center gap-1.5 rounded-md text-sm outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
+                      >
+                        <HugeiconsIcon
+                          icon={GitBranchIcon}
+                          strokeWidth={1.5}
+                          className="size-3.5 text-muted-foreground"
+                        />
+                        {branch}
+                      </button>
+                    }
+                  />
+                }
+              />
+              <TooltipContent side="top">Switch branch</TooltipContent>
+            </Tooltip>
+          </>
+        ) : null}
       </div>
 
       <div className="relative rounded-2xl border bg-background shadow-xs transition-colors focus-within:border-ring">

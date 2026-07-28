@@ -33,7 +33,7 @@ import { cn } from "@/lib/utils"
 import { teams, user } from "@/lib/sidebar-data"
 import { NavChats } from "@/components/nav-chats"
 import { NavUser } from "@/components/nav-user"
-import { SearchCommand } from "@/components/search-command"
+import { SidebarSetupForm } from "@/components/sidebar-setup-form"
 
 const SIDEBAR_PANEL_ID = "sidebar"
 // Matches --sidebar-width from the shell layout: calc(var(--spacing) * 72).
@@ -221,6 +221,7 @@ export function BrandSidebar({ className }: { className?: string }) {
         {activeTeam.chats && <NavChats chats={activeTeam.chats} />}
       </SidebarContent>
       <SidebarFooter>
+        <SidebarSetupForm />
         <NavUser user={user} />
       </SidebarFooter>
     </Sidebar>

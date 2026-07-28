@@ -110,6 +110,8 @@ export interface Chef {
   colorClass: string;
   /** Inactive / track accent. */
   colorMutedClass: string;
+  /** Fast-mode flash accent — same hue, different shade than the bars. */
+  fastClass: string;
 }
 
 /** Canonical chef list — colors from the Tailwind default palette. */
@@ -120,6 +122,8 @@ export const chefs: Record<ChefSlug, Chef> = {
     color: "emerald",
     colorClass: "bg-emerald-500",
     colorMutedClass: "bg-emerald-500/25",
+    fastClass:
+      "fill-emerald-600 text-emerald-600 dark:fill-emerald-400 dark:text-emerald-400",
   },
   anthropic: {
     name: "Anthropic",
@@ -127,6 +131,8 @@ export const chefs: Record<ChefSlug, Chef> = {
     color: "orange",
     colorClass: "bg-orange-500",
     colorMutedClass: "bg-orange-500/25",
+    fastClass:
+      "fill-orange-600 text-orange-600 dark:fill-orange-400 dark:text-orange-400",
   },
   google: {
     name: "Google",
@@ -134,6 +140,7 @@ export const chefs: Record<ChefSlug, Chef> = {
     color: "sky",
     colorClass: "bg-sky-500",
     colorMutedClass: "bg-sky-500/25",
+    fastClass: "fill-sky-600 text-sky-600 dark:fill-sky-400 dark:text-sky-400",
   },
   xai: {
     name: "xAI",
@@ -141,6 +148,8 @@ export const chefs: Record<ChefSlug, Chef> = {
     color: "zinc",
     colorClass: "bg-zinc-500",
     colorMutedClass: "bg-zinc-500/25",
+    fastClass:
+      "fill-zinc-600 text-zinc-600 dark:fill-zinc-400 dark:text-zinc-400",
   },
   deepseek: {
     name: "DeepSeek",
@@ -148,6 +157,8 @@ export const chefs: Record<ChefSlug, Chef> = {
     color: "blue",
     colorClass: "bg-blue-500",
     colorMutedClass: "bg-blue-500/25",
+    fastClass:
+      "fill-blue-600 text-blue-600 dark:fill-blue-400 dark:text-blue-400",
   },
   v0: {
     name: "Vercel",
@@ -155,6 +166,8 @@ export const chefs: Record<ChefSlug, Chef> = {
     color: "stone",
     colorClass: "bg-stone-500",
     colorMutedClass: "bg-stone-500/25",
+    fastClass:
+      "fill-stone-600 text-stone-600 dark:fill-stone-400 dark:text-stone-400",
   },
 };
 

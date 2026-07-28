@@ -205,17 +205,15 @@ function LogList({ lines }: { lines: LogLine[] }) {
   )
 }
 
+const DEFAULT_TABS: PanelTab[] = [{ id: 1, output: "", type: "terminal" }]
+const DEFAULT_ACTIVE_ID = 1
+
 export function BrandSidebarBottom({ className }: { className?: string }) {
   const { bottomOpen, setBottomOpen } = useBrandPanels()
 
-  const [tabs, setTabs] = React.useState<PanelTab[]>([
-    { id: 1, output: "", type: "console" },
-    { id: 2, output: "", type: "problems" },
-    { id: 3, output: "", type: "network" },
-    { id: 4, output: "", type: "terminal" },
-  ])
-  const [activeId, setActiveId] = React.useState(4)
-  const nextId = React.useRef(5)
+  const [tabs, setTabs] = React.useState<PanelTab[]>(DEFAULT_TABS)
+  const [activeId, setActiveId] = React.useState(DEFAULT_ACTIVE_ID)
+  const nextId = React.useRef(2)
 
   // The panel only renders after the client restored the open state, so the
   // lazy read never disagrees with server HTML.
@@ -266,8 +264,17 @@ export function BrandSidebarBottom({ className }: { className?: string }) {
 
   const closeTab = (id: number) => {
     const remaining = tabs.filter((tab) => tab.id !== id)
+    // Closing the last tab closes the whole panel; the default set is
+    // restored so the panel never reopens empty.
+    if (remaining.length === 0) {
+      setTabs(DEFAULT_TABS)
+      setActiveId(DEFAULT_ACTIVE_ID)
+      nextId.current = 2
+      setBottomOpen(false)
+      return
+    }
     setTabs(remaining)
-    if (id === activeId && remaining.length > 0) {
+    if (id === activeId) {
       setActiveId(remaining[0].id)
     }
   }
@@ -317,7 +324,7 @@ export function BrandSidebarBottom({ className }: { className?: string }) {
                   icon={TAB_META[tab.type].icon}
                   key={tab.id}
                   onClick={() => setActiveId(tab.id)}
-                  onClose={tabs.length > 1 ? () => closeTab(tab.id) : undefined}
+                  onClose={() => closeTab(tab.id)}
                 >
                   {tab.type === "terminal" ? "zsh" : TAB_META[tab.type].label}
                   {tab.type === "problems" && (

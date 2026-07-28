@@ -27,7 +27,7 @@ import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
 import { Slider } from "@/components/ui/slider"
 import { Switch } from "@/components/ui/switch"
-import { type Model, models } from "@/lib/models"
+import { type Model, getChef, models } from "@/lib/models"
 import { cn } from "@/lib/utils"
 
 const CHEFS = [...new Set(models.map((model) => model.chef))]
@@ -67,6 +67,7 @@ export function PromptModelMenu({
 }) {
   const fastId = React.useId()
   const selected = models.find((item) => item.id === model) ?? null
+  const chef = getChef(selected?.chefSlug)
   const effortIndex = Math.max(
     0,
     EFFORT_LEVELS.findIndex((item) => item.value === effort)
@@ -96,7 +97,10 @@ export function PromptModelMenu({
           <HugeiconsIcon
             icon={FlashIcon}
             strokeWidth={2}
-            className="size-3.5 fill-muted-foreground text-muted-foreground"
+            className={cn(
+              "size-3.5",
+              chef?.fastClass ?? "fill-muted-foreground text-muted-foreground"
+            )}
           />
         ) : null}
         <ComboboxValue>
@@ -125,7 +129,9 @@ export function PromptModelMenu({
               key={level.value}
               className={cn(
                 "h-full w-0.5 rounded-full",
-                index <= effortIndex ? "bg-foreground" : "bg-muted"
+                index <= effortIndex
+                  ? (chef?.colorClass ?? "bg-foreground")
+                  : (chef?.colorMutedClass ?? "bg-muted")
               )}
             />
           ))}
@@ -186,17 +192,30 @@ export function PromptModelMenu({
               }}
             />
           </div>
-          <div className="mt-1 flex items-center justify-between gap-2 rounded-md px-1.5 py-1.5">
-            <Label htmlFor={fastId} className="cursor-pointer font-normal">
-              Fast mode
-            </Label>
+          <Label
+            htmlFor={fastId}
+            className="mt-1 flex cursor-pointer items-center gap-2 rounded-md px-1.5 py-1.5 font-normal hover:bg-accent"
+          >
+            <HugeiconsIcon
+              icon={FlashIcon}
+              strokeWidth={2}
+              className={cn(
+                "size-3.5 transition-colors",
+                fast
+                  ? (chef?.fastClass ??
+                    "fill-muted-foreground text-muted-foreground")
+                  : "text-muted-foreground"
+              )}
+            />
+            Fast mode
             <Switch
               id={fastId}
               size="sm"
               checked={fast}
               onCheckedChange={onFastChange}
+              className="ms-auto"
             />
-          </div>
+          </Label>
         </div>
       </ComboboxContent>
     </Combobox>
