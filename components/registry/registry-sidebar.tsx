@@ -27,6 +27,7 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible"
 import { ScrollArea } from "@/components/ui/scroll-area"
+import { Status, StatusIndicator } from "@/components/ui/status"
 import {
   Sidebar,
   SidebarContent,
@@ -128,9 +129,12 @@ function RegistryItemGroup({
                     />
                     <span>{item.title}</span>
                     {getItem(item.name)?.isNew && (
-                      <span className="ms-auto rounded-full bg-primary/10 px-1.5 py-px text-[10px] font-medium text-primary">
-                        New
-                      </span>
+                      <Status
+                        variant="brand"
+                        className="ms-auto border-transparent bg-transparent px-0"
+                      >
+                        <StatusIndicator />
+                      </Status>
                     )}
                   </SidebarMenuButton>
                 </SidebarMenuItem>

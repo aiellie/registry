@@ -35,12 +35,15 @@ import { NavChats } from "@/components/nav-chats"
 import { NavUser } from "@/components/nav-user"
 import { SearchCommand } from "@/components/search-command"
 
-// Panel sizes mirror the sidebar tokens: collapsed matches --sidebar-width-icon.
 const SIDEBAR_PANEL_ID = "sidebar"
+// Matches --sidebar-width from the shell layout: calc(var(--spacing) * 72).
 const SIDEBAR_PANEL_DEFAULT_SIZE = "18rem"
 const SIDEBAR_PANEL_MIN_SIZE = "12rem"
 const SIDEBAR_PANEL_MAX_SIZE = "28rem"
-const SIDEBAR_PANEL_COLLAPSED_SIZE = "3rem"
+// Dragging the handle in stops at the icon rail (--sidebar-width-icon), while
+// the header trigger and ⌘B take the sidebar all the way off-canvas.
+const SIDEBAR_PANEL_ICON_SIZE = "3rem"
+const SIDEBAR_PANEL_OFFCANVAS_SIZE = "0px"
 
 export function BrandSidebar({ className }: { className?: string }) {
   const pathname = usePathname()
@@ -48,6 +51,9 @@ export function BrandSidebar({ className }: { className?: string }) {
   const isCollapsed = state === "collapsed"
   const panelRef = usePanelRef()
   const panelElementRef = React.useRef<HTMLDivElement>(null)
+  const [collapsible, setCollapsible] = React.useState<"offcanvas" | "icon">(
+    "icon"
+  )
   const [activeTeamName, setActiveTeamName] = React.useState(teams[0].name)
   const activeTeam =
     teams.find((team) => team.name === activeTeamName) ?? teams[0]
@@ -64,16 +70,25 @@ export function BrandSidebar({ className }: { className?: string }) {
       return
     }
 
+    // Swap the collapsed size first; the re-run below does the collapsing.
+    if (isCollapsed && collapsible !== "offcanvas") {
+      setCollapsible("offcanvas")
+      return
+    }
+
     syncedRef.current = isCollapsed
     if (isCollapsed) {
       panel.collapse()
     } else {
-      panel.expand()
+      // Always reopen at the sidebar width, whatever the last drag left behind.
+      panel.resize(SIDEBAR_PANEL_DEFAULT_SIZE)
+      setCollapsible("icon")
     }
-  }, [isCollapsed, isMobile, panelRef])
+  }, [collapsible, isCollapsed, isMobile, panelRef])
 
   // Dragging the handle past the collapse threshold toggles it the other way.
-  // The panel `onResize` prop only fires on mount, so watch the element itself.
+  // The panel `onResize` prop would fire before the group registers its
+  // constraints, so watch the panel element itself instead.
   React.useEffect(() => {
     const panel = panelRef.current
     const element = panelElementRef.current
@@ -92,6 +107,10 @@ export function BrandSidebar({ className }: { className?: string }) {
       const collapsed = panel.isCollapsed()
       if (collapsed !== syncedRef.current) {
         syncedRef.current = collapsed
+        // Back at full size, so the next drag stops at the icon rail again.
+        if (!collapsed) {
+          setCollapsible("icon")
+        }
         setOpen(!collapsed)
       }
     })
@@ -103,11 +122,12 @@ export function BrandSidebar({ className }: { className?: string }) {
   const sidebar = (
     <Sidebar
       variant="sidebar"
-      collapsible="icon"
+      collapsible={collapsible}
       className={cn(
         // The panel owns the width and position, the sidebar just fills it.
         "relative inset-y-auto h-full w-full transition-none",
         "group-data-[collapsible=icon]:w-full group-data-[side=left]:border-e-0",
+        "data-[side=left]:group-data-[collapsible=offcanvas]:left-0",
         className
       )}
     >
@@ -219,7 +239,11 @@ export function BrandSidebar({ className }: { className?: string }) {
         panelRef={panelRef}
         elementRef={panelElementRef}
         collapsible
-        collapsedSize={SIDEBAR_PANEL_COLLAPSED_SIZE}
+        collapsedSize={
+          collapsible === "offcanvas"
+            ? SIDEBAR_PANEL_OFFCANVAS_SIZE
+            : SIDEBAR_PANEL_ICON_SIZE
+        }
         defaultSize={SIDEBAR_PANEL_DEFAULT_SIZE}
         minSize={SIDEBAR_PANEL_MIN_SIZE}
         maxSize={SIDEBAR_PANEL_MAX_SIZE}
@@ -229,7 +253,15 @@ export function BrandSidebar({ className }: { className?: string }) {
       >
         {sidebar}
       </ResizablePanel>
-      <ResizableHandle withHandle />
+      <ResizableHandle
+        withHandle
+        className={cn(
+          "[&>div]:opacity-0 [&>div]:transition-opacity",
+          "data-[separator=hover]:[&>div]:opacity-100",
+          "data-[separator=active]:[&>div]:opacity-100",
+          "data-[separator=focus]:[&>div]:opacity-100"
+        )}
+      />
     </>
   )
 }

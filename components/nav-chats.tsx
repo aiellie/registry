@@ -266,7 +266,7 @@ export function NavChats({
           <SidebarGroupContent>
             <SidebarMenu>
               {chats.map((item) => (
-                <SidebarMenuItem key={item.name}>
+                <SidebarMenuItem key={item.name} >
                   <SidebarMenuButton render={<a href={item.url} />} tooltip={item.name}>
                     <HugeiconsIcon icon={Comment02Icon} strokeWidth={2} className="size-4" />
                     <span>{item.name}</span>
@@ -275,7 +275,7 @@ export function NavChats({
                     <DropdownMenuTrigger
                       render={
                         <SidebarMenuAction showOnHover>
-                          <HugeiconsIcon icon={MoreHorizontalIcon} strokeWidth={2} className="size-4 text-muted-foreground hover:text-sidebar-primary" />
+                          <HugeiconsIcon icon={MoreHorizontalIcon} strokeWidth={2} className="size-4" />
                           <span className="sr-only">More</span>
                         </SidebarMenuAction>
                       }
