@@ -88,6 +88,28 @@ export function BrandSidebarRight({ className }: { className?: string }) {
     })
   }, [])
 
+  const frameRef = React.useRef<HTMLIFrameElement>(null)
+
+  // Links clicked inside the proxied document arrive as messages from the
+  // bridge the proxy injects; route them through the same history as the
+  // URL bar so in-frame navigation works.
+  React.useEffect(() => {
+    const onMessage = (event: MessageEvent) => {
+      if (event.source !== frameRef.current?.contentWindow) return
+      const data = event.data
+      if (!data || data.source !== "web-preview") return
+      if (
+        data.type === "navigate" &&
+        typeof data.url === "string" &&
+        /^https?:/i.test(data.url)
+      ) {
+        navigate(data.url)
+      }
+    }
+    window.addEventListener("message", onMessage)
+    return () => window.removeEventListener("message", onMessage)
+  }, [navigate])
+
   const panel = (
     <div
       data-slot="brand-sidebar-right"
@@ -171,6 +193,7 @@ export function BrandSidebarRight({ className }: { className?: string }) {
         {url ? (
           <WebPreviewBody
             key={`${url}-${reloadKey}`}
+            ref={frameRef}
             className="bg-background"
             src={proxyUrl(url)}
           />

@@ -28,8 +28,14 @@ export function BrandHeader() {
 
   return (
     <header className="fixed z-50 w-full border-b border-border bg-background">
-      <div className="flex h-10 items-center justify-between gap-2 px-2 sm:px-3">
+      <div className="flex h-10 items-center justify-between gap-2 px-2 sm:px-4">
         <div className="flex min-w-0 items-center gap-2 sm:gap-4">
+          <Link href="/" className="group flex min-w-0 items-center gap-2">
+            <LogoIcon className="size-6 shrink-0" strokeWidth={1.5} fill="none" />
+          </Link>
+        </div>
+        <div className="flex shrink-0 items-center gap-1">
+          <span className="mx-1 h-3 w-px bg-border" />
           <Tooltip>
             <TooltipTrigger
               render={
@@ -52,7 +58,6 @@ export function BrandHeader() {
               {isCollapsed ? "Open sidebar" : "Close sidebar"}
             </TooltipContent>
           </Tooltip>
-
           <Tooltip>
             <TooltipTrigger
               render={
@@ -73,13 +78,6 @@ export function BrandHeader() {
             />
             <TooltipContent side="bottom">Toggle sidebar</TooltipContent>
           </Tooltip>
-
-          <Link href="/" className="group flex min-w-0 items-center gap-2">
-            <LogoIcon className="size-6 shrink-0" strokeWidth={1.5} fill="none" />
-          </Link>
-        </div>
-        <div className="flex shrink-0 items-center gap-1">
-          <span className="mx-1 h-3 w-px bg-border" />
           <Tooltip>
             <TooltipTrigger
               render={
