@@ -62,7 +62,7 @@ export function PromptProjectPicker({
     <Popover open={open} onOpenChange={handleOpenChange}>
       <PopoverTrigger render={trigger} />
       <PopoverContent side="top" align="start" className="w-72 gap-0 p-0">
-        <Command>
+        <Command className="p-0">
           <CommandInput placeholder="Search projects" />
           <CommandList>
             <CommandEmpty>No projects found.</CommandEmpty>
@@ -96,11 +96,13 @@ export function PromptProjectPicker({
                     >
                       <HugeiconsIcon icon={PlusSignIcon} strokeWidth={1.5} />
                       New project
-                      <HugeiconsIcon
-                        icon={ArrowRight01Icon}
-                        strokeWidth={1.5}
-                        className="ms-auto rtl:rotate-180"
-                      />
+                      <span data-slot="command-shortcut" className="ms-auto">
+                        <HugeiconsIcon
+                          icon={ArrowRight01Icon}
+                          strokeWidth={1.5}
+                          className="rtl:rotate-180"
+                        />
+                      </span>
                     </CommandItem>
                   }
                 />
@@ -110,7 +112,7 @@ export function PromptProjectPicker({
                   sideOffset={4}
                   className="w-56 p-0"
                 >
-                  <Command>
+                  <Command className="p-0">
                     <CommandList>
                       <CommandGroup>
                         <CommandItem

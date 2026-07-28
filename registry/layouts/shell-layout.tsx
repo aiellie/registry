@@ -2,12 +2,12 @@ import { Geist, Geist_Mono } from "next/font/google"
 import type { CSSProperties, ReactNode } from "react"
 
 import { BrandHeader } from "@/components/brand-header"
+import { BrandPanelsProvider } from "@/components/brand-panels"
 import { BrandSidebar } from "@/components/brand-sidebar"
+import { BrandSidebarBottom } from "@/components/brand-sidebar-bottom"
+import { BrandSidebarRight } from "@/components/brand-sidebar-right"
 import { BrandFooter } from "@/components/brand-footer"
-import {
-  ResizablePanel,
-  ResizablePanelGroup,
-} from "@/components/ui/resizable"
+import { ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable"
 import { SidebarProvider } from "@/components/ui/sidebar"
 import { Toaster } from "@/components/ui/toast"
 import { cn } from "@/lib/utils"
@@ -48,23 +48,36 @@ export default function ShellLayout({
             } as CSSProperties
           }
         >
-          <BrandHeader />
-          <ResizablePanelGroup
-            orientation="horizontal"
-            className="mt-[var(--header-height)] mb-[var(--footer-height)]"
-            style={{
-              height:
-                "calc(100svh - var(--header-height) - var(--footer-height))",
-            }}
-          >
-            <BrandSidebar />
-            <ResizablePanel id="content">
-              <main className="flex min-h-full w-full justify-center">
-                <div className="container">{children}</div>
-              </main>
-            </ResizablePanel>
-          </ResizablePanelGroup>
-          <BrandFooter />
+          <BrandPanelsProvider>
+            <BrandHeader />
+            <ResizablePanelGroup
+              orientation="horizontal"
+              className="mt-[var(--header-height)] mb-[var(--footer-height)]"
+              style={{
+                height:
+                  "calc(100svh - var(--header-height) - var(--footer-height))",
+              }}
+            >
+              <BrandSidebar />
+              <ResizablePanel id="content">
+                {/* The bottom panel splits the content area, so it stops short
+                    of the sidebar and the right panel. */}
+                <ResizablePanelGroup orientation="vertical">
+                  <ResizablePanel
+                    id="content-main"
+                    style={{ overflow: "auto" }}
+                  >
+                    <main className="flex min-h-full w-full justify-center">
+                      <div className="container">{children}</div>
+                    </main>
+                  </ResizablePanel>
+                  <BrandSidebarBottom />
+                </ResizablePanelGroup>
+              </ResizablePanel>
+              <BrandSidebarRight />
+            </ResizablePanelGroup>
+            <BrandFooter />
+          </BrandPanelsProvider>
           <Toaster />
         </SidebarProvider>
       </body>

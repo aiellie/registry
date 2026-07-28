@@ -1,4 +1,5 @@
 import { BrandHeader } from "@/components/brand-header"
+import { BrandPanelsProvider } from "@/components/brand-panels"
 import { SidebarProvider } from "@/components/ui/sidebar"
 
 export const brandHeader = {
@@ -6,7 +7,9 @@ export const brandHeader = {
   components: {
     Default: (
       <SidebarProvider>
-        <BrandHeader />
+        <BrandPanelsProvider>
+          <BrandHeader />
+        </BrandPanelsProvider>
       </SidebarProvider>
     ),
   },

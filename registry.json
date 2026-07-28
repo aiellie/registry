@@ -506,6 +506,11 @@
           "target": "components/brand-header.tsx"
         },
         {
+          "path": "components/brand-panels.tsx",
+          "type": "registry:component",
+          "target": "components/brand-panels.tsx"
+        },
+        {
           "path": "components/latency.tsx",
           "type": "registry:component",
           "target": "components/latency.tsx"
@@ -569,10 +574,15 @@
       "title": "Brand Sidebar",
       "description": "Application sidebar with brand navigation.",
       "registryDependencies": [
+        "https://ui.aiellie.dev/r/avatar.json",
+        "https://ui.aiellie.dev/r/badge.json",
         "https://ui.aiellie.dev/r/button.json",
         "https://ui.aiellie.dev/r/kbd.json",
         "https://ui.aiellie.dev/r/resizable.json",
+        "https://ui.aiellie.dev/r/scroll-area.json",
+        "https://ui.aiellie.dev/r/separator.json",
         "https://ui.aiellie.dev/r/sidebar.json",
+        "https://ui.aiellie.dev/r/tabs.json",
         "https://ui.aiellie.dev/r/theme.json",
         "https://ui.aiellie.dev/r/tooltip.json"
       ],
@@ -581,6 +591,21 @@
           "path": "components/brand-sidebar.tsx",
           "type": "registry:component",
           "target": "components/brand-sidebar.tsx"
+        },
+        {
+          "path": "components/brand-sidebar-right.tsx",
+          "type": "registry:component",
+          "target": "components/brand-sidebar-right.tsx"
+        },
+        {
+          "path": "components/brand-sidebar-bottom.tsx",
+          "type": "registry:component",
+          "target": "components/brand-sidebar-bottom.tsx"
+        },
+        {
+          "path": "components/brand-panels.tsx",
+          "type": "registry:component",
+          "target": "components/brand-panels.tsx"
         },
         {
           "path": "components/nav-projects.tsx",
