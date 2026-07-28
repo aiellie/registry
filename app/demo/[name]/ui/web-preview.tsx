@@ -87,8 +87,12 @@ function BrowserExample() {
     entries: [HOME_URL],
     index: 0,
   })
-  const [src, setSrc] = React.useState<string | null>(null)
-  const [mode, setMode] = React.useState<LoadMode>("direct")
+  // `src` and `mode` move together — keeping them in one object stops the
+  // iframe's load event from reporting the previous target's mode.
+  const [resolved, setResolved] = React.useState<{
+    src: string
+    mode: LoadMode
+  } | null>(null)
   const [loading, setLoading] = React.useState(true)
   const [error, setError] = React.useState<string | null>(null)
   const [expanded, setExpanded] = React.useState(false)
@@ -135,7 +139,7 @@ function BrowserExample() {
   const [pendingRequest, setPendingRequest] = React.useState(request)
   if (pendingRequest !== request) {
     setPendingRequest(request)
-    setSrc(null)
+    setResolved(null)
     setLoading(true)
     setError(null)
   }
@@ -153,7 +157,7 @@ function BrowserExample() {
         if (cancelled) return
 
         if (!probe.ok || probe.error) {
-          setSrc(null)
+          setResolved(null)
           setLoading(false)
           setError(
             probe.error ??
@@ -163,14 +167,12 @@ function BrowserExample() {
           return
         }
 
-        const resolved = probe.url ?? url
+        const target = probe.url ?? url
         if (probe.framable) {
-          setMode("direct")
-          setSrc(resolved)
-          log("log", `Framing ${resolved} directly`)
+          setResolved({ mode: "direct", src: target })
+          log("log", `Framing ${target} directly`)
         } else {
-          setMode("proxy")
-          setSrc(proxyUrl(resolved))
+          setResolved({ mode: "proxy", src: proxyUrl(target) })
           log(
             "warn",
             `${probe.reason ?? "Framing blocked"} — serving through the proxy.`
@@ -179,7 +181,7 @@ function BrowserExample() {
       })
       .catch(() => {
         if (cancelled) return
-        setSrc(null)
+        setResolved(null)
         setLoading(false)
         setError(`Could not reach ${url}.`)
         log("error", `Could not reach ${url}.`)
@@ -299,7 +301,7 @@ function BrowserExample() {
           </WebPreviewNavigation>
 
           <WebPreviewBody
-            key={`${src}-${reloadKey}`}
+            key={`${resolved?.src ?? "blank"}-${reloadKey}`}
             loading={
               error ? (
                 <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-background p-6 text-center">
@@ -320,11 +322,14 @@ function BrowserExample() {
               ) : null
             }
             onLoad={() => {
+              // The frame is remounted without a src between navigations; that
+              // about:blank load is not the one we want to report.
+              if (!resolved) return
               setLoading(false)
-              log("log", `Loaded ${url} (${mode})`)
+              log("log", `Loaded ${url} (${resolved.mode})`)
             }}
             ref={frameRef}
-            src={src ?? undefined}
+            src={resolved?.src}
           />
 
           <WebPreviewConsole logs={logs} />
