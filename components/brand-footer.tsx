@@ -10,14 +10,15 @@ export function BrandFooter() {
       <div className="flex h-10 items-center justify-between px-4">
         <Copyright />
 
-        <div className="flex items-center gap-4">
-        <Latency />
-        <span className="h-3 w-px bg-border" />
+        <div className="ml-auto flex items-center gap-4">
+          <Latency />
+          <span className="h-3 w-px bg-border" />
           <NyClock />
           <span className="h-3 w-px bg-border" />
           <LoadStatus />
+          <span className="h-3 w-px bg-border" />
+          <ModeToggle />
         </div>
-        <ModeToggle />
       </div>
     </footer>
   )
