@@ -232,7 +232,7 @@ export const teams: SidebarTeam[] = [
 export const user = {
   name: "aiellie",
   email: "hello@aiellie.dev",
-  avatar: "/avatars/aiellie.png",
+  avatar: "https://avatar.aiellie.dev/vercel?type=glass",
 }
 
 export const sidebarData = { teams, user }

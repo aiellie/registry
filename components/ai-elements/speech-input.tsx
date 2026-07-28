@@ -8,8 +8,9 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { LiveWaveform } from "@/components/ai/live-waveform";
 import { cn } from "@/lib/utils";
-import { Mic02Icon, CircleSmallIcon } from "@hugeicons/core-free-icons";
+import { Mic02Icon, StopIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import type { ComponentProps, ReactNode } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -69,6 +70,11 @@ type SpeechInputMode = "speech-recognition" | "media-recorder" | "none";
 export type SpeechInputProps = ComponentProps<typeof Button> & {
   onTranscriptionChange?: (text: string) => void;
   /**
+   * Called whenever recording starts or stops. Useful for parents that
+   * change layout while the waveform strip is visible.
+   */
+  onListeningChange?: (listening: boolean) => void;
+  /**
    * Callback for when audio is recorded using MediaRecorder fallback.
    * This is called in browsers that don't support the Web Speech API (Firefox, Safari).
    * The callback receives an audio Blob that should be sent to a transcription service.
@@ -100,10 +106,17 @@ const detectSpeechInputMode = (): SpeechInputMode => {
   return "none";
 };
 
+const formatDuration = (totalSeconds: number) => {
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+};
+
 export const SpeechInput = ({
   className,
   onTranscriptionChange,
   onAudioRecorded,
+  onListeningChange,
   lang = "en-US",
   tooltip,
   tooltipSide = "top",
@@ -111,6 +124,7 @@ export const SpeechInput = ({
 }: SpeechInputProps) => {
   const [isListening, setIsListening] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [elapsedSeconds, setElapsedSeconds] = useState(0);
   const [mode] = useState<SpeechInputMode>(detectSpeechInputMode);
   const [isRecognitionReady, setIsRecognitionReady] = useState(false);
   const recognitionRef = useRef<SpeechRecognition | null>(null);
@@ -122,10 +136,40 @@ export const SpeechInput = ({
   >(onTranscriptionChange);
   const onAudioRecordedRef =
     useRef<SpeechInputProps["onAudioRecorded"]>(onAudioRecorded);
+  const onListeningChangeRef =
+    useRef<SpeechInputProps["onListeningChange"]>(onListeningChange);
 
   // Keep refs in sync
   onTranscriptionChangeRef.current = onTranscriptionChange;
   onAudioRecordedRef.current = onAudioRecorded;
+
+  useEffect(() => {
+    onListeningChangeRef.current = onListeningChange;
+  });
+
+  // Reset the timer whenever recording starts or stops, adjusting during
+  // render so the first paint never shows a stale duration.
+  const [lastListening, setLastListening] = useState(false);
+  if (lastListening !== isListening) {
+    setLastListening(isListening);
+    setElapsedSeconds(0);
+  }
+
+  // Notify parents and run the recording timer
+  useEffect(() => {
+    onListeningChangeRef.current?.(isListening);
+
+    if (!isListening) {
+      return;
+    }
+
+    const startedAt = Date.now();
+    const interval = setInterval(() => {
+      setElapsedSeconds(Math.floor((Date.now() - startedAt) / 1000));
+    }, 250);
+
+    return () => clearInterval(interval);
+  }, [isListening]);
 
   // Initialize Speech Recognition when mode is speech-recognition
   useEffect(() => {
@@ -317,13 +361,13 @@ export const SpeechInput = ({
       onClick={toggleListening}
       {...props}
       size="icon-sm"
-      variant={isListening ? "destructive" : "ghost"}
+      variant={isListening ? "secondary" : "ghost"}
     >
       {isProcessing && <Spinner />}
       {!isProcessing && isListening && (
         <HugeiconsIcon
-          className="size-2 fill-current"
-          icon={CircleSmallIcon}
+          className="size-3 fill-current"
+          icon={StopIcon}
           strokeWidth={2}
         />
       )}
@@ -334,19 +378,35 @@ export const SpeechInput = ({
   );
 
   return (
-    <div className="relative inline-flex items-center justify-center">
-      {/* Animated pulse rings */}
-      {isListening &&
-        [0, 1, 2].map((index) => (
-          <div
-            className="absolute inset-0 animate-ping rounded-full border-2 border-red-400/30"
-            key={index}
-            style={{
-              animationDelay: `${index * 0.3}s`,
-              animationDuration: "2s",
-            }}
-          />
-        ))}
+    <div
+      className={cn(
+        "relative inline-flex items-center justify-center",
+        isListening && "w-full min-w-0 flex-1 justify-end gap-2"
+      )}
+    >
+      {/* Live waveform and elapsed time while recording */}
+      {isListening && (
+        <>
+          <div className="relative min-w-0 flex-1">
+            <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 border-t-2 border-dotted border-muted-foreground/20" />
+            <LiveWaveform
+              active
+              mode="scrolling"
+              height={24}
+              barWidth={2}
+              barGap={2}
+              historySize={512}
+              updateRate={50}
+              fadeWidth={12}
+              sensitivity={2}
+              className="text-foreground"
+            />
+          </div>
+          <span className="text-sm text-muted-foreground tabular-nums">
+            {formatDuration(elapsedSeconds)}
+          </span>
+        </>
+      )}
 
       {/* Main record button */}
       {tooltipContent == null ? (

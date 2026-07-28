@@ -3185,6 +3185,7 @@
       "description": "Push-to-talk button with Web Speech API transcription and a MediaRecorder fallback.",
       "registryDependencies": [
         "https://ui.aiellie.dev/r/button.json",
+        "https://ui.aiellie.dev/r/live-waveform.json",
         "https://ui.aiellie.dev/r/spinner.json",
         "https://ui.aiellie.dev/r/tooltip.json"
       ],
@@ -3193,6 +3194,22 @@
           "path": "components/ai-elements/speech-input.tsx",
           "type": "registry:ui",
           "target": "components/ui/speech-input.tsx"
+        }
+      ]
+    },
+    {
+      "name": "live-waveform",
+      "type": "registry:ui",
+      "title": "Live Waveform",
+      "description": "Real-time microphone waveform on canvas with static and scrolling modes, a processing animation, and a dotted idle baseline.",
+      "registryDependencies": [
+        "https://ui.aiellie.dev/r/theme.json"
+      ],
+      "files": [
+        {
+          "path": "components/ai/live-waveform.tsx",
+          "type": "registry:ui",
+          "target": "components/ai/live-waveform.tsx"
         }
       ]
     },

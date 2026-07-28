@@ -3,6 +3,12 @@ import { Latency } from "@/components/latency"
 import { LoadStatus } from "@/components/load-status"
 import { NyClock } from "@/components/ny-clock"
 import { ModeToggle } from "@/components/theme-toggle"
+import { Button } from "@/components/ui/button"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 export function BrandFooter() {
   return (
@@ -18,6 +24,36 @@ export function BrandFooter() {
           <LoadStatus />
           <span className="h-3 w-px shrink-0 bg-border" />
           <ModeToggle />
+          <span className="h-3 w-px shrink-0 bg-border" />
+          <Tooltip>
+            <TooltipTrigger
+              render={
+                <Button
+                  variant="ghost"
+                  size="icon-xs"
+                  nativeButton={false}
+                  className="size-auto h-auto w-auto shrink-0 rounded-full p-0 text-muted-foreground hover:bg-transparent hover:opacity-80"
+                  render={
+                    <a
+                      href="https://aiellie.dev"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    />
+                  }
+                />
+              }
+            >
+              <img
+                src="/avatars/aiellie.png"
+                alt="AiEllie"
+                width={20}
+                height={20}
+                className="size-5 rounded-full"
+              />
+              <span className="sr-only">AiEllie</span>
+            </TooltipTrigger>
+            <TooltipContent>AiEllie</TooltipContent>
+          </Tooltip>
         </div>
       </div>
     </footer>

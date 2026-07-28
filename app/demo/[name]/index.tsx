@@ -27,6 +27,7 @@ import PersonaExample from "@/app/demo/[name]/ui/persona"
 import AIOrbExample from "@/app/demo/[name]/ui/ai-orb"
 import MicSelectorExample from "@/app/demo/[name]/ui/mic-selector"
 import SpeechInputExample from "@/app/demo/[name]/ui/speech-input"
+import LiveWaveformExample from "@/app/demo/[name]/ui/live-waveform"
 // ui
 import AccordionExample from "@/app/demo/[name]/ui/accordion"
 import AlertExample from "@/app/demo/[name]/ui/alert"
@@ -135,6 +136,7 @@ export const demos: { [name: string]: Demo } = {
   "ai-orb": AIOrbExample,
   "mic-selector": MicSelectorExample,
   "speech-input": SpeechInputExample,
+  "live-waveform": LiveWaveformExample,
   // ui
   accordion: AccordionExample,
   alert: AlertExample,

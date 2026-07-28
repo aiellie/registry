@@ -9,6 +9,7 @@ import {
   AspectRatioIcon,
   AttachmentIcon,
   AudioWave01Icon,
+  AudioWave02Icon,
   BarChartIcon,
   BlocksIcon,
   BloodIcon,
@@ -295,6 +296,13 @@ export const items: Item[] = [
   {
     name: "speech-input",
     icon: AudioWave01Icon,
+    type: "registry:ui",
+    category: "ai",
+    isNew: true,
+  },
+  {
+    name: "live-waveform",
+    icon: AudioWave02Icon,
     type: "registry:ui",
     category: "ai",
     isNew: true,

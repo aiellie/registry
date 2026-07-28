@@ -274,6 +274,12 @@ export const LiveWaveform = ({
           (window as unknown as { webkitAudioContext: typeof AudioContext })
             .webkitAudioContext
         const audioContext = new AudioContextConstructor()
+        // Contexts created outside a user-gesture call stack (e.g. in this
+        // effect) start suspended in Safari/Chrome; resume or the analyser
+        // only ever reads silence.
+        if (audioContext.state === "suspended") {
+          audioContext.resume().catch(() => {})
+        }
         const analyser = audioContext.createAnalyser()
         analyser.fftSize = fftSize
         analyser.smoothingTimeConstant = smoothingTimeConstant

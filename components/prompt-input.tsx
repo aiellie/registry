@@ -77,6 +77,7 @@ export function PromptInput({
   const [model, setModel] = React.useState("claude-opus-5")
   const [effort, setEffort] = React.useState("light")
   const [fast, setFast] = React.useState(false)
+  const [isDictating, setIsDictating] = React.useState(false)
 
   // Slash commands only apply to a single leading line, so `/` in the middle of
   // a prompt never triggers the menu.
@@ -209,19 +210,29 @@ export function PromptInput({
               if (item === "project") setProjectPickerOpen(true)
             }}
           />
-          <PromptApprovalMenu value={approval} onValueChange={setApproval} />
-          <PromptModelMenu
-              model={model}
-              onModelChange={setModel}
-              effort={effort}
-              onEffortChange={setEffort}
-              fast={fast}
-              onFastChange={setFast}
-            />
-          <div className="ms-auto flex items-center gap-0.5">
+          {!isDictating && (
+            <>
+              <PromptApprovalMenu value={approval} onValueChange={setApproval} />
+              <PromptModelMenu
+                model={model}
+                onModelChange={setModel}
+                effort={effort}
+                onEffortChange={setEffort}
+                fast={fast}
+                onFastChange={setFast}
+              />
+            </>
+          )}
+          <div
+            className={cn(
+              "ms-auto flex items-center gap-0.5",
+              isDictating && "min-w-0 flex-1"
+            )}
+          >
             <SpeechInput
-              aria-label="Dictate"
-              tooltip="Dictate"
+              aria-label={isDictating ? "Stop dictation" : "Dictate"}
+              tooltip={isDictating ? "Stop dictation" : "Dictate"}
+              onListeningChange={setIsDictating}
               onTranscriptionChange={(text) => {
                 setValue((current) =>
                   current ? `${current.trimEnd()} ${text}` : text
