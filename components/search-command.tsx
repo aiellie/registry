@@ -175,7 +175,7 @@ export function SearchCommand({
         </Button>
         <Button
           variant="ghost"
-          size="sm"
+          size="xs"
           className="text-foreground md:hidden"
           aria-label="Search"
           onClick={() => setOpen(true)}

@@ -18,6 +18,7 @@ import {
   CalendarIcon,
   CarouselHorizontalIcon,
   CollapseIcon,
+  ColorPickerIcon,
   Comment01Icon,
   CreditCardIcon,
   CubeIcon,
@@ -338,6 +339,13 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "forms",
     isNew: false,
+  },
+  {
+    name: "color-picker",
+    icon: ColorPickerIcon,
+    type: "registry:ui",
+    category: "forms",
+    isNew: true,
   },
   {
     name: "combobox",

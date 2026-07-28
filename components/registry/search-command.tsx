@@ -194,8 +194,9 @@ export function SearchCommand({
         <div className="flex items-center gap-2">
           <Button
             variant="outline"
+            size="sm"
             onClick={() => setOpen(true)}
-            className="min-w-0 flex-1 justify-start gap-2 bg-background font-normal text-muted-foreground shadow-none"
+            className="rounded-xl min-w-0 flex-1 justify-start gap-2 bg-background font-normal text-muted-foreground shadow-none"
           >
             <HugeiconsIcon
               icon={SearchIcon}

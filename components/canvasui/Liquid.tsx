@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import {
   useEffect,
@@ -6,57 +6,57 @@ import {
   useState,
   useSyncExternalStore,
   type ReactNode,
-} from "react";
+} from "react"
 
 export interface LiquidOptions {
   /** Resolution of the simulation grid. */
-  simResolution?: number;
+  simResolution?: number
   /** Resolution of the fluid trail texture. */
-  dyeResolution?: number;
+  dyeResolution?: number
   /** How much the trail persists each frame (closer to 1 lasts longer). */
-  densityDissipation?: number;
+  densityDissipation?: number
   /** How much motion persists each frame (closer to 1 lasts longer). */
-  velocityDissipation?: number;
+  velocityDissipation?: number
   /** How much pressure carries over between frames. */
-  pressure?: number;
+  pressure?: number
   /** Pressure solver iterations. */
-  pressureIterations?: number;
+  pressureIterations?: number
   /** Rotational force added back into the flow. */
-  curl?: number;
+  curl?: number
   /** Radius of the pointer splat. */
-  radius?: number;
+  radius?: number
   /** Force multiplier applied on pointer movement. */
-  force?: number;
+  force?: number
   /** Strength of the color tint left by the flow. */
-  intensity?: number;
+  intensity?: number
   /** How strongly the flow warps the content. */
-  distortion?: number;
+  distortion?: number
   /** How much of the fluid color blends over the content. */
-  blend?: number;
+  blend?: number
   /** Trail color as [r, g, b] in 0-1 range. Ignored when rainbow is on. */
-  color?: [number, number, number];
+  color?: [number, number, number]
   /** Color the trail from the flow direction instead of a fixed color. */
-  rainbow?: boolean;
+  rainbow?: boolean
 }
 
 export interface LiquidElements {
   /** Canvas with layoutsubtree that hosts the HTML content. */
-  source: HTMLCanvasElement;
+  source: HTMLCanvasElement
   /** The element inside the source canvas that gets captured. */
-  content: HTMLElement;
+  content: HTMLElement
   /** Canvas the WebGL effect renders to. */
-  output: HTMLCanvasElement;
+  output: HTMLCanvasElement
 }
 
 export interface LiquidInstance {
   /** Inject a splat at (x, y) in [0,1] space with velocity (dx, dy). */
-  splat: (x: number, y: number, dx: number, dy: number) => void;
+  splat: (x: number, y: number, dx: number, dy: number) => void
   /** Update simulation options live. Resolution changes are ignored. */
-  setOptions: (options: LiquidOptions) => void;
+  setOptions: (options: LiquidOptions) => void
   /** Re-read canvas size. Call when the element is resized. */
-  resize: () => void;
+  resize: () => void
   /** Stop the loop and release all GPU resources. */
-  destroy: () => void;
+  destroy: () => void
 }
 
 const DEFAULTS: Required<LiquidOptions> = {
@@ -74,24 +74,24 @@ const DEFAULTS: Required<LiquidOptions> = {
   blend: 5,
   color: [0.145, 0.239, 0.867],
   rainbow: false,
-};
+}
 
-const DT = 1 / 60;
+const DT = 1 / 60
 
 function srgbToLinear(value: number): number {
   return value <= 0.04045
     ? value / 12.92
-    : Math.pow((value + 0.055) / 1.055, 2.4);
+    : Math.pow((value + 0.055) / 1.055, 2.4)
 }
 
 type PaintableCanvas = HTMLCanvasElement & {
-  onpaint?: (() => void) | null;
-  requestPaint?: () => void;
-};
+  onpaint?: (() => void) | null
+  requestPaint?: () => void
+}
 
 type ElementImageContext = CanvasRenderingContext2D & {
-  drawElementImage?: (element: Element, x: number, y: number) => void;
-};
+  drawElementImage?: (element: Element, x: number, y: number) => void
+}
 
 const VERT = `#version 300 es
 precision highp float;
@@ -109,7 +109,7 @@ void main () {
   vT = vUv + vec2(0.0, texelSize.y);
   vB = vUv - vec2(0.0, texelSize.y);
   gl_Position = vec4(aPos, 0.0, 1.0);
-}`;
+}`
 
 const FRAG_DISPLAY = `#version 300 es
 precision highp float;
@@ -148,7 +148,7 @@ void main () {
   vec4 blended = mix(content, fluidColor, uBlend * 0.01 * clamp(length(fluid), 0.0, 1.0));
   vec4 final = mix(blended, vec4(0.0), 1.0 - content.a);
   outColor = vec4(toSrgb(clamp(final.rgb, 0.0, 1.0)), final.a);
-}`;
+}`
 
 const FRAG_SPLAT = `#version 300 es
 precision highp float;
@@ -165,7 +165,7 @@ void main () {
   vec3 splat = exp(-dot(p, p) / uRadius) * uColor;
   vec3 base = texture(uTarget, vUv).xyz;
   outColor = vec4(base + splat, 1.0);
-}`;
+}`
 
 const FRAG_ADVECT = `#version 300 es
 precision highp float;
@@ -180,7 +180,7 @@ void main () {
   vec2 coord = vUv - uDt * texture(uVelocity, vUv).xy * texelSize;
   outColor = uDissipation * texture(uSource, coord);
   outColor.a = 1.0;
-}`;
+}`
 
 const FRAG_CLEAR = `#version 300 es
 precision highp float;
@@ -190,7 +190,7 @@ uniform sampler2D uTexture;
 uniform float uValue;
 void main () {
   outColor = uValue * texture(uTexture, vUv);
-}`;
+}`
 
 const FRAG_DIVERGENCE = `#version 300 es
 precision highp float;
@@ -213,7 +213,7 @@ void main () {
   if (vB.y < 0.0) { B = -C.y; }
   float div = 0.5 * (R - L + T - B);
   outColor = vec4(div, 0.0, 0.0, 1.0);
-}`;
+}`
 
 const FRAG_CURL = `#version 300 es
 precision highp float;
@@ -231,7 +231,7 @@ void main () {
   float B = texture(uVelocity, vB).x;
   float vorticity = R - L - T + B;
   outColor = vec4(vorticity, 0.0, 0.0, 1.0);
-}`;
+}`
 
 const FRAG_VORTICITY = `#version 300 es
 precision highp float;
@@ -257,7 +257,7 @@ void main () {
   force.y *= -1.0;
   vec2 velocity = texture(uVelocity, vUv).xy;
   outColor = vec4(velocity + force * uDt, 0.0, 1.0);
-}`;
+}`
 
 const FRAG_PRESSURE = `#version 300 es
 precision highp float;
@@ -277,7 +277,7 @@ void main () {
   float divergence = texture(uDivergence, vUv).x;
   float pressure = (L + R + B + T - divergence) * 0.25;
   outColor = vec4(pressure, 0.0, 0.0, 1.0);
-}`;
+}`
 
 const FRAG_GRADIENT = `#version 300 es
 precision highp float;
@@ -297,38 +297,38 @@ void main () {
   vec2 velocity = texture(uVelocity, vUv).xy;
   velocity.xy -= vec2(R - L, T - B);
   outColor = vec4(velocity, 0.0, 1.0);
-}`;
+}`
 
 interface Target {
-  fbo: WebGLFramebuffer;
-  texture: WebGLTexture;
-  width: number;
-  height: number;
+  fbo: WebGLFramebuffer
+  texture: WebGLTexture
+  width: number
+  height: number
 }
 
 interface DoubleTarget {
-  read: Target;
-  write: Target;
-  swap: () => void;
+  read: Target
+  write: Target
+  swap: () => void
 }
 
 export function supportsHtmlInCanvas(): boolean {
-  if (typeof document === "undefined") return false;
-  const probe = document.createElement("canvas") as PaintableCanvas;
-  const ctx = probe.getContext("2d") as ElementImageContext | null;
+  if (typeof document === "undefined") return false
+  const probe = document.createElement("canvas") as PaintableCanvas
+  const ctx = probe.getContext("2d") as ElementImageContext | null
   return Boolean(
     ctx &&
     typeof ctx.drawElementImage === "function" &&
-    typeof probe.requestPaint === "function",
-  );
+    typeof probe.requestPaint === "function"
+  )
 }
 
 export function createLiquid(
   elements: LiquidElements,
-  options: LiquidOptions = {},
+  options: LiquidOptions = {}
 ): LiquidInstance | null {
-  const config = { ...DEFAULTS, ...options };
-  const { source, content, output } = elements;
+  const config = { ...DEFAULTS, ...options }
+  const { source, content, output } = elements
 
   const gl = output.getContext("webgl2", {
     alpha: true,
@@ -336,104 +336,104 @@ export function createLiquid(
     stencil: false,
     antialias: false,
     premultipliedAlpha: true,
-  });
-  if (!gl || gl.isContextLost()) return null;
+  })
+  if (!gl || gl.isContextLost()) return null
 
-  const sourceCtx = source.getContext("2d") as ElementImageContext | null;
-  const paintable = source as PaintableCanvas;
+  const sourceCtx = source.getContext("2d") as ElementImageContext | null
+  const paintable = source as PaintableCanvas
   const htmlInCanvas = Boolean(
     sourceCtx &&
     typeof sourceCtx.drawElementImage === "function" &&
-    typeof paintable.requestPaint === "function",
-  );
+    typeof paintable.requestPaint === "function"
+  )
 
-  let contentDirty = false;
-  let wake = () => {};
+  let contentDirty = false
+  let wake = () => {}
 
   if (htmlInCanvas) {
     paintable.onpaint = () => {
       try {
-        sourceCtx!.reset();
-        sourceCtx!.drawElementImage!(content, 0, 0);
-        contentDirty = true;
-        wake();
+        sourceCtx!.reset()
+        sourceCtx!.drawElementImage!(content, 0, 0)
+        contentDirty = true
+        wake()
       } catch {}
-    };
+    }
   }
 
-  gl.getExtension("EXT_color_buffer_float");
-  const supportsLinear = Boolean(gl.getExtension("OES_texture_float_linear"));
-  const filtering = supportsLinear ? gl.LINEAR : gl.NEAREST;
+  gl.getExtension("EXT_color_buffer_float")
+  const supportsLinear = Boolean(gl.getExtension("OES_texture_float_linear"))
+  const filtering = supportsLinear ? gl.LINEAR : gl.NEAREST
 
-  const shaders: WebGLShader[] = [];
+  const shaders: WebGLShader[] = []
 
   function compile(type: number, source: string): WebGLShader {
-    const shader = gl!.createShader(type)!;
-    gl!.shaderSource(shader, source);
-    gl!.compileShader(shader);
+    const shader = gl!.createShader(type)!
+    gl!.shaderSource(shader, source)
+    gl!.compileShader(shader)
     if (!gl!.getShaderParameter(shader, gl!.COMPILE_STATUS)) {
-      console.error("Liquid shader error:", gl!.getShaderInfoLog(shader));
+      console.error("Liquid shader error:", gl!.getShaderInfoLog(shader))
     }
-    shaders.push(shader);
-    return shader;
+    shaders.push(shader)
+    return shader
   }
 
-  const vertexShader = compile(gl.VERTEX_SHADER, VERT);
+  const vertexShader = compile(gl.VERTEX_SHADER, VERT)
 
   interface Program {
-    program: WebGLProgram;
-    uniforms: Record<string, WebGLUniformLocation>;
+    program: WebGLProgram
+    uniforms: Record<string, WebGLUniformLocation>
   }
 
-  const programs: WebGLProgram[] = [];
+  const programs: WebGLProgram[] = []
 
   function createProgram(fragSource: string): Program {
-    const program = gl!.createProgram()!;
-    gl!.attachShader(program, vertexShader);
-    gl!.attachShader(program, compile(gl!.FRAGMENT_SHADER, fragSource));
-    gl!.linkProgram(program);
-    programs.push(program);
-    const uniforms: Record<string, WebGLUniformLocation> = {};
-    const count = gl!.getProgramParameter(program, gl!.ACTIVE_UNIFORMS);
+    const program = gl!.createProgram()!
+    gl!.attachShader(program, vertexShader)
+    gl!.attachShader(program, compile(gl!.FRAGMENT_SHADER, fragSource))
+    gl!.linkProgram(program)
+    programs.push(program)
+    const uniforms: Record<string, WebGLUniformLocation> = {}
+    const count = gl!.getProgramParameter(program, gl!.ACTIVE_UNIFORMS)
     for (let i = 0; i < count; i++) {
-      const info = gl!.getActiveUniform(program, i)!;
-      uniforms[info.name] = gl!.getUniformLocation(program, info.name)!;
+      const info = gl!.getActiveUniform(program, i)!
+      uniforms[info.name] = gl!.getUniformLocation(program, info.name)!
     }
-    return { program, uniforms };
+    return { program, uniforms }
   }
 
-  const displayProgram = createProgram(FRAG_DISPLAY);
-  const splatProgram = createProgram(FRAG_SPLAT);
-  const advectProgram = createProgram(FRAG_ADVECT);
-  const clearProgram = createProgram(FRAG_CLEAR);
-  const divergenceProgram = createProgram(FRAG_DIVERGENCE);
-  const curlProgram = createProgram(FRAG_CURL);
-  const vorticityProgram = createProgram(FRAG_VORTICITY);
-  const pressureProgram = createProgram(FRAG_PRESSURE);
-  const gradientProgram = createProgram(FRAG_GRADIENT);
+  const displayProgram = createProgram(FRAG_DISPLAY)
+  const splatProgram = createProgram(FRAG_SPLAT)
+  const advectProgram = createProgram(FRAG_ADVECT)
+  const clearProgram = createProgram(FRAG_CLEAR)
+  const divergenceProgram = createProgram(FRAG_DIVERGENCE)
+  const curlProgram = createProgram(FRAG_CURL)
+  const vorticityProgram = createProgram(FRAG_VORTICITY)
+  const pressureProgram = createProgram(FRAG_PRESSURE)
+  const gradientProgram = createProgram(FRAG_GRADIENT)
 
-  const quad = gl.createBuffer();
-  gl.bindBuffer(gl.ARRAY_BUFFER, quad);
+  const quad = gl.createBuffer()
+  gl.bindBuffer(gl.ARRAY_BUFFER, quad)
   gl.bufferData(
     gl.ARRAY_BUFFER,
     new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]),
-    gl.STATIC_DRAW,
-  );
-  gl.enableVertexAttribArray(0);
-  gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+    gl.STATIC_DRAW
+  )
+  gl.enableVertexAttribArray(0)
+  gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0)
 
   function createTarget(
     size: number,
     internalFormat: number,
     format: number,
-    filter: number,
+    filter: number
   ): Target {
-    const texture = gl!.createTexture()!;
-    gl!.bindTexture(gl!.TEXTURE_2D, texture);
-    gl!.texParameteri(gl!.TEXTURE_2D, gl!.TEXTURE_MIN_FILTER, filter);
-    gl!.texParameteri(gl!.TEXTURE_2D, gl!.TEXTURE_MAG_FILTER, filter);
-    gl!.texParameteri(gl!.TEXTURE_2D, gl!.TEXTURE_WRAP_S, gl!.CLAMP_TO_EDGE);
-    gl!.texParameteri(gl!.TEXTURE_2D, gl!.TEXTURE_WRAP_T, gl!.CLAMP_TO_EDGE);
+    const texture = gl!.createTexture()!
+    gl!.bindTexture(gl!.TEXTURE_2D, texture)
+    gl!.texParameteri(gl!.TEXTURE_2D, gl!.TEXTURE_MIN_FILTER, filter)
+    gl!.texParameteri(gl!.TEXTURE_2D, gl!.TEXTURE_MAG_FILTER, filter)
+    gl!.texParameteri(gl!.TEXTURE_2D, gl!.TEXTURE_WRAP_S, gl!.CLAMP_TO_EDGE)
+    gl!.texParameteri(gl!.TEXTURE_2D, gl!.TEXTURE_WRAP_T, gl!.CLAMP_TO_EDGE)
     gl!.texImage2D(
       gl!.TEXTURE_2D,
       0,
@@ -443,74 +443,74 @@ export function createLiquid(
       0,
       format,
       gl!.HALF_FLOAT,
-      null,
-    );
-    const fbo = gl!.createFramebuffer()!;
-    gl!.bindFramebuffer(gl!.FRAMEBUFFER, fbo);
+      null
+    )
+    const fbo = gl!.createFramebuffer()!
+    gl!.bindFramebuffer(gl!.FRAMEBUFFER, fbo)
     gl!.framebufferTexture2D(
       gl!.FRAMEBUFFER,
       gl!.COLOR_ATTACHMENT0,
       gl!.TEXTURE_2D,
       texture,
-      0,
-    );
-    gl!.viewport(0, 0, size, size);
-    gl!.clearColor(0, 0, 0, 1);
-    gl!.clear(gl!.COLOR_BUFFER_BIT);
-    return { fbo, texture, width: size, height: size };
+      0
+    )
+    gl!.viewport(0, 0, size, size)
+    gl!.clearColor(0, 0, 0, 1)
+    gl!.clear(gl!.COLOR_BUFFER_BIT)
+    return { fbo, texture, width: size, height: size }
   }
 
   function createDoubleTarget(
     size: number,
     internalFormat: number,
     format: number,
-    filter: number,
+    filter: number
   ): DoubleTarget {
-    let read = createTarget(size, internalFormat, format, filter);
-    let write = createTarget(size, internalFormat, format, filter);
+    let read = createTarget(size, internalFormat, format, filter)
+    let write = createTarget(size, internalFormat, format, filter)
     return {
       get read() {
-        return read;
+        return read
       },
       get write() {
-        return write;
+        return write
       },
       swap() {
-        const t = read;
-        read = write;
-        write = t;
+        const t = read
+        read = write
+        write = t
       },
-    };
+    }
   }
 
   const velocity = createDoubleTarget(
     config.simResolution,
     gl.RG16F,
     gl.RG,
-    filtering,
-  );
+    filtering
+  )
   const dye = createDoubleTarget(
     config.dyeResolution,
     gl.RGBA16F,
     gl.RGBA,
-    filtering,
-  );
+    filtering
+  )
   const divergence = createTarget(
     config.simResolution,
     gl.R16F,
     gl.RED,
-    gl.NEAREST,
-  );
-  const curl = createTarget(config.simResolution, gl.R16F, gl.RED, gl.NEAREST);
+    gl.NEAREST
+  )
+  const curl = createTarget(config.simResolution, gl.R16F, gl.RED, gl.NEAREST)
   const pressure = createDoubleTarget(
     config.simResolution,
     gl.R16F,
     gl.RED,
-    gl.NEAREST,
-  );
+    gl.NEAREST
+  )
 
   function releaseAll() {
-    [
+    ;[
       velocity.read,
       velocity.write,
       dye.read,
@@ -520,49 +520,49 @@ export function createLiquid(
       divergence,
       curl,
     ].forEach((t) => {
-      gl!.deleteFramebuffer(t.fbo);
-      gl!.deleteTexture(t.texture);
-    });
+      gl!.deleteFramebuffer(t.fbo)
+      gl!.deleteTexture(t.texture)
+    })
   }
 
-  let texelX = 0;
-  let texelY = 0;
+  let texelX = 0
+  let texelY = 0
 
   function updateTexelSize() {
-    const width = Math.max(output.clientWidth, 1);
-    const height = Math.max(output.clientHeight, 1);
-    texelX = 1 / (config.simResolution * (width / (height + 400)));
-    texelY = 1 / config.simResolution;
+    const width = Math.max(output.clientWidth, 1)
+    const height = Math.max(output.clientHeight, 1)
+    texelX = 1 / (config.simResolution * (width / (height + 400)))
+    texelY = 1 / config.simResolution
   }
 
   function syncCanvasSize() {
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const width = Math.max(1, Math.round(output.clientWidth * dpr));
-    const height = Math.max(1, Math.round(output.clientHeight * dpr));
+    const dpr = Math.min(window.devicePixelRatio || 1, 2)
+    const width = Math.max(1, Math.round(output.clientWidth * dpr))
+    const height = Math.max(1, Math.round(output.clientHeight * dpr))
     if (output.width !== width || output.height !== height) {
-      output.width = width;
-      output.height = height;
+      output.width = width
+      output.height = height
     }
     if (htmlInCanvas) {
-      const cssWidth = Math.max(1, Math.round(source.clientWidth));
-      const cssHeight = Math.max(1, Math.round(source.clientHeight));
+      const cssWidth = Math.max(1, Math.round(source.clientWidth))
+      const cssHeight = Math.max(1, Math.round(source.clientHeight))
       if (source.width !== cssWidth || source.height !== cssHeight) {
-        source.width = cssWidth;
-        source.height = cssHeight;
+        source.width = cssWidth
+        source.height = cssHeight
       }
-      paintable.requestPaint!();
+      paintable.requestPaint!()
     }
-    updateTexelSize();
+    updateTexelSize()
   }
 
-  syncCanvasSize();
+  syncCanvasSize()
 
-  const contentTexture = gl.createTexture()!;
-  gl.bindTexture(gl.TEXTURE_2D, contentTexture);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+  const contentTexture = gl.createTexture()!
+  gl.bindTexture(gl.TEXTURE_2D, contentTexture)
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
   gl.texImage2D(
     gl.TEXTURE_2D,
     0,
@@ -572,350 +572,344 @@ export function createLiquid(
     0,
     gl.RGBA,
     gl.UNSIGNED_BYTE,
-    new Uint8Array([0, 0, 0, 0]),
-  );
+    new Uint8Array([0, 0, 0, 0])
+  )
 
   function uploadContent() {
-    if (!htmlInCanvas || !contentDirty) return;
-    contentDirty = false;
-    gl!.bindTexture(gl!.TEXTURE_2D, contentTexture);
+    if (!htmlInCanvas || !contentDirty) return
+    contentDirty = false
+    gl!.bindTexture(gl!.TEXTURE_2D, contentTexture)
     gl!.texImage2D(
       gl!.TEXTURE_2D,
       0,
       gl!.RGBA,
       gl!.RGBA,
       gl!.UNSIGNED_BYTE,
-      source,
-    );
+      source
+    )
   }
 
   function blit(target: Target | null) {
     if (target) {
-      gl!.bindFramebuffer(gl!.FRAMEBUFFER, target.fbo);
-      gl!.viewport(0, 0, target.width, target.height);
+      gl!.bindFramebuffer(gl!.FRAMEBUFFER, target.fbo)
+      gl!.viewport(0, 0, target.width, target.height)
     } else {
-      gl!.bindFramebuffer(gl!.FRAMEBUFFER, null);
-      gl!.viewport(0, 0, output.width, output.height);
+      gl!.bindFramebuffer(gl!.FRAMEBUFFER, null)
+      gl!.viewport(0, 0, output.width, output.height)
     }
-    gl!.drawArrays(gl!.TRIANGLE_STRIP, 0, 4);
+    gl!.drawArrays(gl!.TRIANGLE_STRIP, 0, 4)
   }
 
   function bindTexture(texture: WebGLTexture, unit: number): number {
-    gl!.activeTexture(gl!.TEXTURE0 + unit);
-    gl!.bindTexture(gl!.TEXTURE_2D, texture);
-    return unit;
+    gl!.activeTexture(gl!.TEXTURE0 + unit)
+    gl!.bindTexture(gl!.TEXTURE_2D, texture)
+    return unit
   }
 
   function applySplat(x: number, y: number, dx: number, dy: number) {
-    const aspect = output.clientWidth / Math.max(output.clientHeight, 1);
-    const radius = config.radius / 100;
+    const aspect = output.clientWidth / Math.max(output.clientHeight, 1)
+    const radius = config.radius / 100
 
-    gl!.useProgram(splatProgram.program);
+    gl!.useProgram(splatProgram.program)
     gl!.uniform1i(
       splatProgram.uniforms.uTarget,
-      bindTexture(velocity.read.texture, 0),
-    );
-    gl!.uniform1f(splatProgram.uniforms.uAspect, aspect);
-    gl!.uniform2f(splatProgram.uniforms.uPoint, x, y);
-    gl!.uniform3f(splatProgram.uniforms.uColor, dx, dy, 10);
-    gl!.uniform1f(splatProgram.uniforms.uRadius, radius);
-    blit(velocity.write);
-    velocity.swap();
+      bindTexture(velocity.read.texture, 0)
+    )
+    gl!.uniform1f(splatProgram.uniforms.uAspect, aspect)
+    gl!.uniform2f(splatProgram.uniforms.uPoint, x, y)
+    gl!.uniform3f(splatProgram.uniforms.uColor, dx, dy, 10)
+    gl!.uniform1f(splatProgram.uniforms.uRadius, radius)
+    blit(velocity.write)
+    velocity.swap()
 
     gl!.uniform1i(
       splatProgram.uniforms.uTarget,
-      bindTexture(dye.read.texture, 0),
-    );
-    blit(dye.write);
-    dye.swap();
+      bindTexture(dye.read.texture, 0)
+    )
+    blit(dye.write)
+    dye.swap()
   }
 
   function step(delta: number) {
-    gl!.disable(gl!.BLEND);
+    gl!.disable(gl!.BLEND)
 
-    gl!.useProgram(curlProgram.program);
-    gl!.uniform2f(curlProgram.uniforms.texelSize, texelX, texelY);
+    gl!.useProgram(curlProgram.program)
+    gl!.uniform2f(curlProgram.uniforms.texelSize, texelX, texelY)
     gl!.uniform1i(
       curlProgram.uniforms.uVelocity,
-      bindTexture(velocity.read.texture, 0),
-    );
-    blit(curl);
+      bindTexture(velocity.read.texture, 0)
+    )
+    blit(curl)
 
-    gl!.useProgram(vorticityProgram.program);
-    gl!.uniform2f(vorticityProgram.uniforms.texelSize, texelX, texelY);
+    gl!.useProgram(vorticityProgram.program)
+    gl!.uniform2f(vorticityProgram.uniforms.texelSize, texelX, texelY)
     gl!.uniform1i(
       vorticityProgram.uniforms.uVelocity,
-      bindTexture(velocity.read.texture, 0),
-    );
-    gl!.uniform1i(
-      vorticityProgram.uniforms.uCurl,
-      bindTexture(curl.texture, 1),
-    );
-    gl!.uniform1f(vorticityProgram.uniforms.uCurlStrength, config.curl);
-    gl!.uniform1f(vorticityProgram.uniforms.uDt, DT);
-    blit(velocity.write);
-    velocity.swap();
+      bindTexture(velocity.read.texture, 0)
+    )
+    gl!.uniform1i(vorticityProgram.uniforms.uCurl, bindTexture(curl.texture, 1))
+    gl!.uniform1f(vorticityProgram.uniforms.uCurlStrength, config.curl)
+    gl!.uniform1f(vorticityProgram.uniforms.uDt, DT)
+    blit(velocity.write)
+    velocity.swap()
 
-    gl!.useProgram(divergenceProgram.program);
-    gl!.uniform2f(divergenceProgram.uniforms.texelSize, texelX, texelY);
+    gl!.useProgram(divergenceProgram.program)
+    gl!.uniform2f(divergenceProgram.uniforms.texelSize, texelX, texelY)
     gl!.uniform1i(
       divergenceProgram.uniforms.uVelocity,
-      bindTexture(velocity.read.texture, 0),
-    );
-    blit(divergence);
+      bindTexture(velocity.read.texture, 0)
+    )
+    blit(divergence)
 
-    gl!.useProgram(clearProgram.program);
+    gl!.useProgram(clearProgram.program)
     gl!.uniform1i(
       clearProgram.uniforms.uTexture,
-      bindTexture(pressure.read.texture, 0),
-    );
+      bindTexture(pressure.read.texture, 0)
+    )
     gl!.uniform1f(
       clearProgram.uniforms.uValue,
-      Math.pow(config.pressure, delta * 60),
-    );
-    blit(pressure.write);
-    pressure.swap();
+      Math.pow(config.pressure, delta * 60)
+    )
+    blit(pressure.write)
+    pressure.swap()
 
-    gl!.useProgram(pressureProgram.program);
-    gl!.uniform2f(pressureProgram.uniforms.texelSize, texelX, texelY);
+    gl!.useProgram(pressureProgram.program)
+    gl!.uniform2f(pressureProgram.uniforms.texelSize, texelX, texelY)
     gl!.uniform1i(
       pressureProgram.uniforms.uDivergence,
-      bindTexture(divergence.texture, 0),
-    );
+      bindTexture(divergence.texture, 0)
+    )
     for (let i = 0; i < config.pressureIterations; i++) {
       gl!.uniform1i(
         pressureProgram.uniforms.uPressure,
-        bindTexture(pressure.read.texture, 1),
-      );
-      blit(pressure.write);
-      pressure.swap();
+        bindTexture(pressure.read.texture, 1)
+      )
+      blit(pressure.write)
+      pressure.swap()
     }
 
-    gl!.useProgram(gradientProgram.program);
-    gl!.uniform2f(gradientProgram.uniforms.texelSize, texelX, texelY);
+    gl!.useProgram(gradientProgram.program)
+    gl!.uniform2f(gradientProgram.uniforms.texelSize, texelX, texelY)
     gl!.uniform1i(
       gradientProgram.uniforms.uPressure,
-      bindTexture(pressure.read.texture, 0),
-    );
+      bindTexture(pressure.read.texture, 0)
+    )
     gl!.uniform1i(
       gradientProgram.uniforms.uVelocity,
-      bindTexture(velocity.read.texture, 1),
-    );
-    blit(velocity.write);
-    velocity.swap();
+      bindTexture(velocity.read.texture, 1)
+    )
+    blit(velocity.write)
+    velocity.swap()
 
-    gl!.useProgram(advectProgram.program);
-    gl!.uniform2f(advectProgram.uniforms.texelSize, texelX, texelY);
+    gl!.useProgram(advectProgram.program)
+    gl!.uniform2f(advectProgram.uniforms.texelSize, texelX, texelY)
     gl!.uniform1i(
       advectProgram.uniforms.uVelocity,
-      bindTexture(velocity.read.texture, 0),
-    );
+      bindTexture(velocity.read.texture, 0)
+    )
     gl!.uniform1i(
       advectProgram.uniforms.uSource,
-      bindTexture(velocity.read.texture, 0),
-    );
-    gl!.uniform1f(advectProgram.uniforms.uDt, DT);
+      bindTexture(velocity.read.texture, 0)
+    )
+    gl!.uniform1f(advectProgram.uniforms.uDt, DT)
     gl!.uniform1f(
       advectProgram.uniforms.uDissipation,
-      Math.pow(config.velocityDissipation, delta * 60),
-    );
-    blit(velocity.write);
-    velocity.swap();
+      Math.pow(config.velocityDissipation, delta * 60)
+    )
+    blit(velocity.write)
+    velocity.swap()
 
     gl!.uniform1i(
       advectProgram.uniforms.uVelocity,
-      bindTexture(velocity.read.texture, 0),
-    );
+      bindTexture(velocity.read.texture, 0)
+    )
     gl!.uniform1i(
       advectProgram.uniforms.uSource,
-      bindTexture(dye.read.texture, 1),
-    );
+      bindTexture(dye.read.texture, 1)
+    )
     gl!.uniform1f(
       advectProgram.uniforms.uDissipation,
-      Math.pow(config.densityDissipation, delta * 60),
-    );
-    blit(dye.write);
-    dye.swap();
+      Math.pow(config.densityDissipation, delta * 60)
+    )
+    blit(dye.write)
+    dye.swap()
   }
 
   function render() {
-    uploadContent();
-    gl!.useProgram(displayProgram.program);
+    uploadContent()
+    gl!.useProgram(displayProgram.program)
     gl!.uniform1i(
       displayProgram.uniforms.uContent,
-      bindTexture(contentTexture, 0),
-    );
+      bindTexture(contentTexture, 0)
+    )
     gl!.uniform1i(
       displayProgram.uniforms.uFluid,
-      bindTexture(dye.read.texture, 1),
-    );
+      bindTexture(dye.read.texture, 1)
+    )
     gl!.uniform3f(
       displayProgram.uniforms.uColor,
       srgbToLinear(config.color[0]),
       srgbToLinear(config.color[1]),
-      srgbToLinear(config.color[2]),
-    );
-    gl!.uniform1f(displayProgram.uniforms.uDistortion, config.distortion);
-    gl!.uniform1f(displayProgram.uniforms.uIntensity, config.intensity);
-    gl!.uniform1f(displayProgram.uniforms.uBlend, config.blend);
-    gl!.uniform1f(displayProgram.uniforms.uRainbow, config.rainbow ? 1 : 0);
-    gl!.uniform1f(displayProgram.uniforms.uHasContent, htmlInCanvas ? 1 : 0);
-    blit(null);
+      srgbToLinear(config.color[2])
+    )
+    gl!.uniform1f(displayProgram.uniforms.uDistortion, config.distortion)
+    gl!.uniform1f(displayProgram.uniforms.uIntensity, config.intensity)
+    gl!.uniform1f(displayProgram.uniforms.uBlend, config.blend)
+    gl!.uniform1f(displayProgram.uniforms.uRainbow, config.rainbow ? 1 : 0)
+    gl!.uniform1f(displayProgram.uniforms.uHasContent, htmlInCanvas ? 1 : 0)
+    blit(null)
   }
 
-  const queued: Array<[number, number, number, number]> = [];
+  const queued: Array<[number, number, number, number]> = []
 
-  let raf = 0;
-  let lastTime = performance.now();
-  let destroyed = false;
-  let running = false;
-  let visible = true;
-  let idleAt = 0;
+  let raf = 0
+  let lastTime = performance.now()
+  let destroyed = false
+  let running = false
+  let visible = true
+  let idleAt = 0
 
   function idleDelayMs() {
-    const dissipation = Math.min(config.densityDissipation, 0.999);
-    const frames = Math.log(1e-7) / Math.log(dissipation);
-    return (frames / 60) * 1000;
+    const dissipation = Math.min(config.densityDissipation, 0.999)
+    const frames = Math.log(1e-7) / Math.log(dissipation)
+    return (frames / 60) * 1000
   }
 
   function frame(now: number) {
-    if (destroyed) return;
+    if (destroyed) return
     if (!visible) {
-      running = false;
-      return;
+      running = false
+      return
     }
-    const delta = Math.min((now - lastTime) / 1000, 1 / 30);
-    lastTime = now;
+    const delta = Math.min((now - lastTime) / 1000, 1 / 30)
+    lastTime = now
     if (queued.length > 0) {
-      idleAt = now + idleDelayMs();
+      idleAt = now + idleDelayMs()
       while (queued.length > 0) {
-        const [x, y, dx, dy] = queued.pop()!;
-        applySplat(x, y, dx, dy);
+        const [x, y, dx, dy] = queued.pop()!
+        applySplat(x, y, dx, dy)
       }
     }
-    step(delta);
-    render();
+    step(delta)
+    render()
     if (now >= idleAt && !contentDirty) {
-      running = false;
-      return;
+      running = false
+      return
     }
-    raf = requestAnimationFrame(frame);
+    raf = requestAnimationFrame(frame)
   }
 
   function start() {
-    if (destroyed || running || !visible) return;
-    running = true;
-    lastTime = performance.now();
-    raf = requestAnimationFrame(frame);
+    if (destroyed || running || !visible) return
+    running = true
+    lastTime = performance.now()
+    raf = requestAnimationFrame(frame)
   }
 
-  wake = start;
-  start();
+  wake = start
+  start()
 
-  const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-  let reducedMotion = motionQuery.matches;
+  const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)")
+  let reducedMotion = motionQuery.matches
 
   function onMotionChange() {
-    reducedMotion = motionQuery.matches;
-    if (!reducedMotion) start();
+    reducedMotion = motionQuery.matches
+    if (!reducedMotion) start()
   }
-  motionQuery.addEventListener("change", onMotionChange);
+  motionQuery.addEventListener("change", onMotionChange)
 
-  const pointers = new Map<number, { x: number; y: number }>();
+  const pointers = new Map<number, { x: number; y: number }>()
 
   function onPointerMove(event: PointerEvent) {
-    if (reducedMotion) return;
-    const rect = output.getBoundingClientRect();
-    const px = event.clientX - rect.left;
-    const py = event.clientY - rect.top;
-    const previous = pointers.get(event.pointerId);
-    pointers.set(event.pointerId, { x: px, y: py });
-    if (!previous) return;
-    const dx = (px - previous.x) * config.force;
-    const dy = -(py - previous.y) * config.force;
-    queued.push([px / rect.width, 1 - py / rect.height, dx, dy]);
-    start();
+    if (reducedMotion) return
+    const rect = output.getBoundingClientRect()
+    const px = event.clientX - rect.left
+    const py = event.clientY - rect.top
+    const previous = pointers.get(event.pointerId)
+    pointers.set(event.pointerId, { x: px, y: py })
+    if (!previous) return
+    const dx = (px - previous.x) * config.force
+    const dy = -(py - previous.y) * config.force
+    queued.push([px / rect.width, 1 - py / rect.height, dx, dy])
+    start()
   }
 
   function onPointerLeave(event: PointerEvent) {
-    pointers.delete(event.pointerId);
+    pointers.delete(event.pointerId)
   }
 
-  const listenTarget = output.parentElement ?? output;
-  listenTarget.addEventListener("pointermove", onPointerMove as EventListener);
-  listenTarget.addEventListener(
-    "pointerleave",
-    onPointerLeave as EventListener,
-  );
+  const listenTarget = output.parentElement ?? output
+  listenTarget.addEventListener("pointermove", onPointerMove as EventListener)
+  listenTarget.addEventListener("pointerleave", onPointerLeave as EventListener)
   listenTarget.addEventListener(
     "pointercancel",
-    onPointerLeave as EventListener,
-  );
+    onPointerLeave as EventListener
+  )
 
   const observer = new ResizeObserver(() => {
-    syncCanvasSize();
-    start();
-  });
-  observer.observe(output);
+    syncCanvasSize()
+    start()
+  })
+  observer.observe(output)
 
   const intersection = new IntersectionObserver((entries) => {
-    visible = entries[entries.length - 1]?.isIntersecting ?? true;
-    if (visible) start();
-  });
-  intersection.observe(output);
+    visible = entries[entries.length - 1]?.isIntersecting ?? true
+    if (visible) start()
+  })
+  intersection.observe(output)
 
   return {
     splat(x, y, dx, dy) {
-      if (reducedMotion) return;
-      queued.push([x, y, dx, dy]);
-      start();
+      if (reducedMotion) return
+      queued.push([x, y, dx, dy])
+      start()
     },
     setOptions(next) {
-      const { simResolution, dyeResolution, ...rest } = next;
-      void simResolution;
-      void dyeResolution;
-      Object.assign(config, rest);
-      start();
+      const { simResolution, dyeResolution, ...rest } = next
+      void simResolution
+      void dyeResolution
+      Object.assign(config, rest)
+      start()
     },
     resize() {
-      syncCanvasSize();
-      start();
+      syncCanvasSize()
+      start()
     },
     destroy() {
-      destroyed = true;
-      cancelAnimationFrame(raf);
-      observer.disconnect();
-      intersection.disconnect();
-      motionQuery.removeEventListener("change", onMotionChange);
-      releaseAll();
-      gl!.deleteTexture(contentTexture);
-      programs.forEach((program) => gl!.deleteProgram(program));
-      shaders.forEach((shader) => gl!.deleteShader(shader));
-      gl!.deleteBuffer(quad);
-      if (htmlInCanvas) paintable.onpaint = null;
+      destroyed = true
+      cancelAnimationFrame(raf)
+      observer.disconnect()
+      intersection.disconnect()
+      motionQuery.removeEventListener("change", onMotionChange)
+      releaseAll()
+      gl!.deleteTexture(contentTexture)
+      programs.forEach((program) => gl!.deleteProgram(program))
+      shaders.forEach((shader) => gl!.deleteShader(shader))
+      gl!.deleteBuffer(quad)
+      if (htmlInCanvas) paintable.onpaint = null
       listenTarget.removeEventListener(
         "pointermove",
-        onPointerMove as EventListener,
-      );
+        onPointerMove as EventListener
+      )
       listenTarget.removeEventListener(
         "pointerleave",
-        onPointerLeave as EventListener,
-      );
+        onPointerLeave as EventListener
+      )
       listenTarget.removeEventListener(
         "pointercancel",
-        onPointerLeave as EventListener,
-      );
+        onPointerLeave as EventListener
+      )
     },
-  };
+  }
 }
 
 export interface LiquidProps extends LiquidOptions {
-  children: ReactNode;
-  className?: string;
-  style?: React.CSSProperties;
+  children: ReactNode
+  className?: string
+  style?: React.CSSProperties
 }
 
-const emptySubscribe = () => () => {};
+const emptySubscribe = () => () => {}
 
 export function Liquid({
   children,
@@ -923,39 +917,39 @@ export function Liquid({
   style,
   ...options
 }: LiquidProps) {
-  const sourceRef = useRef<HTMLCanvasElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
-  const outputRef = useRef<HTMLCanvasElement>(null);
-  const instanceRef = useRef<LiquidInstance | null>(null);
-  const [initialOptions] = useState(options);
-  const [failed, setFailed] = useState(false);
+  const sourceRef = useRef<HTMLCanvasElement>(null)
+  const contentRef = useRef<HTMLDivElement>(null)
+  const outputRef = useRef<HTMLCanvasElement>(null)
+  const instanceRef = useRef<LiquidInstance | null>(null)
+  const [initialOptions] = useState(options)
+  const [failed, setFailed] = useState(false)
 
   const supported = useSyncExternalStore(
     emptySubscribe,
     supportsHtmlInCanvas,
-    () => false,
-  );
-  const native = supported && !failed;
+    () => false
+  )
+  const native = supported && !failed
 
   useEffect(() => {
-    const source = sourceRef.current;
-    const content = contentRef.current;
-    const output = outputRef.current;
-    if (!source || !content || !output) return;
+    const source = sourceRef.current
+    const content = contentRef.current
+    const output = outputRef.current
+    if (!source || !content || !output) return
     instanceRef.current = createLiquid(
       { source, content, output },
-      initialOptions,
-    );
-    if (native && !instanceRef.current) setFailed(true);
+      initialOptions
+    )
+    if (native && !instanceRef.current) setFailed(true)
     return () => {
-      instanceRef.current?.destroy();
-      instanceRef.current = null;
-    };
-  }, [initialOptions, native]);
+      instanceRef.current?.destroy()
+      instanceRef.current = null
+    }
+  }, [initialOptions, native])
 
   useEffect(() => {
-    instanceRef.current?.setOptions(options);
-  });
+    instanceRef.current?.setOptions(options)
+  })
 
   return (
     <div className={className} style={{ position: "relative", ...style }}>
@@ -1009,8 +1003,7 @@ export function Liquid({
         }}
       />
     </div>
-  );
+  )
 }
 
-
-export default Liquid;
+export default Liquid

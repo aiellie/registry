@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import {
   useEffect,
@@ -6,39 +6,39 @@ import {
   useState,
   useSyncExternalStore,
   type ReactNode,
-} from "react";
+} from "react"
 
 export type BubbleOptions = {
-  size?: number;
-  trail?: number;
-  follow?: number;
-  blend?: number;
-  speed?: number;
-  refraction?: number;
-  dispersion?: number;
-  frost?: number;
-  shine?: number;
-  rim?: number;
-  iridescence?: number;
-  intensity?: number;
-  tint?: [number, number, number];
-  tintStrength?: number;
-  colorA?: [number, number, number];
-  colorB?: [number, number, number];
-  fallbackOpacity?: number;
-};
+  size?: number
+  trail?: number
+  follow?: number
+  blend?: number
+  speed?: number
+  refraction?: number
+  dispersion?: number
+  frost?: number
+  shine?: number
+  rim?: number
+  iridescence?: number
+  intensity?: number
+  tint?: [number, number, number]
+  tintStrength?: number
+  colorA?: [number, number, number]
+  colorB?: [number, number, number]
+  fallbackOpacity?: number
+}
 
 export type BubbleElements = {
-  source: HTMLCanvasElement;
-  content: HTMLElement;
-  output: HTMLCanvasElement;
-};
+  source: HTMLCanvasElement
+  content: HTMLElement
+  output: HTMLCanvasElement
+}
 
 export type BubbleInstance = {
-  setOptions: (options: BubbleOptions) => void;
-  resize: () => void;
-  destroy: () => void;
-};
+  setOptions: (options: BubbleOptions) => void
+  resize: () => void
+  destroy: () => void
+}
 
 const DEFAULTS: Required<BubbleOptions> = {
   size: 30,
@@ -58,25 +58,25 @@ const DEFAULTS: Required<BubbleOptions> = {
   colorA: [0.2902, 0.4549, 0.7216],
   colorB: [0.4118, 0.4118, 0.4157],
   fallbackOpacity: 1,
-};
+}
 
-const MAX_TRAIL = 24;
+const MAX_TRAIL = 24
 
 type PaintableCanvas = HTMLCanvasElement & {
-  onpaint?: (() => void) | null;
-  requestPaint?: () => void;
-};
+  onpaint?: (() => void) | null
+  requestPaint?: () => void
+}
 
 type ElementImageContext = CanvasRenderingContext2D & {
-  drawElementImage?: (element: Element, x: number, y: number) => void;
-};
+  drawElementImage?: (element: Element, x: number, y: number) => void
+}
 
 const VERT = `#version 300 es
 precision highp float;
 layout(location = 0) in vec2 aPos;
 void main () {
   gl_Position = vec4(aPos, 0.0, 1.0);
-}`;
+}`
 
 const FRAG = `#version 300 es
 precision highp float;
@@ -238,25 +238,25 @@ void main () {
     return;
   }
   outColor = vec4(color * alpha, alpha);
-}`;
+}`
 
 export function supportsHtmlInCanvas(): boolean {
-  if (typeof document === "undefined") return false;
-  const probe = document.createElement("canvas") as PaintableCanvas;
-  const ctx = probe.getContext("2d") as ElementImageContext | null;
+  if (typeof document === "undefined") return false
+  const probe = document.createElement("canvas") as PaintableCanvas
+  const ctx = probe.getContext("2d") as ElementImageContext | null
   return Boolean(
     ctx &&
     typeof ctx.drawElementImage === "function" &&
-    typeof probe.requestPaint === "function",
-  );
+    typeof probe.requestPaint === "function"
+  )
 }
 
 export function createBubble(
   elements: BubbleElements,
-  options: BubbleOptions = {},
+  options: BubbleOptions = {}
 ): BubbleInstance | null {
-  const config = { ...DEFAULTS, ...options };
-  const { source, content, output } = elements;
+  const config = { ...DEFAULTS, ...options }
+  const { source, content, output } = elements
 
   const gl = output.getContext("webgl2", {
     alpha: true,
@@ -264,75 +264,75 @@ export function createBubble(
     stencil: false,
     antialias: false,
     premultipliedAlpha: true,
-  });
-  if (!gl || gl.isContextLost()) return null;
+  })
+  if (!gl || gl.isContextLost()) return null
 
-  const sourceCtx = source.getContext("2d") as ElementImageContext | null;
-  const paintable = source as PaintableCanvas;
+  const sourceCtx = source.getContext("2d") as ElementImageContext | null
+  const paintable = source as PaintableCanvas
   const htmlInCanvas = Boolean(
     sourceCtx &&
     typeof sourceCtx.drawElementImage === "function" &&
-    typeof paintable.requestPaint === "function",
-  );
+    typeof paintable.requestPaint === "function"
+  )
 
-  let contentDirty = false;
-  let wake = () => {};
+  let contentDirty = false
+  let wake = () => {}
 
   if (htmlInCanvas) {
     paintable.onpaint = () => {
       try {
-        sourceCtx!.reset();
-        sourceCtx!.drawElementImage!(content, 0, 0);
-        contentDirty = true;
-        wake();
+        sourceCtx!.reset()
+        sourceCtx!.drawElementImage!(content, 0, 0)
+        contentDirty = true
+        wake()
       } catch {}
-    };
+    }
   }
 
   function compile(type: number, text: string): WebGLShader {
-    const shader = gl!.createShader(type)!;
-    gl!.shaderSource(shader, text);
-    gl!.compileShader(shader);
+    const shader = gl!.createShader(type)!
+    gl!.shaderSource(shader, text)
+    gl!.compileShader(shader)
     if (!gl!.getShaderParameter(shader, gl!.COMPILE_STATUS)) {
-      console.error("Bubble shader error:", gl!.getShaderInfoLog(shader));
+      console.error("Bubble shader error:", gl!.getShaderInfoLog(shader))
     }
-    return shader;
+    return shader
   }
 
-  const vertexShader = compile(gl.VERTEX_SHADER, VERT);
-  const fragmentShader = compile(gl.FRAGMENT_SHADER, FRAG);
-  const program = gl.createProgram()!;
-  gl.attachShader(program, vertexShader);
-  gl.attachShader(program, fragmentShader);
-  gl.linkProgram(program);
+  const vertexShader = compile(gl.VERTEX_SHADER, VERT)
+  const fragmentShader = compile(gl.FRAGMENT_SHADER, FRAG)
+  const program = gl.createProgram()!
+  gl.attachShader(program, vertexShader)
+  gl.attachShader(program, fragmentShader)
+  gl.linkProgram(program)
 
-  const uniforms: Record<string, WebGLUniformLocation> = {};
-  const uniformCount = gl.getProgramParameter(program, gl.ACTIVE_UNIFORMS);
+  const uniforms: Record<string, WebGLUniformLocation> = {}
+  const uniformCount = gl.getProgramParameter(program, gl.ACTIVE_UNIFORMS)
   for (let i = 0; i < uniformCount; i++) {
-    const info = gl.getActiveUniform(program, i)!;
-    uniforms[info.name] = gl.getUniformLocation(program, info.name)!;
+    const info = gl.getActiveUniform(program, i)!
+    uniforms[info.name] = gl.getUniformLocation(program, info.name)!
   }
 
-  const quad = gl.createBuffer();
-  gl.bindBuffer(gl.ARRAY_BUFFER, quad);
+  const quad = gl.createBuffer()
+  gl.bindBuffer(gl.ARRAY_BUFFER, quad)
   gl.bufferData(
     gl.ARRAY_BUFFER,
     new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]),
-    gl.STATIC_DRAW,
-  );
-  gl.enableVertexAttribArray(0);
-  gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+    gl.STATIC_DRAW
+  )
+  gl.enableVertexAttribArray(0)
+  gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0)
 
-  const contentTexture = gl.createTexture()!;
-  gl.bindTexture(gl.TEXTURE_2D, contentTexture);
+  const contentTexture = gl.createTexture()!
+  gl.bindTexture(gl.TEXTURE_2D, contentTexture)
   gl.texParameteri(
     gl.TEXTURE_2D,
     gl.TEXTURE_MIN_FILTER,
-    gl.LINEAR_MIPMAP_LINEAR,
-  );
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    gl.LINEAR_MIPMAP_LINEAR
+  )
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
   gl.texImage2D(
     gl.TEXTURE_2D,
     0,
@@ -342,318 +342,318 @@ export function createBubble(
     0,
     gl.RGBA,
     gl.UNSIGNED_BYTE,
-    new Uint8Array([0, 0, 0, 0]),
-  );
-  gl.generateMipmap(gl.TEXTURE_2D);
+    new Uint8Array([0, 0, 0, 0])
+  )
+  gl.generateMipmap(gl.TEXTURE_2D)
 
-  let contentMaxX = 1;
+  let contentMaxX = 1
 
   function syncCanvasSize() {
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const width = Math.max(1, Math.round(output.clientWidth * dpr));
-    const height = Math.max(1, Math.round(output.clientHeight * dpr));
+    const dpr = Math.min(window.devicePixelRatio || 1, 2)
+    const width = Math.max(1, Math.round(output.clientWidth * dpr))
+    const height = Math.max(1, Math.round(output.clientHeight * dpr))
     if (output.width !== width || output.height !== height) {
-      output.width = width;
-      output.height = height;
+      output.width = width
+      output.height = height
     }
     contentMaxX = Math.min(
       1,
-      Math.max(0.05, content.clientWidth / Math.max(output.clientWidth, 1)),
-    );
+      Math.max(0.05, content.clientWidth / Math.max(output.clientWidth, 1))
+    )
     if (htmlInCanvas) {
-      const sourceWidth = Math.max(1, Math.round(source.clientWidth * dpr));
-      const sourceHeight = Math.max(1, Math.round(source.clientHeight * dpr));
+      const sourceWidth = Math.max(1, Math.round(source.clientWidth * dpr))
+      const sourceHeight = Math.max(1, Math.round(source.clientHeight * dpr))
       if (source.width !== sourceWidth || source.height !== sourceHeight) {
-        source.width = sourceWidth;
-        source.height = sourceHeight;
+        source.width = sourceWidth
+        source.height = sourceHeight
       }
-      paintable.requestPaint!();
+      paintable.requestPaint!()
     }
   }
 
-  syncCanvasSize();
+  syncCanvasSize()
 
   function uploadContent() {
-    if (!htmlInCanvas || !contentDirty) return;
-    contentDirty = false;
-    gl!.bindTexture(gl!.TEXTURE_2D, contentTexture);
+    if (!htmlInCanvas || !contentDirty) return
+    contentDirty = false
+    gl!.bindTexture(gl!.TEXTURE_2D, contentTexture)
     gl!.texImage2D(
       gl!.TEXTURE_2D,
       0,
       gl!.RGBA,
       gl!.RGBA,
       gl!.UNSIGNED_BYTE,
-      source,
-    );
-    gl!.generateMipmap(gl!.TEXTURE_2D);
+      source
+    )
+    gl!.generateMipmap(gl!.TEXTURE_2D)
   }
 
-  const trailX = new Float32Array(MAX_TRAIL);
-  const trailY = new Float32Array(MAX_TRAIL);
-  const trailData = new Float32Array(MAX_TRAIL * 2);
-  let headX = output.clientWidth / 2;
-  let headY = output.clientHeight / 2;
-  let targetX = headX;
-  let targetY = headY;
-  trailX.fill(headX);
-  trailY.fill(headY);
-  let presence = 0;
-  let presenceTarget = 0;
-  let hasPointer = false;
-  let time = 0;
+  const trailX = new Float32Array(MAX_TRAIL)
+  const trailY = new Float32Array(MAX_TRAIL)
+  const trailData = new Float32Array(MAX_TRAIL * 2)
+  let headX = output.clientWidth / 2
+  let headY = output.clientHeight / 2
+  let targetX = headX
+  let targetY = headY
+  trailX.fill(headX)
+  trailY.fill(headY)
+  let presence = 0
+  let presenceTarget = 0
+  let hasPointer = false
+  let time = 0
 
   function activeCount(): number {
-    return Math.min(Math.max(Math.round(config.trail), 1), MAX_TRAIL);
+    return Math.min(Math.max(Math.round(config.trail), 1), MAX_TRAIL)
   }
 
   function render() {
-    uploadContent();
-    const dpr = output.width / Math.max(output.clientWidth, 1);
-    gl!.bindFramebuffer(gl!.FRAMEBUFFER, null);
-    gl!.viewport(0, 0, output.width, output.height);
-    gl!.disable(gl!.SCISSOR_TEST);
-    gl!.clearColor(0, 0, 0, 0);
-    gl!.clear(gl!.COLOR_BUFFER_BIT);
-    if (presence <= 0.004) return;
+    uploadContent()
+    const dpr = output.width / Math.max(output.clientWidth, 1)
+    gl!.bindFramebuffer(gl!.FRAMEBUFFER, null)
+    gl!.viewport(0, 0, output.width, output.height)
+    gl!.disable(gl!.SCISSOR_TEST)
+    gl!.clearColor(0, 0, 0, 0)
+    gl!.clear(gl!.COLOR_BUFFER_BIT)
+    if (presence <= 0.004) return
 
-    const count = activeCount();
-    const minRes = Math.min(output.width, output.height);
-    const headRadius = Math.max(config.size, 4) * dpr * presence;
-    const baseRadius = (headRadius * 2) / (minRes * count);
-    const blend = Math.max(config.blend, 0.5);
+    const count = activeCount()
+    const minRes = Math.min(output.width, output.height)
+    const headRadius = Math.max(config.size, 4) * dpr * presence
+    const baseRadius = (headRadius * 2) / (minRes * count)
+    const blend = Math.max(config.blend, 0.5)
 
-    let minX = Infinity;
-    let minY = Infinity;
-    let maxX = -Infinity;
-    let maxY = -Infinity;
+    let minX = Infinity
+    let minY = Infinity
+    let maxX = -Infinity
+    let maxY = -Infinity
     for (let i = 0; i < count; i++) {
-      const dx = trailX[i] * dpr;
-      const dy = output.height - trailY[i] * dpr;
-      trailData[i * 2] = (dx * 2 - output.width) / minRes;
-      trailData[i * 2 + 1] = (dy * 2 - output.height) / minRes;
-      minX = Math.min(minX, dx);
-      maxX = Math.max(maxX, dx);
-      minY = Math.min(minY, dy);
-      maxY = Math.max(maxY, dy);
+      const dx = trailX[i] * dpr
+      const dy = output.height - trailY[i] * dpr
+      trailData[i * 2] = (dx * 2 - output.width) / minRes
+      trailData[i * 2 + 1] = (dy * 2 - output.height) / minRes
+      minX = Math.min(minX, dx)
+      maxX = Math.max(maxX, dx)
+      minY = Math.min(minY, dy)
+      maxY = Math.max(maxY, dy)
     }
 
     const pad =
       headRadius +
       ((Math.log(count + 1) / blend) * minRes) / 2 +
       Math.abs(config.refraction) * dpr * 0.5 +
-      32 * dpr;
-    const sx = Math.max(0, Math.floor(minX - pad));
-    const sy = Math.max(0, Math.floor(minY - pad));
-    gl!.enable(gl!.SCISSOR_TEST);
+      32 * dpr
+    const sx = Math.max(0, Math.floor(minX - pad))
+    const sy = Math.max(0, Math.floor(minY - pad))
+    gl!.enable(gl!.SCISSOR_TEST)
     gl!.scissor(
       sx,
       sy,
       Math.min(output.width - sx, Math.ceil(maxX - minX + pad * 2)),
-      Math.min(output.height - sy, Math.ceil(maxY - minY + pad * 2)),
-    );
+      Math.min(output.height - sy, Math.ceil(maxY - minY + pad * 2))
+    )
 
-    gl!.useProgram(program);
-    gl!.activeTexture(gl!.TEXTURE0);
-    gl!.bindTexture(gl!.TEXTURE_2D, contentTexture);
-    gl!.uniform1i(uniforms.uContent, 0);
-    gl!.uniform2f(uniforms.uResolution, output.width, output.height);
-    gl!.uniform1f(uniforms.uMaxX, contentMaxX);
-    gl!.uniform1f(uniforms.uDpr, dpr);
-    gl!.uniform1f(uniforms.uTime, time);
-    gl!.uniform1f(uniforms.uHasContent, htmlInCanvas ? 1 : 0);
-    gl!.uniform1i(uniforms.uCount, count);
-    gl!.uniform2fv(uniforms["uTrail[0]"], trailData);
-    gl!.uniform1f(uniforms.uBaseRadius, baseRadius);
-    gl!.uniform1f(uniforms.uBlend, blend);
-    gl!.uniform1f(uniforms.uRefraction, config.refraction);
-    gl!.uniform1f(uniforms.uDispersion, Math.max(config.dispersion, 0));
-    gl!.uniform1f(uniforms.uFrost, Math.min(Math.max(config.frost, 0), 1));
-    gl!.uniform1f(uniforms.uShine, Math.max(config.shine, 0));
-    gl!.uniform1f(uniforms.uRim, Math.min(Math.max(config.rim, 0), 2));
-    gl!.uniform1f(uniforms.uIridescence, Math.max(config.iridescence, 0));
-    gl!.uniform1f(uniforms.uIntensity, Math.max(config.intensity, 0));
+    gl!.useProgram(program)
+    gl!.activeTexture(gl!.TEXTURE0)
+    gl!.bindTexture(gl!.TEXTURE_2D, contentTexture)
+    gl!.uniform1i(uniforms.uContent, 0)
+    gl!.uniform2f(uniforms.uResolution, output.width, output.height)
+    gl!.uniform1f(uniforms.uMaxX, contentMaxX)
+    gl!.uniform1f(uniforms.uDpr, dpr)
+    gl!.uniform1f(uniforms.uTime, time)
+    gl!.uniform1f(uniforms.uHasContent, htmlInCanvas ? 1 : 0)
+    gl!.uniform1i(uniforms.uCount, count)
+    gl!.uniform2fv(uniforms["uTrail[0]"], trailData)
+    gl!.uniform1f(uniforms.uBaseRadius, baseRadius)
+    gl!.uniform1f(uniforms.uBlend, blend)
+    gl!.uniform1f(uniforms.uRefraction, config.refraction)
+    gl!.uniform1f(uniforms.uDispersion, Math.max(config.dispersion, 0))
+    gl!.uniform1f(uniforms.uFrost, Math.min(Math.max(config.frost, 0), 1))
+    gl!.uniform1f(uniforms.uShine, Math.max(config.shine, 0))
+    gl!.uniform1f(uniforms.uRim, Math.min(Math.max(config.rim, 0), 2))
+    gl!.uniform1f(uniforms.uIridescence, Math.max(config.iridescence, 0))
+    gl!.uniform1f(uniforms.uIntensity, Math.max(config.intensity, 0))
     gl!.uniform3f(
       uniforms.uTint,
       config.tint[0],
       config.tint[1],
-      config.tint[2],
-    );
+      config.tint[2]
+    )
     gl!.uniform1f(
       uniforms.uTintStrength,
-      Math.min(Math.max(config.tintStrength, 0), 1),
-    );
+      Math.min(Math.max(config.tintStrength, 0), 1)
+    )
     gl!.uniform3f(
       uniforms.uColorA,
       config.colorA[0],
       config.colorA[1],
-      config.colorA[2],
-    );
+      config.colorA[2]
+    )
     gl!.uniform3f(
       uniforms.uColorB,
       config.colorB[0],
       config.colorB[1],
-      config.colorB[2],
-    );
+      config.colorB[2]
+    )
     gl!.uniform1f(
       uniforms.uFallbackAlpha,
-      Math.min(Math.max(config.fallbackOpacity, 0), 1),
-    );
-    gl!.drawArrays(gl!.TRIANGLE_STRIP, 0, 4);
-    gl!.disable(gl!.SCISSOR_TEST);
+      Math.min(Math.max(config.fallbackOpacity, 0), 1)
+    )
+    gl!.drawArrays(gl!.TRIANGLE_STRIP, 0, 4)
+    gl!.disable(gl!.SCISSOR_TEST)
   }
 
-  let raf = 0;
-  let lastTime = performance.now();
-  let destroyed = false;
-  let running = false;
-  let visible = true;
+  let raf = 0
+  let lastTime = performance.now()
+  let destroyed = false
+  let running = false
+  let visible = true
 
-  const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-  let reducedMotion = motionQuery.matches;
+  const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)")
+  let reducedMotion = motionQuery.matches
 
   function frame(now: number) {
-    if (destroyed) return;
+    if (destroyed) return
     if (!visible) {
-      running = false;
-      return;
+      running = false
+      return
     }
-    const delta = Math.min((now - lastTime) / 1000, 1 / 30);
-    lastTime = now;
-    if (!reducedMotion) time += delta * Math.max(config.speed, 0);
+    const delta = Math.min((now - lastTime) / 1000, 1 / 30)
+    lastTime = now
+    if (!reducedMotion) time += delta * Math.max(config.speed, 0)
 
-    const follow = Math.min(Math.max(config.follow, 0.02), 1);
+    const follow = Math.min(Math.max(config.follow, 0.02), 1)
     const kHead =
       reducedMotion || follow >= 1
         ? 1
-        : 1 - Math.exp(-delta * (3 + follow * 30));
-    const kScale = reducedMotion ? 1 : 1 - Math.exp(-delta * 10);
+        : 1 - Math.exp(-delta * (3 + follow * 30))
+    const kScale = reducedMotion ? 1 : 1 - Math.exp(-delta * 10)
 
-    headX += (targetX - headX) * kHead;
-    headY += (targetY - headY) * kHead;
+    headX += (targetX - headX) * kHead
+    headY += (targetY - headY) * kHead
     for (let i = MAX_TRAIL - 1; i > 0; i--) {
-      trailX[i] = trailX[i - 1];
-      trailY[i] = trailY[i - 1];
+      trailX[i] = trailX[i - 1]
+      trailY[i] = trailY[i - 1]
     }
-    trailX[0] = headX;
-    trailY[0] = headY;
-    let moved = Math.abs(targetX - headX) + Math.abs(targetY - headY);
+    trailX[0] = headX
+    trailY[0] = headY
+    let moved = Math.abs(targetX - headX) + Math.abs(targetY - headY)
     for (let i = 1; i < MAX_TRAIL; i++) {
       moved = Math.max(
         moved,
         Math.abs(trailX[i] - trailX[i - 1]) +
-          Math.abs(trailY[i] - trailY[i - 1]),
-      );
+          Math.abs(trailY[i] - trailY[i - 1])
+      )
     }
-    presence += (presenceTarget - presence) * kScale;
+    presence += (presenceTarget - presence) * kScale
 
-    render();
+    render()
 
     const settled = reducedMotion
       ? moved < 0.1 &&
         Math.abs(presenceTarget - presence) < 0.002 &&
         !contentDirty
-      : presence < 0.004 && presenceTarget === 0 && !contentDirty;
+      : presence < 0.004 && presenceTarget === 0 && !contentDirty
     if (settled) {
-      presence = presenceTarget;
-      running = false;
-      return;
+      presence = presenceTarget
+      running = false
+      return
     }
-    raf = requestAnimationFrame(frame);
+    raf = requestAnimationFrame(frame)
   }
 
   function start() {
-    if (destroyed || running || !visible) return;
-    running = true;
-    lastTime = performance.now();
-    raf = requestAnimationFrame(frame);
+    if (destroyed || running || !visible) return
+    running = true
+    lastTime = performance.now()
+    raf = requestAnimationFrame(frame)
   }
 
-  wake = start;
-  start();
+  wake = start
+  start()
 
   function onPointerMove(event: PointerEvent) {
-    const rect = output.getBoundingClientRect();
-    targetX = event.clientX - rect.left;
-    targetY = event.clientY - rect.top;
+    const rect = output.getBoundingClientRect()
+    targetX = event.clientX - rect.left
+    targetY = event.clientY - rect.top
     if (!hasPointer) {
-      headX = targetX;
-      headY = targetY;
-      trailX.fill(targetX);
-      trailY.fill(targetY);
-      hasPointer = true;
+      headX = targetX
+      headY = targetY
+      trailX.fill(targetX)
+      trailY.fill(targetY)
+      hasPointer = true
     }
-    presenceTarget = 1;
-    start();
+    presenceTarget = 1
+    start()
   }
 
   function onPointerLeave() {
-    presenceTarget = 0;
-    hasPointer = false;
-    start();
+    presenceTarget = 0
+    hasPointer = false
+    start()
   }
 
-  content.addEventListener("pointermove", onPointerMove, { passive: true });
-  content.addEventListener("pointerleave", onPointerLeave, { passive: true });
+  content.addEventListener("pointermove", onPointerMove, { passive: true })
+  content.addEventListener("pointerleave", onPointerLeave, { passive: true })
 
   function onScroll() {
-    start();
+    start()
   }
-  content.addEventListener("scroll", onScroll, { passive: true });
+  content.addEventListener("scroll", onScroll, { passive: true })
 
   function onMotionChange() {
-    reducedMotion = motionQuery.matches;
-    start();
+    reducedMotion = motionQuery.matches
+    start()
   }
-  motionQuery.addEventListener("change", onMotionChange);
+  motionQuery.addEventListener("change", onMotionChange)
 
   const observer = new ResizeObserver(() => {
-    syncCanvasSize();
-    start();
-  });
-  observer.observe(output);
-  observer.observe(content);
+    syncCanvasSize()
+    start()
+  })
+  observer.observe(output)
+  observer.observe(content)
 
   const intersection = new IntersectionObserver((entries) => {
-    visible = entries[entries.length - 1]?.isIntersecting ?? true;
-    if (visible) start();
-  });
-  intersection.observe(output);
+    visible = entries[entries.length - 1]?.isIntersecting ?? true
+    if (visible) start()
+  })
+  intersection.observe(output)
 
   return {
     setOptions(next) {
-      Object.assign(config, next);
-      start();
+      Object.assign(config, next)
+      start()
     },
     resize() {
-      syncCanvasSize();
-      start();
+      syncCanvasSize()
+      start()
     },
     destroy() {
-      destroyed = true;
-      cancelAnimationFrame(raf);
-      content.removeEventListener("pointermove", onPointerMove);
-      content.removeEventListener("pointerleave", onPointerLeave);
-      content.removeEventListener("scroll", onScroll);
-      observer.disconnect();
-      intersection.disconnect();
-      motionQuery.removeEventListener("change", onMotionChange);
-      gl!.deleteTexture(contentTexture);
-      gl!.deleteProgram(program);
-      gl!.deleteShader(vertexShader);
-      gl!.deleteShader(fragmentShader);
-      gl!.deleteBuffer(quad);
-      if (htmlInCanvas) paintable.onpaint = null;
+      destroyed = true
+      cancelAnimationFrame(raf)
+      content.removeEventListener("pointermove", onPointerMove)
+      content.removeEventListener("pointerleave", onPointerLeave)
+      content.removeEventListener("scroll", onScroll)
+      observer.disconnect()
+      intersection.disconnect()
+      motionQuery.removeEventListener("change", onMotionChange)
+      gl!.deleteTexture(contentTexture)
+      gl!.deleteProgram(program)
+      gl!.deleteShader(vertexShader)
+      gl!.deleteShader(fragmentShader)
+      gl!.deleteBuffer(quad)
+      if (htmlInCanvas) paintable.onpaint = null
     },
-  };
+  }
 }
 
 export interface BubbleProps extends BubbleOptions {
-  children: ReactNode;
-  className?: string;
-  style?: React.CSSProperties;
+  children: ReactNode
+  className?: string
+  style?: React.CSSProperties
 }
 
-const emptySubscribe = () => () => {};
+const emptySubscribe = () => () => {}
 
 export function Bubble({
   children,
@@ -661,39 +661,39 @@ export function Bubble({
   style,
   ...options
 }: BubbleProps) {
-  const sourceRef = useRef<HTMLCanvasElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
-  const outputRef = useRef<HTMLCanvasElement>(null);
-  const instanceRef = useRef<BubbleInstance | null>(null);
-  const [initialOptions] = useState(options);
-  const [failed, setFailed] = useState(false);
+  const sourceRef = useRef<HTMLCanvasElement>(null)
+  const contentRef = useRef<HTMLDivElement>(null)
+  const outputRef = useRef<HTMLCanvasElement>(null)
+  const instanceRef = useRef<BubbleInstance | null>(null)
+  const [initialOptions] = useState(options)
+  const [failed, setFailed] = useState(false)
 
   const supported = useSyncExternalStore(
     emptySubscribe,
     supportsHtmlInCanvas,
-    () => false,
-  );
-  const native = supported && !failed;
+    () => false
+  )
+  const native = supported && !failed
 
   useEffect(() => {
-    const source = sourceRef.current;
-    const content = contentRef.current;
-    const output = outputRef.current;
-    if (!source || !content || !output) return;
+    const source = sourceRef.current
+    const content = contentRef.current
+    const output = outputRef.current
+    if (!source || !content || !output) return
     instanceRef.current = createBubble(
       { source, content, output },
-      initialOptions,
-    );
-    if (native && !instanceRef.current) setFailed(true);
+      initialOptions
+    )
+    if (native && !instanceRef.current) setFailed(true)
     return () => {
-      instanceRef.current?.destroy();
-      instanceRef.current = null;
-    };
-  }, [initialOptions, native]);
+      instanceRef.current?.destroy()
+      instanceRef.current = null
+    }
+  }, [initialOptions, native])
 
   useEffect(() => {
-    instanceRef.current?.setOptions(options);
-  });
+    instanceRef.current?.setOptions(options)
+  })
 
   return (
     <div className={className} style={{ position: "relative", ...style }}>
@@ -747,8 +747,7 @@ export function Bubble({
         }}
       />
     </div>
-  );
+  )
 }
 
-
-export default Bubble;
+export default Bubble

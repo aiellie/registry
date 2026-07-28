@@ -19,6 +19,10 @@ import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react"
 import { AnimatePresence, motion, useReducedMotion } from "motion/react"
 
 import {
+  ColorPicker,
+  type ColorFormat,
+} from "@/components/canvasui/color-picker"
+import {
   Select,
   SelectContent,
   SelectGroup,
@@ -27,6 +31,12 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { toast } from "@/components/ui/toast"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 import { cn } from "@/lib/utils"
 
 const EASE = [0.23, 1, 0.32, 1] as const
@@ -661,6 +671,7 @@ export function ColorRow({
   value,
   onValueChange,
   displayValue,
+  defaultFormat,
   onReset,
 }: {
   label: string
@@ -669,37 +680,46 @@ export function ColorRow({
   onValueChange: (value: string) => void
   /** Text shown instead of the hex value, e.g. "Auto". */
   displayValue?: string
-  /** When set, shows a Reset link that reverts the row. */
+  /** Notation the picker's field opens in. Defaults to hex. */
+  defaultFormat?: ColorFormat
+  /** When set, shows a reset icon that reverts the row. */
   onReset?: () => void
 }) {
   return (
-    <div className={ROW}>
+    <div className={cn(ROW, "select-none")}>
       <RowLabel icon={icon} label={label} />
       <span className="flex items-center gap-2">
         {onReset && (
-          <button
-            type="button"
-            onClick={onReset}
-            className="cursor-pointer text-[12.5px] font-medium text-muted-foreground transition-colors hover:text-foreground"
-          >
-            Reset
-          </button>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger
+                render={
+                  <button
+                    type="button"
+                    aria-label={`Reset ${label}`}
+                    onClick={onReset}
+                    className="inline-flex size-5 cursor-pointer items-center justify-center rounded-full text-muted-foreground/60 transition-colors hover:bg-foreground/10 hover:text-foreground"
+                  />
+                }
+              >
+                <HugeiconsIcon
+                  aria-hidden
+                  className="size-3"
+                  icon={RefreshIcon}
+                  strokeWidth={2}
+                />
+              </TooltipTrigger>
+              <TooltipContent>Reset</TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         )}
-        <span
-          className="text-[12.5px] font-medium text-muted-foreground"
-          style={{ fontVariantNumeric: "tabular-nums" }}
-        >
-          {displayValue ?? value}
-        </span>
-        <label className="relative size-4.5 cursor-pointer overflow-hidden rounded-full border border-border/70">
-          <input
-            type="color"
-            value={value}
-            onChange={(e) => onValueChange(e.target.value)}
-            aria-label={`${label} color`}
-            className="absolute -inset-2 size-9 cursor-pointer border-0 p-0"
-          />
-        </label>
+        <ColorPicker
+          label={label}
+          value={value}
+          onValueChange={onValueChange}
+          displayValue={displayValue}
+          defaultFormat={defaultFormat}
+        />
       </span>
     </div>
   )

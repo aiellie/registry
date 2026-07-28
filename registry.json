@@ -3133,14 +3133,34 @@
       ]
     },
     {
+      "name": "color-picker",
+      "type": "registry:ui",
+      "title": "Color Picker",
+      "description": "An Okhsv colour wheel in a popover, with a brightness arc, a hex/rgb/hsl/oklch field and an eyedropper.",
+      "registryDependencies": [
+        "https://ui.aiellie.dev/r/example.json",
+        "https://ui.aiellie.dev/r/select.json",
+        "https://ui.aiellie.dev/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "components/canvasui/color-picker.tsx",
+          "type": "registry:ui",
+          "target": "components/canvasui/color-picker.tsx"
+        }
+      ]
+    },
+    {
       "name": "demo-controls",
       "type": "registry:component",
       "title": "Demo Controls",
       "description": "A floating control panel of scrubbers, colour pickers and toggles for tuning a shader or canvas demo live.",
       "registryDependencies": [
+        "https://ui.aiellie.dev/r/color-picker.json",
         "https://ui.aiellie.dev/r/example.json",
         "https://ui.aiellie.dev/r/select.json",
-        "https://ui.aiellie.dev/r/toast.json"
+        "https://ui.aiellie.dev/r/toast.json",
+        "https://ui.aiellie.dev/r/tooltip.json"
       ],
       "files": [
         {

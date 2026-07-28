@@ -43,6 +43,7 @@ import CarouselExample from "@/app/demo/[name]/ui/carousel"
 import ChartExample from "@/app/demo/[name]/ui/chart"
 import CheckboxExample from "@/app/demo/[name]/ui/checkbox"
 import CollapsibleExample from "@/app/demo/[name]/ui/collapsible"
+import ColorPickerExample from "@/app/demo/[name]/ui/color-picker"
 import ComboboxExample from "@/app/demo/[name]/ui/combobox"
 import CommandExample from "@/app/demo/[name]/ui/command"
 import ContextMenuExample from "@/app/demo/[name]/ui/context-menu"
@@ -148,6 +149,7 @@ export const demos: { [name: string]: Demo } = {
   chart: ChartExample,
   checkbox: CheckboxExample,
   collapsible: CollapsibleExample,
+  "color-picker": ColorPickerExample,
   combobox: ComboboxExample,
   command: CommandExample,
   "context-menu": ContextMenuExample,

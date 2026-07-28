@@ -49,6 +49,8 @@
   --color-background: var(--background);
   --color-selection: var(--selection);
   --color-selection-foreground: var(--selection-foreground);
+  --color-surface: var(--surface);
+  --color-surface-foreground: var(--surface-foreground);
   --color-code: var(--code);
   --color-code-foreground: var(--code-foreground);
   --color-code-highlight: var(--code-highlight);
@@ -71,17 +73,17 @@
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.37 0.04 257);
   --primary: oklch(0.457 0.24 277.023);
-  --primary-foreground: oklch(0.962 0.018 272.314);
-  --secondary: oklch(0.967 0.001 286.375);
+  --primary-foreground: oklch(0.978 0.01 277);
+  --secondary: oklch(98.42% 0.0034 247.86);
   --secondary-foreground: oklch(0.37 0.04 257);
   --muted: oklch(0.967 0.001 286.375);
   --muted-foreground: oklch(70.5% 0.015 286.067);
-  --accent:  oklch(0.457 0.24 277.023/4%);
+  --accent:  oklch(0.978 0.01 277);
   --accent-foreground: oklch(0.457 0.24 277.023);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.92 0.004 286.32);
-  --input: oklch(0.92 0.004 286.32);
-  --ring: var(--border);
+  --border: oklch(0.93 0.01 256);
+  --input: oklch(0.93 0.01 256);
+  --ring: oklch(0.93 0.01 256);
   --chart-1: oklch(0.785 0.115 274.713);
   --chart-2: oklch(0.585 0.233 277.117);
   --chart-3: oklch(0.511 0.262 276.966);
@@ -92,16 +94,18 @@
   --sidebar-foreground: oklch(0.37 0.04 257);
   --sidebar-primary: oklch(0.511 0.262 276.966);
   --sidebar-primary-foreground: oklch(0.962 0.018 272.314);
-  --sidebar-accent: oklch(0.457 0.24 277.023/4%);
+  --sidebar-accent: oklch(0.978 0.01 277);
   --sidebar-accent-foreground: oklch(0.457 0.24 277.023);
   --sidebar-border: oklch(0.92 0.004 286.32);
   --sidebar-ring: var(--sidebar-border);
-  --selection: oklch(0.457 0.24 277.023/4%);
+  --selection: oklch(0.978 0.01 277);
   --selection-foreground: oklch(0.457 0.24 277.023);
+  --surface: oklch(1 0 0);
+  --surface-foreground: var(--foreground);
   --code: var(--surface);
   --code-foreground: var(--surface-foreground);
-  --code-highlight: oklch(0.96 0.004 286.375);
-  --code-number: var(--muted-foreground);
+  --code-highlight: oklch(0.96 0 0);
+  --code-number:oklch(0.71 0.04 257);
 }
 
 
