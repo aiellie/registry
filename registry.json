@@ -384,7 +384,15 @@
         "https://ui.aiellie.dev/r/toggle-group.json",
         "https://ui.aiellie.dev/r/tooltip.json",
         "https://ui.aiellie.dev/r/date-picker.json",
-        "https://ui.aiellie.dev/r/data-table.json"
+        "https://ui.aiellie.dev/r/data-table.json",
+        "https://ui.aiellie.dev/r/speech-input.json",
+        "https://ui.aiellie.dev/r/mic-selector.json",
+        "https://ui.aiellie.dev/r/persona.json",
+        "https://ui.aiellie.dev/r/find-in-page.json",
+        "https://ui.aiellie.dev/r/web-preview.json",
+        "https://ui.aiellie.dev/r/find-in-page.json",
+        "https://ui.aiellie.dev/r/persona.json",
+        "https://ui.aiellie.dev/r/mic-selector.json"
       ],
       "files": [
         {
@@ -3132,7 +3140,7 @@
         {
           "path": "components/ai-elements/web-preview.tsx",
           "type": "registry:ui",
-          "target": "components/ui/web-preview.tsx"
+          "target": "components/ai-elements/web-preview.tsx"
         }
       ]
     },
@@ -3149,7 +3157,7 @@
         {
           "path": "components/ai-elements/find-in-page.tsx",
           "type": "registry:ui",
-          "target": "components/ui/find-in-page.tsx"
+          "target": "components/ai-elements/find-in-page.tsx"
         }
       ]
     },
@@ -3166,7 +3174,7 @@
         {
           "path": "components/ai-elements/persona.tsx",
           "type": "registry:ui",
-          "target": "components/ui/persona.tsx"
+          "target": "components/ai-elements/persona.tsx"
         }
       ]
     },
@@ -3184,7 +3192,7 @@
         {
           "path": "components/ai-elements/mic-selector.tsx",
           "type": "registry:ui",
-          "target": "components/ui/mic-selector.tsx"
+          "target": "components/ai-elements/mic-selector.tsx"
         }
       ],
       "dependencies": [
@@ -3206,7 +3214,7 @@
         {
           "path": "components/ai-elements/speech-input.tsx",
           "type": "registry:ui",
-          "target": "components/ui/speech-input.tsx"
+          "target": "components/ai-elements/speech-input.tsx"
         }
       ]
     },
