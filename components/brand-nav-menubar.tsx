@@ -26,7 +26,7 @@ export function BrandNavMenubar() {
   return (
     <Menubar className="border-none">
       <MenubarMenu>
-        <MenubarTrigger className="gap-1.5 text-sm text-muted-foreground">
+        <MenubarTrigger className="gap-1.5 text-sm">
           <HugeiconsIcon icon={Comment02Icon} strokeWidth={2} className="size-4" />
           Chat
         </MenubarTrigger>
