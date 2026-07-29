@@ -150,9 +150,8 @@ export const teams: SidebarTeam[] = [
       },
     ],
     chats: [
-      { name: "Migrate auth middleware", url: "#" },
-      { name: "Flaky e2e test", url: "#" },
-      { name: "Bundle size audit", url: "#" },
+      { name: "Update UI to match examples", url: "#" },
+      { name: "Portfolio Site Preview", url: "#" },
     ],
   },
   {
