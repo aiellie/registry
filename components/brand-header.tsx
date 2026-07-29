@@ -10,7 +10,7 @@ import {
   SidebarBottomIcon,
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { BrandNavMenubar } from "@/components/brand-nav-menubar"
+import { BrandNavButtons } from "@/components/brand-nav-buttons"
 import { useBrandPanels } from "@/components/brand-panels"
 import { LogoIcon } from "@/components/logo"
 import { Button } from "@/components/ui/button"
@@ -30,14 +30,13 @@ export function BrandHeader() {
 
   return (
     <header className="fixed z-50 w-full border-b border-border bg-background">
-      <div className="flex h-10 items-center gap-2 px-2 sm:px-4">
+      <div className="flex h-12 items-center gap-2 px-2 sm:px-4">
         <div className="flex min-w-fit flex-1 items-center gap-2 sm:gap-4">
           <Link href="/" className="group flex shrink-0 items-center gap-2">
             <LogoIcon className="size-6 shrink-0" strokeWidth={1.5} fill="none" />
           </Link>
-          <span className="hidden h-3 w-px bg-border lg:block" />
           <div className="hidden lg:block">
-            <BrandNavMenubar />
+            <BrandNavButtons />
           </div>
         </div>
         <div className="flex items-center">

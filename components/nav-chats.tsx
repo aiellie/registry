@@ -56,10 +56,38 @@ import {
   SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuAction,
+  SidebarMenuBadge,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
+import { Status, StatusIndicator } from "@/components/ui/status"
+import { chatTypeIcons, type SidebarChat } from "@/lib/sidebar-data"
+
+/**
+ * Indicator dot at the end of a chat row: unread shows a steady dot, working a
+ * pulsing one. Fades out on hover so it never overlaps the row action.
+ */
+export function ChatStatusIndicator({ chat }: { chat: SidebarChat }) {
+  if (chat.status === "read") {
+    return null
+  }
+
+  return (
+    <SidebarMenuBadge className="pointer-events-none px-0 transition-opacity group-focus-within/menu-item:opacity-0 group-hover/menu-item:opacity-0">
+      <Status
+        variant={chat.status === "working" ? "loading" : "verified"}
+        pulse={chat.status === "working"}
+        className="border-transparent bg-transparent px-0"
+      >
+        <StatusIndicator />
+        <span className="sr-only">
+          {chat.status === "working" ? "Working" : "Unread"}
+        </span>
+      </Status>
+    </SidebarMenuBadge>
+  )
+}
 
 type ChatFilterId = "type" | "status" | "activity" | "groupBy"
 
@@ -145,14 +173,7 @@ const defaultChatFilters: Record<ChatFilterId, string> = {
   groupBy: "none",
 }
 
-export function NavChats({
-  chats,
-}: {
-  chats: {
-    name: string
-    url: string
-  }[]
-}) {
+export function NavChats({ chats }: { chats: SidebarChat[] }) {
   const { isMobile } = useSidebar()
   const [filters, setFilters] =
     React.useState<Record<ChatFilterId, string>>(defaultChatFilters)
@@ -179,7 +200,7 @@ export function NavChats({
                   render={
                     <SidebarGroupAction
                       title="Filter Chats"
-                      className="end-9 opacity-0 transition-opacity group-focus-within/nav:opacity-100 group-hover/nav:opacity-100 data-popup-open:opacity-100 text-muted-foreground hover:text-sidebar-primary"
+                      className="end-9 text-muted-foreground opacity-0 transition-opacity group-focus-within/nav:opacity-100 group-hover/nav:opacity-100 hover:text-sidebar-primary data-popup-open:opacity-100"
                     >
                       <HugeiconsIcon
                         icon={MoreHorizontalIcon}
@@ -251,9 +272,13 @@ export function NavChats({
             render={
               <SidebarGroupAction
                 title="New Chat"
-                className="opacity-0 transition-opacity group-focus-within/nav:opacity-100 group-hover/nav:opacity-100 text-muted-foreground hover:text-sidebar-primary"
+                className="text-muted-foreground opacity-0 transition-opacity group-focus-within/nav:opacity-100 group-hover/nav:opacity-100 hover:text-sidebar-primary"
               >
-                <HugeiconsIcon icon={PlusSignIcon} strokeWidth={2} className="size-3.5" />
+                <HugeiconsIcon
+                  icon={PlusSignIcon}
+                  strokeWidth={2}
+                  className="size-3.5"
+                />
                 <span className="sr-only">New Chat</span>
               </SidebarGroupAction>
             }
@@ -266,16 +291,28 @@ export function NavChats({
           <SidebarGroupContent>
             <SidebarMenu>
               {chats.map((item) => (
-                <SidebarMenuItem key={item.name} >
-                  <SidebarMenuButton render={<a href={item.url} />} tooltip={item.name}>
-                    <HugeiconsIcon icon={Comment02Icon} strokeWidth={2} className="size-4" />
+                <SidebarMenuItem key={item.name}>
+                  <SidebarMenuButton
+                    render={<a href={item.url} />}
+                    tooltip={item.name}
+                  >
+                    <HugeiconsIcon
+                      icon={chatTypeIcons[item.type]}
+                      strokeWidth={2}
+                      className="size-4"
+                    />
                     <span>{item.name}</span>
                   </SidebarMenuButton>
+                  <ChatStatusIndicator chat={item} />
                   <DropdownMenu>
                     <DropdownMenuTrigger
                       render={
                         <SidebarMenuAction showOnHover>
-                          <HugeiconsIcon icon={MoreHorizontalIcon} strokeWidth={2} className="size-4" />
+                          <HugeiconsIcon
+                            icon={MoreHorizontalIcon}
+                            strokeWidth={2}
+                            className="size-4"
+                          />
                           <span className="sr-only">More</span>
                         </SidebarMenuAction>
                       }
@@ -286,20 +323,39 @@ export function NavChats({
                       align={isMobile ? "end" : "start"}
                     >
                       <DropdownMenuItem className="cursor-pointer">
-                        <HugeiconsIcon icon={Pin02Icon} strokeWidth={2} className="size-4" />
+                        <HugeiconsIcon
+                          icon={Pin02Icon}
+                          strokeWidth={2}
+                          className="size-4"
+                        />
                         <span>Pin</span>
                       </DropdownMenuItem>
                       <DropdownMenuItem className="cursor-pointer">
-                        <HugeiconsIcon icon={PencilEdit02Icon} strokeWidth={2} className="size-4" />
+                        <HugeiconsIcon
+                          icon={PencilEdit02Icon}
+                          strokeWidth={2}
+                          className="size-4"
+                        />
                         <span>Rename</span>
                       </DropdownMenuItem>
                       <DropdownMenuItem className="cursor-pointer">
-                        <HugeiconsIcon icon={Share08Icon} strokeWidth={2} className="size-4" />
+                        <HugeiconsIcon
+                          icon={Share08Icon}
+                          strokeWidth={2}
+                          className="size-4"
+                        />
                         <span>Share</span>
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
-                      <DropdownMenuItem variant="destructive" className="cursor-pointer">
-                        <HugeiconsIcon icon={Delete01Icon} strokeWidth={2} className="size-4" />
+                      <DropdownMenuItem
+                        variant="destructive"
+                        className="cursor-pointer"
+                      >
+                        <HugeiconsIcon
+                          icon={Delete01Icon}
+                          strokeWidth={2}
+                          className="size-4"
+                        />
                         <span>Delete Chat</span>
                       </DropdownMenuItem>
                     </DropdownMenuContent>
@@ -307,8 +363,15 @@ export function NavChats({
                 </SidebarMenuItem>
               ))}
               <SidebarMenuItem>
-                <SidebarMenuButton className="text-sidebar-foreground/70" tooltip="More">
-                  <HugeiconsIcon icon={MoreHorizontalIcon} strokeWidth={2} className="size-4" />
+                <SidebarMenuButton
+                  className="text-sidebar-foreground/70"
+                  tooltip="More"
+                >
+                  <HugeiconsIcon
+                    icon={MoreHorizontalIcon}
+                    strokeWidth={2}
+                    className="size-4"
+                  />
                   <span>More</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>

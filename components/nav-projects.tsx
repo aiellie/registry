@@ -1,15 +1,14 @@
 "use client"
 
 import { HugeiconsIcon } from "@hugeicons/react"
-import type { IconSvgElement } from "@hugeicons/react"
 import {
-    Folder01Icon,
-    Forward01Icon,
-    MoreHorizontalIcon,
-    Delete01Icon,
-    PlusSignIcon,
-    ArrowDown01Icon,
-  } from "@hugeicons/core-free-icons"
+  Folder01Icon,
+  Forward01Icon,
+  MoreHorizontalIcon,
+  Delete01Icon,
+  PlusSignIcon,
+  ArrowUp01Icon,
+} from "@hugeicons/core-free-icons"
 import {
   Collapsible,
   CollapsibleContent,
@@ -38,15 +37,15 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
+import {
+  projects as defaultProjects,
+  type SidebarProject,
+} from "@/lib/sidebar-data"
 
 export function NavProjects({
-  projects,
+  projects = defaultProjects,
 }: {
-  projects: {
-    name: string
-    url: string
-    icon: IconSvgElement
-  }[]
+  projects?: SidebarProject[]
 }) {
   const { isMobile } = useSidebar()
 
@@ -59,9 +58,9 @@ export function NavProjects({
         >
           <span>Projects</span>
           <HugeiconsIcon
-            icon={ArrowDown01Icon}
-            strokeWidth={2}
-            className="ms-1 size-3.5 shrink-0 opacity-0 transition-all duration-200 group-focus-within/nav:opacity-100 group-hover/nav:opacity-100 group-data-panel-open/collapsible:rotate-180"
+            icon={ArrowUp01Icon}
+            strokeWidth={1.5}
+            className="ms-1 size-3 shrink-0 rotate-90 opacity-0 transition-all duration-200 group-focus-within/nav:opacity-100 group-hover/nav:opacity-100 group-data-panel-open/collapsible:rotate-180 rtl:-rotate-90 group-data-panel-open/collapsible:rtl:rotate-180"
           />
         </SidebarGroupLabel>
         <Tooltip>
@@ -69,9 +68,13 @@ export function NavProjects({
             render={
               <SidebarGroupAction
                 title="Add Project"
-                className="opacity-0 transition-opacity group-focus-within/nav:opacity-100 group-hover/nav:opacity-100"
+                className="text-muted-foreground opacity-0 transition-opacity group-focus-within/nav:opacity-100 group-hover/nav:opacity-100 hover:text-sidebar-primary"
               >
-                <HugeiconsIcon icon={PlusSignIcon} strokeWidth={2} className="size-4" />
+                <HugeiconsIcon
+                  icon={PlusSignIcon}
+                  strokeWidth={2}
+                  className="size-3.5"
+                />
                 <span className="sr-only">Add Project</span>
               </SidebarGroupAction>
             }
@@ -85,15 +88,26 @@ export function NavProjects({
             <SidebarMenu>
               {projects.map((item) => (
                 <SidebarMenuItem key={item.name}>
-                  <SidebarMenuButton render={<a href={item.url} />} tooltip={item.name}>
-                    <HugeiconsIcon icon={item.icon} strokeWidth={2} className="size-4" />
+                  <SidebarMenuButton
+                    render={<a href={item.url} />}
+                    tooltip={item.name}
+                  >
+                    <HugeiconsIcon
+                      icon={item.icon}
+                      strokeWidth={2}
+                      className="size-4"
+                    />
                     <span>{item.name}</span>
                   </SidebarMenuButton>
                   <DropdownMenu>
                     <DropdownMenuTrigger
                       render={
                         <SidebarMenuAction showOnHover>
-                          <HugeiconsIcon icon={MoreHorizontalIcon} strokeWidth={2} className="size-4" />
+                          <HugeiconsIcon
+                            icon={MoreHorizontalIcon}
+                            strokeWidth={2}
+                            className="size-4"
+                          />
                           <span className="sr-only">More</span>
                         </SidebarMenuAction>
                       }
@@ -104,16 +118,28 @@ export function NavProjects({
                       align={isMobile ? "end" : "start"}
                     >
                       <DropdownMenuItem>
-                      <HugeiconsIcon icon={Folder01Icon} strokeWidth={2} className="size-4" />
+                        <HugeiconsIcon
+                          icon={Folder01Icon}
+                          strokeWidth={2}
+                          className="size-4"
+                        />
                         <span>View Project</span>
                       </DropdownMenuItem>
                       <DropdownMenuItem>
-                      <HugeiconsIcon icon={Forward01Icon} strokeWidth={2} className="size-4" />
+                        <HugeiconsIcon
+                          icon={Forward01Icon}
+                          strokeWidth={2}
+                          className="size-4"
+                        />
                         <span>Share Project</span>
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem variant="destructive">
-                      <HugeiconsIcon icon={Delete01Icon} strokeWidth={2} className="size-4" />
+                        <HugeiconsIcon
+                          icon={Delete01Icon}
+                          strokeWidth={2}
+                          className="size-4"
+                        />
                         <span>Delete Project</span>
                       </DropdownMenuItem>
                     </DropdownMenuContent>

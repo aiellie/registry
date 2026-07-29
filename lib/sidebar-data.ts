@@ -13,6 +13,8 @@ import {
   CreditCardIcon,
   DashboardCircleIcon,
   FileScriptIcon,
+  FrameIcon,
+  GitBranchIcon,
   GitPullRequestIcon,
   Image02Icon,
   Key01Icon,
@@ -21,6 +23,7 @@ import {
   PaintBoardIcon,
   PlayIcon,
   PlusSignIcon,
+  SourceCodeIcon,
   WebDesign02Icon,
 } from "@hugeicons/core-free-icons"
 import type { IconSvgElement } from "@hugeicons/react"
@@ -48,9 +51,32 @@ export interface SidebarNavGroup {
   items: SidebarNavItem[]
 }
 
+export type SidebarChatType = "voice" | "code" | "chat" | "branch"
+
+export type SidebarChatStatus = "read" | "unread" | "working"
+
 export interface SidebarChat {
   name: string
   url: string
+  /** Picks the row icon via `chatTypeIcons`. */
+  type: SidebarChatType
+  /** `unread` shows an indicator dot, `working` a pulsing one. */
+  status: SidebarChatStatus
+}
+
+/** Row icon for each chat type, shared by the chat and pinned lists. */
+export const chatTypeIcons: Record<SidebarChatType, IconSvgElement> = {
+  chat: Comment02Icon,
+  voice: AudioWave01Icon,
+  code: SourceCodeIcon,
+  branch: GitBranchIcon,
+}
+
+export interface SidebarProject {
+  id: string
+  name: string
+  url: string
+  icon: IconSvgElement
 }
 
 export interface SidebarTeam {
@@ -58,9 +84,34 @@ export interface SidebarTeam {
   logo: IconSvgElement
   plan: string
   groups: SidebarNavGroup[]
+  /** Named workspaces shown above chats. Teams without projects omit this. */
+  projects?: SidebarProject[]
+  /** Chats pinned above the recents list. */
+  pinned?: SidebarChat[]
   /** Recent conversations. Teams without a chat surface omit this. */
   chats?: SidebarChat[]
 }
+
+/** Shared project list: the sidebar Projects group and the prompt-input picker. */
+export const projects: SidebarProject[] = [
+  { id: "ui-aiellie-dev", name: "ui.aiellie.dev", url: "#", icon: FrameIcon },
+  { id: "aiellie-dev", name: "aiellie.dev", url: "#", icon: WebDesign02Icon },
+  { id: "aiellie", name: "aiellie", url: "#", icon: PaintBoardIcon },
+  {
+    id: "shadcn-inspired",
+    name: "shadcn.inspired",
+    url: "#",
+    icon: LayoutTable01Icon,
+  },
+]
+
+/** Branches for the prompt-input branch picker. */
+export const branches: { name: string; hint?: string }[] = [
+  { name: "main", hint: "Uncommitted: 1 file" },
+]
+
+/** Environments for the prompt-input environment picker. */
+export const environments: { id: string; name: string }[] = []
 
 const newBadge = {
   text: "New",
@@ -98,9 +149,26 @@ export const teams: SidebarTeam[] = [
         ],
       },
     ],
+    projects,
+    pinned: [
+      { name: "Design tokens sync", url: "#", type: "code", status: "read" },
+      { name: "Launch voice memo", url: "#", type: "voice", status: "unread" },
+    ],
     chats: [
-      { name: "Update UI to match examples", url: "#" },
-      { name: "Portfolio Site Preview", url: "#" },
+      {
+        name: "Update UI to match examples",
+        url: "#",
+        type: "code",
+        status: "working",
+      },
+      {
+        name: "Portfolio Site Preview",
+        url: "#",
+        type: "branch",
+        status: "unread",
+      },
+      { name: "Weekly recap", url: "#", type: "chat", status: "read" },
+      { name: "Voice brainstorm", url: "#", type: "voice", status: "read" },
     ],
   },
   {
@@ -131,10 +199,19 @@ export const teams: SidebarTeam[] = [
         ],
       },
     ],
+    projects: [
+      {
+        id: "ops-playbook",
+        name: "Ops Playbook",
+        url: "#",
+        icon: CheckListIcon,
+      },
+      { id: "vendor-hub", name: "Vendor Hub", url: "#", icon: FrameIcon },
+    ],
     chats: [
-      { name: "Standup summary", url: "#" },
-      { name: "Handoff checklist", url: "#" },
-      { name: "Vendor review", url: "#" },
+      { name: "Standup summary", url: "#", type: "chat", status: "unread" },
+      { name: "Handoff checklist", url: "#", type: "chat", status: "read" },
+      { name: "Vendor review", url: "#", type: "voice", status: "read" },
     ],
   },
   {
@@ -160,9 +237,28 @@ export const teams: SidebarTeam[] = [
         ],
       },
     ],
+    projects,
+    pinned: [
+      {
+        name: "Registry build pipeline",
+        url: "#",
+        type: "branch",
+        status: "working",
+      },
+    ],
     chats: [
-      { name: "Update UI to match examples", url: "#" },
-      { name: "Portfolio Site Preview", url: "#" },
+      {
+        name: "Update UI to match examples",
+        url: "#",
+        type: "code",
+        status: "working",
+      },
+      {
+        name: "Portfolio Site Preview",
+        url: "#",
+        type: "branch",
+        status: "unread",
+      },
     ],
   },
   {
@@ -230,10 +326,19 @@ export const teams: SidebarTeam[] = [
         ],
       },
     ],
+    projects: [
+      {
+        id: "brand-system",
+        name: "Brand System",
+        url: "#",
+        icon: PaintBoardIcon,
+      },
+      { id: "campaign-kit", name: "Campaign Kit", url: "#", icon: Image02Icon },
+    ],
     chats: [
-      { name: "Brand palette v2", url: "#" },
-      { name: "Podcast intro cut", url: "#" },
-      { name: "Hero illustration", url: "#" },
+      { name: "Brand palette v2", url: "#", type: "chat", status: "read" },
+      { name: "Podcast intro cut", url: "#", type: "voice", status: "unread" },
+      { name: "Hero illustration", url: "#", type: "chat", status: "working" },
     ],
   },
 ]

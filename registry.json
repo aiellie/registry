@@ -312,6 +312,79 @@
       ]
     },
     {
+      "name": "newchat",
+      "type": "registry:block",
+      "title": "New Chat",
+      "description": "A new chat starting kit with brand header and sidebar shell, plus the full Aiellie design system.",
+      "registryDependencies": [
+        "https://ui.aiellie.dev/r/theme.json",
+        "https://ui.aiellie.dev/r/logo.json",
+        "https://ui.aiellie.dev/r/hero.json",
+        "https://ui.aiellie.dev/r/login.json",
+        "https://ui.aiellie.dev/r/prompt-input.json",
+        "https://ui.aiellie.dev/r/brand-header.json",
+        "https://ui.aiellie.dev/r/brand-footer.json",
+        "https://ui.aiellie.dev/r/brand-sidebar.json",
+        "https://ui.aiellie.dev/r/accordion.json",
+        "https://ui.aiellie.dev/r/alert.json",
+        "https://ui.aiellie.dev/r/alert-dialog.json",
+        "https://ui.aiellie.dev/r/aspect-ratio.json",
+        "https://ui.aiellie.dev/r/attachment.json",
+        "https://ui.aiellie.dev/r/avatar.json",
+        "https://ui.aiellie.dev/r/badge.json",
+        "https://ui.aiellie.dev/r/breadcrumb.json",
+        "https://ui.aiellie.dev/r/bubble.json",
+        "https://ui.aiellie.dev/r/button.json",
+        "https://ui.aiellie.dev/r/button-group.json",
+        "https://ui.aiellie.dev/r/calendar.json",
+        "https://ui.aiellie.dev/r/card.json",
+        "https://ui.aiellie.dev/r/carousel.json",
+        "https://ui.aiellie.dev/r/chart.json",
+        "https://ui.aiellie.dev/r/checkbox.json",
+        "https://ui.aiellie.dev/r/collapsible.json",
+        "https://ui.aiellie.dev/r/combobox.json",
+        "https://ui.aiellie.dev/r/command.json",
+        "https://ui.aiellie.dev/r/context-menu.json",
+        "https://ui.aiellie.dev/r/dialog.json",
+        "https://ui.aiellie.dev/r/direction.json",
+        "https://ui.aiellie.dev/r/drawer.json",
+        "https://ui.aiellie.dev/r/dropdown-menu.json",
+        "https://ui.aiellie.dev/r/empty.json",
+        "https://ui.aiellie.dev/r/field.json",
+        "https://ui.aiellie.dev/r/hover-card.json",
+        "https://ui.aiellie.dev/r/input.json",
+        "https://ui.aiellie.dev/r/input-group.json",
+        "https://ui.aiellie.dev/r/input-otp.json",
+        "https://ui.aiellie.dev/r/item.json",
+        "https://ui.aiellie.dev/r/icons.json",
+        "https://ui.aiellie.dev/r/kbd.json",
+        "https://ui.aiellie.dev/r/label.json",
+        "https://ui.aiellie.dev/r/marker.json",
+        "https://ui.aiellie.dev/r/menubar.json",
+        "https://ui.aiellie.dev/r/message.json",
+        "https://ui.aiellie.dev/r/message-scroller.json",
+        "https://ui.aiellie.dev/r/model-selector.json",
+        "https://ui.aiellie.dev/r/native-select.json",
+        "https://ui.aiellie.dev/r/navigation-menu.json",
+        "https://ui.aiellie.dev/r/pagination.json",
+        "https://ui.aiellie.dev/r/popover.json",
+        "https://ui.aiellie.dev/r/progress.json",
+        "https://ui.aiellie.dev/r/newchat-page.json"
+      ],
+      "files": [
+        {
+          "path": "registry/layouts/shell-layout.tsx",
+          "type": "registry:file",
+          "target": "app/layout.tsx"
+        },
+        {
+          "path": "app/demo/[name]/blocks/newchat-page.tsx",
+          "type": "registry:page",
+          "target": "app/page.tsx"
+        }
+      ]
+    },
+    {
       "name": "dashboard",
       "type": "registry:block",
       "title": "Dashboard",
@@ -591,6 +664,7 @@
         "https://ui.aiellie.dev/r/separator.json",
         "https://ui.aiellie.dev/r/sidebar.json",
         "https://ui.aiellie.dev/r/dropdown-menu.json",
+        "https://ui.aiellie.dev/r/status.json",
         "https://ui.aiellie.dev/r/terminal.json",
         "https://ui.aiellie.dev/r/theme.json",
         "https://ui.aiellie.dev/r/tooltip.json",
@@ -627,6 +701,11 @@
           "path": "components/nav-chats.tsx",
           "type": "registry:component",
           "target": "components/nav-chats.tsx"
+        },
+        {
+          "path": "components/nav-pinned.tsx",
+          "type": "registry:component",
+          "target": "components/nav-pinned.tsx"
         },
         {
           "path": "components/nav-user.tsx",
@@ -2991,6 +3070,11 @@
           "path": "components/prompt-project-picker.tsx",
           "type": "registry:component",
           "target": "components/prompt-project-picker.tsx"
+        },
+        {
+          "path": "lib/sidebar-data.ts",
+          "type": "registry:lib",
+          "target": "lib/sidebar-data.ts"
         }
       ],
       "dependencies": ["@hugeicons/core-free-icons", "@hugeicons/react", "cmdk"]

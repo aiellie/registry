@@ -14,10 +14,7 @@ import {
 import { HugeiconsIcon } from "@hugeicons/react"
 
 import { SpeechInput } from "@/components/ai-elements/speech-input"
-import {
-  BranchPicker,
-  type PromptBranch,
-} from "@/components/branch-picker"
+import { BranchPicker, type PromptBranch } from "@/components/branch-picker"
 import {
   EnvironmentPicker,
   type PromptEnvironment,
@@ -65,6 +62,11 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import {
+  branches as sidebarBranches,
+  environments as sidebarEnvironments,
+  projects as sidebarProjects,
+} from "@/lib/sidebar-data"
 import { cn } from "@/lib/utils"
 
 export type PromptSubmitValue = {
@@ -103,23 +105,10 @@ function formatAttachmentMeta(file: File) {
   return `${label} · ${formatFileSize(file.size)}`
 }
 
-const DEFAULT_PROJECTS: PromptProject[] = [
-  { id: "ui-aiellie-dev", name: "ui.aiellie.dev" },
-  { id: "aiellie-dev", name: "aiellie.dev" },
-  { id: "aiellie", name: "aiellie" },
-  { id: "shadcn-inspired", name: "shadcn.inspired" },
-]
-
-const DEFAULT_BRANCHES: PromptBranch[] = [
-  { name: "main", hint: "Uncommitted: 1 file" },
-]
-
-const DEFAULT_ENVIRONMENTS: PromptEnvironment[] = []
-
 export function PromptInput({
-  projects = DEFAULT_PROJECTS,
-  branches = DEFAULT_BRANCHES,
-  environments = DEFAULT_ENVIRONMENTS,
+  projects = sidebarProjects,
+  branches = sidebarBranches,
+  environments = sidebarEnvironments,
   placeholder = "Do anything",
   defaultProjectId = projects[0]?.id ?? null,
   onSubmit,
@@ -143,7 +132,9 @@ export function PromptInput({
 
   const [value, setValue] = React.useState("")
   const [attachments, setAttachments] = React.useState<PromptAttachment[]>([])
-  const [projectId, setProjectId] = React.useState<string | null>(defaultProjectId)
+  const [projectId, setProjectId] = React.useState<string | null>(
+    defaultProjectId
+  )
   const [projectPickerOpen, setProjectPickerOpen] = React.useState(false)
   const [startIn, setStartIn] = React.useState<StartIn>("local")
   const [startInOpen, setStartInOpen] = React.useState(false)
@@ -154,7 +145,7 @@ export function PromptInput({
   const [approval, setApproval] = React.useState<ApprovalMode>("ask")
   const [model, setModel] = React.useState("claude-opus-5")
   const [effort, setEffort] = React.useState("high")
-  const [fast, setFast] = React.useState(false)
+  const [fast, setFast] = React.useState(true)
   const [isDictating, setIsDictating] = React.useState(false)
 
   // Slash commands only apply to a single leading line, so `/` in the middle of
@@ -372,7 +363,7 @@ export function PromptInput({
 
   return (
     <div className={cn("w-full max-w-3xl", className)}>
-      <div className="-mb-4 mx-3 flex items-center gap-4 rounded-t-2xl bg-muted px-3 pt-2 pb-5">
+      <div className="mx-3 -mb-4 flex items-center gap-4 rounded-t-2xl bg-muted px-3 pt-2 pb-5">
         <PromptProjectPicker
           projects={projects}
           value={projectId}
@@ -548,7 +539,7 @@ export function PromptInput({
                       alt={attachment.file.name}
                     />
                   </AttachmentMedia>
-                  <AttachmentActions className="absolute top-1 end-1">
+                  <AttachmentActions className="absolute end-1 top-1">
                     <AttachmentRemoveAction
                       attachment={attachment}
                       onRemove={removeAttachment}

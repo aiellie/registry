@@ -4,7 +4,7 @@ import type { ComponentType, ReactElement, ReactNode } from "react"
 import { blank } from "@/app/demo/[name]/blocks/blank"
 import { dashboard } from "@/app/demo/[name]/blocks/dashboard"
 import { login } from "@/app/demo/[name]/blocks/login"
-
+import { newchat } from "@/app/demo/[name]/blocks/newchat"
 // components
 import BrandAvatarExample from "@/app/demo/[name]/components/brand-avatar"
 import { brandFooter } from "@/app/demo/[name]/components/brand-footer"
@@ -115,6 +115,7 @@ export const demos: { [name: string]: Demo } = {
   blank,
   dashboard,
   login,
+  newchat,
   // components
   "brand-header": brandHeader,
   "brand-footer": brandFooter,

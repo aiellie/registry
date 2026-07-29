@@ -12,15 +12,18 @@ import { Toaster } from "@/components/ui/toast"
 
 export default function ShellLayout({
   children,
+  activeHref,
 }: Readonly<{
   children: ReactNode
+  /** Forwarded to BrandSidebar to mark a nav item active. */
+  activeHref?: string
 }>) {
   return (
     <SidebarProvider
       style={
         {
           "--sidebar-width": "calc(var(--spacing) * 72)",
-          "--header-height": "calc(var(--spacing) * 10)",
+          "--header-height": "calc(var(--spacing) * 12)",
           "--footer-height": "calc(var(--spacing) * 8)",
         } as CSSProperties
       }
@@ -35,7 +38,7 @@ export default function ShellLayout({
               "calc(100svh - var(--header-height) - var(--footer-height))",
           }}
         >
-          <BrandSidebar />
+          <BrandSidebar activeHref={activeHref} />
           <ResizablePanel id="content">
             {/* The bottom panel splits the content area, so it stops short of
                 the sidebar and the right panel. */}

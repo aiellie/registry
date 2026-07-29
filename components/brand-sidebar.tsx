@@ -32,6 +32,8 @@ import {
 import { cn } from "@/lib/utils"
 import { teams, user } from "@/lib/sidebar-data"
 import { NavChats } from "@/components/nav-chats"
+import { NavPinned } from "@/components/nav-pinned"
+import { NavProjects } from "@/components/nav-projects"
 import { NavUser } from "@/components/nav-user"
 import { SidebarSetupForm } from "@/components/sidebar-setup-form"
 
@@ -45,7 +47,14 @@ const SIDEBAR_PANEL_MAX_SIZE = "28rem"
 const SIDEBAR_PANEL_ICON_SIZE = "3rem"
 const SIDEBAR_PANEL_OFFCANVAS_SIZE = "0px"
 
-export function BrandSidebar({ className }: { className?: string }) {
+export function BrandSidebar({
+  className,
+  activeHref,
+}: {
+  className?: string
+  /** Marks the nav item with this href active when the pathname can't (e.g. hash hrefs in demos). */
+  activeHref?: string
+}) {
   const pathname = usePathname()
   const { state, isMobile, setOpen } = useSidebar()
   const isCollapsed = state === "collapsed"
@@ -158,7 +167,9 @@ export function BrandSidebar({ className }: { className?: string }) {
                   <SidebarMenuItem key={item.href}>
                     <SidebarMenuButton
                       render={<Link href={item.href} />}
-                      isActive={pathname === item.href}
+                      isActive={
+                        pathname === item.href || item.href === activeHref
+                      }
                       tooltip={
                         item.kbd
                           ? {
@@ -218,6 +229,10 @@ export function BrandSidebar({ className }: { className?: string }) {
             </SidebarGroupContent>
           </SidebarGroup>
         ))}
+           {/*{activeTeam.projects && (
+          <NavProjects projects={activeTeam.projects} />
+        )}*/}
+        {activeTeam.pinned && <NavPinned chats={activeTeam.pinned} />}
         {activeTeam.chats && <NavChats chats={activeTeam.chats} />}
       </SidebarContent>
       <SidebarFooter>
