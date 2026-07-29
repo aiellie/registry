@@ -1,15 +1,6 @@
 "use client"
 
-import type { IconSvgElement } from "@hugeicons/react"
-import {
-  BubbleChatIcon,
-  Calendar01Icon,
-  Folder01Icon,
-  LibraryIcon,
-  PlugIcon,
-  Search01Icon,
-  WebDesign02Icon,
-} from "@hugeicons/core-free-icons"
+import { BubbleChatIcon, Search01Icon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { useRouter } from "next/navigation"
 import { useCallback, useEffect, useState } from "react"
@@ -33,44 +24,12 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import { teams } from "@/lib/sidebar-data"
 import { cn } from "@/lib/utils"
 
-interface SearchItem {
-  title: string
-  href: string
-  icon: IconSvgElement
-  badge?: {
-    text: string
-    className?: string
-  }
-}
-
-const navigationItems: SearchItem[] = [
-  { title: "Library", href: "#library", icon: LibraryIcon },
-  { title: "Scheduled", href: "#scheduled", icon: Calendar01Icon },
-  { title: "Plugins", href: "#plugins", icon: PlugIcon },
-  {
-    title: "Sites",
-    href: "#sites",
-    icon: WebDesign02Icon,
-    badge: {
-      text: "New",
-      className: "bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-300",
-    },
-  },
-]
-
-const projectItems: SearchItem[] = [
-  { title: "Portfolio", href: "#", icon: Folder01Icon },
-  { title: "Design Registry", href: "#", icon: Folder01Icon },
-  { title: "MCP", href: "#", icon: Folder01Icon },
-]
-
-const chatItems: SearchItem[] = [
-  { title: "Onboarding flow ideas", href: "#", icon: BubbleChatIcon },
-  { title: "Q3 roadmap draft", href: "#", icon: BubbleChatIcon },
-  { title: "Bug triage notes", href: "#", icon: BubbleChatIcon },
-]
+const chatItems = teams.flatMap(
+  (team) => team.chats?.map((chat) => ({ team: team.name, chat })) ?? []
+)
 
 function HighlightMatch({ text, query }: { text: string; query: string }) {
   const trimmed = query.trim()
@@ -231,7 +190,7 @@ export function SearchCommand({
           if (!next) setSearch("")
         }}
         title="Search"
-        description="Search navigation, projects, and chats..."
+        description="Search navigation and chats..."
       >
         <Command>
           <CommandInput
@@ -242,51 +201,48 @@ export function SearchCommand({
           <CommandList>
             <CommandEmpty>No results found.</CommandEmpty>
 
-            <CommandGroup heading="Navigation">
-              {navigationItems.map((item) => (
-                <CommandItem
-                  key={item.href}
-                  value={`navigation-${item.title}`}
-                  onSelect={() => run(item.href)}
-                >
-                  <HugeiconsIcon icon={item.icon} strokeWidth={2} />
-                  <HighlightMatch text={item.title} query={search} />
-                  {item.badge && (
-                    <CommandShortcut>
-                      <Badge
-                        variant="secondary"
-                        className={cn(item.badge.className)}
-                      >
-                        {item.badge.text}
-                      </Badge>
-                    </CommandShortcut>
-                  )}
-                </CommandItem>
-              ))}
-            </CommandGroup>
-
-            <CommandGroup heading="Projects">
-              {projectItems.map((item) => (
-                <CommandItem
-                  key={item.title}
-                  value={`project-${item.title}`}
-                  onSelect={() => run(item.href)}
-                >
-                  <HugeiconsIcon icon={item.icon} strokeWidth={2} />
-                  <HighlightMatch text={item.title} query={search} />
-                </CommandItem>
-              ))}
-            </CommandGroup>
+            {teams.map((team) => (
+              <CommandGroup key={team.name} heading={team.name}>
+                {team.groups
+                  .flatMap((group) => group.items)
+                  .map((item) => (
+                    <CommandItem
+                      key={item.href}
+                      value={`${team.name} ${item.title}`}
+                      onSelect={() => run(item.href)}
+                    >
+                      <HugeiconsIcon icon={item.icon} strokeWidth={2} />
+                      <HighlightMatch text={item.title} query={search} />
+                      {item.badge && (
+                        <CommandShortcut>
+                          <Badge
+                            variant="secondary"
+                            className={cn(item.badge.className)}
+                          >
+                            {item.badge.text}
+                          </Badge>
+                        </CommandShortcut>
+                      )}
+                      {item.kbd && (
+                        <CommandShortcut>
+                          <Kbd>{item.kbd}</Kbd>
+                        </CommandShortcut>
+                      )}
+                    </CommandItem>
+                  ))}
+              </CommandGroup>
+            ))}
 
             <CommandGroup heading="Chats">
-              {chatItems.map((item) => (
+              {chatItems.map(({ team, chat }) => (
                 <CommandItem
-                  key={item.title}
-                  value={`chat-${item.title}`}
-                  onSelect={() => run(item.href)}
+                  key={`${team}-${chat.name}`}
+                  value={`chat ${team} ${chat.name}`}
+                  onSelect={() => run(chat.url)}
                 >
-                  <HugeiconsIcon icon={item.icon} strokeWidth={2} />
-                  <HighlightMatch text={item.title} query={search} />
+                  <HugeiconsIcon icon={BubbleChatIcon} strokeWidth={2} />
+                  <HighlightMatch text={chat.name} query={search} />
+                  <CommandShortcut>{team}</CommandShortcut>
                 </CommandItem>
               ))}
             </CommandGroup>
