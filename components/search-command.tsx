@@ -112,8 +112,7 @@ export function SearchCommand({
       />
       <span>Search...</span>
       <KbdGroup className="ms-auto">
-        <Kbd className="size-4 text-xs">⌘</Kbd>
-        <Kbd className="size-4 text-xs">K</Kbd>
+      <Kbd className="border-none text-xs">⌘K</Kbd>
       </KbdGroup>
     </Button>
   )

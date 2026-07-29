@@ -131,7 +131,7 @@ export function BrandSidebar({ className }: { className?: string }) {
         className
       )}
     >
-      <SidebarHeader className="pb-0">
+    {/*  <SidebarHeader className="pb-0">
         <TeamSwitcher
           teams={teams}
           activeTeam={activeTeam.name}
@@ -146,7 +146,7 @@ export function BrandSidebar({ className }: { className?: string }) {
           >
           </div>
         </div>
-      </SidebarHeader>
+      </SidebarHeader> */}
 
       <SidebarContent>
         {activeTeam.groups.map((group, index) => (
@@ -221,7 +221,7 @@ export function BrandSidebar({ className }: { className?: string }) {
         {activeTeam.chats && <NavChats chats={activeTeam.chats} />}
       </SidebarContent>
       <SidebarFooter>
-        <SidebarSetupForm />
+        {/* <SidebarSetupForm /> */}
         <NavUser user={user} />
       </SidebarFooter>
     </Sidebar>

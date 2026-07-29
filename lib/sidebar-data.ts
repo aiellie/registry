@@ -84,6 +84,17 @@ export const teams: SidebarTeam[] = [
           },
           { title: "Library", href: "#chat-library", icon: LibraryIcon },
           { title: "Scheduled", href: "#chat-scheduled", icon: Calendar01Icon },
+          {
+            title: "Pull Requests",
+            href: "#code-pull-requests",
+            icon: GitPullRequestIcon,
+          },
+          {
+            title: "Sites",
+            href: "#code-sites",
+            icon: WebDesign02Icon,
+            badge: newBadge,
+          },
         ],
       },
     ],

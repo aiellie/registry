@@ -138,14 +138,61 @@ const TERMINAL_PROMPT = "stashd@Mac ui.aiellie.dev %"
 
 const TERMINAL_HELP = [
   "Available commands:",
-  "  help  ls  pwd  whoami  date  echo <text>  clear",
+  "  pnpm dev  help  ls  pwd  whoami  date  echo <text>  clear",
 ].join("\n")
+
+// `pnpm dev` replays a real boot of this repo, chunk by chunk — each entry
+// appends its lines after `delay` ms so the panel feels like a live shell.
+const PNPM_DEV_RUN: { delay: number; lines: string[] }[] = [
+  {
+    delay: 250,
+    lines: [
+      "",
+      "> ui.aiellie.dev@0.0.1 dev /Users/stashd/ui.aiellie.dev",
+      "> pnpm registry:build && pnpm icons:build && next dev",
+    ],
+  },
+  {
+    delay: 450,
+    lines: [
+      "",
+      "",
+      "> ui.aiellie.dev@0.0.1 registry:build /Users/stashd/ui.aiellie.dev",
+      "> shadcn build",
+    ],
+  },
+  { delay: 650, lines: ["", "✔ Building registry."] },
+  {
+    delay: 400,
+    lines: [
+      "",
+      "> ui.aiellie.dev@0.0.1 icons:build /Users/stashd/ui.aiellie.dev",
+      "> node scripts/build-hugeicons.mjs",
+    ],
+  },
+  {
+    delay: 550,
+    lines: ["", "hugeicons: manifest already at 4.2.2 (schema 2), skipping"],
+  },
+  {
+    delay: 350,
+    lines: [
+      "▲ Next.js 16.2.6 (Turbopack)",
+      "- Local:         http://localhost:3000",
+      "- Network:       http://192.168.1.158:3000",
+      "- Environments: .env.local",
+    ],
+  },
+  { delay: 262, lines: ["✓ Ready in 262ms"] },
+]
 
 interface PanelTab {
   id: number
   type: NewTabType
   /** Terminal scrollback; unused by the log views. */
   output: string
+  /** True while a simulated long-running command owns the terminal. */
+  running?: boolean
 }
 
 const TAB_META = Object.fromEntries(
@@ -173,6 +220,11 @@ function runCommand(command: string) {
       return new Date().toString()
     case "echo":
       return rest.join(" ")
+    case "pnpm":
+      // `pnpm dev` is intercepted by the staged runner before reaching here.
+      return rest.length === 0
+        ? "Usage: pnpm [command] [flags]\nTry `pnpm dev`."
+        : ` ERR_PNPM_NO_SCRIPT  Missing script: ${rest.join(" ")}`
     case "":
       return ""
     default:
@@ -214,6 +266,8 @@ export function BrandSidebarBottom({ className }: { className?: string }) {
   const [tabs, setTabs] = React.useState<PanelTab[]>(DEFAULT_TABS)
   const [activeId, setActiveId] = React.useState(DEFAULT_ACTIVE_ID)
   const nextId = React.useRef(2)
+  // Pending output timers per tab, so Ctrl+C and tab close can cancel a run.
+  const runTimeouts = React.useRef(new Map<number, number[]>())
 
   // The panel only renders after the client restored the open state, so the
   // lazy read never disagrees with server HTML.
@@ -234,13 +288,52 @@ export function BrandSidebarBottom({ className }: { className?: string }) {
       )
     )
 
+  const setRunning = (id: number, running: boolean) =>
+    setTabs((current) =>
+      current.map((tab) => (tab.id === id ? { ...tab, running } : tab))
+    )
+
+  // Cancels a run and hands the prompt back, like Ctrl+C in a real shell.
+  const interrupt = (id: number) => {
+    runTimeouts.current.get(id)?.forEach((timer) => window.clearTimeout(timer))
+    runTimeouts.current.delete(id)
+    setOutput(id, (current) => `${current}\n^C`)
+    setRunning(id, false)
+  }
+
   const run = (command: string) => {
+    // The running dev server owns the session; Enter just gets swallowed.
+    if (activeTab.running) return
     if (command.trim() === "clear") {
       setOutput(activeTab.id, () => "")
       return
     }
-    const result = runCommand(command)
     const echoed = `${TERMINAL_PROMPT} ${command}`.trimEnd()
+    // The dev-server boot streams in over ~3s and then stays running — the
+    // prompt never comes back on its own; Ctrl+C interrupts it.
+    if (command.trim().replace(/\s+/g, " ") === "pnpm dev") {
+      const { id } = activeTab
+      setOutput(id, (current) => (current ? `${current}\n${echoed}` : echoed))
+      setRunning(id, true)
+      let elapsed = 0
+      const timers: number[] = []
+      for (const chunk of PNPM_DEV_RUN) {
+        elapsed += chunk.delay
+        timers.push(
+          window.setTimeout(
+            () =>
+              setOutput(
+                id,
+                (current) => `${current}\n${chunk.lines.join("\n")}`
+              ),
+            elapsed
+          )
+        )
+      }
+      runTimeouts.current.set(id, timers)
+      return
+    }
+    const result = runCommand(command)
     const entry = result ? `${echoed}\n${result}` : echoed
     setOutput(activeTab.id, (current) =>
       current ? `${current}\n${entry}` : entry
@@ -263,6 +356,8 @@ export function BrandSidebarBottom({ className }: { className?: string }) {
   }
 
   const closeTab = (id: number) => {
+    runTimeouts.current.get(id)?.forEach((timer) => window.clearTimeout(timer))
+    runTimeouts.current.delete(id)
     const remaining = tabs.filter((tab) => tab.id !== id)
     // Closing the last tab closes the whole panel; the default set is
     // restored so the panel never reopens empty.
@@ -345,7 +440,9 @@ export function BrandSidebarBottom({ className }: { className?: string }) {
                       variant="ghost"
                       size="icon-xs"
                       disabled={
-                        activeTab.type !== "terminal" || activeTab.output === ""
+                        activeTab.type !== "terminal" ||
+                        activeTab.output === "" ||
+                        activeTab.running
                       }
                       onClick={() => setOutput(activeTab.id, () => "")}
                     >
@@ -386,10 +483,27 @@ export function BrandSidebarBottom({ className }: { className?: string }) {
             {activeTab.type === "terminal" ? (
               <Terminal
                 className="h-full rounded-none border-0 bg-transparent"
+                isStreaming={activeTab.running ?? false}
                 output={activeTab.output}
               >
                 <TerminalContent className="h-full max-h-none">
-                  <TerminalInput onSubmit={run} prompt={TERMINAL_PROMPT} />
+                  {/* While the dev server runs there is no prompt, but the
+                      input stays enabled so Ctrl+C can interrupt it. */}
+                  <TerminalInput
+                    disabled={false}
+                    onKeyDown={(event) => {
+                      if (
+                        activeTab.running &&
+                        event.ctrlKey &&
+                        event.key.toLowerCase() === "c"
+                      ) {
+                        event.preventDefault()
+                        interrupt(activeTab.id)
+                      }
+                    }}
+                    onSubmit={run}
+                    prompt={activeTab.running ? "" : TERMINAL_PROMPT}
+                  />
                 </TerminalContent>
               </Terminal>
             ) : (

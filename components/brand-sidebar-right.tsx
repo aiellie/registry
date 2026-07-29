@@ -81,23 +81,62 @@ function normalizeUrl(input: string) {
 const proxyUrl = (url: string) =>
   `/api/web-preview?url=${encodeURIComponent(url)}`
 
+const isLoopbackHost = (hostname: string) =>
+  hostname === "localhost" ||
+  hostname === "::1" ||
+  hostname === "[::1]" ||
+  /^127(?:\.\d{1,3}){3}$/.test(hostname)
+
 // Loopback pages are useful during local design work but are intentionally
 // rejected by the server proxy. Let the browser frame those directly instead.
 function previewUrl(url: string) {
   try {
-    const hostname = new URL(url).hostname
-    if (
-      hostname === "localhost" ||
-      hostname === "::1" ||
-      hostname === "[::1]" ||
-      /^127(?:\.\d{1,3}){3}$/.test(hostname)
-    ) {
+    if (isLoopbackHost(new URL(url).hostname)) {
       return url
     }
   } catch {
     // Navigation normalisation handles incomplete URLs before this point.
   }
   return proxyUrl(url)
+}
+
+// Google's favicon service resolves <link rel="icon"> too, not just
+// /favicon.ico — but it cannot reach loopback hosts, so those are asked for
+// their icon directly.
+function faviconUrl(url: string) {
+  try {
+    const parsed = new URL(url)
+    if (isLoopbackHost(parsed.hostname)) {
+      return `${parsed.origin}/favicon.ico`
+    }
+    return `https://www.google.com/s2/favicons?domain=${parsed.hostname}&sz=64`
+  } catch {
+    return null
+  }
+}
+
+function TabFavicon({ url }: { url: string }) {
+  const src = url ? faviconUrl(url) : null
+  const [failedSrc, setFailedSrc] = React.useState<string | null>(null)
+
+  if (!src || src === failedSrc) {
+    return (
+      <HugeiconsIcon
+        icon={Globe02Icon}
+        strokeWidth={2}
+        className="size-4 shrink-0"
+      />
+    )
+  }
+
+  return (
+    <img
+      alt=""
+      className="size-4 shrink-0 rounded-sm"
+      onError={() => setFailedSrc(src)}
+      src={src}
+    />
+  )
 }
 
 interface FindState {
@@ -467,11 +506,7 @@ export function BrandSidebarRight({ className }: { className?: string }) {
                   tabIndex={isActive ? 0 : -1}
                   type="button"
                 >
-                  <HugeiconsIcon
-                    icon={Globe02Icon}
-                    strokeWidth={2}
-                    className="size-4 shrink-0"
-                  />
+                  <TabFavicon url={tabUrl(tab)} />
                   <span className="min-w-0 flex-1 truncate">
                     {tabTitle(tab)}
                   </span>
