@@ -4,7 +4,7 @@ export const promptInput = {
   name: "prompt-input",
   components: {
     Default: (
-      <div className="flex w-full justify-center py-10">
+      <div className="flex min-h-[480px] w-full items-end justify-center py-10">
         <PromptInput />
       </div>
     ),

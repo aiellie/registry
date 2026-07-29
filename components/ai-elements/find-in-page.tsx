@@ -65,6 +65,7 @@ export const FindInPage = ({
   active = 0,
   onStep,
   onClose,
+  onKeyDown,
   ...props
 }: FindInPageProps) => {
   const [uncontrolledQuery, setUncontrolledQuery] = React.useState(defaultQuery)
@@ -93,13 +94,15 @@ export const FindInPage = ({
     <FindInPageContext.Provider value={value}>
       <div
         className={cn(
-          "flex w-full max-w-md flex-col rounded-xl bg-popover text-popover-foreground shadow-lg ring-1 ring-foreground/10",
+          "flex w-full max-w-[21.25rem] flex-col overflow-hidden rounded-[1.25rem] bg-muted/95 text-popover-foreground shadow-[0_8px_24px_rgb(0_0_0_/_0.1)] ring-1 ring-foreground/10 dark:bg-popover",
           className
         )}
         data-slot="find-in-page"
         // Enter / Shift+Enter step through matches, Escape dismisses — the
         // shortcuts people already expect from a browser's find bar.
         onKeyDown={(event) => {
+          onKeyDown?.(event)
+          if (event.defaultPrevented) return
           if (event.key === "Enter") {
             event.preventDefault()
             step(event.shiftKey ? -1 : 1)
@@ -129,7 +132,7 @@ export const FindInPageBar = ({
   ...props
 }: FindInPageBarProps) => (
   <div
-    className={cn("flex items-center gap-2 px-3 py-2", className)}
+    className={cn("flex min-h-11 items-center gap-3 px-4 py-1.5", className)}
     data-slot="find-in-page-bar"
     {...props}
   >
@@ -154,18 +157,19 @@ export const FindInPageInput = ({
   const { query, setQuery } = useFindInPageContext()
 
   return (
-    <div className="flex min-w-0 flex-1 items-center gap-2">
+    <div className="flex min-w-0 flex-1 items-center gap-3">
       {icon && (
         <HugeiconsIcon
-          className="size-4 shrink-0 text-muted-foreground"
+          className="size-5 shrink-0 text-foreground"
           icon={Search01Icon}
           strokeWidth={2}
         />
       )}
       <input
+        aria-label="Find in page"
         autoComplete="off"
         className={cn(
-          "min-w-0 flex-1 bg-transparent text-base outline-none placeholder:text-muted-foreground",
+          "min-w-0 flex-1 bg-transparent text-base font-normal outline-none placeholder:text-muted-foreground [&::-webkit-search-cancel-button]:hidden",
           className
         )}
         data-slot="find-in-page-input"
@@ -188,7 +192,7 @@ export const FindInPageActions = ({
   ...props
 }: FindInPageActionsProps) => (
   <div
-    className={cn("flex shrink-0 items-center gap-0.5", className)}
+    className={cn("flex shrink-0 items-center gap-1", className)}
     data-slot="find-in-page-actions"
     {...props}
   >
@@ -203,9 +207,12 @@ export const FindInPageAction = ({
   ...props
 }: FindInPageActionProps) => (
   <Button
-    className={cn("size-8 p-0 text-muted-foreground", className)}
+    className={cn(
+      "size-8 rounded-xl p-0 text-foreground [&_svg]:size-5",
+      className
+    )}
     data-slot="find-in-page-action"
-    size="sm"
+    size="icon"
     variant="ghost"
     {...props}
   />
@@ -223,13 +230,16 @@ export const FindInPageClose = ({
   return (
     <Button
       aria-label="Close find bar"
-      className={cn("size-8 p-0 text-muted-foreground", className)}
+      className={cn(
+        "size-8 rounded-xl p-0 text-foreground [&_svg]:size-5",
+        className
+      )}
       data-slot="find-in-page-close"
       onClick={(event) => {
         onClick?.(event)
         close()
       }}
-      size="sm"
+      size="icon"
       variant="ghost"
       {...props}
     >
@@ -257,7 +267,7 @@ export const FindInPageResults = ({
   return (
     <div
       className={cn(
-        "flex items-center gap-1 border-t px-3 py-1.5 text-sm text-muted-foreground",
+        "flex min-h-9 items-center gap-1 border-t px-3 py-1 text-sm text-muted-foreground",
         className
       )}
       data-slot="find-in-page-results"
@@ -265,28 +275,28 @@ export const FindInPageResults = ({
     >
       <Button
         aria-label="Previous match"
-        className="size-7 p-0"
+        className="size-7 rounded-lg p-0 text-muted-foreground"
         disabled={empty}
         onClick={() => step(-1)}
-        size="sm"
+        size="icon-sm"
         variant="ghost"
       >
         <HugeiconsIcon
-          className="size-4"
+          className="size-[1.125rem]"
           icon={ArrowUp01Icon}
           strokeWidth={2}
         />
       </Button>
       <Button
         aria-label="Next match"
-        className="size-7 p-0"
+        className="size-7 rounded-lg p-0 text-muted-foreground"
         disabled={empty}
         onClick={() => step(1)}
-        size="sm"
+        size="icon-sm"
         variant="ghost"
       >
         <HugeiconsIcon
-          className="size-4"
+          className="size-[1.125rem]"
           icon={ArrowDown01Icon}
           strokeWidth={2}
         />
@@ -305,7 +315,7 @@ export const FindInPageSeparator = ({
   ...props
 }: FindInPageSeparatorProps) => (
   <Separator
-    className={cn("mx-1 !h-5", className)}
+    className={cn("mx-1 !h-6", className)}
     orientation="vertical"
     {...props}
   />
@@ -385,11 +395,12 @@ export function useFindInPage(
     style.dataset.slot = "find-in-page-highlights"
     style.textContent = `
       ::highlight(find-in-page) {
-        background-color: color-mix(in oklch, var(--color-primary) 30%, transparent);
+        background-color: rgb(255 140 26 / 38%);
+        color: #000;
       }
       ::highlight(find-in-page-active) {
-        background-color: var(--color-primary);
-        color: var(--color-primary-foreground);
+        background-color: #ff8c1a;
+        color: #000;
       }
     `
     document.head.append(style)

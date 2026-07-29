@@ -434,9 +434,7 @@
       "type": "registry:component",
       "title": "Brand Logo",
       "description": "Brand logo lockup with mark and wordmark.",
-      "registryDependencies": [
-        "https://ui.aiellie.dev/r/theme.json"
-      ],
+      "registryDependencies": ["https://ui.aiellie.dev/r/theme.json"],
       "files": [
         {
           "path": "components/logo.tsx",
@@ -450,9 +448,7 @@
       "type": "registry:component",
       "title": "Brand Avatar",
       "description": "The aiellie orb as an expressive avatar — awake, sleeping, winking, dizzy and more.",
-      "registryDependencies": [
-        "https://ui.aiellie.dev/r/theme.json"
-      ],
+      "registryDependencies": ["https://ui.aiellie.dev/r/theme.json"],
       "files": [
         {
           "path": "components/brand/brand-avatar.tsx",
@@ -536,10 +532,7 @@
           "target": "components/ny-clock.tsx"
         }
       ],
-      "dependencies": [
-        "@hugeicons/core-free-icons",
-        "@hugeicons/react"
-      ]
+      "dependencies": ["@hugeicons/core-free-icons", "@hugeicons/react"]
     },
     {
       "name": "brand-footer",
@@ -601,6 +594,7 @@
         "https://ui.aiellie.dev/r/terminal.json",
         "https://ui.aiellie.dev/r/theme.json",
         "https://ui.aiellie.dev/r/tooltip.json",
+        "https://ui.aiellie.dev/r/find-in-page.json",
         "https://ui.aiellie.dev/r/web-preview.json"
       ],
       "files": [
@@ -668,6 +662,11 @@
           "path": "lib/sidebar-data.ts",
           "type": "registry:lib",
           "target": "lib/sidebar-data.ts"
+        },
+        {
+          "path": "lib/web-preview-bridge.ts",
+          "type": "registry:lib",
+          "target": "lib/web-preview-bridge.ts"
         }
       ],
       "dependencies": [
@@ -712,18 +711,14 @@
       "type": "registry:ui",
       "title": "Alert Dialog",
       "description": "Alert Dialog UI primitive styled with the Aiellie design system.",
-      "registryDependencies": [
-        "https://ui.aiellie.dev/r/button.json"
-      ],
+      "registryDependencies": ["https://ui.aiellie.dev/r/button.json"],
       "files": [
         {
           "path": "components/ui/alert-dialog.tsx",
           "type": "registry:ui"
         }
       ],
-      "dependencies": [
-        "@base-ui/react"
-      ]
+      "dependencies": ["@base-ui/react"]
     },
     {
       "name": "aspect-ratio",
@@ -743,18 +738,14 @@
       "type": "registry:ui",
       "title": "Attachment",
       "description": "Attachment UI primitive styled with the Aiellie design system.",
-      "registryDependencies": [
-        "https://ui.aiellie.dev/r/button.json"
-      ],
+      "registryDependencies": ["https://ui.aiellie.dev/r/button.json"],
       "files": [
         {
           "path": "components/ui/attachment.tsx",
           "type": "registry:ui"
         }
       ],
-      "dependencies": [
-        "@base-ui/react"
-      ]
+      "dependencies": ["@base-ui/react"]
     },
     {
       "name": "avatar",
@@ -768,9 +759,7 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": [
-        "@base-ui/react"
-      ]
+      "dependencies": ["@base-ui/react"]
     },
     {
       "name": "badge",
@@ -784,9 +773,7 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": [
-        "@base-ui/react"
-      ]
+      "dependencies": ["@base-ui/react"]
     },
     {
       "name": "breadcrumb",
@@ -818,9 +805,7 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": [
-        "@base-ui/react"
-      ]
+      "dependencies": ["@base-ui/react"]
     },
     {
       "name": "button",
@@ -834,36 +819,28 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": [
-        "@base-ui/react"
-      ]
+      "dependencies": ["@base-ui/react"]
     },
     {
       "name": "button-group",
       "type": "registry:ui",
       "title": "Button Group",
       "description": "Button Group UI primitive styled with the Aiellie design system.",
-      "registryDependencies": [
-        "https://ui.aiellie.dev/r/separator.json"
-      ],
+      "registryDependencies": ["https://ui.aiellie.dev/r/separator.json"],
       "files": [
         {
           "path": "components/ui/button-group.tsx",
           "type": "registry:ui"
         }
       ],
-      "dependencies": [
-        "@base-ui/react"
-      ]
+      "dependencies": ["@base-ui/react"]
     },
     {
       "name": "calendar",
       "type": "registry:ui",
       "title": "Calendar",
       "description": "Calendar UI primitive styled with the Aiellie design system.",
-      "registryDependencies": [
-        "https://ui.aiellie.dev/r/button.json"
-      ],
+      "registryDependencies": ["https://ui.aiellie.dev/r/button.json"],
       "files": [
         {
           "path": "components/ui/calendar.tsx",
@@ -894,9 +871,7 @@
       "type": "registry:ui",
       "title": "Carousel",
       "description": "Carousel UI primitive styled with the Aiellie design system.",
-      "registryDependencies": [
-        "https://ui.aiellie.dev/r/button.json"
-      ],
+      "registryDependencies": ["https://ui.aiellie.dev/r/button.json"],
       "files": [
         {
           "path": "components/ui/carousel.tsx",
@@ -921,9 +896,7 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": [
-        "recharts"
-      ]
+      "dependencies": ["recharts"]
     },
     {
       "name": "checkbox",
@@ -955,9 +928,7 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": [
-        "@base-ui/react"
-      ]
+      "dependencies": ["@base-ui/react"]
     },
     {
       "name": "combobox",
@@ -995,11 +966,7 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": [
-        "@hugeicons/core-free-icons",
-        "@hugeicons/react",
-        "cmdk"
-      ]
+      "dependencies": ["@hugeicons/core-free-icons", "@hugeicons/react", "cmdk"]
     },
     {
       "name": "context-menu",
@@ -1024,9 +991,7 @@
       "type": "registry:ui",
       "title": "Dialog",
       "description": "Dialog UI primitive styled with the Aiellie design system.",
-      "registryDependencies": [
-        "https://ui.aiellie.dev/r/button.json"
-      ],
+      "registryDependencies": ["https://ui.aiellie.dev/r/button.json"],
       "files": [
         {
           "path": "components/ui/dialog.tsx",
@@ -1051,9 +1016,7 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": [
-        "@base-ui/react"
-      ]
+      "dependencies": ["@base-ui/react"]
     },
     {
       "name": "drawer",
@@ -1067,9 +1030,7 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": [
-        "@base-ui/react"
-      ]
+      "dependencies": ["@base-ui/react"]
     },
     {
       "name": "dropdown-menu",
@@ -1130,9 +1091,7 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": [
-        "@base-ui/react"
-      ]
+      "dependencies": ["@base-ui/react"]
     },
     {
       "name": "input",
@@ -1146,9 +1105,7 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": [
-        "@base-ui/react"
-      ]
+      "dependencies": ["@base-ui/react"]
     },
     {
       "name": "input-group",
@@ -1190,18 +1147,14 @@
       "type": "registry:ui",
       "title": "Item",
       "description": "Item UI primitive styled with the Aiellie design system.",
-      "registryDependencies": [
-        "https://ui.aiellie.dev/r/separator.json"
-      ],
+      "registryDependencies": ["https://ui.aiellie.dev/r/separator.json"],
       "files": [
         {
           "path": "components/ui/item.tsx",
           "type": "registry:ui"
         }
       ],
-      "dependencies": [
-        "@base-ui/react"
-      ]
+      "dependencies": ["@base-ui/react"]
     },
     {
       "name": "kbd",
@@ -1254,18 +1207,14 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": [
-        "@base-ui/react"
-      ]
+      "dependencies": ["@base-ui/react"]
     },
     {
       "name": "menubar",
       "type": "registry:ui",
       "title": "Menubar",
       "description": "Menubar UI primitive styled with the Aiellie design system.",
-      "registryDependencies": [
-        "https://ui.aiellie.dev/r/dropdown-menu.json"
-      ],
+      "registryDependencies": ["https://ui.aiellie.dev/r/dropdown-menu.json"],
       "files": [
         {
           "path": "components/ui/menubar.tsx",
@@ -1296,9 +1245,7 @@
       "type": "registry:ui",
       "title": "Message Scroller",
       "description": "Message Scroller UI primitive styled with the Aiellie design system.",
-      "registryDependencies": [
-        "https://ui.aiellie.dev/r/button.json"
-      ],
+      "registryDependencies": ["https://ui.aiellie.dev/r/button.json"],
       "files": [
         {
           "path": "components/ui/message-scroller.tsx",
@@ -1323,10 +1270,7 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": [
-        "@hugeicons/core-free-icons",
-        "@hugeicons/react"
-      ]
+      "dependencies": ["@hugeicons/core-free-icons", "@hugeicons/react"]
     },
     {
       "name": "navigation-menu",
@@ -1351,19 +1295,14 @@
       "type": "registry:ui",
       "title": "Pagination",
       "description": "Pagination UI primitive styled with the Aiellie design system.",
-      "registryDependencies": [
-        "https://ui.aiellie.dev/r/button.json"
-      ],
+      "registryDependencies": ["https://ui.aiellie.dev/r/button.json"],
       "files": [
         {
           "path": "components/ui/pagination.tsx",
           "type": "registry:ui"
         }
       ],
-      "dependencies": [
-        "@hugeicons/core-free-icons",
-        "@hugeicons/react"
-      ]
+      "dependencies": ["@hugeicons/core-free-icons", "@hugeicons/react"]
     },
     {
       "name": "popover",
@@ -1377,9 +1316,7 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": [
-        "@base-ui/react"
-      ]
+      "dependencies": ["@base-ui/react"]
     },
     {
       "name": "progress",
@@ -1393,9 +1330,7 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": [
-        "@base-ui/react"
-      ]
+      "dependencies": ["@base-ui/react"]
     },
     {
       "name": "radio-group",
@@ -1409,9 +1344,7 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": [
-        "@base-ui/react"
-      ]
+      "dependencies": ["@base-ui/react"]
     },
     {
       "name": "resizable",
@@ -1425,9 +1358,7 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": [
-        "react-resizable-panels"
-      ]
+      "dependencies": ["react-resizable-panels"]
     },
     {
       "name": "scroll-area",
@@ -1441,9 +1372,7 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": [
-        "@base-ui/react"
-      ]
+      "dependencies": ["@base-ui/react"]
     },
     {
       "name": "select",
@@ -1475,18 +1404,14 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": [
-        "@base-ui/react"
-      ]
+      "dependencies": ["@base-ui/react"]
     },
     {
       "name": "sheet",
       "type": "registry:ui",
       "title": "Sheet",
       "description": "Sheet UI primitive styled with the Aiellie design system.",
-      "registryDependencies": [
-        "https://ui.aiellie.dev/r/button.json"
-      ],
+      "registryDependencies": ["https://ui.aiellie.dev/r/button.json"],
       "files": [
         {
           "path": "components/ui/sheet.tsx",
@@ -1554,9 +1479,7 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": [
-        "@base-ui/react"
-      ]
+      "dependencies": ["@base-ui/react"]
     },
     {
       "name": "spinner",
@@ -1570,10 +1493,7 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": [
-        "@hugeicons/core-free-icons",
-        "@hugeicons/react"
-      ]
+      "dependencies": ["@hugeicons/core-free-icons", "@hugeicons/react"]
     },
     {
       "name": "status",
@@ -1587,10 +1507,7 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": [
-        "@hugeicons/core-free-icons",
-        "@hugeicons/react"
-      ]
+      "dependencies": ["@hugeicons/core-free-icons", "@hugeicons/react"]
     },
     {
       "name": "switch",
@@ -1604,9 +1521,7 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": [
-        "@base-ui/react"
-      ]
+      "dependencies": ["@base-ui/react"]
     },
     {
       "name": "table",
@@ -1633,9 +1548,7 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": [
-        "@base-ui/react"
-      ]
+      "dependencies": ["@base-ui/react"]
     },
     {
       "name": "textarea",
@@ -1655,9 +1568,7 @@
       "type": "registry:ui",
       "title": "Toast",
       "description": "Toast UI primitive styled with the Aiellie design system.",
-      "registryDependencies": [
-        "https://ui.aiellie.dev/r/button.json"
-      ],
+      "registryDependencies": ["https://ui.aiellie.dev/r/button.json"],
       "files": [
         {
           "path": "components/ui/toast.tsx",
@@ -1682,27 +1593,21 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": [
-        "@base-ui/react"
-      ]
+      "dependencies": ["@base-ui/react"]
     },
     {
       "name": "toggle-group",
       "type": "registry:ui",
       "title": "Toggle Group",
       "description": "Toggle Group UI primitive styled with the Aiellie design system.",
-      "registryDependencies": [
-        "https://ui.aiellie.dev/r/toggle.json"
-      ],
+      "registryDependencies": ["https://ui.aiellie.dev/r/toggle.json"],
       "files": [
         {
           "path": "components/ui/toggle-group.tsx",
           "type": "registry:ui"
         }
       ],
-      "dependencies": [
-        "@base-ui/react"
-      ]
+      "dependencies": ["@base-ui/react"]
     },
     {
       "name": "tooltip",
@@ -1716,9 +1621,7 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": [
-        "@base-ui/react"
-      ]
+      "dependencies": ["@base-ui/react"]
     },
     {
       "name": "date-picker",
@@ -1737,9 +1640,7 @@
       "type": "registry:ui",
       "title": "Data Table",
       "description": "A data table pattern built on the Table primitive.",
-      "registryDependencies": [
-        "https://ui.aiellie.dev/r/table.json"
-      ],
+      "registryDependencies": ["https://ui.aiellie.dev/r/table.json"],
       "files": []
     },
     {
@@ -3092,11 +2993,7 @@
           "target": "components/prompt-project-picker.tsx"
         }
       ],
-      "dependencies": [
-        "@hugeicons/core-free-icons",
-        "@hugeicons/react",
-        "cmdk"
-      ]
+      "dependencies": ["@hugeicons/core-free-icons", "@hugeicons/react", "cmdk"]
     },
     {
       "name": "model-selector",
@@ -3159,9 +3056,11 @@
         "https://ui.aiellie.dev/r/button.json",
         "https://ui.aiellie.dev/r/collapsible.json",
         "https://ui.aiellie.dev/r/dropdown-menu.json",
-        "https://ui.aiellie.dev/r/input.json",
+        "https://ui.aiellie.dev/r/input-group.json",
+        "https://ui.aiellie.dev/r/popover.json",
         "https://ui.aiellie.dev/r/tooltip.json"
       ],
+      "dependencies": ["@hugeicons/core-free-icons", "@hugeicons/react"],
       "files": [
         {
           "path": "components/ai-elements/web-preview.tsx",
@@ -3206,6 +3105,7 @@
         "https://ui.aiellie.dev/r/button.json",
         "https://ui.aiellie.dev/r/separator.json"
       ],
+      "dependencies": ["@hugeicons/core-free-icons", "@hugeicons/react"],
       "files": [
         {
           "path": "components/ai-elements/find-in-page.tsx",
@@ -3248,9 +3148,7 @@
           "target": "components/ai-elements/mic-selector.tsx"
         }
       ],
-      "dependencies": [
-        "@radix-ui/react-use-controllable-state"
-      ]
+      "dependencies": ["@radix-ui/react-use-controllable-state"]
     },
     {
       "name": "speech-input",
@@ -3276,9 +3174,7 @@
       "type": "registry:ui",
       "title": "Live Waveform",
       "description": "Real-time microphone waveform on canvas with static and scrolling modes, a processing animation, and a dotted idle baseline.",
-      "registryDependencies": [
-        "https://ui.aiellie.dev/r/theme.json"
-      ],
+      "registryDependencies": ["https://ui.aiellie.dev/r/theme.json"],
       "files": [
         {
           "path": "components/ai/live-waveform.tsx",
@@ -3348,9 +3244,7 @@
       "type": "registry:component",
       "title": "Liquid",
       "description": "Liquid with theme selector and call button.",
-      "registryDependencies": [
-        "https://ui.aiellie.dev/r/example.json"
-      ],
+      "registryDependencies": ["https://ui.aiellie.dev/r/example.json"],
       "files": [
         {
           "path": "components/canvasui/Liquid.tsx",
@@ -3364,9 +3258,7 @@
       "type": "registry:component",
       "title": "Glass",
       "description": "A refractive glass lens rendered over live HTML that follows the cursor.",
-      "registryDependencies": [
-        "https://ui.aiellie.dev/r/example.json"
-      ],
+      "registryDependencies": ["https://ui.aiellie.dev/r/example.json"],
       "files": [
         {
           "path": "components/canvasui/Glass.tsx",
@@ -3380,9 +3272,7 @@
       "type": "registry:component",
       "title": "Bubbles",
       "description": "A trail of refractive metaball bubbles that chase the cursor over live HTML.",
-      "registryDependencies": [
-        "https://ui.aiellie.dev/r/example.json"
-      ],
+      "registryDependencies": ["https://ui.aiellie.dev/r/example.json"],
       "files": [
         {
           "path": "components/canvasui/Bubble.tsx",

@@ -56,6 +56,7 @@ import {
   Search01Icon,
   SearchAddIcon,
   Settings01Icon,
+  SlidersHorizontalIcon,
   SmartPhone01Icon,
   SquareLockPasswordIcon,
   UnavailableIcon,
@@ -148,9 +149,10 @@ export const WebPreview = ({
     <WebPreviewContext.Provider value={contextValue}>
       <div
         className={cn(
-          "flex size-full flex-col rounded-xl border bg-card",
+          "relative flex size-full flex-col overflow-hidden rounded-[1.25rem] border bg-card",
           className
         )}
+        data-slot="web-preview"
         {...props}
       >
         {children}
@@ -167,7 +169,11 @@ export const WebPreviewNavigation = ({
   ...props
 }: WebPreviewNavigationProps) => (
   <div
-    className={cn("flex items-center gap-1 border-b p-2", className)}
+    className={cn(
+      "flex min-h-11 shrink-0 items-center gap-1 border-b px-2 py-1.5",
+      className
+    )}
+    data-slot="web-preview-navigation"
     {...props}
   >
     {children}
@@ -183,6 +189,7 @@ export const WebPreviewNavigationButton = ({
   disabled,
   tooltip,
   children,
+  className,
   ...props
 }: WebPreviewNavigationButtonProps) => (
   <TooltipProvider>
@@ -190,10 +197,13 @@ export const WebPreviewNavigationButton = ({
       <TooltipTrigger
         render={
           <Button
-            className=" p-0 hover:text-foreground"
+            className={cn(
+              "size-8 rounded-xl p-0 text-muted-foreground hover:text-foreground",
+              className
+            )}
             disabled={disabled}
             onClick={onClick}
-            size="icon-sm"
+            size="icon"
             variant="ghost"
             {...props}
           />
@@ -218,6 +228,17 @@ export type WebPreviewUrlProps = Omit<ComponentProps<"input">, "size"> & {
   onOpenExternal?: (url: string) => void
 }
 
+function displayUrl(value: string) {
+  if (!value) return ""
+  try {
+    const parsed = new URL(value)
+    const path = parsed.pathname === "/" ? "" : parsed.pathname
+    return `${parsed.host}${path}${parsed.search}${parsed.hash}`
+  } catch {
+    return value
+  }
+}
+
 /**
  * The address bar: a connection popover on the leading end, the editable URL,
  * and an open-in-new-tab button on the trailing end. Pressing Enter commits
@@ -228,6 +249,8 @@ export const WebPreviewUrl = ({
   className,
   value,
   onChange,
+  onBlur,
+  onFocus,
   onKeyDown,
   connectionContent,
   onOpenExternal,
@@ -235,12 +258,12 @@ export const WebPreviewUrl = ({
 }: WebPreviewUrlProps) => {
   const { url, setUrl, reload } = useWebPreview()
   const [prevUrl, setPrevUrl] = useState(url)
-  const [inputValue, setInputValue] = useState(url)
+  const [inputValue, setInputValue] = useState(() => displayUrl(url))
 
   // Sync input value with context URL when it changes externally (derived state pattern)
   if (url !== prevUrl) {
     setPrevUrl(url)
-    setInputValue(url)
+    setInputValue(displayUrl(url))
   }
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -252,29 +275,36 @@ export const WebPreviewUrl = ({
     (event: React.KeyboardEvent<HTMLInputElement>) => {
       if (event.key === "Enter") {
         const target = event.target as HTMLInputElement
-        setUrl(target.value)
+        // Re-submitting the cleaned display value must retain the canonical
+        // scheme (notably http:// for local development URLs).
+        setUrl(target.value === displayUrl(url) ? url : target.value)
         reload()
       }
       onKeyDown?.(event)
     },
-    [setUrl, reload, onKeyDown]
+    [setUrl, reload, onKeyDown, url]
   )
 
   const current = (value as string) ?? inputValue
-  const secure = /^https:/i.test(current)
-
+  const committedUrl = url || current
   const openExternal = () => {
-    if (!current) return
+    if (!committedUrl) return
     if (onOpenExternal) {
-      onOpenExternal(current)
+      onOpenExternal(committedUrl)
       return
     }
-    window.open(current, "_blank", "noopener,noreferrer")
+    window.open(committedUrl, "_blank", "noopener,noreferrer")
   }
 
   return (
-    <InputGroup className="flex-1">
-      <InputGroupAddon align="inline-start">
+    <InputGroup
+      className="h-8 flex-1 rounded-xl border-transparent bg-transparent shadow-none transition-colors focus-within:bg-muted hover:bg-muted has-[[data-slot=input-group-control]:focus-visible]:border-transparent has-[[data-slot=input-group-control]:focus-visible]:ring-0 dark:bg-transparent dark:focus-within:bg-muted/60 dark:hover:bg-muted/60"
+      data-slot="web-preview-url"
+    >
+      <InputGroupAddon
+        align="inline-start"
+        className="opacity-0 transition-opacity group-focus-within/input-group:opacity-100 group-hover/input-group:opacity-100"
+      >
         <Popover>
           <PopoverTrigger
             render={
@@ -285,35 +315,49 @@ export const WebPreviewUrl = ({
             }
           >
             <HugeiconsIcon
-              className={cn("size-3.5", !secure && "text-muted-foreground")}
-              icon={secure ? LockKeyIcon : UnavailableIcon}
+              className="size-4 text-muted-foreground"
+              icon={SlidersHorizontalIcon}
               strokeWidth={2}
             />
           </PopoverTrigger>
           <PopoverContent align="start" className="w-72 p-3">
-            {connectionContent ?? <WebPreviewConnection url={current} />}
+            {connectionContent ?? <WebPreviewConnection url={committedUrl} />}
           </PopoverContent>
         </Popover>
       </InputGroupAddon>
 
       <InputGroupInput
-        className={cn("text-sm", className)}
+        className={cn(
+          "px-1 text-center text-base font-normal text-foreground placeholder:text-muted-foreground",
+          className
+        )}
+        onBlur={(event) => {
+          onBlur?.(event)
+        }}
         onChange={handleChange}
+        onFocus={(event) => {
+          onFocus?.(event)
+        }}
         onKeyDown={handleKeyDown}
-        placeholder="Enter URL..."
+        aria-label="Address"
+        placeholder="Enter a URL"
         value={current}
         {...props}
       />
 
-      <InputGroupAddon align="inline-end">
+      <InputGroupAddon
+        align="inline-end"
+        className="opacity-0 transition-opacity group-focus-within/input-group:opacity-100 group-hover/input-group:opacity-100"
+      >
         <InputGroupButton
           aria-label="Open in new tab"
-          disabled={!current}
+          aria-disabled={!committedUrl}
           onClick={openExternal}
           size="icon-xs"
+          tabIndex={committedUrl ? undefined : -1}
         >
           <HugeiconsIcon
-            className="size-3.5"
+            className="size-4"
             icon={LinkSquare02Icon}
             strokeWidth={2}
           />
@@ -502,7 +546,7 @@ export const WebPreviewAnnotateToggle = ({
     className={cn(
       "h-8 gap-1.5 px-2 text-muted-foreground transition-colors",
       active &&
-        "bg-primary/10 px-3 text-primary hover:bg-primary/15 hover:text-primary",
+        "bg-[#e8f0f9] px-3 text-[#2c68c5] hover:bg-[#dce9f7] hover:text-[#2c68c5] dark:bg-blue-500/15 dark:text-blue-400",
       className
     )}
     data-slot="web-preview-annotate-toggle"
@@ -604,14 +648,17 @@ export const WebPreviewMenu = ({
       render={
         <Button
           aria-label="Preview menu"
-          className={cn("size-8 p-0 text-muted-foreground", className)}
-          size="sm"
+          className={cn(
+            "size-8 rounded-xl p-0 text-muted-foreground",
+            className
+          )}
+          size="icon"
           variant="ghost"
         />
       }
     >
       <HugeiconsIcon
-        className="size-4"
+        className="size-5"
         icon={MoreVerticalIcon}
         strokeWidth={2}
       />

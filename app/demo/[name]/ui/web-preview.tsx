@@ -5,6 +5,7 @@ import * as React from "react"
 import { Example, ExampleWrapper } from "@/components/example"
 import {
   FindInPage,
+  FindInPageAction,
   FindInPageActions,
   FindInPageBar,
   FindInPageClose,
@@ -29,6 +30,8 @@ import { cn } from "@/lib/utils"
 import {
   ArrowLeft01Icon,
   ArrowRight01Icon,
+  Globe02Icon,
+  MessageMultiple01Icon,
   RefreshIcon,
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
@@ -368,10 +371,7 @@ function BrowserExample() {
               onClick={() => setReloadKey((current) => current + 1)}
               tooltip="Reload"
             >
-              <HugeiconsIcon
-                icon={RefreshIcon}
-                strokeWidth={2}
-              />
+              <HugeiconsIcon icon={RefreshIcon} strokeWidth={2} />
             </WebPreviewNavigationButton>
 
             <WebPreviewUrl
@@ -448,10 +448,9 @@ function BrowserExample() {
           )}
 
           {find.open && (
-            <div className="border-b p-2">
+            <div className="absolute end-[0.875rem] top-1 z-40 w-[calc(100%-1.75rem)] max-w-[21.25rem]">
               <FindInPage
                 active={find.active}
-                className="max-w-none shadow-none ring-0"
                 onClose={() => {
                   setFind({ active: 0, open: false, query: "", total: 0 })
                   send("find", { query: "" })
@@ -467,6 +466,23 @@ function BrowserExample() {
                 <FindInPageBar>
                   <FindInPageInput autoFocus />
                   <FindInPageActions>
+                    <FindInPageAction
+                      aria-label="Ask about this page"
+                      className="disabled:opacity-100"
+                      disabled
+                    >
+                      <HugeiconsIcon
+                        icon={MessageMultiple01Icon}
+                        strokeWidth={2}
+                      />
+                    </FindInPageAction>
+                    <FindInPageAction
+                      aria-label="Search the web"
+                      className="disabled:opacity-100"
+                      disabled
+                    >
+                      <HugeiconsIcon icon={Globe02Icon} strokeWidth={2} />
+                    </FindInPageAction>
                     <FindInPageSeparator />
                     <FindInPageClose />
                   </FindInPageActions>

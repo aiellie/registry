@@ -1,5 +1,7 @@
 "use client"
 
+import * as React from "react"
+
 import {
   AiBrain01Icon,
   BubbleChatIcon,
@@ -61,6 +63,7 @@ export function PromptCommandMenu({
   onSelect,
   id,
   className,
+  style,
 }: {
   commands: PromptCommand[]
   activeIndex: number
@@ -68,6 +71,7 @@ export function PromptCommandMenu({
   onSelect: (command: PromptCommand) => void
   id?: string
   className?: string
+  style?: React.CSSProperties
 }) {
   if (commands.length === 0) return null
 
@@ -76,6 +80,7 @@ export function PromptCommandMenu({
       id={id}
       role="listbox"
       aria-label="Commands"
+      style={style}
       className={cn(
         "max-h-72 overflow-y-auto rounded-2xl bg-popover p-1 text-popover-foreground shadow-md ring-1 ring-foreground/10",
         className
@@ -91,14 +96,14 @@ export function PromptCommandMenu({
           onPointerDown={(event) => event.preventDefault()}
           onClick={() => onSelect(command)}
           className={cn(
-            "flex cursor-default items-center gap-2 rounded-xl px-2.5 py-1.5 text-sm select-none",
+            "flex cursor-default items-center gap-2 rounded-xl px-2.5 py-1.5 text-xs select-none",
             index === activeIndex && "bg-muted"
           )}
         >
           <HugeiconsIcon
             icon={command.icon}
             strokeWidth={1.5}
-            className="size-4 shrink-0"
+            className="size-3.5 shrink-0"
           />
           <span className="font-medium">{command.name}</span>
           <span className="ms-auto ps-4 truncate text-muted-foreground">

@@ -88,9 +88,8 @@ export const teams: SidebarTeam[] = [
       },
     ],
     chats: [
-      { name: "Onboarding flow ideas", url: "#" },
-      { name: "Q3 roadmap draft", url: "#" },
-      { name: "Bug triage notes", url: "#" },
+      { name: "Update UI to match examples", url: "#" },
+      { name: "Portfolio Site Preview", url: "#" },
     ],
   },
   {

@@ -65,14 +65,22 @@ function DefaultExample() {
             <FindInPageBar>
               <FindInPageInput />
               <FindInPageActions>
-                <FindInPageAction aria-label="Ask about this page">
+                <FindInPageAction
+                  aria-label="Ask about this page"
+                  className="disabled:opacity-100"
+                  disabled
+                >
                   <HugeiconsIcon
                     className="size-4"
                     icon={MessageMultiple01Icon}
                     strokeWidth={2}
                   />
                 </FindInPageAction>
-                <FindInPageAction aria-label="Search the web">
+                <FindInPageAction
+                  aria-label="Search the web"
+                  className="disabled:opacity-100"
+                  disabled
+                >
                   <HugeiconsIcon
                     className="size-4"
                     icon={Globe02Icon}
