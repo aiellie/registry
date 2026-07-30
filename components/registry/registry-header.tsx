@@ -1,6 +1,7 @@
 import Link from "next/link"
 
 import { LogoIcon, LogoWordmark } from "@/components/logo"
+import { HeaderAvatar } from "@/components/registry/header-avatar"
 import { MCPDialog } from "@/components/registry/mcp-dialog"
 import { ModeToggle } from "@/components/registry/theme-toggle"
 import { SidebarTrigger } from "@/components/ui/sidebar"
@@ -35,6 +36,7 @@ export function RegistryHeader({
           highlightedClients={highlightedClients}
         />
         <ModeToggle />
+        <HeaderAvatar />
       </div>
     </header>
   )
