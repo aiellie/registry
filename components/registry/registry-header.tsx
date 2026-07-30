@@ -1,7 +1,7 @@
 import Link from "next/link"
 
 import { LogoIcon, LogoWordmark } from "@/components/logo"
-import { HeaderAvatar } from "@/components/registry/header-avatar"
+import { AiellieProfile } from "@/components/registry/aiellie-profile"
 import { MCPDialog } from "@/components/registry/mcp-dialog"
 import { ModeToggle } from "@/components/registry/theme-toggle"
 import { SidebarTrigger } from "@/components/ui/sidebar"
@@ -29,14 +29,14 @@ export function RegistryHeader({
         </Link>
       )}
       <div className="ms-auto flex items-center gap-1">
-        <span className="mx-1 h-3 w-px bg-border" />
         <MCPDialog
           rootUrl={getRootUrl()}
           highlightedConfig={highlightedConfig}
           highlightedClients={highlightedClients}
         />
         <ModeToggle />
-        <HeaderAvatar />
+        <span className="mx-1 h-3 w-px bg-border" />
+        <AiellieProfile />
       </div>
     </header>
   )
