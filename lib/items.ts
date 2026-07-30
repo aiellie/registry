@@ -33,6 +33,7 @@ import {
   DateTimeIcon,
   DistributeHorizontalCenterIcon,
   FileEmpty02Icon,
+  Folder01Icon,
   FormIcon,
   GlassWaterIcon,
   GlobeIcon,
@@ -210,6 +211,14 @@ export const items: Item[] = [
     type: "registry:block",
     category: "blocks",
     isNew: false,
+    displayHome: false,
+  },
+  {
+    name: "projects",
+    icon: Folder01Icon,
+    type: "registry:block",
+    category: "blocks",
+    isNew: true,
     displayHome: false,
   },
 

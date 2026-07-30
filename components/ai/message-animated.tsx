@@ -1,20 +1,37 @@
 "use client"
 
 import * as React from "react"
-import { BotIcon, UserIcon } from "@hugeicons/core-free-icons"
-import { HugeiconsIcon } from "@hugeicons/react"
+import {
+  BotIcon,
+  Copy01Icon,
+  GitBranchIcon,
+  PencilEdit02Icon,
+  ReloadIcon,
+  ThumbsDownIcon,
+  ThumbsUpIcon,
+  UserIcon,
+  VolumeHighIcon,
+} from "@hugeicons/core-free-icons"
+import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react"
 import { motion, useReducedMotion } from "motion/react"
 
 import type { MessageAnimationPreset } from "@/lib/message-animations"
 import { MESSAGE_ANIMATIONS } from "@/lib/message-animations"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Bubble, BubbleContent } from "@/components/ui/bubble"
+import { Button } from "@/components/ui/button"
 import {
   Message,
   MessageAvatar,
   MessageContent,
+  MessageFooter,
 } from "@/components/ui/message"
 import { MessageScrollerItem } from "@/components/ui/message-scroller"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 type MessageAnimatedPart = {
   type: string
@@ -33,14 +50,36 @@ type MessageAnimatedTextPart = {
   text: string
 }
 
+type MessageAnimatedAction = {
+  label: string
+  icon: IconSvgElement
+}
+
+const USER_MESSAGE_ACTIONS: MessageAnimatedAction[] = [
+  { label: "Edit", icon: PencilEdit02Icon },
+  { label: "Copy", icon: Copy01Icon },
+]
+
+const ASSISTANT_MESSAGE_ACTIONS: MessageAnimatedAction[] = [
+  { label: "Regenerate", icon: ReloadIcon },
+  { label: "Copy", icon: Copy01Icon },
+  { label: "Like", icon: ThumbsUpIcon },
+  { label: "Dislike", icon: ThumbsDownIcon },
+  { label: "Branch", icon: GitBranchIcon },
+  { label: "Read aloud", icon: VolumeHighIcon },
+]
+
 const MotionMessageScrollerItem = motion.create(MessageScrollerItem)
 
 function MessageAnimated({
   message,
   animationPreset = MESSAGE_ANIMATIONS["slide-up"],
+  assistantActions = ASSISTANT_MESSAGE_ACTIONS,
   assistantAvatar,
   assistantVariant = "muted",
+  onAction,
   scrollAnchor,
+  userActions = USER_MESSAGE_ACTIONS,
   userAvatar,
   userVariant = "default",
   ...props
@@ -49,9 +88,15 @@ function MessageAnimated({
   "animate" | "children" | "exit" | "initial" | "messageId" | "variants"
 > & {
   animationPreset?: MessageAnimationPreset
+  assistantActions?: MessageAnimatedAction[]
   assistantAvatar?: React.ReactNode
   assistantVariant?: React.ComponentProps<typeof Bubble>["variant"]
   message: MessageAnimatedMessage
+  onAction?: (
+    action: MessageAnimatedAction,
+    message: MessageAnimatedMessage
+  ) => void
+  userActions?: MessageAnimatedAction[]
   userAvatar?: React.ReactNode
   userVariant?: React.ComponentProps<typeof Bubble>["variant"]
 }) {
@@ -71,8 +116,11 @@ function MessageAnimated({
       >
         <MessageAnimatedRow
           message={message}
+          assistantActions={assistantActions}
           assistantAvatar={assistantAvatar}
           assistantVariant={assistantVariant}
+          onAction={onAction}
+          userActions={userActions}
           userAvatar={userAvatar}
           userVariant={userVariant}
         />
@@ -89,8 +137,11 @@ function MessageAnimated({
     >
       <MessageAnimatedRow
         message={message}
+        assistantActions={assistantActions}
         assistantAvatar={assistantAvatar}
         assistantVariant={assistantVariant}
+        onAction={onAction}
+        userActions={userActions}
         userAvatar={userAvatar}
         userVariant={userVariant}
       />
@@ -100,19 +151,29 @@ function MessageAnimated({
 
 function MessageAnimatedRow({
   message,
+  assistantActions,
   assistantAvatar,
   assistantVariant,
+  onAction,
+  userActions,
   userAvatar,
   userVariant,
 }: {
+  assistantActions: MessageAnimatedAction[]
   assistantAvatar?: React.ReactNode
   assistantVariant: React.ComponentProps<typeof Bubble>["variant"]
   message: MessageAnimatedMessage
+  onAction?: (
+    action: MessageAnimatedAction,
+    message: MessageAnimatedMessage
+  ) => void
+  userActions: MessageAnimatedAction[]
   userAvatar?: React.ReactNode
   userVariant: React.ComponentProps<typeof Bubble>["variant"]
 }) {
   const isUserMessage = message.role === "user"
   const textParts = getMessageAnimatedTextParts(message)
+  const actions = isUserMessage ? userActions : assistantActions
   const avatar =
     (isUserMessage ? userAvatar : assistantAvatar) ??
     (isUserMessage ? (
@@ -149,6 +210,28 @@ function MessageAnimatedRow({
             </Bubble>
           )
         })}
+        {actions.length > 0 && (
+          <MessageFooter className="gap-1">
+            {actions.map((action) => (
+              <Tooltip key={action.label}>
+                <TooltipTrigger
+                  render={
+                    <Button
+                      variant="ghost"
+                      size="icon-sm"
+                      aria-label={action.label}
+                      onClick={() => onAction?.(action, message)}
+                      className="text-muted-foreground opacity-0 transition-opacity group-focus-within/message:opacity-100 group-hover/message:opacity-100"
+                    />
+                  }
+                >
+                  <HugeiconsIcon icon={action.icon} strokeWidth={2} />
+                </TooltipTrigger>
+                <TooltipContent side="bottom">{action.label}</TooltipContent>
+              </Tooltip>
+            ))}
+          </MessageFooter>
+        )}
       </MessageContent>
     </Message>
   )
@@ -190,4 +273,8 @@ function getMessageAnimatedTextParts(
     : []
 }
 
-export { MessageAnimated, type MessageAnimatedMessage }
+export {
+  MessageAnimated,
+  type MessageAnimatedAction,
+  type MessageAnimatedMessage,
+}

@@ -129,7 +129,7 @@ export const teams: SidebarTeam[] = [
     groups: [
       {
         items: [
-          { title: "New Chat", href: "#chat", icon: PlusSignIcon, kbd: "⌘N" },
+          { title: "New Chat", href: "/demo/newchat", icon: PlusSignIcon, kbd: "⌘N" },
           {
             title: "Projects",
             href: "#chat-projects",
@@ -209,7 +209,7 @@ export const teams: SidebarTeam[] = [
         items: [
           {
             title: "New Chat",
-            href: "#cowork",
+            href: "/demo/newchat",
             icon: PlusSignIcon,
             kbd: "⌘N",
           },
@@ -268,7 +268,7 @@ export const teams: SidebarTeam[] = [
     groups: [
       {
         items: [
-          { title: "New Chat", href: "#code", icon: PlusSignIcon, kbd: "⌘N" },
+          { title: "New Chat", href: "/demo/newchat", icon: PlusSignIcon, kbd: "⌘N" },
           {
             title: "Pull Requests",
             href: "#code-pull-requests",

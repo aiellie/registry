@@ -13,6 +13,7 @@ import {
 import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react"
 
 import { ChatDropdown } from "@/components/chat-dropdown"
+import { SummaryDropdown } from "@/components/summary-dropdown"
 import { Icons } from "@/components/icons"
 import { useLocationHash } from "@/components/nav-chats"
 import { PromptInput } from "@/components/prompt-input"
@@ -110,6 +111,7 @@ export function ChatConversation({
             {transcript.title}
           </MarkerContent>
           <ChatDropdown />
+          <SummaryDropdown className="ms-auto" />
         </Marker>
         <MessageScroller className="flex-1">
           <MessageScrollerViewport>
@@ -253,7 +255,7 @@ function ChatEntryView({ entry }: { entry: ChatEntry }) {
           ) : (
             <ChatAttachmentView attachment={entry.attachments[0]} />
           ))}
-        <Bubble variant={isUser ? "tinted" : "ghost"}>
+        <Bubble variant={isUser ? "default" : "muted"}>
           <BubbleContent
             className={entry.paragraphs.length > 1 ? "space-y-2" : undefined}
           >

@@ -5,7 +5,6 @@ import {
   ArrowUpIcon,
   GlobeIcon,
   ImageIcon,
-  MessageCircleDashedIcon,
   PaperclipIcon,
   PlusIcon,
   RotateCwIcon,
@@ -55,6 +54,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import { ChatDropdown } from "@/components/chat-dropdown"
 
 const chat = createChat()
   .user(
@@ -87,7 +87,7 @@ const initialMessages = chat.get({ count: 0 })
 const transport = chat.transport()
 
 export function MessageScrollerDemo() {
-  const { messages, sendMessage, status, setMessages } = useChat({
+  const { messages, sendMessage, status, setMessages, regenerate } = useChat({
     messages: initialMessages,
     transport,
   })
@@ -97,17 +97,17 @@ export function MessageScrollerDemo() {
   return (
     <MessageScrollerProvider>
       <div className="relative flex flex-col gap-4">
-        <Card className="mx-auto h-140 w-full max-w-sm gap-0">
-          <CardHeader className="gap-1 border-b">
-            <CardTitle>New Chat</CardTitle>
-            <CardDescription>How can I help you today?</CardDescription>
+        <Card className="mx-auto h-140 w-full max-w-lg gap-0">
+          <CardHeader className="gap-1 border-b flex justify-between items-center">
+            <CardDescription>New Chat</CardDescription> 
+            <ChatDropdown />
             <CardAction>
               <Tooltip>
                 <TooltipTrigger
                   render={
                     <Button
                       variant="outline"
-                      size="icon"
+                      size="icon-sm"
                       aria-label="Reset conversation"
                       onClick={() => setMessages(initialMessages)}
                       disabled={isBusy}
@@ -148,6 +148,16 @@ export function MessageScrollerDemo() {
                         key={message.id}
                         message={message}
                         scrollAnchor={message.role === "user"}
+                        onAction={(action) => {
+                          if (action.label === "Copy") {
+                            void navigator.clipboard.writeText(
+                              getMessageText(message)
+                            )
+                          }
+                          if (action.label === "Regenerate" && !isBusy) {
+                            void regenerate({ messageId: message.id })
+                          }
+                        }}
                       />
                     ))}
                   </MessageScrollerContent>

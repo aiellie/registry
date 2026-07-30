@@ -395,6 +395,11 @@
           "target": "components/chat-dropdown.tsx"
         },
         {
+          "path": "components/summary-dropdown.tsx",
+          "type": "registry:component",
+          "target": "components/summary-dropdown.tsx"
+        },
+        {
           "path": "lib/chat-data.ts",
           "type": "registry:lib",
           "target": "lib/chat-data.ts"
@@ -483,9 +488,108 @@
           "target": "components/chat-dropdown.tsx"
         },
         {
+          "path": "components/summary-dropdown.tsx",
+          "type": "registry:component",
+          "target": "components/summary-dropdown.tsx"
+        },
+        {
           "path": "lib/chat-data.ts",
           "type": "registry:lib",
           "target": "lib/chat-data.ts"
+        }
+      ]
+    },
+    {
+      "name": "projects",
+      "type": "registry:block",
+      "title": "Projects",
+      "description": "A projects page: searchable project table with pin, new chat, and manage actions, plus a create project dialog.",
+      "registryDependencies": [
+        "https://ui.aiellie.dev/r/theme.json",
+        "https://ui.aiellie.dev/r/logo.json",
+        "https://ui.aiellie.dev/r/prompt-input.json",
+        "https://ui.aiellie.dev/r/brand-header.json",
+        "https://ui.aiellie.dev/r/brand-footer.json",
+        "https://ui.aiellie.dev/r/brand-sidebar.json",
+        "https://ui.aiellie.dev/r/accordion.json",
+        "https://ui.aiellie.dev/r/alert.json",
+        "https://ui.aiellie.dev/r/alert-dialog.json",
+        "https://ui.aiellie.dev/r/aspect-ratio.json",
+        "https://ui.aiellie.dev/r/attachment.json",
+        "https://ui.aiellie.dev/r/avatar.json",
+        "https://ui.aiellie.dev/r/badge.json",
+        "https://ui.aiellie.dev/r/breadcrumb.json",
+        "https://ui.aiellie.dev/r/bubble.json",
+        "https://ui.aiellie.dev/r/button.json",
+        "https://ui.aiellie.dev/r/button-group.json",
+        "https://ui.aiellie.dev/r/calendar.json",
+        "https://ui.aiellie.dev/r/card.json",
+        "https://ui.aiellie.dev/r/carousel.json",
+        "https://ui.aiellie.dev/r/chart.json",
+        "https://ui.aiellie.dev/r/checkbox.json",
+        "https://ui.aiellie.dev/r/collapsible.json",
+        "https://ui.aiellie.dev/r/combobox.json",
+        "https://ui.aiellie.dev/r/command.json",
+        "https://ui.aiellie.dev/r/context-menu.json",
+        "https://ui.aiellie.dev/r/dialog.json",
+        "https://ui.aiellie.dev/r/direction.json",
+        "https://ui.aiellie.dev/r/drawer.json",
+        "https://ui.aiellie.dev/r/dropdown-menu.json",
+        "https://ui.aiellie.dev/r/empty.json",
+        "https://ui.aiellie.dev/r/field.json",
+        "https://ui.aiellie.dev/r/hover-card.json",
+        "https://ui.aiellie.dev/r/input.json",
+        "https://ui.aiellie.dev/r/input-group.json",
+        "https://ui.aiellie.dev/r/input-otp.json",
+        "https://ui.aiellie.dev/r/item.json",
+        "https://ui.aiellie.dev/r/icons.json",
+        "https://ui.aiellie.dev/r/kbd.json",
+        "https://ui.aiellie.dev/r/label.json",
+        "https://ui.aiellie.dev/r/marker.json",
+        "https://ui.aiellie.dev/r/menubar.json",
+        "https://ui.aiellie.dev/r/message.json",
+        "https://ui.aiellie.dev/r/message-scroller.json",
+        "https://ui.aiellie.dev/r/model-selector.json",
+        "https://ui.aiellie.dev/r/native-select.json",
+        "https://ui.aiellie.dev/r/navigation-menu.json",
+        "https://ui.aiellie.dev/r/pagination.json",
+        "https://ui.aiellie.dev/r/popover.json",
+        "https://ui.aiellie.dev/r/progress.json",
+        "https://ui.aiellie.dev/r/spinner.json",
+        "https://ui.aiellie.dev/r/status.json",
+        "https://ui.aiellie.dev/r/table.json",
+        "https://ui.aiellie.dev/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "registry/layouts/shell-layout.tsx",
+          "type": "registry:file",
+          "target": "app/layout.tsx"
+        },
+        {
+          "path": "app/demo/[name]/blocks/projects-page.tsx",
+          "type": "registry:page",
+          "target": "app/page.tsx"
+        },
+        {
+          "path": "components/projects-list.tsx",
+          "type": "registry:component",
+          "target": "components/projects-list.tsx"
+        },
+        {
+          "path": "components/project-dropdown.tsx",
+          "type": "registry:component",
+          "target": "components/project-dropdown.tsx"
+        },
+        {
+          "path": "components/create-project-dialog.tsx",
+          "type": "registry:component",
+          "target": "components/create-project-dialog.tsx"
+        },
+        {
+          "path": "lib/projects-data.ts",
+          "type": "registry:lib",
+          "target": "lib/projects-data.ts"
         }
       ]
     },
