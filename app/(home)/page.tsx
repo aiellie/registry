@@ -1,5 +1,6 @@
 import { type Metadata } from "next"
 
+import { Bubble } from "@/components/canvasui/Bubble"
 import { Announcement } from "@/components/registry/announcement"
 import {
   PageActions,
@@ -54,12 +55,19 @@ export default async function IndexPage() {
   return (
     <div className="flex flex-1 flex-col">
       <PageHeader className="md:**:[.container]:pb-8 lg:**:[.container]:pb-12">
-        <Announcement />
-        <PageHeaderHeading className="max-w-4xl">{title}</PageHeaderHeading>
-        <PageHeaderDescription>{description}</PageHeaderDescription>
-        <PageActions>
-          <ScrollToComponentsButton />
-        </PageActions>
+        {/* min-h keeps the header from collapsing in the html-in-canvas path,
+            where Bubble's children render inside an absolutely-positioned
+            canvas and contribute no intrinsic height. */}
+        <Bubble className="min-h-60 w-full md:min-h-64">
+          <div className="flex w-full flex-col items-center gap-2 xl:gap-4">
+            <Announcement />
+            <PageHeaderHeading className="max-w-4xl">{title}</PageHeaderHeading>
+            <PageHeaderDescription>{description}</PageHeaderDescription>
+            <PageActions>
+              <ScrollToComponentsButton />
+            </PageActions>
+          </div>
+        </Bubble>
       </PageHeader>
       <div
         data-slot="components-demo"

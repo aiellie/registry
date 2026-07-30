@@ -6,16 +6,17 @@ import {
   AiImageIcon,
   BrowserIcon,
   EggIcon,
+  GithubIcon,
   GridViewIcon,
-  PencilEdit02Icon,
+  Linkedin02Icon,
+  Mail01Icon,
+  NewTwitterIcon,
   Share01Icon,
-  SquareLock01Icon,
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
 import { Icons } from "@/components/icons"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -23,6 +24,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
+import { Status, StatusIndicator, StatusLabel } from "@/components/ui/status"
 import { toast } from "@/components/ui/toast"
 import {
   Tooltip,
@@ -118,6 +120,16 @@ const HEAT_CLASS = [
   "bg-chart-3",
 ]
 
+const SOCIALS = [
+  { label: "GitHub", href: "https://github.com/aiellie", icon: GithubIcon },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/aiellie",
+    icon: Linkedin02Icon,
+  },
+  { label: "X", href: "https://x.com/aiellie", icon: NewTwitterIcon },
+]
+
 const RANGES = ["Daily", "Weekly", "Cumulative"] as const
 
 export function AiellieProfile() {
@@ -153,44 +165,68 @@ export function AiellieProfile() {
         className="max-h-[calc(100vh-4rem)] gap-6 overflow-y-auto p-6 sm:max-w-2xl"
       >
         <div className="flex items-center justify-between">
-          <DialogTitle>Profile</DialogTitle>
+          <DialogTitle className="sr-only">Profile</DialogTitle>
+          <Status variant="success" pulse>
+            <StatusIndicator />
+            <StatusLabel>Available to work</StatusLabel>
+          </Status>
           <div className="flex items-center gap-1">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => {
-                copyToClipboard("https://ui.aiellie.dev")
-                toast.add({
-                  title: "Copied profile link to clipboard",
-                  type: "success",
-                })
-              }}
-            >
-              <HugeiconsIcon icon={Share01Icon} strokeWidth={2} />
-              Share
-            </Button>
-            <span className="flex items-center gap-1 px-2.5 text-[0.8rem] font-medium text-muted-foreground">
-              <HugeiconsIcon
-                icon={SquareLock01Icon}
-                strokeWidth={2}
-                className="size-3.5"
-              />
-              Private
-            </span>
-            <Button
-              variant="ghost"
-              size="sm"
-              nativeButton={false}
-              render={
-                <a
-                  href="https://github.com/aiellie"
-                  target="_blank"
-                  rel="noopener noreferrer"
+            {SOCIALS.map((social) => (
+              <Tooltip key={social.label}>
+                <TooltipTrigger
+                  render={
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="size-8"
+                      nativeButton={false}
+                      render={
+                        <a
+                          href={social.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label={social.label}
+                        />
+                      }
+                    >
+                      <HugeiconsIcon icon={social.icon} strokeWidth={2} />
+                    </Button>
+                  }
                 />
-              }
+                <TooltipContent>{social.label}</TooltipContent>
+              </Tooltip>
+            ))}
+            <Tooltip>
+              <TooltipTrigger
+                render={
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="size-8"
+                    onClick={() => {
+                      copyToClipboard("https://ui.aiellie.dev")
+                      toast.add({
+                        title: "Copied profile link to clipboard",
+                        type: "success",
+                      })
+                    }}
+                  >
+                    <HugeiconsIcon icon={Share01Icon} strokeWidth={2} />
+                    <span className="sr-only">Copy profile link</span>
+                  </Button>
+                }
+              />
+              <TooltipContent>Copy profile link</TooltipContent>
+            </Tooltip>
+            <Button
+              variant="secondary"
+              size="sm"
+              className="ms-1"
+              nativeButton={false}
+              render={<a href="mailto:elliesophia1@gmail.com" />}
             >
-              <HugeiconsIcon icon={PencilEdit02Icon} strokeWidth={2} />
-              Edit
+              <HugeiconsIcon icon={Mail01Icon} strokeWidth={2} />
+              Message me
             </Button>
           </div>
         </div>
@@ -213,9 +249,7 @@ export function AiellieProfile() {
               @aiellie.dev
             </a>
             <span>·</span>
-            <Badge variant="secondary" className="rounded-full">
-              Plus
-            </Badge>
+            <span>Turning tokens into interfaces</span>
           </div>
         </div>
 

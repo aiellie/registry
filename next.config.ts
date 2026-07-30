@@ -3,6 +3,9 @@ import { fileURLToPath } from "node:url"
 import type { NextConfig } from "next"
 
 const nextConfig: NextConfig = {
+  // Overridable so a second dev server can run beside the primary one
+  // (Next locks .next/dev per distDir).
+  distDir: process.env.NEXT_DIST_DIR || ".next",
   turbopack: {
     root: path.dirname(fileURLToPath(import.meta.url)),
   },

@@ -40,3 +40,4 @@ next-env.d.ts
 
 # generated hugeicons manifest + shards
 /public/hugeicons/
+/.next-preview/

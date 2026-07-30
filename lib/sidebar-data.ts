@@ -97,15 +97,7 @@ export interface SidebarTeam {
 
 /** Shared project list: the sidebar Projects group and the prompt-input picker. */
 export const projects: SidebarProject[] = [
-  { id: "ui-aiellie-dev", name: "ui.aiellie.dev", url: "#", icon: FrameIcon },
-  { id: "aiellie-dev", name: "aiellie.dev", url: "#", icon: WebDesign02Icon },
   { id: "aiellie", name: "aiellie", url: "#", icon: PaintBoardIcon },
-  {
-    id: "shadcn-inspired",
-    name: "shadcn.inspired",
-    url: "#",
-    icon: LayoutTable01Icon,
-  },
 ]
 
 /** Branches for the prompt-input branch picker. */

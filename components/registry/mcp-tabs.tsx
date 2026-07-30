@@ -39,11 +39,11 @@ export function MCPTabs({
 
           {highlightedConfig ? (
             <div
-              className="no-scrollbar overflow-x-auto rounded-lg border bg-code font-mono text-sm"
+              className="no-scrollbar overflow-x-auto rounded-lg border font-mono text-sm"
               dangerouslySetInnerHTML={{ __html: highlightedConfig }}
             />
           ) : (
-            <pre className="no-scrollbar overflow-x-auto rounded-lg border bg-code p-4">
+            <pre className="no-scrollbar overflow-x-auto rounded-lg border  p-4">
               <code className="font-mono text-sm text-muted-foreground">
                 {componentsJson}
               </code>
@@ -90,11 +90,11 @@ export function MCPTabs({
                   </div>
                   {highlighted ? (
                     <div
-                      className="no-scrollbar overflow-x-auto rounded-lg border bg-code font-mono text-sm"
+                      className="no-scrollbar overflow-x-auto rounded-lg border font-mono text-sm"
                       dangerouslySetInnerHTML={{ __html: highlighted }}
                     />
                   ) : (
-                    <pre className="no-scrollbar overflow-x-auto rounded-lg border bg-code p-4 pe-12">
+                    <pre className="no-scrollbar overflow-x-auto rounded-lg border p-4 pe-12">
                       <code className="font-mono text-sm text-muted-foreground">
                         {content}
                       </code>
