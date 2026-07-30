@@ -953,7 +953,12 @@ function UsageBillingPanel() {
               tickMargin={8}
             />
             <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-            <Bar dataKey="tokens" fill="var(--color-tokens)" radius={4} />
+            <Bar
+              dataKey="tokens"
+              fill="var(--color-tokens)"
+              radius={4}
+              isAnimationActive={false}
+            />
           </BarChart>
         </ChartContainer>
       </SettingsSection>
