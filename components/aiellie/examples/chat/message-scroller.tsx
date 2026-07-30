@@ -83,7 +83,7 @@ const chat = createChat()
   .assistant(
     '`MessageScrollerContent` sets `role="log"` and `aria-relevant="additions"` by default, so screen readers announce new messages as they stream in.\n\nThe scroll button is a real `<button>` with an sr-only label, and it\'s removed from the tab order when you\'re already at the bottom — no ghost focus stops.'
   )
-const initialMessages = chat.get()
+const initialMessages = chat.get({ count: 0 })
 const transport = chat.transport()
 
 export function MessageScrollerDemo() {
@@ -91,7 +91,7 @@ export function MessageScrollerDemo() {
     messages: initialMessages,
     transport,
   })
-  const nextMessage = chat.next()
+  const nextMessage = chat.next({ after: messages })
   const isBusy = status === "submitted" || status === "streaming"
 
   return (
@@ -103,7 +103,19 @@ export function MessageScrollerDemo() {
             <CardDescription>How can I help you today?</CardDescription>
             <CardAction>
               <Tooltip>
-                <TooltipTrigger render={<Button variant="outline" size="icon" aria-label="Reset conversation" onClick={() => setMessages(initialMessages)} disabled={isBusy}><RotateCwIcon /></Button>} />
+                <TooltipTrigger
+                  render={
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      aria-label="Reset conversation"
+                      onClick={() => setMessages(initialMessages)}
+                      disabled={isBusy}
+                    >
+                      <RotateCwIcon />
+                    </Button>
+                  }
+                />
                 <TooltipContent>
                   <p>Reset</p>
                 </TooltipContent>
@@ -172,7 +184,18 @@ export function MessageScrollerDemo() {
                 </div>
                 <InputGroupAddon align="block-end" className="pt-1">
                   <DropdownMenu>
-                    <DropdownMenuTrigger render={<InputGroupButton aria-label="Add files" type="button" size="icon-sm" variant="outline"><PlusIcon /></InputGroupButton>} />
+                    <DropdownMenuTrigger
+                      render={
+                        <InputGroupButton
+                          aria-label="Add files"
+                          type="button"
+                          size="icon-sm"
+                          variant="outline"
+                        >
+                          <PlusIcon />
+                        </InputGroupButton>
+                      }
+                    />
                     <DropdownMenuContent
                       align="start"
                       side="top"

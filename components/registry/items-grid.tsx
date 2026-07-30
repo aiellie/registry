@@ -60,11 +60,12 @@ import type { Component } from "@/lib/registry"
 import { cn } from "@/lib/utils"
 
 /**
- * Cards appended per "Show more" click. Each card is a live `/demo/<name>`
- * iframe, so the page size is what caps how many demo pages hydrate at once —
- * mounting all ~90 at load jams the main thread badly enough that the grid
- * itself never hydrates. `loading="lazy"` alone doesn't cap it: Chromium's
- * lazy-iframe distance threshold spans most of the grid.
+ * Cards appended per "Show more" click. Each card is a live preview — an
+ * inline example or a `/demo/<name>` iframe — so the page size is what caps
+ * how much demo UI hydrates at once; mounting everything at load jams the
+ * main thread badly enough that the grid itself never hydrates.
+ * `loading="lazy"` alone doesn't cap the iframes: Chromium's lazy-iframe
+ * distance threshold spans most of the grid.
  */
 const PAGE_SIZE = 12
 
@@ -237,6 +238,69 @@ const ItemCard = memo(function ItemCard({
   onSelect: (item: Component) => void
 }) {
   const isBlock = meta.type === "registry:block"
+  const Demo = meta.demo
+
+  const heading = (
+    <>
+      <HugeiconsIcon
+        icon={meta.icon}
+        strokeWidth={2}
+        className="size-3.5 shrink-0"
+      />
+      <span className="truncate text-foreground">{item.title}</span>
+      {meta.isNew && (
+        <Status
+          variant="brand"
+          className="ms-auto border-transparent bg-transparent px-0"
+        >
+          <StatusIndicator />
+          <StatusLabel>New</StatusLabel>
+        </Status>
+      )}
+    </>
+  )
+
+  const frameClassName = cn(
+    "relative w-full overflow-hidden bg-background bg-[radial-gradient(color-mix(in_oklch,var(--border)_70%,transparent)_1px,transparent_1px)] bg-size-[16px_16px]",
+    isBlock ? "aspect-[16/9]" : "aspect-[4/3]"
+  )
+
+  // Cards with an inline example render it live, so the card itself can't be
+  // a <button> — the demo brings its own interactive controls. The details
+  // dialog moves to the hover/focus title bar instead.
+  if (Demo) {
+    return (
+      <div
+        className={cn(
+          "style-lyra:rounded-none style-sera:rounded-none min-w-0 rounded-2xl",
+          isBlock && "sm:col-span-2"
+        )}
+      >
+        <ItemWrapper
+          containerClassName="h-full"
+          title={
+            <button
+              type="button"
+              onClick={() => onSelect(item)}
+              className="flex w-full min-w-0 cursor-pointer items-center gap-2 rounded-sm text-start focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
+            >
+              {heading}
+            </button>
+          }
+        >
+          <div className={frameClassName}>
+            {/* m-auto rather than justify-center so short demos sit centered
+                while tall ones scroll with their top still reachable. */}
+            <div className="absolute inset-0 flex flex-col overflow-y-auto p-5">
+              <div className="m-auto flex w-full flex-col items-center">
+                <Demo />
+              </div>
+            </div>
+          </div>
+        </ItemWrapper>
+      </div>
+    )
+  }
 
   return (
     <button
@@ -247,34 +311,8 @@ const ItemCard = memo(function ItemCard({
         isBlock && "sm:col-span-2"
       )}
     >
-      <ItemWrapper
-        containerClassName="h-full"
-        title={
-          <>
-            <HugeiconsIcon
-              icon={meta.icon}
-              strokeWidth={2}
-              className="size-3.5 shrink-0"
-            />
-            <span className="truncate text-foreground">{item.title}</span>
-            {meta.isNew && (
-              <Status
-                variant="brand"
-                className="ms-auto border-transparent bg-transparent px-0"
-              >
-                <StatusIndicator />
-                <StatusLabel>New</StatusLabel>
-              </Status>
-            )}
-          </>
-        }
-      >
-        <div
-          className={cn(
-            "relative w-full overflow-hidden bg-background bg-[radial-gradient(color-mix(in_oklch,var(--border)_70%,transparent)_1px,transparent_1px)] bg-size-[16px_16px]",
-            isBlock ? "aspect-[16/9]" : "aspect-[4/3]"
-          )}
-        >
+      <ItemWrapper containerClassName="h-full" title={heading}>
+        <div className={frameClassName}>
           {/* Rendered at twice the card's size and scaled back down, so the
               demo lays out against a realistic viewport. Physical left/top-left
               origin is direction-safe: the 200% frame scales back to exactly
@@ -303,9 +341,9 @@ export function ItemsGrid({ items }: { items: Component[] }) {
   // Stable so the memoized cards don't re-render on every grid state change.
   const handleSelect = useCallback((item: Component) => setSelected(item), [])
 
-  // Only items curated in `lib/items.ts` — the same set the sidebar shows, and
-  // every one of them has a `/demo/<name>` page to preview — minus the ones
-  // opted out of the home grid via `displayHome`.
+  // Only items curated in `lib/aiellie-items.ts` — each previews via its
+  // inline example from `components/aiellie/examples` or, failing that, its
+  // `/demo/<name>` page — minus the ones opted out via `displayHome`.
   const curated = useMemo(() => {
     const rank = new Map(categoryOrder.map((id, index) => [id, index]))
     return items

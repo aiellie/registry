@@ -89,7 +89,10 @@ export function ModelSelectorDemo({
           <Button
             variant="ghost"
             size="sm"
-            className={cn("bg-background gap-1.5 rounded-full px-2 font-normal", className)}
+            className={cn(
+              "gap-1.5 rounded-full bg-background px-2 font-normal",
+              className
+            )}
           />
         }
       >
@@ -147,7 +150,7 @@ export function ModelSelectorDemo({
           showTrigger={false}
           showSearchIcon
           placeholder="Search models..."
-          className="h-8! rounded-none! border-x-0 border-0 bg-background shadow-none! *:data-[slot=input-group-addon]:ps-2!"
+          className="h-8! rounded-none! border-0 border-x-0 bg-background shadow-none! *:data-[slot=input-group-addon]:ps-2!"
         />
         <Separator />
         <ComboboxEmpty>No models found.</ComboboxEmpty>
@@ -203,7 +206,7 @@ export function ModelSelectorDemo({
                 "size-3.5 transition-colors",
                 fast
                   ? (chef?.fastClass ??
-                    "fill-muted-foreground text-muted-foreground")
+                      "fill-muted-foreground text-muted-foreground")
                   : "text-muted-foreground"
               )}
             />

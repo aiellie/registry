@@ -11,35 +11,43 @@ import BrandAvatarExample from "@/app/demo/[name]/components/brand-avatar"
 import { brandFooter } from "@/app/demo/[name]/components/brand-footer"
 import { brandHeader } from "@/app/demo/[name]/components/brand-header"
 import { brandSidebar } from "@/app/demo/[name]/components/brand-sidebar"
-import BubblesExample from "@/app/demo/[name]/components/bubbles"
-import GlassExample from "@/app/demo/[name]/components/glass"
 import { hero } from "@/app/demo/[name]/components/hero"
-import LiquidExample from "@/app/demo/[name]/components/liquid"
 import { loginForm } from "@/app/demo/[name]/components/login-form"
 import { logo } from "@/app/demo/[name]/components/logo"
-import { promptInput } from "@/app/demo/[name]/components/prompt-input"
 
 // ai elements
-import ModelSelectorExample from "@/app/demo/[name]/ui/model-selector"
-import FileTreeExample from "@/app/demo/[name]/ui/file-tree"
-import FindInPageExample from "@/app/demo/[name]/ui/find-in-page"
-import WebPreviewExample from "@/app/demo/[name]/ui/web-preview"
-import TerminalExample from "@/app/demo/[name]/ui/terminal"
 import PersonaExample from "@/app/demo/[name]/ui/persona"
-import AIOrbExample from "@/app/demo/[name]/ui/ai-orb"
-import MicSelectorExample from "@/app/demo/[name]/ui/mic-selector"
-import SpeechInputExample from "@/app/demo/[name]/ui/speech-input"
-import LiveWaveformExample from "@/app/demo/[name]/ui/live-waveform"
+
+// aiellie examples — the curated single demos also rendered inline on the
+// home grid (`lib/aiellie-items.ts`)
+import {
+  AiOrbDemo,
+  AttachmentDemo,
+  BubbleDemo,
+  BubblesDemo,
+  FileTreeDemo,
+  FindInPageDemo,
+  GlassDemo,
+  LiquidDemo,
+  LiveWaveformDemo,
+  MarkerDemo,
+  MessageDemo,
+  MessageScrollerDemo,
+  MicSelectorDemo,
+  ModelSelectorExample,
+  PromptInputDemo,
+  SpeechInputDemo,
+  TerminalDemo,
+  WebPreviewDemo,
+} from "@/components/aiellie/examples"
 // ui
 import AccordionExample from "@/app/demo/[name]/ui/accordion"
 import AlertExample from "@/app/demo/[name]/ui/alert"
 import AlertDialogExample from "@/app/demo/[name]/ui/alert-dialog"
 import AspectRatioExample from "@/app/demo/[name]/ui/aspect-ratio"
-import AttachmentExample from "@/app/demo/[name]/ui/attachment"
 import AvatarExample from "@/app/demo/[name]/ui/avatar"
 import BadgeExample from "@/app/demo/[name]/ui/badge"
 import BreadcrumbExample from "@/app/demo/[name]/ui/breadcrumb"
-import BubbleExample from "@/app/demo/[name]/ui/bubble"
 import ButtonExample from "@/app/demo/[name]/ui/button"
 import ButtonGroupExample from "@/app/demo/[name]/ui/button-group"
 import CalendarExample from "@/app/demo/[name]/ui/calendar"
@@ -68,10 +76,7 @@ import ItemExample from "@/app/demo/[name]/ui/item"
 import KbdExample from "@/app/demo/[name]/ui/kbd"
 import LabelExample from "@/app/demo/[name]/ui/label"
 import LoaderExample from "@/app/demo/[name]/ui/loader"
-import MarkerExamples from "@/app/demo/[name]/ui/marker"
 import MenubarExample from "@/app/demo/[name]/ui/menubar"
-import MessageExample from "@/app/demo/[name]/ui/message"
-import MessageScrollerExample from "@/app/demo/[name]/ui/message-scroller"
 import NativeSelectExample from "@/app/demo/[name]/ui/native-select"
 import NavigationMenuExample from "@/app/demo/[name]/ui/navigation-menu"
 import PaginationExample from "@/app/demo/[name]/ui/pagination"
@@ -111,6 +116,23 @@ type Demo =
     }
   | ComponentType
 
+/**
+ * The aiellie examples are single self-contained demos (also rendered inline
+ * on the home grid), so the full-page preview centers them instead of laying
+ * out variants with `ExampleWrapper`.
+ */
+function centered(Demo: ComponentType) {
+  return function CenteredDemo() {
+    return (
+      <div className="flex min-h-svh w-full justify-center bg-background bg-[radial-gradient(color-mix(in_oklch,var(--border)_70%,transparent)_1px,transparent_1px)] bg-size-[16px_16px] p-6">
+        <div className="m-auto flex w-full max-w-2xl flex-col items-center">
+          <Demo />
+        </div>
+      </div>
+    )
+  }
+}
+
 export const demos: { [name: string]: Demo } = {
   // blocks
   blank,
@@ -124,34 +146,34 @@ export const demos: { [name: string]: Demo } = {
   "brand-sidebar": brandSidebar,
   "brand-avatar": BrandAvatarExample,
   hero,
-  liquid: LiquidExample,
-  glass: GlassExample,
-  bubbles: BubblesExample,
+  liquid: centered(LiquidDemo),
+  glass: centered(GlassDemo),
+  bubbles: centered(BubblesDemo),
   "login-form": loginForm,
   logo,
-  "prompt-input": promptInput,
+  "prompt-input": centered(PromptInputDemo),
 
   // ai elements
-  "model-selector": ModelSelectorExample,
-  "file-tree": FileTreeExample,
-  "web-preview": WebPreviewExample,
-  terminal: TerminalExample,
-  "find-in-page": FindInPageExample,
+  "model-selector": centered(ModelSelectorExample),
+  "file-tree": centered(FileTreeDemo),
+  "web-preview": centered(WebPreviewDemo),
+  terminal: centered(TerminalDemo),
+  "find-in-page": centered(FindInPageDemo),
   persona: PersonaExample,
-  "ai-orb": AIOrbExample,
-  "mic-selector": MicSelectorExample,
-  "speech-input": SpeechInputExample,
-  "live-waveform": LiveWaveformExample,
+  "ai-orb": AiOrbDemo,
+  "mic-selector": centered(MicSelectorDemo),
+  "speech-input": centered(SpeechInputDemo),
+  "live-waveform": centered(LiveWaveformDemo),
   // ui
   accordion: AccordionExample,
   alert: AlertExample,
   "alert-dialog": AlertDialogExample,
   "aspect-ratio": AspectRatioExample,
-  attachment: AttachmentExample,
+  attachment: centered(AttachmentDemo),
   avatar: AvatarExample,
   badge: BadgeExample,
   breadcrumb: BreadcrumbExample,
-  bubble: BubbleExample,
+  bubble: centered(BubbleDemo),
   button: ButtonExample,
   "button-group": ButtonGroupExample,
   calendar: CalendarExample,
@@ -180,10 +202,10 @@ export const demos: { [name: string]: Demo } = {
   kbd: KbdExample,
   label: LabelExample,
   loader: LoaderExample,
-  marker: MarkerExamples,
+  marker: centered(MarkerDemo),
   menubar: MenubarExample,
-  message: MessageExample,
-  "message-scroller": MessageScrollerExample,
+  message: centered(MessageDemo),
+  "message-scroller": centered(MessageScrollerDemo),
   "native-select": NativeSelectExample,
   "navigation-menu": NavigationMenuExample,
   pagination: PaginationExample,
