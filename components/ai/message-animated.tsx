@@ -1,10 +1,13 @@
 "use client"
 
 import * as React from "react"
+import { BotIcon, UserIcon } from "@hugeicons/core-free-icons"
+import { HugeiconsIcon } from "@hugeicons/react"
 import { motion, useReducedMotion } from "motion/react"
 
 import type { MessageAnimationPreset } from "@/lib/message-animations"
 import { MESSAGE_ANIMATIONS } from "@/lib/message-animations"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Bubble, BubbleContent } from "@/components/ui/bubble"
 import {
   Message,
@@ -36,10 +39,10 @@ function MessageAnimated({
   message,
   animationPreset = MESSAGE_ANIMATIONS["slide-up"],
   assistantAvatar,
-  assistantVariant = "ghost",
+  assistantVariant = "muted",
   scrollAnchor,
   userAvatar,
-  userVariant = "muted",
+  userVariant = "default",
   ...props
 }: Omit<
   React.ComponentProps<typeof MotionMessageScrollerItem>,
@@ -110,11 +113,17 @@ function MessageAnimatedRow({
 }) {
   const isUserMessage = message.role === "user"
   const textParts = getMessageAnimatedTextParts(message)
-  const avatar = isUserMessage ? userAvatar : assistantAvatar
+  const avatar =
+    (isUserMessage ? userAvatar : assistantAvatar) ??
+    (isUserMessage ? (
+      <MessageAnimatedRoleAvatar role="user" />
+    ) : (
+      <MessageAnimatedRoleAvatar role="assistant" />
+    ))
 
   return (
     <Message align={isUserMessage ? "end" : "start"}>
-      {avatar != null && <MessageAvatar>{avatar}</MessageAvatar>}
+      <MessageAvatar>{avatar}</MessageAvatar>
       <MessageContent>
         {textParts.map((part) => {
           const paragraphs = part.text
@@ -142,6 +151,24 @@ function MessageAnimatedRow({
         })}
       </MessageContent>
     </Message>
+  )
+}
+
+function MessageAnimatedRoleAvatar({
+  role,
+}: {
+  role: "user" | "assistant"
+}) {
+  return (
+    <Avatar>
+      <AvatarFallback>
+        <HugeiconsIcon
+          icon={role === "user" ? UserIcon : BotIcon}
+          className="size-4"
+          strokeWidth={2}
+        />
+      </AvatarFallback>
+    </Avatar>
   )
 }
 

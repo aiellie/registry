@@ -11,7 +11,7 @@ import {
   RotateCwIcon,
   TelescopeIcon,
 } from "lucide-react"
-
+import { Icons } from "@/components/icons"
 import { createChat, getMessageText } from "@/lib/ai"
 import { MessageAnimated } from "@/components/ai/message-animated"
 import { Button } from "@/components/ui/button"
@@ -127,9 +127,9 @@ export function MessageScrollerDemo() {
               <Empty className="h-full">
                 <EmptyHeader>
                   <EmptyMedia variant="icon">
-                    <MessageCircleDashedIcon />
+                    <Icons.elephant />
                   </EmptyMedia>
-                  <EmptyTitle>Morning, shadcn!</EmptyTitle>
+                  <EmptyTitle>Morning, Ellie!</EmptyTitle>
                   <EmptyDescription>
                     What are we working on today? Press send to start a new
                     conversation
