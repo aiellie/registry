@@ -162,6 +162,8 @@ export interface Item {
   category: CategoryId
   /** Whether the item is recently added — surfaces a "New" marker. */
   isNew: boolean
+  /** Whether the item appears in the home page grid. */
+  displayHome: boolean
 }
 
 /**
@@ -177,6 +179,7 @@ export const items: Item[] = [
     type: "registry:block",
     category: "blocks",
     isNew: false,
+    displayHome: false,
   },
   {
     name: "chat",
@@ -184,6 +187,7 @@ export const items: Item[] = [
     type: "registry:block",
     category: "blocks",
     isNew: true,
+    displayHome: false,
   },
   {
     name: "dashboard",
@@ -191,6 +195,7 @@ export const items: Item[] = [
     type: "registry:block",
     category: "blocks",
     isNew: false,
+    displayHome: false,
   },
   {
     name: "login",
@@ -198,6 +203,7 @@ export const items: Item[] = [
     type: "registry:block",
     category: "blocks",
     isNew: false,
+    displayHome: false,
   },
 
   // Brand
@@ -207,6 +213,7 @@ export const items: Item[] = [
     type: "registry:component",
     category: "brand",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "brand-avatar",
@@ -214,6 +221,7 @@ export const items: Item[] = [
     type: "registry:component",
     category: "brand",
     isNew: true,
+    displayHome: true,
   },
   {
     name: "hero",
@@ -221,6 +229,7 @@ export const items: Item[] = [
     type: "registry:component",
     category: "brand",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "brand-header",
@@ -228,6 +237,7 @@ export const items: Item[] = [
     type: "registry:component",
     category: "brand",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "brand-footer",
@@ -235,6 +245,7 @@ export const items: Item[] = [
     type: "registry:component",
     category: "brand",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "brand-sidebar",
@@ -242,6 +253,7 @@ export const items: Item[] = [
     type: "registry:component",
     category: "brand",
     isNew: false,
+    displayHome: true,
   },
 
   // AI
@@ -251,6 +263,7 @@ export const items: Item[] = [
     type: "registry:component",
     category: "ai",
     isNew: true,
+    displayHome: true,
   },
   {
     name: "model-selector",
@@ -258,6 +271,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "ai",
     isNew: true,
+    displayHome: true,
   },
   {
     name: "file-tree",
@@ -265,6 +279,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "ai",
     isNew: true,
+    displayHome: true,
   },
   {
     name: "web-preview",
@@ -272,6 +287,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "ai",
     isNew: true,
+    displayHome: true,
   },
   {
     name: "terminal",
@@ -279,6 +295,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "ai",
     isNew: true,
+    displayHome: true,
   },
   {
     name: "find-in-page",
@@ -286,6 +303,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "ai",
     isNew: true,
+    displayHome: true,
   },
   {
     name: "persona",
@@ -293,6 +311,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "ai",
     isNew: true,
+    displayHome: true,
   },
   {
     name: "ai-orb",
@@ -300,6 +319,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "ai",
     isNew: true,
+    displayHome: true,
   },
   {
     name: "mic-selector",
@@ -307,6 +327,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "ai",
     isNew: true,
+    displayHome: true,
   },
   {
     name: "speech-input",
@@ -314,6 +335,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "ai",
     isNew: true,
+    displayHome: true,
   },
   {
     name: "live-waveform",
@@ -321,6 +343,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "ai",
     isNew: true,
+    displayHome: true,
   },
   {
     name: "bubble",
@@ -328,6 +351,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "ai",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "message",
@@ -335,6 +359,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "ai",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "message-scroller",
@@ -342,6 +367,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "ai",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "attachment",
@@ -349,6 +375,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "ai",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "marker",
@@ -356,6 +383,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "ai",
     isNew: false,
+    displayHome: true,
   },
 
   // Forms & Inputs
@@ -365,6 +393,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "forms",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "button-group",
@@ -372,6 +401,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "forms",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "checkbox",
@@ -379,6 +409,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "forms",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "color-picker",
@@ -386,6 +417,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "forms",
     isNew: true,
+    displayHome: true,
   },
   {
     name: "combobox",
@@ -393,6 +425,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "forms",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "field",
@@ -400,6 +433,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "forms",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "input",
@@ -407,6 +441,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "forms",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "input-group",
@@ -414,6 +449,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "forms",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "input-otp",
@@ -421,6 +457,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "forms",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "label",
@@ -428,6 +465,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "forms",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "native-select",
@@ -435,6 +473,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "forms",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "radio-group",
@@ -442,6 +481,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "forms",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "select",
@@ -449,6 +489,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "forms",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "slider",
@@ -456,6 +497,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "forms",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "switch",
@@ -463,6 +505,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "forms",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "textarea",
@@ -470,6 +513,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "forms",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "toggle",
@@ -477,6 +521,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "forms",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "toggle-group",
@@ -484,6 +529,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "forms",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "calendar",
@@ -491,6 +537,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "forms",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "date-picker",
@@ -498,6 +545,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "forms",
     isNew: false,
+    displayHome: true,
   },
 
   // Navigation
@@ -507,6 +555,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "navigation",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "command",
@@ -514,6 +563,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "navigation",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "menubar",
@@ -521,6 +571,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "navigation",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "navigation-menu",
@@ -528,6 +579,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "navigation",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "pagination",
@@ -535,6 +587,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "navigation",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "sidebar",
@@ -542,6 +595,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "navigation",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "tabs",
@@ -549,6 +603,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "navigation",
     isNew: false,
+    displayHome: true,
   },
 
   // Overlays
@@ -558,6 +613,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "overlays",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "context-menu",
@@ -565,6 +621,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "overlays",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "dialog",
@@ -572,6 +629,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "overlays",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "drawer",
@@ -579,6 +637,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "overlays",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "dropdown-menu",
@@ -586,6 +645,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "overlays",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "hover-card",
@@ -593,6 +653,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "overlays",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "popover",
@@ -600,6 +661,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "overlays",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "sheet",
@@ -607,6 +669,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "overlays",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "tooltip",
@@ -614,6 +677,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "overlays",
     isNew: false,
+    displayHome: true,
   },
 
   // Data Display
@@ -623,6 +687,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "display",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "avatar",
@@ -630,6 +695,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "display",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "badge",
@@ -637,6 +703,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "display",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "card",
@@ -644,6 +711,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "display",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "carousel",
@@ -651,6 +719,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "display",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "chart",
@@ -658,6 +727,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "display",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "data-table",
@@ -665,6 +735,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "display",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "empty",
@@ -672,6 +743,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "display",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "item",
@@ -679,6 +751,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "display",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "kbd",
@@ -686,6 +759,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "display",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "table",
@@ -693,6 +767,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "display",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "aspect-ratio",
@@ -700,6 +775,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "display",
     isNew: false,
+    displayHome: true,
   },
 
   // Feedback
@@ -709,6 +785,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "feedback",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "progress",
@@ -716,6 +793,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "feedback",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "skeleton",
@@ -723,6 +801,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "feedback",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "spinner",
@@ -730,6 +809,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "feedback",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "status",
@@ -737,6 +817,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "feedback",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "toast",
@@ -744,6 +825,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "feedback",
     isNew: true,
+    displayHome: true,
   },
   {
     name: "loader",
@@ -751,6 +833,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "feedback",
     isNew: true,
+    displayHome: true,
   },
 
   // Layout
@@ -760,6 +843,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "layout",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "direction",
@@ -767,6 +851,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "layout",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "resizable",
@@ -774,6 +859,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "layout",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "scroll-area",
@@ -781,6 +867,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "layout",
     isNew: false,
+    displayHome: true,
   },
   {
     name: "separator",
@@ -788,6 +875,7 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "layout",
     isNew: false,
+    displayHome: true,
   },
 
   // Animation
@@ -797,6 +885,7 @@ export const items: Item[] = [
     type: "registry:component",
     category: "animation",
     isNew: true,
+    displayHome: true,
   },
   {
     name: "glass",
@@ -804,6 +893,7 @@ export const items: Item[] = [
     type: "registry:component",
     category: "animation",
     isNew: true,
+    displayHome: true,
   },
   {
     name: "bubbles",
@@ -811,6 +901,7 @@ export const items: Item[] = [
     type: "registry:component",
     category: "animation",
     isNew: true,
+    displayHome: true,
   },
 ]
 

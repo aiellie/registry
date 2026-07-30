@@ -11,8 +11,9 @@ import {
 import Link from "next/link"
 import {
   Cancel01Icon,
-  PlusSignCircleIcon,
+  Layers01Icon,
   Search01Icon,
+  Tag01Icon,
   Tick02Icon,
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
@@ -94,11 +95,13 @@ interface FacetOption {
  */
 function FacetedFilter({
   label,
+  icon,
   options,
   value,
   onValueChange,
 }: {
   label: string
+  icon: IconSvgElement
   options: FacetOption[]
   /** Selected option ids; an empty array means "no filter". */
   value: string[]
@@ -119,7 +122,7 @@ function FacetedFilter({
           <Button variant="outline" size="sm" className="h-8 border-dashed" />
         }
       >
-        <HugeiconsIcon icon={PlusSignCircleIcon} strokeWidth={2} />
+        <HugeiconsIcon icon={icon} strokeWidth={2} />
         {label}
         {selected.size > 0 && (
           <>
@@ -128,7 +131,7 @@ function FacetedFilter({
             <Separator
               orientation="vertical"
               render={<span />}
-              className="mx-0.5 h-4"
+              className="mx-0.5 h-full"
             />
             <Badge
               variant="secondary"
@@ -244,7 +247,7 @@ const ItemCard = memo(function ItemCard({
     <Link
       href={`/registry/${item.name}`}
       className={cn(
-        "min-w-0 rounded-2xl focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none style-lyra:rounded-none style-sera:rounded-none",
+        "style-lyra:rounded-none style-sera:rounded-none min-w-0 rounded-2xl focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none",
         isBlock && "sm:col-span-2"
       )}
     >
@@ -300,14 +303,15 @@ export function ItemsGrid({ items }: { items: Component[] }) {
   const [limit, setLimit] = useState(PAGE_SIZE)
 
   // Only items curated in `lib/items.ts` — the same set the sidebar shows, and
-  // every one of them has a `/demo/<name>` page to preview.
+  // every one of them has a `/demo/<name>` page to preview — minus the ones
+  // opted out of the home grid via `displayHome`.
   const curated = useMemo(() => {
     const rank = new Map(categoryOrder.map((id, index) => [id, index]))
     return items
       .map((item) => ({ item, meta: getItem(item.name) }))
       .filter(
         (entry): entry is { item: Component; meta: Item } =>
-          entry.meta !== undefined
+          entry.meta !== undefined && entry.meta.displayHome
       )
       .sort(
         (a, b) =>
@@ -396,9 +400,9 @@ export function ItemsGrid({ items }: { items: Component[] }) {
 
   return (
     <TooltipProvider delay={300}>
-      <div className="sticky top-14 z-20 -mx-5 border-y bg-background/80 px-5 py-2.5 backdrop-blur-md md:-mx-10 md:px-10">
+      <div className="sticky top-14 z-20 -mx-5 border-b bg-background/80 px-5 py-2.5 backdrop-blur-md md:-mx-10 md:px-10">
         <div className="flex flex-wrap items-center gap-2">
-          <InputGroup className="h-8 w-full sm:w-64">
+          <InputGroup className="h-8.5 w-full sm:w-64">
             <InputGroupAddon>
               <HugeiconsIcon
                 icon={Search01Icon}
@@ -409,7 +413,11 @@ export function ItemsGrid({ items }: { items: Component[] }) {
             <InputGroupInput
               value={query}
               onChange={(event) => setQuery(event.target.value)}
-              placeholder={`Search ${curated.length} components…`}
+              placeholder={
+                filtered.length === curated.length
+                  ? `Search ${curated.length} components…`
+                  : `Search ${filtered.length} of ${curated.length} components…`
+              }
               aria-label="Search components"
             />
             {query && (
@@ -439,6 +447,7 @@ export function ItemsGrid({ items }: { items: Component[] }) {
 
           <FacetedFilter
             label="Category"
+            icon={Tag01Icon}
             options={categoryOptions}
             value={categoryIds}
             onValueChange={setCategoryIds}
@@ -446,32 +455,25 @@ export function ItemsGrid({ items }: { items: Component[] }) {
 
           <FacetedFilter
             label="Type"
+            icon={Layers01Icon}
             options={typeOptions}
             value={typeIds}
             onValueChange={setTypeIds}
           />
-
-          <span
-            className="font-mono text-xs text-muted-foreground tabular-nums"
-            aria-live="polite"
+          <Button
+            variant="destructive"
+            size="sm"
+            className="ms-auto h-8"
+            disabled={!hasFilters}
+            onClick={() => {
+              setQuery("")
+              setCategoryIds([])
+              setTypeIds([])
+            }}
           >
-            {filtered.length} of {curated.length}
-          </span>
-
-          {hasFilters && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => {
-                setQuery("")
-                setCategoryIds([])
-                setTypeIds([])
-              }}
-            >
-              <HugeiconsIcon icon={Cancel01Icon} />
-              Reset
-            </Button>
-          )}
+            <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} />
+            Reset
+          </Button>
         </div>
       </div>
 
