@@ -1,7 +1,6 @@
 "use client"
 
-import { memo, useDeferredValue, useMemo, useState } from "react"
-import Link from "next/link"
+import { memo, useCallback, useDeferredValue, useMemo, useState } from "react"
 import {
   Cancel01Icon,
   Layers01Icon,
@@ -13,6 +12,7 @@ import { HugeiconsIcon } from "@hugeicons/react"
 import type { IconSvgElement } from "@hugeicons/react"
 
 import { ItemWrapper } from "@/components/item-wrapper"
+import { ItemDetailsDialog } from "@/components/registry/item-details-dialog"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
@@ -230,17 +230,20 @@ function FacetedFilter({
 const ItemCard = memo(function ItemCard({
   item,
   meta,
+  onSelect,
 }: {
   item: Component
   meta: Item
+  onSelect: (item: Component) => void
 }) {
   const isBlock = meta.type === "registry:block"
 
   return (
-    <Link
-      href={`/registry/${item.name}`}
+    <button
+      type="button"
+      onClick={() => onSelect(item)}
       className={cn(
-        "style-lyra:rounded-none style-sera:rounded-none min-w-0 rounded-2xl focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none",
+        "style-lyra:rounded-none style-sera:rounded-none min-w-0 cursor-pointer rounded-2xl text-start focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none",
         isBlock && "sm:col-span-2"
       )}
     >
@@ -285,7 +288,7 @@ const ItemCard = memo(function ItemCard({
           />
         </div>
       </ItemWrapper>
-    </Link>
+    </button>
   )
 })
 
@@ -294,6 +297,11 @@ export function ItemsGrid({ items }: { items: Component[] }) {
   const [categoryIds, setCategoryIds] = useState<string[]>([])
   const [typeIds, setTypeIds] = useState<string[]>([])
   const [limit, setLimit] = useState(PAGE_SIZE)
+  /** The item whose details dialog is open, or `null` when closed. */
+  const [selected, setSelected] = useState<Component | null>(null)
+
+  // Stable so the memoized cards don't re-render on every grid state change.
+  const handleSelect = useCallback((item: Component) => setSelected(item), [])
 
   // Only items curated in `lib/items.ts` — the same set the sidebar shows, and
   // every one of them has a `/demo/<name>` page to preview — minus the ones
@@ -475,7 +483,12 @@ export function ItemsGrid({ items }: { items: Component[] }) {
         <>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
             {visible.map(({ item, meta }) => (
-              <ItemCard key={item.name} item={item} meta={meta} />
+              <ItemCard
+                key={item.name}
+                item={item}
+                meta={meta}
+                onSelect={handleSelect}
+              />
             ))}
           </div>
 
@@ -495,6 +508,13 @@ export function ItemsGrid({ items }: { items: Component[] }) {
           )}
         </>
       )}
+
+      <ItemDetailsDialog
+        item={selected}
+        onOpenChange={(open) => {
+          if (!open) setSelected(null)
+        }}
+      />
     </TooltipProvider>
   )
 }

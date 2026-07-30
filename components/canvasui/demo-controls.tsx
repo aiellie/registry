@@ -545,7 +545,6 @@ export function DemoControls({
           className="size-3.5"
           icon={open ? Cancel01Icon : SlidersHorizontalIcon}
         />
-        Controls
       </button>
     </div>
   )
