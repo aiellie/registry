@@ -7,6 +7,7 @@ import {
   ArrowExpandIcon,
   ArrowLeftRightIcon,
   AspectRatioIcon,
+  CodeIcon,
   AttachmentIcon,
   AudioWave01Icon,
   AudioWave02Icon,
@@ -109,6 +110,8 @@ export type CategoryId =
   | "blocks"
   | "brand"
   | "ai"
+  | "audio"
+  | "code"  
   | "forms"
   | "navigation"
   | "overlays"
@@ -128,6 +131,8 @@ export const categories: Record<CategoryId, Category> = {
   blocks: { id: "blocks", label: "Blocks", icon: BlocksIcon },
   brand: { id: "brand", label: "Brand", icon: SparklesIcon },
   ai: { id: "ai", label: "AI", icon: AiChat02Icon },
+  code: { id: "code", label: "Code", icon: CodeIcon },
+  audio: { id: "audio", label: "Audio", icon: AudioWave01Icon },
   forms: { id: "forms", label: "Forms & Inputs", icon: FormIcon },
   navigation: { id: "navigation", label: "Navigation", icon: Navigation03Icon },
   overlays: { id: "overlays", label: "Overlays", icon: AppWindowIcon },
@@ -142,6 +147,8 @@ export const categoryOrder: CategoryId[] = [
   "blocks",
   "brand",
   "ai",
+  "code",
+  "audio",
   "forms",
   "navigation",
   "overlays",
@@ -277,7 +284,7 @@ export const items: Item[] = [
     name: "file-tree",
     icon: HierarchyFilesIcon,
     type: "registry:ui",
-    category: "ai",
+    category: "code",
     isNew: true,
     displayHome: true,
   },
@@ -293,7 +300,7 @@ export const items: Item[] = [
     name: "terminal",
     icon: ComputerTerminal01Icon,
     type: "registry:ui",
-    category: "ai",
+    category: "code",
     isNew: true,
     displayHome: true,
   },
@@ -309,7 +316,7 @@ export const items: Item[] = [
     name: "persona",
     icon: SiriNewIcon,
     type: "registry:ui",
-    category: "ai",
+    category: "audio",
     isNew: true,
     displayHome: true,
   },
@@ -317,7 +324,7 @@ export const items: Item[] = [
     name: "ai-orb",
     icon: SiriIcon,
     type: "registry:ui",
-    category: "ai",
+    category: "audio",
     isNew: true,
     displayHome: true,
   },
@@ -325,7 +332,7 @@ export const items: Item[] = [
     name: "mic-selector",
     icon: Mic01Icon,
     type: "registry:ui",
-    category: "ai",
+    category: "audio",
     isNew: true,
     displayHome: true,
   },
@@ -333,7 +340,7 @@ export const items: Item[] = [
     name: "speech-input",
     icon: AudioWave01Icon,
     type: "registry:ui",
-    category: "ai",
+    category: "audio",
     isNew: true,
     displayHome: true,
   },

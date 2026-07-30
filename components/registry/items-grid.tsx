@@ -55,7 +55,7 @@ import {
   categories,
   categoryOrder,
   getItem,
-} from "@/lib/items"
+} from "@/lib/aiellie-items"
 import type { Component } from "@/lib/registry"
 import { cn } from "@/lib/utils"
 
