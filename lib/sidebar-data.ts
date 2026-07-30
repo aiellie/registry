@@ -56,7 +56,10 @@ export type SidebarChatType = "voice" | "code" | "chat" | "branch"
 export type SidebarChatStatus = "read" | "unread" | "working"
 
 export interface SidebarChat {
+  /** Stable key into `chatTranscripts` in lib/chat-data.ts. */
+  id: string
   name: string
+  /** `#chat/<id>` opens the transcript; the conversation surface parses it. */
   url: string
   /** Picks the row icon via `chatTypeIcons`. */
   type: SidebarChatType
@@ -152,23 +155,49 @@ export const teams: SidebarTeam[] = [
     projects,
     pinned: [
       {
+        id: "update-ui",
         name: "Update UI to match examples",
-        url: "#",
+        url: "#chat/update-ui",
         type: "code",
         status: "read",
       },
-      { name: "Launch voice memo", url: "#", type: "voice", status: "unread" },
+      {
+        id: "launch-voice-memo",
+        name: "Launch voice memo",
+        url: "#chat/launch-voice-memo",
+        type: "voice",
+        status: "unread",
+      },
     ],
     chats: [
-      { name: "Design tokens sync", url: "#", type: "code", status: "working" },
       {
+        id: "design-tokens-sync",
+        name: "Design tokens sync",
+        url: "#chat/design-tokens-sync",
+        type: "code",
+        status: "working",
+      },
+      {
+        id: "portfolio-site-preview",
         name: "Portfolio Site Preview",
-        url: "#",
+        url: "#chat/portfolio-site-preview",
         type: "branch",
         status: "unread",
       },
-      { name: "Weekly recap", url: "#", type: "chat", status: "read" },
-      { name: "Voice brainstorm", url: "#", type: "voice", status: "read" },
+      {
+        id: "weekly-recap",
+        name: "Weekly recap",
+        url: "#chat/weekly-recap",
+        type: "chat",
+        status: "read",
+      },
+      {
+        id: "voice-brainstorm",
+        name: "Voice brainstorm",
+        url: "#chat/voice-brainstorm",
+        type: "voice",
+        status: "read",
+      },
     ],
   },
   {
@@ -209,9 +238,27 @@ export const teams: SidebarTeam[] = [
       { id: "vendor-hub", name: "Vendor Hub", url: "#", icon: FrameIcon },
     ],
     chats: [
-      { name: "Standup summary", url: "#", type: "chat", status: "unread" },
-      { name: "Handoff checklist", url: "#", type: "chat", status: "read" },
-      { name: "Vendor review", url: "#", type: "voice", status: "read" },
+      {
+        id: "standup-summary",
+        name: "Standup summary",
+        url: "#chat/standup-summary",
+        type: "chat",
+        status: "unread",
+      },
+      {
+        id: "handoff-checklist",
+        name: "Handoff checklist",
+        url: "#chat/handoff-checklist",
+        type: "chat",
+        status: "read",
+      },
+      {
+        id: "vendor-review",
+        name: "Vendor review",
+        url: "#chat/vendor-review",
+        type: "voice",
+        status: "read",
+      },
     ],
   },
   {
@@ -240,22 +287,25 @@ export const teams: SidebarTeam[] = [
     projects,
     pinned: [
       {
+        id: "registry-build-pipeline",
         name: "Registry build pipeline",
-        url: "#",
+        url: "#chat/registry-build-pipeline",
         type: "branch",
         status: "working",
       },
     ],
     chats: [
       {
+        id: "update-ui",
         name: "Update UI to match examples",
-        url: "#",
+        url: "#chat/update-ui",
         type: "code",
         status: "working",
       },
       {
+        id: "portfolio-site-preview",
         name: "Portfolio Site Preview",
-        url: "#",
+        url: "#chat/portfolio-site-preview",
         type: "branch",
         status: "unread",
       },
@@ -336,9 +386,27 @@ export const teams: SidebarTeam[] = [
       { id: "campaign-kit", name: "Campaign Kit", url: "#", icon: Image02Icon },
     ],
     chats: [
-      { name: "Brand palette v2", url: "#", type: "chat", status: "read" },
-      { name: "Podcast intro cut", url: "#", type: "voice", status: "unread" },
-      { name: "Hero illustration", url: "#", type: "chat", status: "working" },
+      {
+        id: "brand-palette-v2",
+        name: "Brand palette v2",
+        url: "#chat/brand-palette-v2",
+        type: "chat",
+        status: "read",
+      },
+      {
+        id: "podcast-intro-cut",
+        name: "Podcast intro cut",
+        url: "#chat/podcast-intro-cut",
+        type: "voice",
+        status: "unread",
+      },
+      {
+        id: "hero-illustration",
+        name: "Hero illustration",
+        url: "#chat/hero-illustration",
+        type: "chat",
+        status: "working",
+      },
     ],
   },
 ]

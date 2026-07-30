@@ -31,11 +31,12 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
-import { ChatStatusIndicator } from "@/components/nav-chats"
+import { ChatStatusIndicator, useLocationHash } from "@/components/nav-chats"
 import { chatTypeIcons, type SidebarChat } from "@/lib/sidebar-data"
 
 export function NavPinned({ chats }: { chats: SidebarChat[] }) {
   const { isMobile } = useSidebar()
+  const hash = useLocationHash()
 
   return (
     <Collapsible defaultOpen className="group/nav">
@@ -58,6 +59,7 @@ export function NavPinned({ chats }: { chats: SidebarChat[] }) {
                 <SidebarMenuItem key={item.name}>
                   <SidebarMenuButton
                     render={<a href={item.url} />}
+                    isActive={item.url === hash}
                     tooltip={item.name}
                   >
                     <HugeiconsIcon

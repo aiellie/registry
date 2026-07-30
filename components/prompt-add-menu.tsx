@@ -185,7 +185,7 @@ export const ADD_MENU_CHATS: AddMenuItem[] = [
   ...(chatTeam.pinned ?? []),
   ...(chatTeam.chats ?? []),
 ].map((chat) => ({
-  value: `chat-${chat.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`,
+  value: `chat-${chat.id}`,
   label: chat.name,
   icon: chatTypeIcons[chat.type],
 }))

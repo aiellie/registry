@@ -65,6 +65,21 @@ import { Status, StatusIndicator } from "@/components/ui/status"
 import { chatTypeIcons, type SidebarChat } from "@/lib/sidebar-data"
 
 /**
+ * Tracks `window.location.hash` so chat rows can mark the open chat active.
+ * `null` until mounted (and when the URL has no hash).
+ */
+export function useLocationHash() {
+  const [hash, setHash] = React.useState<string | null>(null)
+  React.useEffect(() => {
+    const read = () => setHash(window.location.hash || null)
+    read()
+    window.addEventListener("hashchange", read)
+    return () => window.removeEventListener("hashchange", read)
+  }, [])
+  return hash
+}
+
+/**
  * Indicator dot at the end of a chat row: unread shows a steady dot, working a
  * pulsing one. Fades out on hover so it never overlaps the row action.
  */
@@ -175,6 +190,7 @@ const defaultChatFilters: Record<ChatFilterId, string> = {
 
 export function NavChats({ chats }: { chats: SidebarChat[] }) {
   const { isMobile } = useSidebar()
+  const hash = useLocationHash()
   const [filters, setFilters] =
     React.useState<Record<ChatFilterId, string>>(defaultChatFilters)
 
@@ -294,6 +310,7 @@ export function NavChats({ chats }: { chats: SidebarChat[] }) {
                 <SidebarMenuItem key={item.name}>
                   <SidebarMenuButton
                     render={<a href={item.url} />}
+                    isActive={item.url === hash}
                     tooltip={item.name}
                   >
                     <HugeiconsIcon

@@ -179,6 +179,13 @@ export const items: Item[] = [
     isNew: false,
   },
   {
+    name: "chat",
+    icon: AiChat01Icon,
+    type: "registry:block",
+    category: "blocks",
+    isNew: true,
+  },
+  {
     name: "dashboard",
     icon: DashboardSquare01Icon,
     type: "registry:block",
