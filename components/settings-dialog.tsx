@@ -761,9 +761,11 @@ const VOICES: {
 ]
 
 // Same shader recipe as the ai-orb defaults, clipped to a small circle.
+// The wrapper must be a sized block-level box (flex) — an inline span
+// ignores size-20 and lets the shader mount size itself to the slide.
 function VoiceOrb({ colors }: { colors: [string, string, string] }) {
   return (
-    <span className="size-20 overflow-hidden rounded-full">
+    <span className="flex size-20 shrink-0 overflow-hidden rounded-full">
       <Warp
         width={80}
         height={80}
@@ -2850,7 +2852,7 @@ export function SettingsDialog({
         <DialogDescription className="sr-only">
           Customize your settings here.
         </DialogDescription>
-        <SidebarProvider className="h-full min-h-0 items-start">
+        <SidebarProvider className="h-full min-h-0 min-w-0 items-start">
           <Sidebar collapsible="icon" className="hidden h-full md:flex">
             <SidebarContent className="overflow-hidden group-data-[collapsible=icon]:overflow-hidden">
               <ScrollArea className="min-h-0 flex-1">
@@ -2893,7 +2895,7 @@ export function SettingsDialog({
             </SidebarContent>
             <SidebarRail />
           </Sidebar>
-          <main className="flex h-[480px] flex-1 flex-col overflow-hidden">
+          <main className="flex h-[480px] min-w-0 flex-1 flex-col overflow-hidden">
             <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
               <div className="flex items-center gap-2 px-4">
                 <SidebarTrigger className="-ms-1" />
@@ -2917,7 +2919,7 @@ export function SettingsDialog({
                 </Breadcrumb>
               </div>
             </header>
-            <div className="flex-1 overflow-y-auto p-4 pt-1 md:p-6 md:pt-1">
+            <div className="flex-1 overflow-x-hidden overflow-y-auto p-4 pt-1 md:p-6 md:pt-1">
               <ActivePanel key={activeKey} />
             </div>
           </main>
