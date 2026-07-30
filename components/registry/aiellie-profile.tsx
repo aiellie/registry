@@ -201,7 +201,7 @@ export function AiellieProfile() {
             <AvatarFallback>AE</AvatarFallback>
           </Avatar>
           <p className="font-heading text-xl font-semibold tracking-tight">
-            ai ellie
+            Ellie Linder
           </p>
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <a
@@ -257,7 +257,7 @@ export function AiellieProfile() {
             </div>
           </div>
           <div className="overflow-x-auto">
-            <div className="flex w-max flex-col gap-2">
+            <div className="flex flex-col gap-2">
               <div className="grid grid-flow-col grid-rows-7 gap-[3px]">
                 {Array.from({ length: WEEKS * DAYS }, (_, i) => {
                   const week = Math.floor(i / DAYS)
