@@ -1,13 +1,6 @@
 "use client"
 
-import {
-  memo,
-  useDeferredValue,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react"
+import { memo, useDeferredValue, useMemo, useState } from "react"
 import Link from "next/link"
 import {
   Cancel01Icon,
@@ -67,11 +60,11 @@ import type { Component } from "@/lib/registry"
 import { cn } from "@/lib/utils"
 
 /**
- * Cards appended per scroll. Each card is a live `/demo/<name>` iframe, so the
- * page size is what caps how many demo pages hydrate at once — mounting all
- * ~90 at load jams the main thread badly enough that the grid itself never
- * hydrates. `loading="lazy"` alone doesn't cap it: Chromium's lazy-iframe
- * distance threshold spans most of the grid.
+ * Cards appended per "Show more" click. Each card is a live `/demo/<name>`
+ * iframe, so the page size is what caps how many demo pages hydrate at once —
+ * mounting all ~90 at load jams the main thread badly enough that the grid
+ * itself never hydrates. `loading="lazy"` alone doesn't cap it: Chromium's
+ * lazy-iframe distance threshold spans most of the grid.
  */
 const PAGE_SIZE = 12
 
@@ -378,22 +371,6 @@ export function ItemsGrid({ items }: { items: Component[] }) {
   const visible = useMemo(() => filtered.slice(0, limit), [filtered, limit])
   const hasMore = limit < filtered.length
 
-  const sentinelRef = useRef<HTMLDivElement | null>(null)
-
-  useEffect(() => {
-    const sentinel = sentinelRef.current
-    if (!sentinel || !hasMore) return
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) setLimit((current) => current + PAGE_SIZE)
-      },
-      { rootMargin: "600px" }
-    )
-    observer.observe(sentinel)
-    return () => observer.disconnect()
-  }, [hasMore, filtered.length])
-
   const hasFilters =
     query.trim() !== "" || categoryIds.length > 0 || typeIds.length > 0
   const nothingFound = filtered.length === 0
@@ -503,7 +480,7 @@ export function ItemsGrid({ items }: { items: Component[] }) {
           </div>
 
           {hasMore && (
-            <div ref={sentinelRef} className="flex justify-center">
+            <div className="flex justify-center">
               <Button
                 variant="outline"
                 size="sm"
