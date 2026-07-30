@@ -260,24 +260,16 @@ const ItemCard = memo(function ItemCard({
     </>
   )
 
-  const frameClassName = cn(
-    "relative w-full overflow-hidden bg-background bg-[radial-gradient(color-mix(in_oklch,var(--border)_70%,transparent)_1px,transparent_1px)] bg-size-[16px_16px]",
-    isBlock ? "aspect-[16/9]" : "aspect-[4/3]"
-  )
+  const frameClassName =
+    "relative w-full overflow-hidden bg-background bg-[radial-gradient(color-mix(in_oklch,var(--border)_70%,transparent)_1px,transparent_1px)] bg-size-[16px_16px]"
 
   // Cards with an inline example render it live, so the card itself can't be
   // a <button> — the demo brings its own interactive controls. The details
   // dialog moves to the hover/focus title bar instead.
   if (Demo) {
     return (
-      <div
-        className={cn(
-          "style-lyra:rounded-none style-sera:rounded-none min-w-0 rounded-2xl",
-          isBlock && "sm:col-span-2"
-        )}
-      >
+      <div className="style-lyra:rounded-none style-sera:rounded-none mb-4 w-full min-w-0 break-inside-avoid rounded-2xl">
         <ItemWrapper
-          containerClassName="h-full"
           title={
             <button
               type="button"
@@ -288,13 +280,12 @@ const ItemCard = memo(function ItemCard({
             </button>
           }
         >
-          <div className={frameClassName}>
-            {/* m-auto rather than justify-center so short demos sit centered
-                while tall ones scroll with their top still reachable. */}
-            <div className="absolute inset-0 flex flex-col overflow-y-auto p-5">
-              <div className="m-auto flex w-full flex-col items-center">
-                <Demo />
-              </div>
+          {/* No aspect frame here — the card takes the demo's natural height
+              so the whole component is visible; the columns layout packs the
+              uneven heights masonry-style, like the cards page. */}
+          <div className={cn(frameClassName, "flex min-h-32 flex-col p-5")}>
+            <div className="m-auto flex w-full min-w-0 flex-col items-center">
+              <Demo />
             </div>
           </div>
         </ItemWrapper>
@@ -306,13 +297,17 @@ const ItemCard = memo(function ItemCard({
     <button
       type="button"
       onClick={() => onSelect(item)}
-      className={cn(
-        "style-lyra:rounded-none style-sera:rounded-none min-w-0 cursor-pointer rounded-2xl text-start focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none",
-        isBlock && "sm:col-span-2"
-      )}
+      className="style-lyra:rounded-none style-sera:rounded-none mb-4 block w-full min-w-0 cursor-pointer break-inside-avoid rounded-2xl text-start focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
     >
-      <ItemWrapper containerClassName="h-full" title={heading}>
-        <div className={frameClassName}>
+      <ItemWrapper title={heading}>
+        {/* iframe previews can't be measured for natural height, so they keep
+            a fixed aspect frame. */}
+        <div
+          className={cn(
+            frameClassName,
+            isBlock ? "aspect-[16/9]" : "aspect-[4/3]"
+          )}
+        >
           {/* Rendered at twice the card's size and scaled back down, so the
               demo lays out against a realistic viewport. Physical left/top-left
               origin is direction-safe: the 200% frame scales back to exactly
@@ -519,7 +514,10 @@ export function ItemsGrid({ items }: { items: Component[] }) {
         </Empty>
       ) : (
         <>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+          {/* CSS columns instead of grid: each card keeps its natural height
+              and the columns pack them masonry-style (cards carry their own
+              mb-4; the -mb-4 swallows the last row's trailing margin). */}
+          <div className="-mb-4 columns-1 gap-4 sm:columns-2 xl:columns-3">
             {visible.map(({ item, meta }) => (
               <ItemCard
                 key={item.name}

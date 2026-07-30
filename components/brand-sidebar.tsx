@@ -35,7 +35,6 @@ import { NavChats } from "@/components/nav-chats"
 import { NavPinned } from "@/components/nav-pinned"
 import { NavProjects } from "@/components/nav-projects"
 import { NavUser } from "@/components/nav-user"
-import { SidebarSetupForm } from "@/components/sidebar-setup-form"
 
 const SIDEBAR_PANEL_ID = "sidebar"
 // Matches --sidebar-width from the shell layout: calc(var(--spacing) * 72).
@@ -140,7 +139,7 @@ export function BrandSidebar({
         className
       )}
     >
-    {/*  <SidebarHeader className="pb-0">
+      {/*  <SidebarHeader className="pb-0">
         <TeamSwitcher
           teams={teams}
           activeTeam={activeTeam.name}
@@ -160,7 +159,9 @@ export function BrandSidebar({
       <SidebarContent>
         {activeTeam.groups.map((group, index) => (
           <SidebarGroup key={group.label ?? `group-${index}`}>
-            {group.label && <SidebarGroupLabel>{group.label}</SidebarGroupLabel>}
+            {group.label && (
+              <SidebarGroupLabel>{group.label}</SidebarGroupLabel>
+            )}
             <SidebarGroupContent>
               <SidebarMenu>
                 {group.items.map((item) => (
@@ -229,14 +230,13 @@ export function BrandSidebar({
             </SidebarGroupContent>
           </SidebarGroup>
         ))}
-           {/*{activeTeam.projects && (
+        {/*{activeTeam.projects && (
           <NavProjects projects={activeTeam.projects} />
         )}*/}
         {activeTeam.pinned && <NavPinned chats={activeTeam.pinned} />}
         {activeTeam.chats && <NavChats chats={activeTeam.chats} />}
       </SidebarContent>
       <SidebarFooter>
-        {/* <SidebarSetupForm /> */}
         <NavUser user={user} />
       </SidebarFooter>
     </Sidebar>
@@ -264,7 +264,7 @@ export function BrandSidebar({
         maxSize={SIDEBAR_PANEL_MAX_SIZE}
         groupResizeBehavior="preserve-pixel-size"
         style={{ overflow: "hidden" }}
-        className="[&>[data-slot=sidebar]]:h-full [&_[data-slot=sidebar-gap]]:hidden"
+        className="[&_[data-slot=sidebar-gap]]:hidden [&>[data-slot=sidebar]]:h-full"
       >
         {sidebar}
       </ResizablePanel>

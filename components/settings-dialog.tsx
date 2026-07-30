@@ -2,6 +2,7 @@
 
 import * as React from "react"
 
+import { Warp } from "@paper-design/shaders-react"
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts"
 
 import { Icons } from "@/components/icons"
@@ -35,6 +36,21 @@ import {
 } from "@/components/ui/breadcrumb"
 import { Button } from "@/components/ui/button"
 import { ButtonGroup } from "@/components/ui/button-group"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel"
 import {
   ChartContainer,
   ChartTooltip,
@@ -98,7 +114,7 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar"
 import { Slider } from "@/components/ui/slider"
-import { Status } from "@/components/ui/status"
+import { Status, StatusIndicator, StatusLabel } from "@/components/ui/status"
 import { Switch } from "@/components/ui/switch"
 import {
   Table,
@@ -110,6 +126,11 @@ import {
 } from "@/components/ui/table"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Textarea } from "@/components/ui/textarea"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { cn } from "@/lib/utils"
 import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react"
@@ -128,6 +149,7 @@ import {
   BrowserIcon,
   CatIcon,
   CheckListIcon,
+  CheckmarkCircle02Icon,
   ChromeIcon,
   Configuration01Icon,
   CreditCardIcon,
@@ -291,7 +313,11 @@ function SettingsSection({
     <section className="flex flex-col">
       <div className="mb-2 flex items-center justify-between">
         <p className="text-sm font-medium">{title}</p>
-        {action}
+        {action ? (
+          <div className="-my-1 flex items-center [&>[data-slot=button]]:-me-2.5">
+            {action}
+          </div>
+        ) : null}
       </div>
       {children}
     </section>
@@ -309,10 +335,21 @@ function SettingsRow({
   label: string
   children: React.ReactNode
 }) {
+  const labelId = React.useId()
+  // Name the control after the row label for assistive tech; the label is
+  // otherwise an unassociated sibling span.
+  const content = React.isValidElement(children)
+    ? React.cloneElement(
+        children as React.ReactElement<{ "aria-labelledby"?: string }>,
+        { "aria-labelledby": labelId }
+      )
+    : children
   return (
     <div className="flex items-center justify-between gap-4 py-1.5 text-sm">
-      <span className="text-muted-foreground">{label}</span>
-      {children}
+      <span id={labelId} className="text-muted-foreground">
+        {label}
+      </span>
+      {content}
     </div>
   )
 }
@@ -375,14 +412,15 @@ function SettingsChipRow({
 function SettingsSelect({
   items,
   defaultValue,
+  ...props
 }: {
   items: string[]
   defaultValue: string
-}) {
+} & React.AriaAttributes) {
   const selectItems = items.map((item) => ({ label: item, value: item }))
   return (
     <Select items={selectItems} defaultValue={defaultValue}>
-      <SelectTrigger size="sm">
+      <SelectTrigger size="sm" {...props}>
         <SelectValue />
       </SelectTrigger>
       <SelectContent>
@@ -401,12 +439,24 @@ function SettingsSelect({
 function SettingsToggleGroup({
   options,
   defaultValue,
+  ...props
 }: {
   options: { label: string; value: string }[]
   defaultValue: string
-}) {
+} & React.AriaAttributes) {
+  // Controlled so clicking the active item can't deselect down to an empty
+  // state — these rows are mutually exclusive choices.
+  const [value, setValue] = React.useState([defaultValue])
   return (
-    <ToggleGroup variant="outline" size="sm" defaultValue={[defaultValue]}>
+    <ToggleGroup
+      variant="outline"
+      size="sm"
+      value={value}
+      onValueChange={(next) => {
+        if (next.length > 0) setValue(next)
+      }}
+      {...props}
+    >
       {options.map((option) => (
         <ToggleGroupItem
           key={option.value}
@@ -445,6 +495,31 @@ function SettingsTextTabs({
           {option}
         </button>
       ))}
+    </div>
+  )
+}
+
+function SettingsSliderRow({
+  label,
+  value,
+  children,
+}: {
+  label: string
+  value?: string
+  children: React.ReactElement<{ "aria-labelledby"?: string }>
+}) {
+  const labelId = React.useId()
+  return (
+    <div className="flex flex-col gap-2 py-1.5">
+      <div className="flex items-center justify-between text-sm">
+        <span id={labelId} className="text-muted-foreground">
+          {label}
+        </span>
+        {value ? (
+          <span className="font-medium tabular-nums">{value}</span>
+        ) : null}
+      </div>
+      {React.cloneElement(children, { "aria-labelledby": labelId })}
     </div>
   )
 }
@@ -636,13 +711,9 @@ function AppearancePanel() {
         <SettingsRow label="Reduce transparency">
           <Switch />
         </SettingsRow>
-        <div className="flex flex-col gap-2 py-1.5">
-          <div className="flex items-center justify-between text-sm">
-            <span className="text-muted-foreground">Font size</span>
-            <span className="font-medium tabular-nums">15px</span>
-          </div>
-          <Slider defaultValue={15} min={12} max={20} step={1} />
-        </div>
+        <SettingsSliderRow label="Font size" value="15px">
+          <Slider defaultValue={[15]} min={12} max={20} step={1} />
+        </SettingsSliderRow>
       </SettingsSection>
       <SettingsSection title="Code">
         <SettingsRow label="Code font">
@@ -662,39 +733,101 @@ function AppearancePanel() {
   )
 }
 
+const VOICES: {
+  name: string
+  detail: string
+  colors: [string, string, string]
+}[] = [
+  {
+    name: "Aura",
+    detail: "Bright and expressive",
+    colors: ["#a5b4fc", "#e0e7ff", "#4f46e5"],
+  },
+  {
+    name: "Cove",
+    detail: "Calm and steady",
+    colors: ["#67e8f9", "#ecfeff", "#0e7490"],
+  },
+  {
+    name: "Ember",
+    detail: "Warm and low",
+    colors: ["#fdba74", "#ffedd5", "#c2410c"],
+  },
+  {
+    name: "Tide",
+    detail: "Deep and unhurried",
+    colors: ["#93c5fd", "#eff6ff", "#1d4ed8"],
+  },
+]
+
+// Same shader recipe as the ai-orb defaults, clipped to a small circle.
+function VoiceOrb({ colors }: { colors: [string, string, string] }) {
+  return (
+    <span className="size-20 overflow-hidden rounded-full">
+      <Warp
+        width={80}
+        height={80}
+        colors={colors}
+        shape="edge"
+        proportion={0.35}
+        softness={1}
+        distortion={0.32}
+        swirl={1}
+        swirlIterations={0}
+        shapeScale={0}
+        speed={12.2}
+        scale={0.31}
+        rotation={176}
+        offsetX={0.65}
+        offsetY={0.09}
+      />
+    </span>
+  )
+}
+
 function VoicePanel() {
+  const [voice, setVoice] = React.useState("Cove")
   return (
     <SettingsPanel>
       <SettingsSection title="Voice">
-        <RadioGroup defaultValue="cove" className="gap-2">
-          {[
-            { value: "aura", label: "Aura", detail: "Bright and expressive" },
-            { value: "cove", label: "Cove", detail: "Calm and steady" },
-            { value: "ember", label: "Ember", detail: "Warm and low" },
-          ].map((voice) => (
-            <FieldLabel key={voice.value} htmlFor={`voice-${voice.value}`}>
-              <Field orientation="horizontal">
-                <FieldContent>
-                  <FieldTitle>{voice.label}</FieldTitle>
-                  <FieldDescription>{voice.detail}</FieldDescription>
-                </FieldContent>
-                <RadioGroupItem
-                  value={voice.value}
-                  id={`voice-${voice.value}`}
-                />
-              </Field>
-            </FieldLabel>
-          ))}
-        </RadioGroup>
+        <Carousel className="mx-10">
+          <CarouselContent>
+            {VOICES.map((option) => (
+              <CarouselItem key={option.name} className="basis-1/2">
+                <button
+                  type="button"
+                  aria-pressed={voice === option.name}
+                  onClick={() => setVoice(option.name)}
+                  className={cn(
+                    "flex w-full flex-col items-center gap-2 rounded-xl border p-4 text-center transition-colors",
+                    voice === option.name ? "border-ring" : "hover:bg-muted/50"
+                  )}
+                >
+                  <VoiceOrb colors={option.colors} />
+                  <span className="text-sm font-medium">{option.name}</span>
+                  <span className="text-xs text-muted-foreground">
+                    {option.detail}
+                  </span>
+                </button>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <Tooltip>
+            <TooltipTrigger
+              render={<CarouselPrevious className="-start-10" />}
+            />
+            <TooltipContent>Previous voices</TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger render={<CarouselNext className="-end-10" />} />
+            <TooltipContent>More voices</TooltipContent>
+          </Tooltip>
+        </Carousel>
       </SettingsSection>
       <SettingsSection title="Playback">
-        <div className="flex flex-col gap-2 py-1.5">
-          <div className="flex items-center justify-between text-sm">
-            <span className="text-muted-foreground">Speaking rate</span>
-            <span className="font-medium tabular-nums">1.0x</span>
-          </div>
-          <Slider defaultValue={1} min={0.5} max={2} step={0.1} />
-        </div>
+        <SettingsSliderRow label="Speaking rate" value="1.0x">
+          <Slider defaultValue={[1]} min={0.5} max={2} step={0.1} />
+        </SettingsSliderRow>
         <SettingsRow label="Voice replies">
           <Switch defaultChecked />
         </SettingsRow>
@@ -732,13 +865,9 @@ function ConfigurationPanel() {
             defaultValue="16k"
           />
         </SettingsRow>
-        <div className="flex flex-col gap-2 py-1.5">
-          <div className="flex items-center justify-between text-sm">
-            <span className="text-muted-foreground">Temperature</span>
-            <span className="font-medium tabular-nums">0.7</span>
-          </div>
-          <Slider defaultValue={0.7} min={0} max={1} step={0.1} />
-        </div>
+        <SettingsSliderRow label="Temperature" value="0.7">
+          <Slider defaultValue={[0.7]} min={0} max={1} step={0.1} />
+        </SettingsSliderRow>
         <SettingsRow label="Streaming">
           <Switch defaultChecked />
         </SettingsRow>
@@ -1013,7 +1142,10 @@ function AccountPanel() {
               <ItemDescription>Tel Aviv · Active now</ItemDescription>
             </ItemContent>
             <ItemActions>
-              <Status variant="success">This device</Status>
+              <Status variant="success">
+                <StatusIndicator />
+                <StatusLabel>This device</StatusLabel>
+              </Status>
             </ItemActions>
           </Item>
           <Item variant="outline">
@@ -1046,7 +1178,11 @@ function AccountPanel() {
           }
         >
           Manage account
-          <HugeiconsIcon icon={ArrowUpRight01Icon} strokeWidth={2} />
+          <HugeiconsIcon
+            icon={ArrowUpRight01Icon}
+            strokeWidth={2}
+            className="rtl:-scale-x-100"
+          />
         </Button>
       </div>
     </SettingsPanel>
@@ -1192,13 +1328,9 @@ function AppshotsPanel() {
         <SettingsRow label="Transparent background">
           <Switch defaultChecked />
         </SettingsRow>
-        <div className="flex flex-col gap-2 py-1.5">
-          <div className="flex items-center justify-between text-sm">
-            <span className="text-muted-foreground">Corner radius</span>
-            <span className="font-medium tabular-nums">24px</span>
-          </div>
-          <Slider defaultValue={24} min={0} max={48} step={4} />
-        </div>
+        <SettingsSliderRow label="Corner radius" value="24px">
+          <Slider defaultValue={[24]} min={0} max={48} step={4} />
+        </SettingsSliderRow>
       </SettingsSection>
     </SettingsPanel>
   )
@@ -1421,7 +1553,10 @@ function ConnectedAccountsPanel() {
               <ItemDescription>@aiellie</ItemDescription>
             </ItemContent>
             <ItemActions>
-              <Status variant="success">Connected</Status>
+              <Status variant="success">
+                <StatusIndicator />
+                <StatusLabel>Connected</StatusLabel>
+              </Status>
             </ItemActions>
           </Item>
           <Item variant="outline">
@@ -1433,7 +1568,10 @@ function ConnectedAccountsPanel() {
               <ItemDescription>ellie@aiellie.dev</ItemDescription>
             </ItemContent>
             <ItemActions>
-              <Status variant="success">Connected</Status>
+              <Status variant="success">
+                <StatusIndicator />
+                <StatusLabel>Connected</StatusLabel>
+              </Status>
             </ItemActions>
           </Item>
           <Item variant="outline">
@@ -1533,21 +1671,30 @@ function ConnectionsPanel() {
           name="shadcn-ui"
           meta="12 tools"
         >
-          <Status variant="success">Connected</Status>
+          <Status variant="success">
+            <StatusIndicator />
+            <StatusLabel>Connected</StatusLabel>
+          </Status>
         </SettingsChipRow>
         <SettingsChipRow
           icon={<HugeiconsIcon icon={GlobeIcon} strokeWidth={2} />}
           name="hugeicons"
           meta="3 tools"
         >
-          <Status variant="success">Connected</Status>
+          <Status variant="success">
+            <StatusIndicator />
+            <StatusLabel>Connected</StatusLabel>
+          </Status>
         </SettingsChipRow>
         <SettingsChipRow
           icon={<HugeiconsIcon icon={GlobeIcon} strokeWidth={2} />}
           name="playwright"
           meta="0 tools"
         >
-          <Status variant="cancelled">Offline</Status>
+          <Status variant="cancelled">
+            <StatusIndicator />
+            <StatusLabel>Offline</StatusLabel>
+          </Status>
         </SettingsChipRow>
       </SettingsSection>
       <SettingsSection title="Behavior">
@@ -1898,43 +2045,86 @@ function PrivacyPanel() {
   )
 }
 
+const PLANS = [
+  {
+    name: "Plus",
+    price: "$20/month",
+    tagline: "Room to build every day. Upgrade when you outgrow it.",
+    features: [
+      "10x the usage of Free",
+      "Pets, plugins, and skills",
+      "Projects and memory",
+    ],
+    banner: "from-chart-1/50 via-chart-2/40 to-chart-4/30",
+    cta: "Current plan",
+    current: true,
+  },
+  {
+    name: "Max",
+    price: "$100/month",
+    tagline: "For the heaviest days of building, side by side.",
+    features: [
+      "20x the usage of Plus",
+      "Long-running agents",
+      "Early access to previews",
+    ],
+    banner: "from-chart-3/40 via-chart-4/30 to-chart-5/40",
+    cta: "Upgrade to Max",
+    current: false,
+  },
+]
+
 function BillingPanel() {
   return (
     <SettingsPanel>
-      <SettingsSection title="Plan">
-        <RadioGroup defaultValue="plus" className="gap-2">
-          {[
-            {
-              value: "free",
-              label: "Free",
-              detail: "Casual chats · $0/mo",
-            },
-            {
-              value: "plus",
-              label: "Plus",
-              detail: "Higher limits, pets, plugins · $20/mo",
-            },
-            {
-              value: "max",
-              label: "Max",
-              detail: "20x usage, priority access · $100/mo",
-            },
-          ].map((plan) => (
-            <FieldLabel key={plan.value} htmlFor={`billing-plan-${plan.value}`}>
-              <Field orientation="horizontal">
-                <FieldContent>
-                  <FieldTitle>{plan.label}</FieldTitle>
-                  <FieldDescription>{plan.detail}</FieldDescription>
-                </FieldContent>
-                <RadioGroupItem
-                  value={plan.value}
-                  id={`billing-plan-${plan.value}`}
-                />
-              </Field>
-            </FieldLabel>
-          ))}
-        </RadioGroup>
-      </SettingsSection>
+      <div className="flex flex-col items-center gap-1 text-center">
+        <p className="font-heading text-lg font-semibold tracking-tight">
+          Plans that grow with you
+        </p>
+        <p className="text-sm text-muted-foreground">
+          Switch or cancel anytime. Usage resets monthly.
+        </p>
+      </div>
+      <div className="grid gap-4 sm:grid-cols-2">
+        {PLANS.map((plan) => (
+          <Card key={plan.name} className="overflow-hidden pt-0">
+            <div className={cn("h-20 w-full bg-linear-to-br", plan.banner)} />
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <CardTitle>{plan.name}</CardTitle>
+                <Badge variant="secondary" className="rounded-full">
+                  {plan.price}
+                </Badge>
+              </div>
+              <CardDescription>{plan.tagline}</CardDescription>
+            </CardHeader>
+            <CardContent className="flex flex-col gap-2">
+              <p className="text-sm font-medium">What you get:</p>
+              {plan.features.map((feature) => (
+                <span
+                  key={feature}
+                  className="flex items-center gap-2 text-sm text-muted-foreground"
+                >
+                  <HugeiconsIcon
+                    icon={CheckmarkCircle02Icon}
+                    strokeWidth={2}
+                    className="size-4 shrink-0"
+                  />
+                  {feature}
+                </span>
+              ))}
+            </CardContent>
+            <CardFooter className="mt-auto">
+              <Button
+                className="w-full rounded-full"
+                variant={plan.current ? "secondary" : "default"}
+              >
+                {plan.cta}
+              </Button>
+            </CardFooter>
+          </Card>
+        ))}
+      </div>
       <SettingsSection
         title="Payment method"
         action={
@@ -2014,12 +2204,11 @@ function UsagePanel() {
           { value: "3 days", label: "Streak" },
         ]}
       />
-      <SettingsSection
-        title="Token activity"
-        action={
+      <section className="flex flex-col gap-3">
+        <div className="flex items-center justify-between">
+          <p className="text-sm font-medium">Token activity</p>
           <SettingsTextTabs options={["Daily", "Weekly", "Cumulative"]} />
-        }
-      >
+        </div>
         <div className="overflow-x-auto">
           <div className="flex flex-col gap-2">
             <div className="grid grid-flow-col grid-rows-7 gap-[3px]">
@@ -2044,7 +2233,7 @@ function UsagePanel() {
             </div>
           </div>
         </div>
-      </SettingsSection>
+      </section>
     </SettingsPanel>
   )
 }
@@ -2139,13 +2328,9 @@ function CoworkPanel() {
             </InputGroup>
           </Field>
         </div>
-        <div className="flex flex-col gap-2 py-1.5">
-          <div className="flex items-center justify-between text-sm">
-            <span className="text-muted-foreground">Parallel tasks</span>
-            <span className="font-medium tabular-nums">4</span>
-          </div>
-          <Slider defaultValue={4} min={1} max={8} step={1} />
-        </div>
+        <SettingsSliderRow label="Parallel tasks" value="4">
+          <Slider defaultValue={[4]} min={1} max={8} step={1} />
+        </SettingsSliderRow>
         <SettingsRow label="Ask before sending files">
           <Switch defaultChecked />
         </SettingsRow>
@@ -2511,10 +2696,9 @@ function AudioVideoPanel() {
               defaultValue="MacBook Pro Microphone"
             />
           </SettingsRow>
-          <div className="flex flex-col gap-2 py-1.5">
-            <span className="text-sm text-muted-foreground">Input level</span>
+          <SettingsSliderRow label="Input level">
             <Progress value={35} />
-          </div>
+          </SettingsSliderRow>
           <SettingsRow label="Noise suppression">
             <Switch defaultChecked />
           </SettingsRow>
@@ -2529,13 +2713,9 @@ function AudioVideoPanel() {
               defaultValue="MacBook Pro Speakers"
             />
           </SettingsRow>
-          <div className="flex flex-col gap-2 py-1.5">
-            <div className="flex items-center justify-between text-sm">
-              <span className="text-muted-foreground">Volume</span>
-              <span className="font-medium tabular-nums">70%</span>
-            </div>
-            <Slider defaultValue={70} max={100} step={5} />
-          </div>
+          <SettingsSliderRow label="Volume" value="70%">
+            <Slider defaultValue={[70]} max={100} step={5} />
+          </SettingsSliderRow>
         </TabsContent>
         <TabsContent value="camera" className="flex flex-col pt-2">
           <SettingsRow label="Camera">
@@ -2568,13 +2748,9 @@ function AccessibilityPanel() {
         <SettingsRow label="High contrast">
           <Switch />
         </SettingsRow>
-        <div className="flex flex-col gap-2 py-1.5">
-          <div className="flex items-center justify-between text-sm">
-            <span className="text-muted-foreground">Text size</span>
-            <span className="font-medium tabular-nums">100%</span>
-          </div>
-          <Slider defaultValue={100} min={80} max={140} step={10} />
-        </div>
+        <SettingsSliderRow label="Text size" value="100%">
+          <Slider defaultValue={[100]} min={80} max={140} step={10} />
+        </SettingsSliderRow>
       </SettingsSection>
       <SettingsSection title="Interaction">
         <SettingsRow label="Always show scroll bars">
@@ -2702,7 +2878,7 @@ export function SettingsDialog({
                                   <HugeiconsIcon
                                     icon={ArrowUpRight01Icon}
                                     strokeWidth={2}
-                                    className="ms-auto size-3.5 opacity-60"
+                                    className="ms-auto size-3.5 opacity-60 rtl:-scale-x-100"
                                   />
                                 ) : null}
                               </SidebarMenuButton>

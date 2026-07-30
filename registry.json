@@ -872,8 +872,11 @@
         "https://ui.aiellie.dev/r/breadcrumb.json",
         "https://ui.aiellie.dev/r/button.json",
         "https://ui.aiellie.dev/r/button-group.json",
+        "https://ui.aiellie.dev/r/card.json",
+        "https://ui.aiellie.dev/r/carousel.json",
         "https://ui.aiellie.dev/r/chart.json",
         "https://ui.aiellie.dev/r/checkbox.json",
+        "https://ui.aiellie.dev/r/command.json",
         "https://ui.aiellie.dev/r/dialog.json",
         "https://ui.aiellie.dev/r/field.json",
         "https://ui.aiellie.dev/r/icons.json",
@@ -893,6 +896,7 @@
         "https://ui.aiellie.dev/r/table.json",
         "https://ui.aiellie.dev/r/tabs.json",
         "https://ui.aiellie.dev/r/textarea.json",
+        "https://ui.aiellie.dev/r/toast.json",
         "https://ui.aiellie.dev/r/toggle-group.json",
         "https://ui.aiellie.dev/r/dropdown-menu.json",
         "https://ui.aiellie.dev/r/status.json",
@@ -982,6 +986,7 @@
       "dependencies": [
         "@hugeicons/core-free-icons",
         "@hugeicons/react",
+        "@paper-design/shaders-react",
         "react-resizable-panels"
       ]
     },

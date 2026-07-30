@@ -46,7 +46,11 @@ const STATS = [
 ]
 
 const INSIGHTS = [
-  { label: "Fast Mode", value: "10%" },
+  {
+    label: "Claude Code 101",
+    value: "10%",
+    href: "https://verify.skilljar.com/c/tyvtzxsrixux",
+  },
   { label: "Most used reasoning", value: "High · 57%" },
   { label: "Skills explored", value: "8" },
   { label: "Total skills used", value: "66" },
@@ -223,7 +227,7 @@ export function AiellieProfile() {
               size="sm"
               className="ms-1"
               nativeButton={false}
-              render={<a href="mailto:elliesophia1@gmail.com" />}
+              render={<a href="mailto:aiellie.dev@gmail.com" />}
             >
               <HugeiconsIcon icon={Mail01Icon} strokeWidth={2} />
               Message me
@@ -318,13 +322,24 @@ export function AiellieProfile() {
 
         <div className="grid gap-8 sm:grid-cols-2">
           <div className="flex flex-col">
-            <p className="mb-2 text-sm font-medium">Activity insights</p>
+            <p className="mb-2 text-sm font-medium">Certifications</p>
             {INSIGHTS.map((row) => (
               <div
                 key={row.label}
                 className="flex items-center justify-between py-1.5 text-sm"
               >
-                <span className="text-muted-foreground">{row.label}</span>
+                {row.href ? (
+                  <a
+                    href={row.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline"
+                  >
+                    {row.label}
+                  </a>
+                ) : (
+                  <span className="text-muted-foreground">{row.label}</span>
+                )}
                 <span className="font-medium tabular-nums">{row.value}</span>
               </div>
             ))}
