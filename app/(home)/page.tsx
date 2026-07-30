@@ -8,9 +8,10 @@ import {
   PageHeaderHeading,
 } from "@/components/registry/page-header"
 
-import { BlockDisplay } from "@/components/registry/block-display"
+import { ItemsGrid } from "@/components/registry/items-grid"
 import { ScrollToComponentsButton } from "@/components/registry/scroll-to-components-button"
 import { RegistryFooter } from "@/components/registry/registry-footer"
+import { getRegistryItems } from "@/lib/registry"
 
 const title = "AIEllie Design System"
 const description =
@@ -44,6 +45,12 @@ export const metadata: Metadata = {
 }
 
 export default async function IndexPage() {
+  // Strip to the fields the grid reads — passing whole registry entries would
+  // serialize every item's file list into the RSC payload.
+  const items = getRegistryItems().map(
+    ({ name, title, description, type }) => ({ name, title, description, type })
+  )
+
   return (
     <div className="flex flex-1 flex-col">
       <PageHeader className="md:**:[.container]:pb-8 lg:**:[.container]:pb-12">
@@ -54,8 +61,11 @@ export default async function IndexPage() {
           <ScrollToComponentsButton />
         </PageActions>
       </PageHeader>
-      <div className="mb-14! flex min-w-0 flex-col gap-6 p-5 md:p-10">
-        <BlockDisplay name="dashboard" />
+      <div
+        data-slot="components-demo"
+        className="mb-14! flex min-w-0 flex-col gap-6 p-5 md:p-10"
+      >
+        <ItemsGrid items={items} />
       </div>
       <RegistryFooter />
     </div>
