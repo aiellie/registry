@@ -151,16 +151,16 @@ export const teams: SidebarTeam[] = [
     ],
     projects,
     pinned: [
-      { name: "Design tokens sync", url: "#", type: "code", status: "read" },
-      { name: "Launch voice memo", url: "#", type: "voice", status: "unread" },
-    ],
-    chats: [
       {
         name: "Update UI to match examples",
         url: "#",
         type: "code",
-        status: "working",
+        status: "read",
       },
+      { name: "Launch voice memo", url: "#", type: "voice", status: "unread" },
+    ],
+    chats: [
+      { name: "Design tokens sync", url: "#", type: "code", status: "working" },
       {
         name: "Portfolio Site Preview",
         url: "#",
