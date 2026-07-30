@@ -370,7 +370,8 @@
         "https://ui.aiellie.dev/r/popover.json",
         "https://ui.aiellie.dev/r/progress.json",
         "https://ui.aiellie.dev/r/spinner.json",
-        "https://ui.aiellie.dev/r/status.json"
+        "https://ui.aiellie.dev/r/status.json",
+        "https://ui.aiellie.dev/r/tooltip.json"
       ],
       "files": [
         {
@@ -387,6 +388,11 @@
           "path": "components/chat-conversation.tsx",
           "type": "registry:component",
           "target": "components/chat-conversation.tsx"
+        },
+        {
+          "path": "components/chat-dropdown.tsx",
+          "type": "registry:component",
+          "target": "components/chat-dropdown.tsx"
         },
         {
           "path": "lib/chat-data.ts",
@@ -452,7 +458,8 @@
         "https://ui.aiellie.dev/r/popover.json",
         "https://ui.aiellie.dev/r/progress.json",
         "https://ui.aiellie.dev/r/spinner.json",
-        "https://ui.aiellie.dev/r/status.json"
+        "https://ui.aiellie.dev/r/status.json",
+        "https://ui.aiellie.dev/r/tooltip.json"
       ],
       "files": [
         {
@@ -469,6 +476,11 @@
           "path": "components/chat-conversation.tsx",
           "type": "registry:component",
           "target": "components/chat-conversation.tsx"
+        },
+        {
+          "path": "components/chat-dropdown.tsx",
+          "type": "registry:component",
+          "target": "components/chat-dropdown.tsx"
         },
         {
           "path": "lib/chat-data.ts",

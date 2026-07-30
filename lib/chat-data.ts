@@ -8,6 +8,18 @@ import type { IconSvgElement } from "@hugeicons/react"
 
 export type ChatRole = "user" | "assistant"
 
+export interface ChatAttachment {
+  /** `image` renders the picture, `file` an icon card. */
+  kind: "image" | "file"
+  name: string
+  /** Image source; unused for files. */
+  url?: string
+  /** Shown under the file name, e.g. "TSX · 4.1 KB". */
+  meta?: string
+  /** File card icon; defaults to a generic file glyph. */
+  icon?: IconSvgElement
+}
+
 export interface ChatMessageEntry {
   kind: "message"
   role: ChatRole
@@ -17,6 +29,8 @@ export interface ChatMessageEntry {
   header?: string
   /** Status line below the bubble (e.g. "Delivered", "Voice · 0:42"). */
   footer?: string
+  /** Rendered above the bubble. */
+  attachments?: ChatAttachment[]
 }
 
 export interface ChatMarkerEntry {
@@ -69,7 +83,26 @@ export const chatTranscripts: Record<string, ChatTranscript> = {
     entries: [
       day("Yesterday"),
       user(
-        "The buttons on the pricing page don't match the new examples. Can you bring them in line?"
+        "based on the attached images, update [web-preview.tsx](components/ai-elements/web-preview.tsx) [brand-sidebar-right.tsx](components/brand-sidebar-right.tsx) [find-in-page.tsx](components/ai-elements/find-in-page.tsx) , etc to better match the style of the examples",
+        {
+          attachments: [
+            {
+              kind: "image",
+              name: "aiellie-design-system.png",
+              url: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=900&auto=format&fit=crop&q=80",
+            },
+            {
+              kind: "image",
+              name: "localhost-3000.png",
+              url: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=900&auto=format&fit=crop&q=80",
+            },
+            {
+              kind: "image",
+              name: "web-preview-example.png",
+              url: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=900&auto=format&fit=crop&q=80",
+            },
+          ],
+        }
       ),
       assistant([
         "Compared the pricing page against the registry examples — the buttons are still on the old radius and shadow tokens.",
