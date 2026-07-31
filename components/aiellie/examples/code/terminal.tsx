@@ -264,7 +264,15 @@ export function TerminalDemo() {
           </div>
           <TerminalContent className="min-h-48">
             {session.type === "terminal" ? (
-              <TerminalInput onSubmit={run} prompt={PROMPT} />
+              <TerminalInput
+                onSubmit={run}
+                placeholder={
+                  session.output === ""
+                    ? "Type help to see available commands"
+                    : undefined
+                }
+                prompt={PROMPT}
+              />
             ) : (
               <PanelOutput type={session.type} />
             )}
@@ -282,12 +290,6 @@ export function TerminalDemo() {
       )}
       <p className="text-sm text-muted-foreground">
         {PANEL_DESCRIPTIONS[session.type]}
-        {session.type === "terminal" && (
-          <>
-            {" "}
-            Type <code>help</code> to see the available commands.
-          </>
-        )}
       </p>
     </div>
   )

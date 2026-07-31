@@ -605,14 +605,6 @@ export function PromptInput({
         />
 
         <div className="flex items-center gap-0.5 p-2">
-          <PromptModelMenu
-            model={model}
-            onModelChange={setModel}
-            effort={effort}
-            onEffortChange={setEffort}
-            fast={fast}
-            onFastChange={setFast}
-          />
           <Tooltip>
             <TooltipTrigger
               render={
@@ -634,6 +626,14 @@ export function PromptInput({
               <Kbd>@</Kbd>
             </TooltipContent>
           </Tooltip>
+          <PromptModelMenu
+            model={model}
+            onModelChange={setModel}
+            effort={effort}
+            onEffortChange={setEffort}
+            fast={fast}
+            onFastChange={setFast}
+          />
           {!isDictating && (
             <>
               <PluginsCombobox value={plugins} onValueChange={setPlugins} />
