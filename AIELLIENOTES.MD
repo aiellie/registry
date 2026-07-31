@@ -3,7 +3,7 @@ These are just my notes for remembering certain commands etc
 Create Push:
 
 git add .
-git commit -m "settingsdialogvoicedialog"
+git commit -m "losofnotes"
 git push origin main
 
 git push origin main --force
@@ -24,7 +24,7 @@ Theme:
 Shadcn Preset:
 https://ui.shadcn.com/create?preset=b37aICLsO&pointer=true&rtl=true
 
-lsof -i :3000
+lsof -nP -iTCP:3000,3002,3003 -sTCP:LISTEN
 kill 98039
 pkill -9 node
 
