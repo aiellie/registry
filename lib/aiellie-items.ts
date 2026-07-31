@@ -117,15 +117,6 @@ export const items: Item[] = [
     demo: PromptInputDemo,
   },
   {
-    name: "model-selector",
-    icon: RoboticIcon,
-    type: "registry:ui",
-    category: "chat",
-    isNew: true,
-    displayHome: true,
-    demo: ModelSelectorExample,
-  },
-  {
     name: "file-tree",
     icon: HierarchyFilesIcon,
     type: "registry:ui",
