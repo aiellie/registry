@@ -1,83 +1,28 @@
 "use client"
 
 import type { ComponentType, ReactNode } from "react"
-import {
-  ArrowRight01Icon,
-  ArrowUpRight01Icon,
-  Calendar03Icon,
-  Camera01Icon,
-  CloudIcon,
-  FavouriteIcon,
-  Home01Icon,
-  Mail01Icon,
-  Notification03Icon,
-  PaintBoardIcon,
-  Search01Icon,
-  Settings01Icon,
-  UserIcon,
-} from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
-import {
-  ArrowRight,
-  Bell,
-  Calendar,
-  Camera,
-  Cloud,
-  Heart,
-  House,
-  Mail,
-  Palette,
-  Search,
-  Settings,
-  User,
-} from "lucide-react"
 
+import { HugeIcons } from "@/components/icons/huge-icons"
+import { LucideIcons } from "@/components/icons/lucide-icons"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
   Card,
-  CardAction,
   CardContent,
-  CardDescription,
   CardFooter,
-  CardHeader,
-  CardTitle,
 } from "@/components/ui/card"
 import { type IconBrand, type IconSetsMeta, BRANDS } from "@/lib/icon-sets"
 
 /**
- * A dozen everyday marks per library, imported straight from the packages the
- * way real code would — so the landing view renders instantly, before either
- * manifest has been fetched.
+ * Every icon in each curated barrel, imported straight from the packages — so
+ * the landing view renders instantly, before either manifest has been fetched.
+ * The Set drops lucide-react's alias exports that point at the same component.
  */
-const HUGEICONS_SAMPLE = [
-  Home01Icon,
-  Search01Icon,
-  UserIcon,
-  Settings01Icon,
-  Notification03Icon,
-  Calendar03Icon,
-  Mail01Icon,
-  FavouriteIcon,
-  Camera01Icon,
-  CloudIcon,
-  PaintBoardIcon,
-  ArrowRight01Icon,
-]
+const HUGEICONS_SAMPLE = [...new Set(Object.values(HugeIcons))]
 
 const LUCIDE_SAMPLE: ComponentType<{ className?: string }>[] = [
-  House,
-  Search,
-  User,
-  Settings,
-  Bell,
-  Calendar,
-  Mail,
-  Heart,
-  Camera,
-  Cloud,
-  Palette,
-  ArrowRight,
+  ...new Set(Object.values(LucideIcons)),
 ]
 
 function BrandCard({
@@ -98,15 +43,6 @@ function BrandCard({
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>{label}</CardTitle>
-        <CardDescription className="max-w-prose">{description}</CardDescription>
-        <CardAction>
-          <Badge variant="secondary" className="font-mono tabular-nums">
-            v{meta[brand].version}
-          </Badge>
-        </CardAction>
-      </CardHeader>
       <CardContent>
         <div className="flex flex-wrap items-center gap-1 text-foreground">
           {sample}
@@ -124,8 +60,11 @@ function BrandCard({
           className="text-muted-foreground"
         >
           {new URL(site).hostname}
-          <HugeiconsIcon icon={ArrowUpRight01Icon} strokeWidth={2} />
+          <HugeiconsIcon icon={HugeIcons.ArrowUpRight01Icon} strokeWidth={2} />
         </Button>
+        <Badge variant="secondary" className="font-mono tabular-nums">
+          v{meta[brand].version}
+        </Badge>
       </CardFooter>
     </Card>
   )
@@ -139,7 +78,7 @@ export function BrandCards({
   onBrowse: (brand: IconBrand) => void
 }) {
   return (
-    <div className="grid gap-4 lg:grid-cols-2">
+    <div className="grid gap-4 lg:grid-cols-1">
       <BrandCard
         brand="hugeicons"
         meta={meta}
@@ -148,17 +87,6 @@ export function BrandCards({
         sample={HUGEICONS_SAMPLE.map((icon, index) => (
           <span key={index} className="flex size-9 items-center justify-center">
             <HugeiconsIcon icon={icon} size={20} strokeWidth={2} />
-          </span>
-        ))}
-      />
-      <BrandCard
-        brand="lucide"
-        meta={meta}
-        description="The community standard — a second vocabulary for marks HugeIcons doesn't draw, rendered at the same 24×24 grid."
-        onBrowse={onBrowse}
-        sample={LUCIDE_SAMPLE.map((Icon, index) => (
-          <span key={index} className="flex size-9 items-center justify-center">
-            <Icon className="size-5" />
           </span>
         ))}
       />
