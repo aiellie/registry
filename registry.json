@@ -3366,9 +3366,9 @@
       "registryDependencies": [],
       "files": [
         {
-          "path": "components/icons.tsx",
+          "path": "components/icons/icons.tsx",
           "type": "registry:component",
-          "target": "components/icons.tsx"
+          "target": "components/icons/icons.tsx"
         }
       ]
     },

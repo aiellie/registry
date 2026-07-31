@@ -19,7 +19,7 @@ import {
   EnvironmentPicker,
   type PromptEnvironment,
 } from "@/components/environment-picker"
-import { getIconForLanguageExtension } from "@/components/icons"
+import { getIconForLanguageExtension } from "@/components/icons/icons"
 import {
   filterAddMenuItems,
   PromptAddMenuPanel,

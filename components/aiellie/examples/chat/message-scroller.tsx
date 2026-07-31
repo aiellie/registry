@@ -24,7 +24,7 @@ import {
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
-import { Icons } from "@/components/icons"
+import { Icons } from "@/components/icons/icons"
 import { getMessageText } from "@/lib/ai"
 import { MessageAnimated } from "@/components/ai/message-animated"
 import {

@@ -10,7 +10,7 @@ import { HugeiconsIcon } from "@hugeicons/react"
 import * as React from "react"
 import type { PanelImperativeHandle } from "react-resizable-panels"
 
-import { getIconForLanguageExtension } from "@/components/icons"
+import { getIconForLanguageExtension } from "@/components/icons/icons"
 import { BlockViewerDropdown } from "@/components/registry/block-viewer-dropdown"
 import { CodePreviewToggle } from "@/components/registry/code-preview-toggle"
 import { CopyCodeButton } from "@/components/registry/copy-code-button"

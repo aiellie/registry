@@ -1,6 +1,6 @@
 "use client";
 
-import { getIconForLanguageExtension } from "@/components/icons";
+import { getIconForLanguageExtension } from "@/components/icons/icons";
 import {
   Collapsible,
   CollapsibleContent,

@@ -5,7 +5,7 @@ import * as React from "react"
 import { Warp } from "@paper-design/shaders-react"
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts"
 
-import { Icons } from "@/components/icons"
+import { Icons } from "@/components/icons/icons"
 import {
   Accordion,
   AccordionContent,

@@ -1,4 +1,4 @@
-import { Icons } from "@/components/icons"
+import { Icons } from "@/components/icons/icons"
 import { PromptInput } from "@/components/prompt-input"
 
 export default function DashboardPage() {

@@ -14,7 +14,7 @@ import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react"
 
 import { ChatDropdown } from "@/components/chat-dropdown"
 import { SummaryDropdown } from "@/components/summary-dropdown"
-import { Icons } from "@/components/icons"
+import { Icons } from "@/components/icons/icons"
 import { useLocationHash } from "@/components/nav-chats"
 import { PromptInput } from "@/components/prompt-input"
 import {
