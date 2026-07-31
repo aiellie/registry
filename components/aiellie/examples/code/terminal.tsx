@@ -4,6 +4,7 @@ import * as React from "react"
 import {
   ExclamationMarkIcon,
   Cancel01Icon,
+  EraserIcon,
   Tick02Icon,
   InformationCircleIcon,
 } from "@hugeicons/core-free-icons"
@@ -11,6 +12,8 @@ import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react"
 
 import {
   Terminal,
+  TerminalActions,
+  TerminalClearButton,
   TerminalContent,
   TerminalInput,
   TERMINAL_TAB_OPTIONS,
@@ -20,6 +23,12 @@ import {
   type TerminalTabType,
 } from "@/components/ai-elements/terminal"
 import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 const PROMPT = "stashd@Mac ui.aiellie.dev %"
 
@@ -132,6 +141,7 @@ export function TerminalDemo() {
     { id: 1, output: "", title: "ui.aiellie.dev", type: "terminal" },
   ])
   const [activeId, setActiveId] = React.useState(1)
+  const [isOpen, setIsOpen] = React.useState(true)
   const nextId = React.useRef(2)
 
   const session = sessions.find((tab) => tab.id === activeId) ?? sessions[0]
@@ -187,40 +197,89 @@ export function TerminalDemo() {
 
   return (
     <div className="flex w-full flex-col gap-3 py-6">
-      <Terminal className="w-full" output={session.output}>
-        <TerminalTabs>
-          {sessions.map((tab) => (
-            <TerminalTab
-              active={tab.id === session.id}
-              icon={
-                TERMINAL_TAB_OPTIONS.find((option) => option.type === tab.type)
-                  ?.icon
-              }
-              key={tab.id}
-              onClick={() => setActiveId(tab.id)}
-              onClose={sessions.length > 1 ? () => closeTab(tab.id) : undefined}
-            >
-              {tab.title}
-              {tab.type === "problems" && (
-                <Badge
-                  className="ms-1 h-4 min-w-4 px-1 text-[10px] leading-none"
-                  variant="destructive"
+      {isOpen ? (
+        <Terminal
+          className="w-full"
+          onClear={() => setOutput(session.id, () => "")}
+          output={session.output}
+        >
+          <div className="flex min-w-0 items-center gap-1 border-b px-2 py-1.5">
+            <TerminalTabs className="no-scrollbar min-w-0 flex-1 overflow-x-auto border-0 p-0">
+              {sessions.map((tab) => (
+                <TerminalTab
+                  active={tab.id === session.id}
+                  className="flex-none"
+                  icon={
+                    TERMINAL_TAB_OPTIONS.find(
+                      (option) => option.type === tab.type
+                    )?.icon
+                  }
+                  key={tab.id}
+                  onClick={() => setActiveId(tab.id)}
+                  onClose={
+                    sessions.length > 1 ? () => closeTab(tab.id) : undefined
+                  }
                 >
-                  {PROBLEM_COUNT}
-                </Badge>
-              )}
-            </TerminalTab>
-          ))}
-          <TerminalTabAdd onSelect={addTab} />
-        </TerminalTabs>
-        <TerminalContent className="min-h-48">
-          {session.type === "terminal" ? (
-            <TerminalInput onSubmit={run} prompt={PROMPT} />
-          ) : (
-            <PanelOutput type={session.type} />
-          )}
-        </TerminalContent>
-      </Terminal>
+                  {tab.title}
+                  {tab.type === "problems" && (
+                    <Badge
+                      className="ms-1 h-4 min-w-4 px-1 text-[10px] leading-none"
+                      variant="destructive"
+                    >
+                      {PROBLEM_COUNT}
+                    </Badge>
+                  )}
+                </TerminalTab>
+              ))}
+              <TerminalTabAdd className="flex-none" onSelect={addTab} />
+            </TerminalTabs>
+            <TerminalActions className="ms-auto shrink-0">
+              <TerminalClearButton
+                aria-label="Clear output"
+                disabled={session.type !== "terminal" || session.output === ""}
+                tooltip="Clear output"
+              >
+                <HugeiconsIcon
+                  icon={EraserIcon}
+                  strokeWidth={1.5}
+                  className="size-3.5"
+                />
+              </TerminalClearButton>
+              <Tooltip>
+                <TooltipTrigger
+                  render={
+                    <Button
+                      aria-label="Close terminal panel"
+                      onClick={() => setIsOpen(false)}
+                      size="icon-xs"
+                      variant="ghost"
+                    />
+                  }
+                >
+                  <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} />
+                </TooltipTrigger>
+                <TooltipContent>Close panel</TooltipContent>
+              </Tooltip>
+            </TerminalActions>
+          </div>
+          <TerminalContent className="min-h-48">
+            {session.type === "terminal" ? (
+              <TerminalInput onSubmit={run} prompt={PROMPT} />
+            ) : (
+              <PanelOutput type={session.type} />
+            )}
+          </TerminalContent>
+        </Terminal>
+      ) : (
+        <Button
+          className="self-start"
+          onClick={() => setIsOpen(true)}
+          size="sm"
+          variant="outline"
+        >
+          Open terminal
+        </Button>
+      )}
       <p className="text-sm text-muted-foreground">
         {PANEL_DESCRIPTIONS[session.type]}
         {session.type === "terminal" && (

@@ -4,7 +4,9 @@ import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
+  DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import {
@@ -16,14 +18,14 @@ import {
 import { highlightCode } from "@/lib/highlight"
 import { cn } from "@/lib/utils"
 import {
-  AlertCircleIcon,
+  Alert02Icon,
   Cancel01Icon,
   ConsoleIcon,
   Copy01Icon,
   Delete01Icon,
   PlusSignIcon,
-  SourceCodeIcon,
-  TerminalIcon,
+  CodeSquareIcon,
+  BashIcon,
   Tick02Icon,
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react"
@@ -91,7 +93,7 @@ export const TerminalTitle = ({
     )}
     {...props}
   >
-    <HugeiconsIcon className="size-3.5" icon={TerminalIcon} strokeWidth={2} />
+    <HugeiconsIcon className="size-3.5" icon={BashIcon} strokeWidth={2} />
     {children ?? "Terminal"}
   </div>
 )
@@ -160,7 +162,7 @@ export type TerminalTabProps = HTMLAttributes<HTMLDivElement> & {
 
 export const TerminalTab = ({
   active = false,
-  icon = TerminalIcon,
+  icon = BashIcon,
   onClose,
   closeTooltip = "Close tab",
   className,
@@ -237,10 +239,10 @@ export const TERMINAL_TAB_OPTIONS: {
   label: string
   icon: IconSvgElement
 }[] = [
-  { icon: TerminalIcon, label: "Terminal", type: "terminal" },
+  { icon: BashIcon, label: "Terminal", type: "terminal" },
   { icon: ConsoleIcon, label: "Console", type: "console" },
-  { icon: AlertCircleIcon, label: "Problems", type: "problems" },
-  { icon: SourceCodeIcon, label: "Output", type: "output" },
+  { icon: Alert02Icon, label: "Problems", type: "problems" },
+  { icon: CodeSquareIcon, label: "Output", type: "output" },
 ]
 
 export type TerminalTabAddProps = Omit<
@@ -293,20 +295,23 @@ export const TerminalTabAdd = ({
         </Tooltip>
       </TooltipProvider>
       <DropdownMenuContent align="start" className="w-44" sideOffset={6}>
-        {TERMINAL_TAB_OPTIONS.map((option) => (
-          <DropdownMenuItem
-            className="gap-2.5 px-2 py-1.5"
-            key={option.type}
-            onClick={() => onSelect?.(option.type)}
-          >
-            <HugeiconsIcon
-              className="size-4 shrink-0 text-muted-foreground"
-              icon={option.icon}
-              strokeWidth={2}
-            />
-            {option.label}
-          </DropdownMenuItem>
-        ))}
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>New tab</DropdownMenuLabel>
+          {TERMINAL_TAB_OPTIONS.map((option) => (
+            <DropdownMenuItem
+              className="gap-2.5 px-2 py-1.5"
+              key={option.type}
+              onClick={() => onSelect?.(option.type)}
+            >
+              <HugeiconsIcon
+                className="size-4 shrink-0 text-muted-foreground"
+                icon={option.icon}
+                strokeWidth={1.5}
+              />
+              {option.label}
+            </DropdownMenuItem>
+          ))}
+        </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
   )
