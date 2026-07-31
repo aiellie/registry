@@ -2,53 +2,38 @@ import type { ComponentType, ReactElement, ReactNode } from "react"
 
 // blocks
 import { blank } from "@/app/demo/[name]/blocks/blank"
-import { chat } from "@/app/demo/[name]/blocks/chat"
 import { dashboard } from "@/app/demo/[name]/blocks/dashboard"
 import { login } from "@/app/demo/[name]/blocks/login"
-import { newchat } from "@/app/demo/[name]/blocks/newchat"
-import { projects } from "@/app/demo/[name]/blocks/projects"
+
 // components
 import BrandAvatarExample from "@/app/demo/[name]/components/brand-avatar"
 import { brandFooter } from "@/app/demo/[name]/components/brand-footer"
 import { brandHeader } from "@/app/demo/[name]/components/brand-header"
 import { brandSidebar } from "@/app/demo/[name]/components/brand-sidebar"
+import BubblesExample from "@/app/demo/[name]/components/bubbles"
+import GlassExample from "@/app/demo/[name]/components/glass"
 import { hero } from "@/app/demo/[name]/components/hero"
+import LiquidExample from "@/app/demo/[name]/components/liquid"
 import { loginForm } from "@/app/demo/[name]/components/login-form"
 import { logo } from "@/app/demo/[name]/components/logo"
+import { promptInput } from "@/app/demo/[name]/components/prompt-input"
 
 // ai elements
+import ModelSelectorExample from "@/app/demo/[name]/ui/model-selector"
+import FileTreeExample from "@/app/demo/[name]/ui/file-tree"
+import WebPreviewExample from "@/app/demo/[name]/ui/web-preview"
 import PersonaExample from "@/app/demo/[name]/ui/persona"
-
-// aiellie examples — the curated single demos also rendered inline on the
-// home grid (`lib/aiellie-items.ts`)
-import {
-  AiOrbDemo,
-  AttachmentDemo,
-  BubbleDemo,
-  BubblesDemo,
-  FileTreeDemo,
-  FindInPageDemo,
-  GlassDemo,
-  LiquidDemo,
-  LiveWaveformDemo,
-  MarkerDemo,
-  MessageDemo,
-  MessageScrollerDemo,
-  MicSelectorDemo,
-  ModelSelectorExample,
-  PromptInputDemo,
-  SpeechInputDemo,
-  TerminalDemo,
-  WebPreviewDemo,
-} from "@/components/aiellie/examples"
+import AIOrbExample from "@/app/demo/[name]/ui/ai-orb"
 // ui
 import AccordionExample from "@/app/demo/[name]/ui/accordion"
 import AlertExample from "@/app/demo/[name]/ui/alert"
 import AlertDialogExample from "@/app/demo/[name]/ui/alert-dialog"
 import AspectRatioExample from "@/app/demo/[name]/ui/aspect-ratio"
+import AttachmentExample from "@/app/demo/[name]/ui/attachment"
 import AvatarExample from "@/app/demo/[name]/ui/avatar"
 import BadgeExample from "@/app/demo/[name]/ui/badge"
 import BreadcrumbExample from "@/app/demo/[name]/ui/breadcrumb"
+import BubbleExample from "@/app/demo/[name]/ui/bubble"
 import ButtonExample from "@/app/demo/[name]/ui/button"
 import ButtonGroupExample from "@/app/demo/[name]/ui/button-group"
 import CalendarExample from "@/app/demo/[name]/ui/calendar"
@@ -57,7 +42,6 @@ import CarouselExample from "@/app/demo/[name]/ui/carousel"
 import ChartExample from "@/app/demo/[name]/ui/chart"
 import CheckboxExample from "@/app/demo/[name]/ui/checkbox"
 import CollapsibleExample from "@/app/demo/[name]/ui/collapsible"
-import ColorPickerExample from "@/app/demo/[name]/ui/color-picker"
 import ComboboxExample from "@/app/demo/[name]/ui/combobox"
 import CommandExample from "@/app/demo/[name]/ui/command"
 import ContextMenuExample from "@/app/demo/[name]/ui/context-menu"
@@ -77,7 +61,10 @@ import ItemExample from "@/app/demo/[name]/ui/item"
 import KbdExample from "@/app/demo/[name]/ui/kbd"
 import LabelExample from "@/app/demo/[name]/ui/label"
 import LoaderExample from "@/app/demo/[name]/ui/loader"
+import MarkerExamples from "@/app/demo/[name]/ui/marker"
 import MenubarExample from "@/app/demo/[name]/ui/menubar"
+import MessageExample from "@/app/demo/[name]/ui/message"
+import MessageScrollerExample from "@/app/demo/[name]/ui/message-scroller"
 import NativeSelectExample from "@/app/demo/[name]/ui/native-select"
 import NavigationMenuExample from "@/app/demo/[name]/ui/navigation-menu"
 import PaginationExample from "@/app/demo/[name]/ui/pagination"
@@ -117,65 +104,40 @@ type Demo =
     }
   | ComponentType
 
-/**
- * The aiellie examples are single self-contained demos (also rendered inline
- * on the home grid), so the full-page preview centers them instead of laying
- * out variants with `ExampleWrapper`.
- */
-function centered(Demo: ComponentType) {
-  return function CenteredDemo() {
-    return (
-      <div className="flex min-h-svh w-full justify-center bg-background bg-[radial-gradient(color-mix(in_oklch,var(--border)_70%,transparent)_1px,transparent_1px)] bg-size-[16px_16px] p-6">
-        <div className="m-auto flex w-full max-w-2xl flex-col items-center">
-          <Demo />
-        </div>
-      </div>
-    )
-  }
-}
-
 export const demos: { [name: string]: Demo } = {
   // blocks
   blank,
-  chat,
   dashboard,
   login,
-  newchat,
-  projects,
   // components
   "brand-header": brandHeader,
   "brand-footer": brandFooter,
   "brand-sidebar": brandSidebar,
   "brand-avatar": BrandAvatarExample,
   hero,
-  liquid: centered(LiquidDemo),
-  glass: centered(GlassDemo),
-  bubbles: centered(BubblesDemo),
+  liquid: LiquidExample,
+  glass: GlassExample,
+  bubbles: BubblesExample,
   "login-form": loginForm,
   logo,
-  "prompt-input": centered(PromptInputDemo),
+  "prompt-input": promptInput,
 
   // ai elements
-  "model-selector": centered(ModelSelectorExample),
-  "file-tree": centered(FileTreeDemo),
-  "web-preview": centered(WebPreviewDemo),
-  terminal: centered(TerminalDemo),
-  "find-in-page": centered(FindInPageDemo),
+  "model-selector": ModelSelectorExample,
+  "file-tree": FileTreeExample,
+  "web-preview": WebPreviewExample,
   persona: PersonaExample,
-  "ai-orb": AiOrbDemo,
-  "mic-selector": centered(MicSelectorDemo),
-  "speech-input": centered(SpeechInputDemo),
-  "live-waveform": centered(LiveWaveformDemo),
+  "ai-orb": AIOrbExample,
   // ui
   accordion: AccordionExample,
   alert: AlertExample,
   "alert-dialog": AlertDialogExample,
   "aspect-ratio": AspectRatioExample,
-  attachment: centered(AttachmentDemo),
+  attachment: AttachmentExample,
   avatar: AvatarExample,
   badge: BadgeExample,
   breadcrumb: BreadcrumbExample,
-  bubble: centered(BubbleDemo),
+  bubble: BubbleExample,
   button: ButtonExample,
   "button-group": ButtonGroupExample,
   calendar: CalendarExample,
@@ -184,7 +146,6 @@ export const demos: { [name: string]: Demo } = {
   chart: ChartExample,
   checkbox: CheckboxExample,
   collapsible: CollapsibleExample,
-  "color-picker": ColorPickerExample,
   combobox: ComboboxExample,
   command: CommandExample,
   "context-menu": ContextMenuExample,
@@ -204,10 +165,10 @@ export const demos: { [name: string]: Demo } = {
   kbd: KbdExample,
   label: LabelExample,
   loader: LoaderExample,
-  marker: centered(MarkerDemo),
+  marker: MarkerExamples,
   menubar: MenubarExample,
-  message: centered(MessageDemo),
-  "message-scroller": centered(MessageScrollerDemo),
+  message: MessageExample,
+  "message-scroller": MessageScrollerExample,
   "native-select": NativeSelectExample,
   "navigation-menu": NavigationMenuExample,
   pagination: PaginationExample,
