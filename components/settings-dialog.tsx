@@ -1159,7 +1159,7 @@ function AccountPanel() {
               <ItemDescription>Tel Aviv · 2h ago</ItemDescription>
             </ItemContent>
             <ItemActions>
-              <Button variant="ghost" size="sm">
+              <Button variant="destructive" size="sm">
                 Sign out
               </Button>
             </ItemActions>
