@@ -82,7 +82,7 @@ export const TerminalTitle = ({
     )}
     {...props}
   >
-    <HugeiconsIcon className="size-4" icon={TerminalIcon} strokeWidth={2} />
+    <HugeiconsIcon className="size-3.5" icon={TerminalIcon} strokeWidth={2} />
     {children ?? "Terminal"}
   </div>
 )
@@ -173,7 +173,7 @@ export const TerminalTab = ({
     <div
       aria-selected={active}
       className={cn(
-        "group/tab flex h-7 max-w-40 cursor-pointer items-center gap-1.5 rounded-lg ps-2 text-sm outline-hidden transition-colors select-none focus-visible:ring-1 focus-visible:ring-ring",
+        "group/tab flex h-7 max-w-40 cursor-pointer items-center gap-1.5 rounded-lg ps-2 text-xs outline-hidden transition-colors select-none focus-visible:ring-1 focus-visible:ring-ring",
         onClose ? "pe-1" : "pe-2",
         active ? "bg-muted" : "text-muted-foreground hover:bg-muted/50",
         className
@@ -184,7 +184,7 @@ export const TerminalTab = ({
       {...props}
     >
       <HugeiconsIcon
-        className="size-3.5 shrink-0"
+        className="size-3 shrink-0"
         icon={icon}
         strokeWidth={2}
       />
