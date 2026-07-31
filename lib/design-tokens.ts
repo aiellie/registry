@@ -151,7 +151,7 @@ const COLOR_GROUPS: GroupConfig[] = [
     id: "ui",
     title: "State & structure",
     description: "Muted content, destructive states, and the lines between things.",
-    names: ["muted", "muted-foreground", "destructive", "border", "input", "ring"],
+    names: ["muted", "muted-foreground", "border", "input", "ring"],
   },
   {
     id: "selection",
@@ -170,6 +170,12 @@ const COLOR_GROUPS: GroupConfig[] = [
     title: "Charts",
     description: "A five-step ramp of the brand hue for data visualisation.",
     names: ["chart-1", "chart-2", "chart-3", "chart-4", "chart-5"],
+  },
+  {
+    id: "status",
+    title: "Status",
+    description: "Status indicators for success, warning, and error.",
+    names: ["destructive", "destructive-foreground", "warning", "warning-foreground", "success", "success-foreground", "info", "info-foreground"],
   },
   {
     id: "sidebar",

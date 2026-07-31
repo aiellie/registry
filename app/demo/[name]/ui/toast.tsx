@@ -76,7 +76,7 @@ function ToastTypes() {
           variant="outline"
           onClick={() =>
             toast.add({
-              title: "Be at the area 10 minutes before the event time",
+              title: "Be at the area 10 minutes before the event",
               type: "info",
             })
           }
