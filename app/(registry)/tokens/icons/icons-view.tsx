@@ -377,7 +377,7 @@ export function IconsView({ meta }: { meta: IconSetsMeta }) {
             <InputGroupInput
               value={query}
               onChange={(event) => setQuery(event.target.value)}
-              placeholder={`Search all ${totalCount.toLocaleString()} icons…`}
+              placeholder={`Search ${countLabel}…`}
               aria-label="Search icons"
             />
             {query && (
@@ -451,13 +451,6 @@ export function IconsView({ meta }: { meta: IconSetsMeta }) {
               <TooltipContent>Tint the previews</TooltipContent>
             </Tooltip>
           </TooltipProvider>
-
-          <span
-            className="font-mono text-xs text-muted-foreground tabular-nums"
-            aria-live="polite"
-          >
-            {countLabel}
-          </span>
 
           <Button
             variant="destructive"
