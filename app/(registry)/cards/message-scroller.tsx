@@ -94,6 +94,8 @@ export function MessageScrollerDemo() {
   })
   const nextMessage = demoChat.next({ after: messages })
   const isBusy = status === "submitted" || status === "streaming"
+  const streamingMessageId =
+    status === "streaming" ? messages[messages.length - 1]?.id : undefined
 
   return (
     <MessageScrollerProvider>
@@ -113,7 +115,11 @@ export function MessageScrollerDemo() {
                       onClick={() => setMessages(demoInitialMessages)}
                       disabled={isBusy}
                     >
-                      <HugeiconsIcon icon={RotateIcon} className="size-3.5 text-muted-foreground" strokeWidth={2}  />
+                      <HugeiconsIcon
+                        icon={RotateIcon}
+                        className="size-3.5 text-muted-foreground"
+                        strokeWidth={2}
+                      />
                     </Button>
                   }
                 />
@@ -148,6 +154,7 @@ export function MessageScrollerDemo() {
                       <MessageAnimated
                         key={message.id}
                         message={message}
+                        isStreaming={message.id === streamingMessageId}
                         scrollAnchor={message.role === "user"}
                       />
                     ))}

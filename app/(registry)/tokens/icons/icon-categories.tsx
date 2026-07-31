@@ -22,15 +22,19 @@ import {
 import { Separator } from "@/components/ui/separator"
 import {
   type CompactElement,
-  type IconCategory,
-  toSvgElement,
-} from "@/lib/hugeicons"
+  type IconBrand,
+  type MergedCategory,
+} from "@/lib/icon-sets"
 import { cn } from "@/lib/utils"
+
+import { IconGlyph } from "./icon-glyph"
 
 /**
  * The faceted filter from shadcn's `tasks` example: a dashed trigger that grows
  * chips as you select, over a searchable list of checkboxes. Ported to Base UI —
- * the trigger composes with `render` rather than `asChild`.
+ * the trigger composes with `render` rather than `asChild`. One flat list for
+ * both libraries: same-slug categories arrive pre-merged, so "Arrows" is a
+ * single row that filters HugeIcons and Lucide together.
  */
 export function IconCategories({
   categories,
@@ -38,16 +42,16 @@ export function IconCategories({
   onValueChange,
   repElements,
 }: {
-  categories: IconCategory[]
+  categories: MergedCategory[]
   /** Selected categories; an empty array means "no filter". */
-  value: IconCategory[]
-  onValueChange: (categories: IconCategory[]) => void
-  /** Category id → thumbnail geometry, inlined in the manifest. */
-  repElements: Record<string, CompactElement[]>
+  value: MergedCategory[]
+  onValueChange: (categories: MergedCategory[]) => void
+  /** Per library: category id → thumbnail geometry, inlined in its manifest. */
+  repElements: Partial<Record<IconBrand, Record<string, CompactElement[]>>>
 }) {
   const selected = new Set(value.map((category) => category.id))
 
-  const toggle = (category: IconCategory) =>
+  const toggle = (category: MergedCategory) =>
     onValueChange(
       selected.has(category.id)
         ? value.filter((entry) => entry.id !== category.id)
@@ -112,11 +116,16 @@ export function IconCategories({
             <CommandGroup>
               {categories.map((category) => {
                 const isSelected = selected.has(category.id)
-                const elements = repElements[category.id]
+                const elements =
+                  category.repBrand === null
+                    ? undefined
+                    : repElements[category.repBrand]?.[category.id]
                 return (
                   <CommandItem
                     key={category.id}
-                    value={category.label}
+                    // The id keeps same-label rows from colliding in cmdk when
+                    // two taxonomies name a concept alike without sharing a slug.
+                    value={`${category.label} ${category.id}`}
                     onSelect={() => toggle(category)}
                     // CommandItem appends its own trailing tick; here the state
                     // lives in the leading box, so that one is dropped.
@@ -139,9 +148,10 @@ export function IconCategories({
                         className="size-3.5"
                       />
                     </span>
-                    {elements ? (
-                      <HugeiconsIcon
-                        icon={toSvgElement(elements)}
+                    {elements && category.repBrand ? (
+                      <IconGlyph
+                        brand={category.repBrand}
+                        elements={elements}
                         size={16}
                         strokeWidth={2}
                         className="shrink-0 text-muted-foreground"

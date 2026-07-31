@@ -6,7 +6,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --animate-shimmer-slide: shimmer-slide var(--speed) ease-in-out infinite alternate;
+  --animate-shimmer-slide: shimmer-slide var(--speed) ease-in-out infinite
+    alternate;
   --animate-spin-around: spin-around calc(var(--speed) * 2) infinite linear;
   --breakpoint-3xl: 1600px;
   --breakpoint-4xl: 2000px;
@@ -33,6 +34,7 @@
   --color-input: var(--input);
   --color-border: var(--border);
   --color-destructive: var(--destructive);
+  --color-success: var(--success);
   --color-accent-foreground: var(--accent-foreground);
   --color-accent: var(--accent);
   --color-muted-foreground: var(--muted-foreground);
@@ -72,15 +74,16 @@
   --card-foreground: oklch(0.37 0.04 257);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.37 0.04 257);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
+  --primary: #6366f1; /* blue-500 · closest to #007AFF */
+  --primary-foreground: #ffffff;
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.556 0 0);
-  --accent:  oklch(0.978 0.01 277);
+  --accent: oklch(0.978 0.01 277);
   --accent-foreground: oklch(0.457 0.24 277.023);
   --destructive: oklch(0.577 0.245 27.325);
+  --success: oklch(0.627 0.194 149.214);
   --border: oklch(0.93 0.01 256);
   --input: oklch(0.93 0.01 256);
   --ring: oklch(0.93 0.01 256);
@@ -105,9 +108,8 @@
   --code: var(--surface);
   --code-foreground: var(--surface-foreground);
   --code-highlight: oklch(0.96 0 0);
-  --code-number:oklch(0.71 0.04 257);
+  --code-number: oklch(0.71 0.04 257);
 }
-
 
 .dark {
   --background: oklch(0.141 0.005 285.823);
@@ -125,6 +127,7 @@
   --accent: oklch(0.274 0.006 286.033);
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.704 0.191 22.216);
+  --success: oklch(0.792 0.209 151.711);
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
   --ring: var(--border);
@@ -159,25 +162,25 @@
   ::selection {
     @apply bg-selection text-selection-foreground;
   }
-    /* Custom scrollbar */
-    * {
-      scrollbar-width: thin;
-      scrollbar-color: var(--border) transparent;
-    }
-  
-    ::-webkit-scrollbar {
-      width: 10px;
-      height: 10px;
-    }
-  
-    ::-webkit-scrollbar-track {
-      background: transparent;
-    }
+  /* Custom scrollbar */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
 
-    ::-webkit-scrollbar-thumb {
-      background-color: var(--border);
-      border-radius: 10px;
-    }
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--border);
+    border-radius: 10px;
+  }
   body {
     @apply bg-background text-foreground;
     font-weight: var(--font-weight-normal);
@@ -462,7 +465,6 @@
   --tw-ring-shadow: 0 0 #0000;
   --tw-ring-offset-shadow: 0 0 #0000;
 }
-
 
 /* Loader Animations */
 @keyframes typing {

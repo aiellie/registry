@@ -8,7 +8,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 pnpm dev            # registry:build + icons:build, then next dev (~30s before it listens)
 pnpm build          # same prebuild, then next build
 pnpm registry:build # `shadcn build` — regenerates public/r/*.json from registry.json
-pnpm icons:build    # regenerates public/hugeicons/ manifest + shards
+pnpm icons:build    # regenerates public/hugeicons/ + public/lucide/ manifests + shards
+pnpm icons:categories # rescrapes data/lucide-categories.json (only after a lucide-react bump)
 pnpm typecheck      # tsc --noEmit
 pnpm lint           # eslint
 pnpm format         # prettier --write "**/*.{ts,tsx}"
@@ -52,7 +53,7 @@ Files under `app/demo/[name]/ui/*.tsx` and `.../components/*.tsx` are both the i
 
 ### Generated, gitignored artifacts
 
-`public/r/` (registry payloads) and `public/hugeicons/` (icon manifest + 128-icon shards, content-addressed by package version — see [scripts/build-hugeicons.mjs](scripts/build-hugeicons.mjs)).
+`public/r/` (registry payloads) plus `public/hugeicons/` and `public/lucide/` (per-library icon manifest + 128-icon shards, content-addressed by package version — see [scripts/build-icons.mjs](scripts/build-icons.mjs)). `/tokens/icons` browses both sets; each manifest also carries its library's category taxonomy (HugeIcons' from `data/hugeicons-categories.json`, Lucide's from `data/lucide-categories.json` + tags via the `lucide-static` devDependency).
 
 ## Adding a registry item
 

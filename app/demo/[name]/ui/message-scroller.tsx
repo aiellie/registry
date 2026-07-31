@@ -58,11 +58,7 @@ import {
   InputGroupButton,
 } from "@/components/ui/input-group"
 import { Marker, MarkerContent } from "@/components/ui/marker"
-import {
-  Message,
-  MessageContent,
-  MessageHeader,
-} from "@/components/ui/message"
+import { Message, MessageContent, MessageHeader } from "@/components/ui/message"
 import {
   MessageScroller,
   MessageScrollerButton,
@@ -152,6 +148,8 @@ function MessageScrollerDemo() {
   })
   const nextMessage = demoChat.next({ after: messages })
   const isBusy = status === "submitted" || status === "streaming"
+  const streamingMessageId =
+    status === "streaming" ? messages[messages.length - 1]?.id : undefined
 
   return (
     <MessageScrollerProvider>
@@ -162,7 +160,19 @@ function MessageScrollerDemo() {
             <CardDescription>How can I help you today?</CardDescription>
             <CardAction>
               <Tooltip>
-                <TooltipTrigger render={<Button variant="outline" size="icon" aria-label="Reset conversation" onClick={() => setMessages(demoInitialMessages)} disabled={isBusy}><HugeiconsIcon icon={RotateIcon} /></Button>} />
+                <TooltipTrigger
+                  render={
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      aria-label="Reset conversation"
+                      onClick={() => setMessages(demoInitialMessages)}
+                      disabled={isBusy}
+                    >
+                      <HugeiconsIcon icon={RotateIcon} />
+                    </Button>
+                  }
+                />
                 <TooltipContent>
                   <p>Reset</p>
                 </TooltipContent>
@@ -194,6 +204,7 @@ function MessageScrollerDemo() {
                       <MessageAnimated
                         key={message.id}
                         message={message}
+                        isStreaming={message.id === streamingMessageId}
                         scrollAnchor={message.role === "user"}
                       />
                     ))}
@@ -231,7 +242,18 @@ function MessageScrollerDemo() {
                 </div>
                 <InputGroupAddon align="block-end" className="pt-1">
                   <DropdownMenu>
-                    <DropdownMenuTrigger render={<InputGroupButton aria-label="Add files" type="button" size="icon-sm" variant="outline"><HugeiconsIcon icon={PlugIcon} /></InputGroupButton>} />
+                    <DropdownMenuTrigger
+                      render={
+                        <InputGroupButton
+                          aria-label="Add files"
+                          type="button"
+                          size="icon-sm"
+                          variant="outline"
+                        >
+                          <HugeiconsIcon icon={PlugIcon} />
+                        </InputGroupButton>
+                      }
+                    />
                     <DropdownMenuContent
                       align="start"
                       side="top"
@@ -518,10 +540,23 @@ function MessageScrollerGroupChat() {
             </CardDescription>
             <CardAction>
               <Tooltip>
-                <TooltipTrigger render={<Button type="button" variant="outline" size="icon" aria-label="Reset conversation" disabled={rockyTurn === "idle"} onClick={() => {
+                <TooltipTrigger
+                  render={
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="icon"
+                      aria-label="Reset conversation"
+                      disabled={rockyTurn === "idle"}
+                      onClick={() => {
                         setRockyTurn("idle")
                         setDemoKey((key) => key + 1)
-                      }}><HugeiconsIcon icon={RotateIcon} /></Button>} />
+                      }}
+                    >
+                      <HugeiconsIcon icon={RotateIcon} />
+                    </Button>
+                  }
+                />
                 <TooltipContent>
                   <p>Reset</p>
                 </TooltipContent>
@@ -663,6 +698,8 @@ function MessageScrollerPreviousContext() {
   })
   const nextMessage = contextChat.next({ after: messages })
   const isBusy = status === "submitted" || status === "streaming"
+  const streamingMessageId =
+    status === "streaming" ? messages[messages.length - 1]?.id : undefined
   return (
     <MessageScrollerProvider
       key={demoKey}
@@ -678,11 +715,23 @@ function MessageScrollerPreviousContext() {
             </CardDescription>
             <CardAction>
               <Tooltip>
-                <TooltipTrigger render={<Button variant="outline" size="icon" aria-label="Reset context example" disabled={isBusy} onClick={() => {
+                <TooltipTrigger
+                  render={
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      aria-label="Reset context example"
+                      disabled={isBusy}
+                      onClick={() => {
                         setMessages(contextInitialMessages)
                         setPeek(DEFAULT_PEEK)
                         setDemoKey((key) => key + 1)
-                      }}><HugeiconsIcon icon={RotateIcon} /></Button>} />
+                      }}
+                    >
+                      <HugeiconsIcon icon={RotateIcon} />
+                    </Button>
+                  }
+                />
                 <TooltipContent>
                   <p>Reset</p>
                 </TooltipContent>
@@ -700,6 +749,7 @@ function MessageScrollerPreviousContext() {
                     <MessageAnimated
                       key={message.id}
                       message={message}
+                      isStreaming={message.id === streamingMessageId}
                       scrollAnchor={message.role === "user"}
                     />
                   ))}
@@ -736,7 +786,18 @@ function MessageScrollerPreviousContext() {
                 </div>
                 <InputGroupAddon align="block-end" className="pt-1">
                   <DropdownMenu>
-                    <DropdownMenuTrigger render={<InputGroupButton aria-label="Add files" type="button" size="icon-sm" variant="outline"><HugeiconsIcon icon={PlugIcon} /></InputGroupButton>} />
+                    <DropdownMenuTrigger
+                      render={
+                        <InputGroupButton
+                          aria-label="Add files"
+                          type="button"
+                          size="icon-sm"
+                          variant="outline"
+                        >
+                          <HugeiconsIcon icon={PlugIcon} />
+                        </InputGroupButton>
+                      }
+                    />
                     <DropdownMenuContent
                       align="start"
                       side="top"
@@ -844,6 +905,8 @@ function MessageScrollerStreaming() {
   })
   const nextMessage = streamingChat.next({ after: messages })
   const isBusy = status === "submitted" || status === "streaming"
+  const streamingMessageId =
+    status === "streaming" ? messages[messages.length - 1]?.id : undefined
   return (
     <MessageScrollerProvider autoScroll>
       <div className="relative flex flex-col gap-4">
@@ -855,7 +918,19 @@ function MessageScrollerStreaming() {
             </CardDescription>
             <CardAction>
               <Tooltip>
-                <TooltipTrigger render={<Button variant="outline" size="icon" aria-label="Reset stream" onClick={() => setMessages(streamingInitialMessages)} disabled={messages.length === 0 || isBusy}><HugeiconsIcon icon={RotateIcon} /></Button>} />
+                <TooltipTrigger
+                  render={
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      aria-label="Reset stream"
+                      onClick={() => setMessages(streamingInitialMessages)}
+                      disabled={messages.length === 0 || isBusy}
+                    >
+                      <HugeiconsIcon icon={RotateIcon} />
+                    </Button>
+                  }
+                />
                 <TooltipContent>
                   <p>Reset</p>
                 </TooltipContent>
@@ -886,6 +961,7 @@ function MessageScrollerStreaming() {
                       <MessageAnimated
                         key={message.id}
                         message={message}
+                        isStreaming={message.id === streamingMessageId}
                         scrollAnchor={message.role === "user"}
                       />
                     ))}
@@ -923,7 +999,18 @@ function MessageScrollerStreaming() {
                 </div>
                 <InputGroupAddon align="block-end" className="pt-1">
                   <DropdownMenu>
-                    <DropdownMenuTrigger render={<InputGroupButton aria-label="Add files" type="button" size="icon-sm" variant="outline"><HugeiconsIcon icon={PlugIcon} /></InputGroupButton>} />
+                    <DropdownMenuTrigger
+                      render={
+                        <InputGroupButton
+                          aria-label="Add files"
+                          type="button"
+                          size="icon-sm"
+                          variant="outline"
+                        >
+                          <HugeiconsIcon icon={PlugIcon} />
+                        </InputGroupButton>
+                      }
+                    />
                     <DropdownMenuContent
                       align="start"
                       side="top"
@@ -1015,10 +1102,23 @@ function MessageScrollerLoadHistory() {
             </CardDescription>
             <CardAction>
               <Tooltip>
-                <TooltipTrigger render={<Button type="button" variant="outline" size="icon" aria-label="Reset loaded messages" disabled={visibleCount === INITIAL_VISIBLE_COUNT} onClick={() => {
+                <TooltipTrigger
+                  render={
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="icon"
+                      aria-label="Reset loaded messages"
+                      disabled={visibleCount === INITIAL_VISIBLE_COUNT}
+                      onClick={() => {
                         setVisibleCount(INITIAL_VISIBLE_COUNT)
                         setDemoKey((key) => key + 1)
-                      }}><HugeiconsIcon icon={RotateIcon} /></Button>} />
+                      }}
+                    >
+                      <HugeiconsIcon icon={RotateIcon} />
+                    </Button>
+                  }
+                />
                 <TooltipContent>
                   <p>Reset</p>
                 </TooltipContent>
@@ -1129,6 +1229,8 @@ function MessageScrollerAnimation() {
   const [presetId, setPresetId] = React.useState<MessageAnimationId>("fade")
   const nextMessage = animationChat.next({ after: messages })
   const isBusy = status === "submitted" || status === "streaming"
+  const streamingMessageId =
+    status === "streaming" ? messages[messages.length - 1]?.id : undefined
   const preset = MESSAGE_ANIMATIONS[presetId as MessageAnimationId]
   return (
     <div className="relative flex flex-col gap-4">
@@ -1178,6 +1280,7 @@ function MessageScrollerAnimation() {
                         key={message.id}
                         message={message}
                         animationPreset={preset}
+                        isStreaming={message.id === streamingMessageId}
                         userVariant="muted"
                         assistantVariant="ghost"
                       />

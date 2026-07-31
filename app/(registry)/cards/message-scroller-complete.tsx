@@ -74,11 +74,7 @@ import {
 } from "@/components/ui/input-group"
 import { Label } from "@/components/ui/label"
 import { Marker, MarkerContent } from "@/components/ui/marker"
-import {
-  Message,
-  MessageAvatar,
-  MessageContent,
-} from "@/components/ui/message"
+import { Message, MessageAvatar, MessageContent } from "@/components/ui/message"
 import {
   MessageScroller,
   MessageScrollerButton,
@@ -126,9 +122,12 @@ const script = createChat()
   .assistant(
     "Two complaints came up again and again: the thread jumps around while a reply streams in, and loading older messages throws you back to the top.\n\nBoth are exactly what the message scroller primitives are designed to fix."
   )
-  .user("So let's wire it up. What should the scroll experience do out of the box?", {
-    id: "turn-defaults",
-  })
+  .user(
+    "So let's wire it up. What should the scroll experience do out of the box?",
+    {
+      id: "turn-defaults",
+    }
+  )
   .assistant(
     'Wrap the thread in `MessageScrollerProvider` and you get sensible defaults: the transcript opens at the live edge (`defaultScrollPosition="end"`), and with `autoScroll` on, the viewport follows streamed tokens — but only while the reader is already at the bottom.\n\nScroll up and the follow backs off. `scrollEdgeThreshold` decides how close to the edge still counts as "at the edge".'
   )
@@ -254,6 +253,8 @@ export default function MessageScrollerCompleteCard() {
   })
   const nextMessage = script.next({ after: messages })
   const isBusy = status === "submitted" || status === "streaming"
+  const streamingMessageId =
+    status === "streaming" ? messages[messages.length - 1]?.id : undefined
   const animationPreset = MESSAGE_ANIMATIONS[animationId]
 
   const renderedMessages = historyLoaded
@@ -494,6 +495,7 @@ export default function MessageScrollerCompleteCard() {
                       <MessageAnimated
                         key={message.id}
                         message={message}
+                        isStreaming={message.id === streamingMessageId}
                         scrollAnchor={message.role === anchorRole}
                         animationPreset={animationPreset}
                         userVariant="default"
@@ -523,7 +525,7 @@ export default function MessageScrollerCompleteCard() {
                 className="w-full"
               >
                 <InputGroup>
-                  <div className="h-14 w-full  px-3 py-2.5">
+                  <div className="h-14 w-full px-3 py-2.5">
                     <span
                       className="line-clamp-2 opacity-60 data-[status=ready]:opacity-100"
                       data-status={status}
@@ -946,11 +948,7 @@ function ScrollStateChips() {
     <HoverCard>
       <HoverCardTrigger
         render={
-          <Button
-            variant="ghost"
-            size="icon-sm"
-            aria-label="Scroll state"
-          >
+          <Button variant="ghost" size="icon-sm" aria-label="Scroll state">
             <HugeiconsIcon icon={Navigation03Icon} />
           </Button>
         }

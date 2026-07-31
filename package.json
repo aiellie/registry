@@ -10,8 +10,8 @@
     "format": "prettier --write \"**/*.{ts,tsx}\"",
     "typecheck": "tsc --noEmit",
     "registry:build": "shadcn build",
-    "icons:build": "node scripts/build-hugeicons.mjs",
-    "icons:categories": "node scripts/scrape-hugeicons-categories.mjs"
+    "icons:build": "node scripts/build-icons.mjs",
+    "icons:categories": "node scripts/scrape-lucide-categories.mjs"
   },
   "dependencies": {
     "@ai-sdk/react": "^4.0.37",
@@ -55,6 +55,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.6",
+    "lucide-static": "1.25.0",
     "prettier": "^3.8.3",
     "prettier-plugin-tailwindcss": "^0.8.0",
     "tailwindcss": "^4",

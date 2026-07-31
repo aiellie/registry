@@ -5,16 +5,18 @@ import {
   BotIcon,
   Copy01Icon,
   GitBranchIcon,
-  PencilEdit02Icon,
+  Edit02Icon,
   ReloadIcon,
   ThumbsDownIcon,
   ThumbsUpIcon,
+  Tick02Icon,
   UserIcon,
   VolumeHighIcon,
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react"
 import { motion, useReducedMotion } from "motion/react"
 
+import { cn } from "@/lib/utils"
 import type { MessageAnimationPreset } from "@/lib/message-animations"
 import { MESSAGE_ANIMATIONS } from "@/lib/message-animations"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
@@ -27,6 +29,7 @@ import {
   MessageFooter,
 } from "@/components/ui/message"
 import { MessageScrollerItem } from "@/components/ui/message-scroller"
+import { toast } from "@/components/ui/toast"
 import {
   Tooltip,
   TooltipContent,
@@ -56,8 +59,9 @@ type MessageAnimatedAction = {
 }
 
 const USER_MESSAGE_ACTIONS: MessageAnimatedAction[] = [
-  { label: "Edit", icon: PencilEdit02Icon },
+  { label: "Edit", icon: Edit02Icon },
   { label: "Copy", icon: Copy01Icon },
+  { label: "Branch", icon: GitBranchIcon },
 ]
 
 const ASSISTANT_MESSAGE_ACTIONS: MessageAnimatedAction[] = [
@@ -65,7 +69,6 @@ const ASSISTANT_MESSAGE_ACTIONS: MessageAnimatedAction[] = [
   { label: "Copy", icon: Copy01Icon },
   { label: "Like", icon: ThumbsUpIcon },
   { label: "Dislike", icon: ThumbsDownIcon },
-  { label: "Branch", icon: GitBranchIcon },
   { label: "Read aloud", icon: VolumeHighIcon },
 ]
 
@@ -77,6 +80,7 @@ function MessageAnimated({
   assistantActions = ASSISTANT_MESSAGE_ACTIONS,
   assistantAvatar,
   assistantVariant = "muted",
+  isStreaming = false,
   onAction,
   scrollAnchor,
   userActions = USER_MESSAGE_ACTIONS,
@@ -91,6 +95,7 @@ function MessageAnimated({
   assistantActions?: MessageAnimatedAction[]
   assistantAvatar?: React.ReactNode
   assistantVariant?: React.ComponentProps<typeof Bubble>["variant"]
+  isStreaming?: boolean
   message: MessageAnimatedMessage
   onAction?: (
     action: MessageAnimatedAction,
@@ -119,6 +124,7 @@ function MessageAnimated({
           assistantActions={assistantActions}
           assistantAvatar={assistantAvatar}
           assistantVariant={assistantVariant}
+          isStreaming={isStreaming}
           onAction={onAction}
           userActions={userActions}
           userAvatar={userAvatar}
@@ -140,6 +146,7 @@ function MessageAnimated({
         assistantActions={assistantActions}
         assistantAvatar={assistantAvatar}
         assistantVariant={assistantVariant}
+        isStreaming={isStreaming}
         onAction={onAction}
         userActions={userActions}
         userAvatar={userAvatar}
@@ -154,6 +161,7 @@ function MessageAnimatedRow({
   assistantActions,
   assistantAvatar,
   assistantVariant,
+  isStreaming,
   onAction,
   userActions,
   userAvatar,
@@ -162,6 +170,7 @@ function MessageAnimatedRow({
   assistantActions: MessageAnimatedAction[]
   assistantAvatar?: React.ReactNode
   assistantVariant: React.ComponentProps<typeof Bubble>["variant"]
+  isStreaming?: boolean
   message: MessageAnimatedMessage
   onAction?: (
     action: MessageAnimatedAction,
@@ -174,6 +183,39 @@ function MessageAnimatedRow({
   const isUserMessage = message.role === "user"
   const textParts = getMessageAnimatedTextParts(message)
   const actions = isUserMessage ? userActions : assistantActions
+  const [copied, setCopied] = React.useState(false)
+  const [feedback, setFeedback] = React.useState<"like" | "dislike" | null>(
+    null
+  )
+  const copiedTimeoutRef = React.useRef<number | undefined>(undefined)
+
+  React.useEffect(() => {
+    return () => window.clearTimeout(copiedTimeoutRef.current)
+  }, [])
+
+  const handleAction = (action: MessageAnimatedAction) => {
+    if (action.label === "Copy") {
+      void navigator.clipboard
+        ?.writeText(textParts.map((part) => part.text).join("\n\n"))
+        .catch(() => {})
+      setCopied(true)
+      window.clearTimeout(copiedTimeoutRef.current)
+      copiedTimeoutRef.current = window.setTimeout(() => setCopied(false), 2000)
+      toast.add({ title: "Copied to clipboard", type: "success" })
+    }
+    if (action.label === "Like" || action.label === "Dislike") {
+      const value = action.label === "Like" ? "like" : "dislike"
+      const next = feedback === value ? null : value
+      setFeedback(next)
+      if (next === "like") {
+        toast.add({ title: "Marked as helpful", type: "success" })
+      } else if (next === "dislike") {
+        toast.add({ title: "Marked as not helpful", type: "error" })
+      }
+    }
+    onAction?.(action, message)
+  }
+
   const avatar =
     (isUserMessage ? userAvatar : assistantAvatar) ??
     (isUserMessage ? (
@@ -210,26 +252,49 @@ function MessageAnimatedRow({
             </Bubble>
           )
         })}
-        {actions.length > 0 && (
+        {actions.length > 0 && !isStreaming && (
           <MessageFooter className="gap-1">
-            {actions.map((action) => (
-              <Tooltip key={action.label}>
-                <TooltipTrigger
-                  render={
-                    <Button
-                      variant="ghost"
-                      size="icon-sm"
-                      aria-label={action.label}
-                      onClick={() => onAction?.(action, message)}
-                      className="text-muted-foreground opacity-0 transition-opacity group-focus-within/message:opacity-100 group-hover/message:opacity-100"
+            {actions.map((action) => {
+              const isCopied = copied && action.label === "Copy"
+              const isLiked = feedback === "like" && action.label === "Like"
+              const isDisliked =
+                feedback === "dislike" && action.label === "Dislike"
+              const isFeedbackAction =
+                action.label === "Like" || action.label === "Dislike"
+
+              return (
+                <Tooltip key={action.label}>
+                  <TooltipTrigger
+                    render={
+                      <Button
+                        variant="ghost"
+                        size="icon-xs"
+                        aria-label={action.label}
+                        aria-pressed={
+                          isFeedbackAction ? isLiked || isDisliked : undefined
+                        }
+                        onClick={() => handleAction(action)}
+                        className={cn(
+                          "text-muted-foreground opacity-0 transition-opacity group-focus-within/message:opacity-100 group-hover/message:opacity-100",
+                          (isCopied || isLiked || isDisliked) && "opacity-100",
+                          isLiked && "text-success hover:text-success",
+                          isDisliked &&
+                            "text-destructive hover:text-destructive"
+                        )}
+                      />
+                    }
+                  >
+                    <HugeiconsIcon
+                      icon={isCopied ? Tick02Icon : action.icon}
+                      strokeWidth={2}
                     />
-                  }
-                >
-                  <HugeiconsIcon icon={action.icon} strokeWidth={2} />
-                </TooltipTrigger>
-                <TooltipContent side="bottom">{action.label}</TooltipContent>
-              </Tooltip>
-            ))}
+                  </TooltipTrigger>
+                  <TooltipContent side="bottom">
+                    {isCopied ? "Copied" : action.label}
+                  </TooltipContent>
+                </Tooltip>
+              )
+            })}
           </MessageFooter>
         )}
       </MessageContent>
@@ -237,11 +302,7 @@ function MessageAnimatedRow({
   )
 }
 
-function MessageAnimatedRoleAvatar({
-  role,
-}: {
-  role: "user" | "assistant"
-}) {
+function MessageAnimatedRoleAvatar({ role }: { role: "user" | "assistant" }) {
   return (
     <Avatar>
       <AvatarFallback>

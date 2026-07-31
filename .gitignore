@@ -38,6 +38,7 @@ next-env.d.ts
 # generated registry payloads
 /public/r/
 
-# generated hugeicons manifest + shards
+# generated icon manifests + shards
 /public/hugeicons/
+/public/lucide/
 /.next-preview/

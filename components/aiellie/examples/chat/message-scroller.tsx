@@ -190,6 +190,10 @@ function ChatCard({
   })
   const nextMessage = demoChat.chat.next({ after: messages })
   const isBusy = status === "submitted" || status === "streaming"
+  // Only the message currently being streamed hides its actions; earlier
+  // messages stay actionable while the reply types out.
+  const streamingMessageId =
+    status === "streaming" ? messages[messages.length - 1]?.id : undefined
   const hasChanges =
     title !== demoChat.title ||
     messages.length !== demoChat.initialMessages.length
@@ -206,7 +210,7 @@ function ChatCard({
       scrollPreviousItemPeek={settings.scrollPreviousItemPeek}
     >
       <div className="relative flex flex-col gap-4">
-        <Card className="mx-auto h-140 w-full max-w-sm gap-0 rounded-2xl p-0 shadow-sm">
+        <Card className="mx-auto h-140 w-full max-w-xl gap-0 rounded-3xl p-0 shadow-sm">
           <CardHeader className="flex items-center gap-1 border-b p-3!">
             <ChatsDropdown
               activeId={demoChat.id}
@@ -272,16 +276,12 @@ function ChatCard({
                       <MessageAnimated
                         key={message.id}
                         message={message}
+                        isStreaming={message.id === streamingMessageId}
                         scrollAnchor={
                           settings.anchorRole !== "none" &&
                           message.role === settings.anchorRole
                         }
                         onAction={(action) => {
-                          if (action.label === "Copy") {
-                            void navigator.clipboard.writeText(
-                              getMessageText(message)
-                            )
-                          }
                           if (action.label === "Regenerate" && !isBusy) {
                             void regenerate({ messageId: message.id })
                           }

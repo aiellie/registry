@@ -3308,6 +3308,11 @@
           "target": "components/prompt-project-picker.tsx"
         },
         {
+          "path": "components/plugins-combobox.tsx",
+          "type": "registry:component",
+          "target": "components/plugins-combobox.tsx"
+        },
+        {
           "path": "lib/sidebar-data.ts",
           "type": "registry:lib",
           "target": "lib/sidebar-data.ts"

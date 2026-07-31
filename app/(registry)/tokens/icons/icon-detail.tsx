@@ -1,7 +1,6 @@
 "use client"
 
 import { type CSSProperties, useEffect, useState } from "react"
-import { HugeiconsIcon } from "@hugeicons/react"
 
 import { CopyButton } from "@/components/registry/copy-button"
 import { DownloadButton } from "@/components/registry/download-button"
@@ -18,9 +17,14 @@ import {
   type CompactElement,
   type IconCategory,
   type IconEntry,
-  toSvgElement,
+  BRANDS,
+  displayName,
+  importSnippet,
+  jsxSnippet,
   toSvgMarkup,
-} from "@/lib/hugeicons"
+} from "@/lib/icon-sets"
+
+import { IconGlyph } from "./icon-glyph"
 
 /**
  * Highlights `code` in the browser via the shared Shiki highlighter, returning
@@ -97,6 +101,7 @@ export function IconDetail({
 }: {
   entry: IconEntry | null
   elements: CompactElement[] | undefined
+  /** The HugeIcons taxonomy, for labelling `entry.categories`; empty for Lucide. */
   categories: IconCategory[]
   strokeWidth: number
   /** The size chosen by the grid filters; the preview renders at exactly this. */
@@ -105,7 +110,6 @@ export function IconDetail({
   color: string | null
   onOpenChange: (open: boolean) => void
 }) {
-  const icon = elements ? toSvgElement(elements) : null
   const labels = entry
     ? entry.categories
         .map((id) => categories.find((category) => category.id === id)?.label)
@@ -131,7 +135,8 @@ export function IconDetail({
                 <CopyButton content={entry.name} />
               </div>
               <DialogDescription>
-                {entry.words} · stroke rounded · 24×24
+                {entry.words} · {BRANDS[entry.brand].label} ·{" "}
+                {BRANDS[entry.brand].style} · 24×24
               </DialogDescription>
             </DialogHeader>
 
@@ -141,10 +146,11 @@ export function IconDetail({
                 { "--icon-tint": color ?? "currentColor" } as CSSProperties
               }
             >
-              {icon ? (
+              {elements ? (
                 <div className="flex flex-col items-center gap-2">
-                  <HugeiconsIcon
-                    icon={icon}
+                  <IconGlyph
+                    brand={entry.brand}
+                    elements={elements}
                     size={size}
                     strokeWidth={strokeWidth}
                     className="text-[color:var(--icon-tint)]"
@@ -191,20 +197,14 @@ export function IconDetail({
             )}
 
             <div className="space-y-3">
-              <CopyRow
-                label="Import"
-                value={`import { HugeiconsIcon } from "@hugeicons/react"\nimport { ${entry.name} } from "@hugeicons/core-free-icons"`}
-              />
-              <CopyRow
-                label="JSX"
-                value={`<HugeiconsIcon icon={${entry.name}} strokeWidth={${strokeWidth}} className="size-4" />`}
-              />
+              <CopyRow label="Import" value={importSnippet(entry)} />
+              <CopyRow label="JSX" value={jsxSnippet(entry, strokeWidth)} />
               {elements && (
                 <CopyRow
                   label="SVG"
-                  value={toSvgMarkup(elements, strokeWidth)}
+                  value={toSvgMarkup(elements, entry.brand, strokeWidth)}
                   language="xml"
-                  download={`${entry.name.replace(/Icon$/, "")}.svg`}
+                  download={`${displayName(entry)}.svg`}
                 />
               )}
             </div>

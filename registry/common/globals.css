@@ -29,6 +29,7 @@
   --color-input: var(--input);
   --color-border: var(--border);
   --color-destructive: var(--destructive);
+  --color-success: var(--success);
   --color-accent-foreground: var(--accent-foreground);
   --color-accent: var(--accent);
   --color-muted-foreground: var(--muted-foreground);
@@ -81,6 +82,7 @@
   --accent: oklch(0.962 0.018 272.314);
   --accent-foreground: oklch(0.457 0.24 277.023);
   --destructive: oklch(0.577 0.245 27.325);
+  --success: oklch(0.627 0.194 149.214);
   --border: oklch(0.92 0.004 286.32);
   --input: oklch(0.92 0.004 286.32);
   --ring: var(--border);
@@ -131,6 +133,7 @@
   --accent: oklch(0.274 0.006 286.033);
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.704 0.191 22.216);
+  --success: oklch(0.792 0.209 151.711);
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
   --ring: var(--border);
@@ -165,25 +168,25 @@
   ::selection {
     @apply bg-selection text-selection-foreground;
   }
-    /* Custom scrollbar */
-    * {
-      scrollbar-width: thin;
-      scrollbar-color: var(--border) transparent;
-    }
-  
-    ::-webkit-scrollbar {
-      width: 10px;
-      height: 10px;
-    }
-  
-    ::-webkit-scrollbar-track {
-      background: transparent;
-    }
+  /* Custom scrollbar */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
 
-    ::-webkit-scrollbar-thumb {
-      background-color: var(--border);
-      border-radius: 10px;
-    }
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--border);
+    border-radius: 10px;
+  }
   body {
     @apply bg-background text-foreground;
     font-weight: var(--font-weight-normal);

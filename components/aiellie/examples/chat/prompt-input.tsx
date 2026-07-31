@@ -34,6 +34,7 @@ import {
   filterPromptCommands,
   type PromptCommand,
 } from "@/components/prompt-command-menu"
+import { PluginsCombobox } from "@/components/plugins-combobox"
 import { PromptModelMenu } from "@/components/prompt-model-menu"
 import {
   PromptProjectPicker,
@@ -80,6 +81,7 @@ export type PromptSubmitValue = {
   model: string
   effort: string
   fast: boolean
+  plugins: string[]
 }
 
 type PromptAttachment = {
@@ -143,6 +145,11 @@ export function PromptInputDemo({
   const [environmentId, setEnvironmentId] = React.useState<string | null>(null)
   const [environmentOpen, setEnvironmentOpen] = React.useState(false)
   const [approval, setApproval] = React.useState<ApprovalMode>("ask")
+  const [plugins, setPlugins] = React.useState<string[]>([
+    "documents",
+    "pdf",
+    "spreadsheets",
+  ])
   const [model, setModel] = React.useState("claude-opus-5")
   const [effort, setEffort] = React.useState("high")
   const [fast, setFast] = React.useState(true)
@@ -275,6 +282,7 @@ export function PromptInputDemo({
       model,
       effort,
       fast,
+      plugins,
     })
     setValue("")
     clearAttachments()
@@ -627,7 +635,13 @@ export function PromptInputDemo({
             </TooltipContent>
           </Tooltip>
           {!isDictating && (
-            <PromptApprovalMenu value={approval} onValueChange={setApproval} />
+            <>
+              <PluginsCombobox value={plugins} onValueChange={setPlugins} />
+              <PromptApprovalMenu
+                value={approval}
+                onValueChange={setApproval}
+              />
+            </>
           )}
           <div
             className={cn(
