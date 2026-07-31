@@ -18,9 +18,26 @@ const attachmentVariants = cva(
       },
       orientation: {
         horizontal: "min-w-40 items-center",
-        vertical: "w-24 flex-col has-data-[slot=attachment-content]:w-30",
+        vertical: "flex-col",
       },
     },
+    compoundVariants: [
+      {
+        orientation: "vertical",
+        size: "default",
+        class: "w-24 has-data-[slot=attachment-content]:w-30",
+      },
+      {
+        orientation: "vertical",
+        size: "sm",
+        class: "w-18 has-data-[slot=attachment-content]:w-26",
+      },
+      {
+        orientation: "vertical",
+        size: "xs",
+        class: "w-14 has-data-[slot=attachment-content]:w-22",
+      },
+    ],
   }
 )
 
@@ -47,7 +64,7 @@ function Attachment({
 }
 
 const attachmentMediaVariants = cva(
-  "relative flex aspect-square w-10 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-muted text-foreground group-data-[orientation=vertical]/attachment:w-full group-data-[size=sm]/attachment:w-8 group-data-[size=xs]/attachment:w-7 group-data-[size=xs]/attachment:rounded-md group-data-[state=error]/attachment:bg-destructive/10 group-data-[state=error]/attachment:text-destructive group-data-[orientation=vertical]/attachment:*:data-[slot=spinner]:size-6! [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 group-data-[orientation=vertical]/attachment:[&_svg:not([class*='size-'])]:size-6 group-data-[size=xs]/attachment:[&_svg:not([class*='size-'])]:size-3.5",
+  "relative flex aspect-square w-10 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-muted text-foreground group-data-[orientation=vertical]/attachment:w-full group-data-[orientation=horizontal]/attachment:group-data-[size=sm]/attachment:w-8 group-data-[orientation=horizontal]/attachment:group-data-[size=xs]/attachment:w-7 group-data-[size=xs]/attachment:rounded-md group-data-[state=error]/attachment:bg-destructive/10 group-data-[state=error]/attachment:text-destructive group-data-[orientation=vertical]/attachment:*:data-[slot=spinner]:size-6! [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 group-data-[orientation=vertical]/attachment:[&_svg:not([class*='size-'])]:size-6 group-data-[size=xs]/attachment:[&_svg:not([class*='size-'])]:size-3.5 group-data-[orientation=vertical]/attachment:group-data-[size=xs]/attachment:[&_svg:not([class*='size-'])]:size-5",
   {
     variants: {
       variant: {
@@ -134,7 +151,7 @@ function AttachmentActions({
     <div
       data-slot="attachment-actions"
       className={cn(
-        "relative z-20 flex shrink-0 items-center group-data-[orientation=vertical]/attachment:absolute group-data-[orientation=vertical]/attachment:top-3 group-data-[orientation=vertical]/attachment:end-3 group-data-[orientation=vertical]/attachment:gap-1",
+        "relative z-20 flex shrink-0 items-center group-data-[orientation=vertical]/attachment:absolute group-data-[orientation=vertical]/attachment:top-3 group-data-[orientation=vertical]/attachment:end-3 group-data-[orientation=vertical]/attachment:gap-1 group-data-[orientation=vertical]/attachment:group-data-[size=sm]/attachment:top-2.5 group-data-[orientation=vertical]/attachment:group-data-[size=sm]/attachment:end-2.5 group-data-[orientation=vertical]/attachment:group-data-[size=xs]/attachment:top-2 group-data-[orientation=vertical]/attachment:group-data-[size=xs]/attachment:end-2",
         className
       )}
       {...props}

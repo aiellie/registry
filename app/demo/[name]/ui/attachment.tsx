@@ -33,6 +33,7 @@ import { FileIcon, Cancel01Icon, TableIcon, File01Icon, Presentation01Icon, Cloc
 export default function AttachmentExample() {
   return (
     <ExampleWrapper>
+      <AttachmentMixedGroup />
       <AttachmentFiles />
       <AttachmentContentOnly />
       <AttachmentStates />
@@ -42,6 +43,163 @@ export default function AttachmentExample() {
       <AttachmentScrollableGroup />
       <AttachmentTriggers />
     </ExampleWrapper>
+  )
+}
+
+function AttachmentMixedGroup() {
+  return (
+    <Example title="Mixed Group" className="gap-4">
+      <AttachmentGroup className="w-full items-center">
+        <Attachment size="sm" className="w-56">
+          <AttachmentMedia>
+            <HugeiconsIcon icon={FileIcon} strokeWidth={2} />
+          </AttachmentMedia>
+          <AttachmentContent>
+            <AttachmentTitle>briefing-notes.pdf</AttachmentTitle>
+            <AttachmentDescription>PDF · 1.4 MB</AttachmentDescription>
+          </AttachmentContent>
+          <AttachmentActions>
+            <AttachmentAction aria-label="Remove briefing-notes.pdf">
+              <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} />
+            </AttachmentAction>
+          </AttachmentActions>
+        </Attachment>
+        <Attachment size="sm" orientation="vertical">
+          <AttachmentMedia variant="image">
+            <img
+              src="/brand/aiellie.haze.png"
+              alt="Aiellie haze"
+            />
+          </AttachmentMedia>
+          <AttachmentActions>
+            <AttachmentAction aria-label="Remove aiellie.haze.png">
+              <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} />
+            </AttachmentAction>
+          </AttachmentActions>
+          <AttachmentTrigger
+            render={
+              <a
+                href="/brand/aiellie.haze.png"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Open aiellie.haze.png"
+              />
+            }
+          />
+        </Attachment>
+        <Attachment size="sm" className="w-56">
+          <AttachmentMedia>
+            <HugeiconsIcon icon={TableIcon} strokeWidth={2} />
+          </AttachmentMedia>
+          <AttachmentContent>
+            <AttachmentTitle>customer-import.csv</AttachmentTitle>
+            <AttachmentDescription>CSV · 18 KB</AttachmentDescription>
+          </AttachmentContent>
+          <AttachmentActions>
+            <AttachmentAction aria-label="Remove customer-import.csv">
+              <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} />
+            </AttachmentAction>
+          </AttachmentActions>
+        </Attachment>
+        <Attachment size="sm" orientation="vertical">
+          <AttachmentMedia variant="image">
+            <img
+              src="/brand/aiellie.grain.png"
+              alt="Aiellie grain"
+            />
+          </AttachmentMedia>
+          <AttachmentActions>
+            <AttachmentAction aria-label="Remove aiellie.grain.png">
+              <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} />
+            </AttachmentAction>
+          </AttachmentActions>
+          <AttachmentTrigger
+            render={
+              <a
+                href="/brand/aiellie.grain.png"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Open aiellie.grain.png"
+              />
+            }
+          />
+        </Attachment>
+        <Attachment size="sm" className="w-56">
+          <AttachmentMedia>
+            <HugeiconsIcon icon={File01Icon} strokeWidth={2} />
+          </AttachmentMedia>
+          <AttachmentContent>
+            <AttachmentTitle>source-assets.zip</AttachmentTitle>
+            <AttachmentDescription>ZIP · 4.2 MB</AttachmentDescription>
+          </AttachmentContent>
+          <AttachmentActions>
+            <AttachmentAction aria-label="Remove source-assets.zip">
+              <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} />
+            </AttachmentAction>
+          </AttachmentActions>
+        </Attachment>
+        <Attachment size="sm" orientation="vertical">
+          <AttachmentMedia variant="image">
+            <img
+              src="/brand/aiellie.clouds.png"
+              alt="Aiellie clouds"
+            />
+          </AttachmentMedia>
+          <AttachmentActions>
+            <AttachmentAction aria-label="Remove aiellie.clouds.png">
+              <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} />
+            </AttachmentAction>
+          </AttachmentActions>
+          <AttachmentTrigger
+            render={
+              <a
+                href="/brand/aiellie.clouds.png"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Open aiellie.clouds.png"
+              />
+            }
+          />
+        </Attachment>
+        <Attachment size="sm" className="w-56">
+          <AttachmentMedia>
+            <HugeiconsIcon icon={Presentation01Icon} strokeWidth={2} />
+          </AttachmentMedia>
+          <AttachmentContent>
+            <AttachmentTitle>quarterly-review.key</AttachmentTitle>
+            <AttachmentDescription>Keynote · 9 MB</AttachmentDescription>
+          </AttachmentContent>
+          <AttachmentActions>
+            <AttachmentAction aria-label="Remove quarterly-review.key">
+              <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} />
+            </AttachmentAction>
+          </AttachmentActions>
+        </Attachment>
+        <Attachment size="sm" orientation="vertical">
+          <AttachmentMedia variant="image">
+            <img
+              src="/avatars/ellie.png"
+              alt="Ellie"
+            />
+          </AttachmentMedia>
+          <AttachmentActions>
+            <AttachmentAction aria-label="Remove ellie.png">
+              <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} />
+            </AttachmentAction>
+          </AttachmentActions>
+          <AttachmentTrigger
+            render={
+              <a
+                href="/avatars/ellie.png"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Open ellie.png"
+              />
+            }
+          />
+        </Attachment>
+      </AttachmentGroup>
+    </Example>
   )
 }
 
@@ -886,6 +1044,47 @@ function AttachmentSizes() {
           <AttachmentTitle>Extra small attachment</AttachmentTitle>
         </AttachmentContent>
       </Attachment>
+      <div className="flex w-full items-start gap-3">
+        <Attachment orientation="vertical">
+          <AttachmentMedia variant="image">
+            <img
+              src="/brand/aiellie.haze.png"
+              alt="Aiellie haze"
+            />
+          </AttachmentMedia>
+          <AttachmentActions>
+            <AttachmentAction aria-label="Remove aiellie.haze.png">
+              <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} />
+            </AttachmentAction>
+          </AttachmentActions>
+        </Attachment>
+        <Attachment size="sm" orientation="vertical">
+          <AttachmentMedia variant="image">
+            <img
+              src="/brand/aiellie.grain.png"
+              alt="Aiellie grain"
+            />
+          </AttachmentMedia>
+          <AttachmentActions>
+            <AttachmentAction aria-label="Remove aiellie.grain.png">
+              <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} />
+            </AttachmentAction>
+          </AttachmentActions>
+        </Attachment>
+        <Attachment size="xs" orientation="vertical">
+          <AttachmentMedia variant="image">
+            <img
+              src="/brand/aiellie.clouds.png"
+              alt="Aiellie clouds"
+            />
+          </AttachmentMedia>
+          <AttachmentActions>
+            <AttachmentAction aria-label="Remove aiellie.clouds.png">
+              <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} />
+            </AttachmentAction>
+          </AttachmentActions>
+        </Attachment>
+      </div>
     </Example>
   )
 }
