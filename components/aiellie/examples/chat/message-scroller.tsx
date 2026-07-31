@@ -8,7 +8,6 @@ import {
   ArrowExpand01Icon,
   ArrowUp02Icon,
   ArrowUpDownIcon,
-  ChatAddIcon,
   EyeIcon,
   Image,
   Motion01Icon,
@@ -26,7 +25,7 @@ import {
 import { HugeiconsIcon } from "@hugeicons/react"
 
 import { Icons } from "@/components/icons"
-import { createChat, getMessageText } from "@/lib/ai"
+import { getMessageText } from "@/lib/ai"
 import { MessageAnimated } from "@/components/ai/message-animated"
 import {
   CopyRow,
@@ -41,7 +40,6 @@ import {
   Card,
   CardAction,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
 } from "@/components/ui/card"
@@ -77,37 +75,11 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { ChatDropdown } from "@/components/chat-dropdown"
-import { SummaryDropdown } from "@/components/summary-dropdown"
-
-const chat = createChat()
-  .user(
-    "I'm building a chat for our app and the scroll behavior is driving me nuts. Every time the AI streams a reply, the whole thread jumps around."
-  )
-  .sleep(1000)
-  .assistant(
-    "That's the classic streaming scroll problem. Wrap your message list in `MessageScroller` and turn on `autoScroll` — the viewport pins to the bottom as tokens arrive, so users always see the latest text land in place.\n\nThe important part: it only auto-scrolls while the reader is already at the bottom. The moment they scroll up to read something earlier, auto-scroll backs off and their position is preserved. You get smooth streaming without fighting the user's intent."
-  )
-  .user(
-    "Okay, but when someone sends a new message the view still feels jarring — like the whole conversation reloads from the top."
-  )
-  .sleep(1000)
-  .assistant(
-    "MessageScrollerItem fixes that with turn anchoring. Set `scrollAnchor` on the turn that should settle near the top instead of blindly snapping to the document bottom.\n\nIt also leaves a small peek of the previous exchange visible above the anchor, so context isn't lost. The reply starts in view without that disorienting jump you get from a plain overflow container."
-  )
-  .user(
-    "And if they've scrolled up to re-read an older answer? I don't want to yank them back down."
-  )
-  .sleep(1000)
-  .assistant(
-    "You won't. Auto-scroll only runs when the viewport is already pinned to the bottom, so scrolling up is a deliberate opt-out — their place in the thread stays put even as new tokens keep arriving below.\n\nWhen there is content they haven't seen yet, `MessageScrollerButton` appears at the bottom of the viewport. One tap jumps them back to the newest message and re-engages auto-scroll. Same pattern as Slack or iMessage: quiet when you're caught up, helpful when you're not."
-  )
-  .user("Last one — does this work with assistive tech?")
-  .sleep(1000)
-  .assistant(
-    '`MessageScrollerContent` sets `role="log"` and `aria-relevant="additions"` by default, so screen readers announce new messages as they stream in.\n\nThe scroll button is a real `<button>` with an sr-only label, and it\'s removed from the tab order when you\'re already at the bottom — no ghost focus stops.'
-  )
-const initialMessages = chat.get({ count: 0 })
-const transport = chat.transport()
+import {
+  ChatsDropdown,
+  DEMO_CHATS,
+  type DemoChat,
+} from "@/components/aiellie/examples/chat/chats"
 
 /* -------------------------------------------------------------------------- */
 /*                              Scroller settings                             */
@@ -202,202 +174,237 @@ function SettingsGroup({ label }: { label: string }) {
   )
 }
 
+function ChatCard({
+  demoChat,
+  settings,
+  onSelectChat,
+}: {
+  demoChat: DemoChat
+  settings: ScrollerSettings
+  onSelectChat: (id: string) => void
+}) {
+  const [title, setTitle] = useState(demoChat.title)
+  const { messages, sendMessage, status, setMessages, regenerate } = useChat({
+    messages: demoChat.initialMessages,
+    transport: demoChat.transport,
+  })
+  const nextMessage = demoChat.chat.next({ after: messages })
+  const isBusy = status === "submitted" || status === "streaming"
+  const hasChanges =
+    title !== demoChat.title ||
+    messages.length !== demoChat.initialMessages.length
+
+  // defaultScrollPosition only applies on mount, so changing it remounts the
+  // scroller at the freshly picked position.
+  return (
+    <MessageScrollerProvider
+      key={settings.defaultScrollPosition}
+      autoScroll={settings.autoScroll}
+      defaultScrollPosition={settings.defaultScrollPosition}
+      scrollEdgeThreshold={settings.scrollEdgeThreshold}
+      scrollMargin={settings.scrollMargin}
+      scrollPreviousItemPeek={settings.scrollPreviousItemPeek}
+    >
+      <div className="relative flex flex-col gap-4">
+        <Card className="mx-auto h-140 w-full max-w-sm gap-0 rounded-2xl p-0 shadow-sm">
+          <CardHeader className="flex items-center gap-1 border-b p-3!">
+            <ChatsDropdown
+              activeId={demoChat.id}
+              onSelect={onSelectChat}
+              className="-ms-1.5"
+            />
+            <input
+              value={title}
+              onChange={(event) => setTitle(event.target.value)}
+              aria-label="Chat title"
+              placeholder="Untitled chat"
+              className="field-sizing-content max-w-48 min-w-14 shrink rounded-md px-1.5 py-1 text-sm font-medium text-muted-foreground transition-colors outline-none placeholder:text-muted-foreground/60 hover:bg-muted/50 hover:text-foreground focus-visible:bg-muted/50 focus-visible:text-foreground"
+            />
+            <ChatDropdown />
+            <CardAction className="ms-auto">
+              <Tooltip>
+                <TooltipTrigger
+                  render={
+                    <Button
+                      variant="outline"
+                      size="icon-sm"
+                      aria-label="Reset conversation"
+                      onClick={() => {
+                        setMessages(demoChat.initialMessages)
+                        setTitle(demoChat.title)
+                      }}
+                      disabled={isBusy || !hasChanges}
+                    >
+                      <HugeiconsIcon icon={RotateCw} />
+                    </Button>
+                  }
+                />
+                <TooltipContent>
+                  <p>Reset</p>
+                </TooltipContent>
+              </Tooltip>
+            </CardAction>
+          </CardHeader>
+          <CardContent className="flex-1 overflow-hidden p-0">
+            {messages.length === 0 ? (
+              <Empty className="h-full">
+                <EmptyHeader>
+                  <EmptyMedia variant="icon">
+                    <Icons.elephant />
+                  </EmptyMedia>
+                  <EmptyTitle>Morning, Ellie!</EmptyTitle>
+                  <EmptyDescription>
+                    What are we working on today? Press send to start a new
+                    conversation
+                  </EmptyDescription>
+                </EmptyHeader>
+              </Empty>
+            ) : (
+              <MessageScroller>
+                <MessageScrollerViewport
+                  preserveScrollOnPrepend={settings.preserveScrollOnPrepend}
+                >
+                  <MessageScrollerContent
+                    aria-busy={isBusy}
+                    className="p-(--card-spacing)"
+                  >
+                    {messages.map((message) => (
+                      <MessageAnimated
+                        key={message.id}
+                        message={message}
+                        scrollAnchor={
+                          settings.anchorRole !== "none" &&
+                          message.role === settings.anchorRole
+                        }
+                        onAction={(action) => {
+                          if (action.label === "Copy") {
+                            void navigator.clipboard.writeText(
+                              getMessageText(message)
+                            )
+                          }
+                          if (action.label === "Regenerate" && !isBusy) {
+                            void regenerate({ messageId: message.id })
+                          }
+                        }}
+                      />
+                    ))}
+                  </MessageScrollerContent>
+                </MessageScrollerViewport>
+                <MessageScrollerButton
+                  direction={settings.buttonDirection}
+                  behavior={settings.buttonBehavior}
+                  variant={settings.buttonVariant}
+                  size={settings.buttonSize}
+                />
+              </MessageScroller>
+            )}
+          </CardContent>
+          <CardFooter className="flex-col gap-2">
+            <form
+              onSubmit={(e) => {
+                e.preventDefault()
+                if (!nextMessage || isBusy) {
+                  return
+                }
+                void sendMessage(nextMessage)
+              }}
+              className="w-full"
+            >
+              <InputGroup className="rounded-xl">
+                <div className="h-14 w-full px-3 py-2.5">
+                  <span
+                    className="line-clamp-2 opacity-60 data-[status=ready]:opacity-100"
+                    data-status={status}
+                  >
+                    {nextMessage ? (
+                      getMessageText(nextMessage)
+                    ) : (
+                      <span className="text-muted-foreground">
+                        No messages queued. Reset the conversation.
+                      </span>
+                    )}
+                  </span>
+                </div>
+                <InputGroupAddon align="block-end" className="pt-1">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger
+                      render={
+                        <InputGroupButton
+                          aria-label="Add files"
+                          type="button"
+                          size="icon-xs"
+                          variant="outline"
+                        >
+                          <HugeiconsIcon icon={PlusSignIcon} />
+                        </InputGroupButton>
+                      }
+                    />
+                    <DropdownMenuContent
+                      align="start"
+                      side="top"
+                      className="w-44"
+                    >
+                      <DropdownMenuItem>
+                        <HugeiconsIcon icon={Paperclip} />
+                        Add Photos & Files
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem>
+                        <HugeiconsIcon icon={Image} />
+                        Create Image
+                      </DropdownMenuItem>
+                      <DropdownMenuItem>
+                        <HugeiconsIcon icon={Telescope} />
+                        Deep Research
+                      </DropdownMenuItem>
+                      <DropdownMenuItem>
+                        <HugeiconsIcon icon={Search} />
+                        Web Search
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                  <InputGroupButton
+                    type="submit"
+                    variant="default"
+                    size="icon-xs"
+                    disabled={!nextMessage || isBusy}
+                    className="ml-auto"
+                  >
+                    <HugeiconsIcon icon={ArrowUp02Icon} />
+                    <span className="sr-only">Send</span>
+                  </InputGroupButton>
+                </InputGroupAddon>
+              </InputGroup>
+            </form>
+          </CardFooter>
+        </Card>
+        <div className="px-0.5 text-center text-xs text-muted-foreground">
+          Demo is read only. Press send to send messages.
+        </div>
+      </div>
+    </MessageScrollerProvider>
+  )
+}
+
 export function MessageScrollerDemo() {
   const [settings, setSettings] = useState(DEFAULT_SETTINGS)
-  const { messages, sendMessage, status, setMessages, regenerate } = useChat({
-    messages: initialMessages,
-    transport,
-  })
-  const nextMessage = chat.next({ after: messages })
-  const isBusy = status === "submitted" || status === "streaming"
+  const [activeChatId, setActiveChatId] = useState(DEMO_CHATS[0].id)
+  const activeChat =
+    DEMO_CHATS.find((demoChat) => demoChat.id === activeChatId) ?? DEMO_CHATS[0]
 
   const update = (patch: Partial<ScrollerSettings>) =>
     setSettings((prev) => ({ ...prev, ...patch }))
 
   return (
     <>
-      {/* defaultScrollPosition only applies on mount, so changing it remounts
-          the scroller at the freshly picked position. */}
-      <MessageScrollerProvider
-        key={settings.defaultScrollPosition}
-        autoScroll={settings.autoScroll}
-        defaultScrollPosition={settings.defaultScrollPosition}
-        scrollEdgeThreshold={settings.scrollEdgeThreshold}
-        scrollMargin={settings.scrollMargin}
-        scrollPreviousItemPeek={settings.scrollPreviousItemPeek}
-      >
-        <div className="relative flex flex-col gap-4">
-          <Card className="mx-auto h-140 w-full max-w-sm gap-0 rounded-2xl p-0 shadow-sm">
-            <CardHeader className="flex items-center justify-between gap-1 border-b p-3!">
-              <CardDescription className="flex items-center gap-2">
-                <HugeiconsIcon
-                  icon={ChatAddIcon}
-                  strokeWidth={1.5}
-                  className="size-4 text-muted-foreground"
-                />
-                New Chat
-              </CardDescription>
-              <ChatDropdown />
-              <SummaryDropdown />
-              <CardAction>
-                <Tooltip>
-                  <TooltipTrigger
-                    render={
-                      <Button
-                        variant="outline"
-                        size="icon-xs"
-                        aria-label="Reset conversation"
-                        onClick={() => setMessages(initialMessages)}
-                        disabled={isBusy}
-                      >
-                        <HugeiconsIcon icon={RotateCw} />
-                      </Button>
-                    }
-                  />
-                  <TooltipContent>
-                    <p>Reset</p>
-                  </TooltipContent>
-                </Tooltip>
-              </CardAction>
-            </CardHeader>
-            <CardContent className="flex-1 overflow-hidden p-0">
-              {messages.length === 0 ? (
-                <Empty className="h-full">
-                  <EmptyHeader>
-                    <EmptyMedia variant="icon">
-                      <Icons.elephant />
-                    </EmptyMedia>
-                    <EmptyTitle>Morning, Ellie!</EmptyTitle>
-                    <EmptyDescription>
-                      What are we working on today? Press send to start a new
-                      conversation
-                    </EmptyDescription>
-                  </EmptyHeader>
-                </Empty>
-              ) : (
-                <MessageScroller>
-                  <MessageScrollerViewport
-                    preserveScrollOnPrepend={settings.preserveScrollOnPrepend}
-                  >
-                    <MessageScrollerContent
-                      aria-busy={isBusy}
-                      className="p-(--card-spacing)"
-                    >
-                      {messages.map((message) => (
-                        <MessageAnimated
-                          key={message.id}
-                          message={message}
-                          scrollAnchor={
-                            settings.anchorRole !== "none" &&
-                            message.role === settings.anchorRole
-                          }
-                          onAction={(action) => {
-                            if (action.label === "Copy") {
-                              void navigator.clipboard.writeText(
-                                getMessageText(message)
-                              )
-                            }
-                            if (action.label === "Regenerate" && !isBusy) {
-                              void regenerate({ messageId: message.id })
-                            }
-                          }}
-                        />
-                      ))}
-                    </MessageScrollerContent>
-                  </MessageScrollerViewport>
-                  <MessageScrollerButton
-                    direction={settings.buttonDirection}
-                    behavior={settings.buttonBehavior}
-                    variant={settings.buttonVariant}
-                    size={settings.buttonSize}
-                  />
-                </MessageScroller>
-              )}
-            </CardContent>
-            <CardFooter className="flex-col gap-2">
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault()
-                  if (!nextMessage || isBusy) {
-                    return
-                  }
-                  void sendMessage(nextMessage)
-                }}
-                className="w-full"
-              >
-                <InputGroup className="rounded-xl">
-                  <div className="h-14 w-full px-3 py-2.5">
-                    <span
-                      className="line-clamp-2 opacity-60 data-[status=ready]:opacity-100"
-                      data-status={status}
-                    >
-                      {nextMessage ? (
-                        getMessageText(nextMessage)
-                      ) : (
-                        <span className="text-muted-foreground">
-                          No messages queued. Reset the conversation.
-                        </span>
-                      )}
-                    </span>
-                  </div>
-                  <InputGroupAddon align="block-end" className="pt-1">
-                    <DropdownMenu>
-                      <DropdownMenuTrigger
-                        render={
-                          <InputGroupButton
-                            aria-label="Add files"
-                            type="button"
-                            size="icon-xs"
-                            variant="outline"
-                          >
-                            <HugeiconsIcon icon={PlusSignIcon} />
-                          </InputGroupButton>
-                        }
-                      />
-                      <DropdownMenuContent
-                        align="start"
-                        side="top"
-                        className="w-44"
-                      >
-                        <DropdownMenuItem>
-                          <HugeiconsIcon icon={Paperclip} />
-                          Add Photos & Files
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem>
-                          <HugeiconsIcon icon={Image} />
-                          Create Image
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>
-                          <HugeiconsIcon icon={Telescope} />
-                          Deep Research
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>
-                          <HugeiconsIcon icon={Search} />
-                          Web Search
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                    <InputGroupButton
-                      type="submit"
-                      variant="default"
-                      size="icon-xs"
-                      disabled={!nextMessage || isBusy}
-                      className="ml-auto"
-                    >
-                      <HugeiconsIcon icon={ArrowUp02Icon} />
-                      <span className="sr-only">Send</span>
-                    </InputGroupButton>
-                  </InputGroupAddon>
-                </InputGroup>
-              </form>
-            </CardFooter>
-          </Card>
-          <div className="px-0.5 text-center text-xs text-muted-foreground">
-            Demo is read only. Press send to send messages.
-          </div>
-        </div>
-      </MessageScrollerProvider>
+      {/* Keyed by chat so picking another conversation remounts useChat with
+          that script's own messages and transport. */}
+      <ChatCard
+        key={activeChat.id}
+        demoChat={activeChat}
+        settings={settings}
+        onSelectChat={setActiveChatId}
+      />
       <DemoControls
         title="Scroller settings"
         isDefault={valuesAreDefault(settings, DEFAULT_SETTINGS)}

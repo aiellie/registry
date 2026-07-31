@@ -48,7 +48,7 @@ export function BrandHeader() {
             <TooltipTrigger
               render={
                 <Button
-                  variant="ghost"
+                  variant={isCollapsed ? "secondary" : "ghost"}
                   size="icon-sm"
                   className="hidden md:flex"
                   onClick={toggleSidebar}
@@ -70,7 +70,7 @@ export function BrandHeader() {
             <TooltipTrigger
               render={
                 <Button
-                  variant="ghost"
+                  variant={isCollapsed ? "secondary" : "ghost"}
                   size="icon-sm"
                   className="md:hidden"
                   onClick={toggleSidebar}
@@ -89,7 +89,7 @@ export function BrandHeader() {
           <Tooltip>
             <TooltipTrigger
               render={
-                <Button variant="ghost" size="icon-sm" onClick={toggleBottom}>
+                <Button variant={bottomOpen ? "secondary" : "ghost"} size="icon-sm" onClick={toggleBottom}>
                   <HugeiconsIcon
                     icon={
                       bottomOpen ? SidebarBottomIcon : LayoutAlignBottomIcon
@@ -108,7 +108,7 @@ export function BrandHeader() {
           <Tooltip>
             <TooltipTrigger
               render={
-                <Button variant="ghost" size="icon-sm" onClick={toggleRight}>
+                <Button variant={rightOpen ? "secondary" : "ghost"} size="icon-sm" onClick={toggleRight}>
                   <HugeiconsIcon
                     icon={rightOpen ? SidebarRightIcon : LayoutAlignRightIcon}
                     strokeWidth={2}
