@@ -19,6 +19,7 @@ import { logo } from "@/app/demo/[name]/components/logo"
 import { promptInput } from "@/app/demo/[name]/components/prompt-input"
 
 // ai elements
+import { TerminalDemo } from "@/components/aiellie/examples/code/terminal"
 import ModelSelectorExample from "@/app/demo/[name]/ui/model-selector"
 import FileTreeExample from "@/app/demo/[name]/ui/file-tree"
 import WebPreviewExample from "@/app/demo/[name]/ui/web-preview"
@@ -128,6 +129,7 @@ export const demos: { [name: string]: Demo } = {
   "web-preview": WebPreviewExample,
   persona: PersonaExample,
   "ai-orb": AIOrbExample,
+  terminal: TerminalDemo,
   // ui
   accordion: AccordionExample,
   alert: AlertExample,

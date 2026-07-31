@@ -454,26 +454,26 @@ function AttachmentImages() {
           <Attachment className="w-full">
             <AttachmentMedia variant="image">
               <img
-                src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=900&auto=format&fit=crop&q=80"
-                alt="Workspace"
+                src="/brand/aiellie.haze.png"
+                alt="Aiellie haze"
               />
             </AttachmentMedia>
             <AttachmentContent>
-              <AttachmentTitle>workspace.png</AttachmentTitle>
+              <AttachmentTitle>aiellie.haze.png</AttachmentTitle>
               <AttachmentDescription>PNG · 820 KB</AttachmentDescription>
             </AttachmentContent>
             <AttachmentActions>
-              <AttachmentAction aria-label="Remove workspace.png">
+              <AttachmentAction aria-label="Remove aiellie.haze.png">
                 <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} />
               </AttachmentAction>
             </AttachmentActions>
             <AttachmentTrigger
               render={
                 <a
-                  href="https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=900&auto=format&fit=crop&q=80"
+                  href="/brand/aiellie.haze.png"
                   target="_blank"
                   rel="noreferrer"
-                  aria-label="Open workspace.png"
+                  aria-label="Open aiellie.haze.png"
                 />
               }
             />
@@ -481,26 +481,26 @@ function AttachmentImages() {
           <Attachment className="w-full">
             <AttachmentMedia variant="image">
               <img
-                src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?w=900&auto=format&fit=crop&q=80"
-                alt="Desk"
+                src="/brand/aiellie.grain.png"
+                alt="Aiellie grain"
               />
             </AttachmentMedia>
             <AttachmentContent>
-              <AttachmentTitle>desk-reference.jpg</AttachmentTitle>
-              <AttachmentDescription>JPG · 1.1 MB</AttachmentDescription>
+              <AttachmentTitle>aiellie.grain.png</AttachmentTitle>
+              <AttachmentDescription>PNG · 1.1 MB</AttachmentDescription>
             </AttachmentContent>
             <AttachmentActions>
-              <AttachmentAction aria-label="Remove desk-reference.jpg">
+              <AttachmentAction aria-label="Remove aiellie.grain.png">
                 <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} />
               </AttachmentAction>
             </AttachmentActions>
             <AttachmentTrigger
               render={
                 <a
-                  href="https://images.unsplash.com/photo-1497215728101-856f4ea42174?w=900&auto=format&fit=crop&q=80"
+                  href="/brand/aiellie.grain.png"
                   target="_blank"
                   rel="noreferrer"
-                  aria-label="Open desk-reference.jpg"
+                  aria-label="Open aiellie.grain.png"
                 />
               }
             />
@@ -508,26 +508,26 @@ function AttachmentImages() {
           <Attachment className="w-full">
             <AttachmentMedia variant="image">
               <img
-                src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=900&auto=format&fit=crop&q=80"
-                alt="Office"
+                src="/brand/aiellie.clouds.png"
+                alt="Aiellie clouds"
               />
             </AttachmentMedia>
             <AttachmentContent>
-              <AttachmentTitle>office-reference.jpg</AttachmentTitle>
-              <AttachmentDescription>JPG · 940 KB</AttachmentDescription>
+              <AttachmentTitle>aiellie.clouds.png</AttachmentTitle>
+              <AttachmentDescription>PNG · 940 KB</AttachmentDescription>
             </AttachmentContent>
             <AttachmentActions>
-              <AttachmentAction aria-label="Remove office-reference.jpg">
+              <AttachmentAction aria-label="Remove aiellie.clouds.png">
                 <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} />
               </AttachmentAction>
             </AttachmentActions>
             <AttachmentTrigger
               render={
                 <a
-                  href="https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=900&auto=format&fit=crop&q=80"
+                  href="/brand/aiellie.clouds.png"
                   target="_blank"
                   rel="noreferrer"
-                  aria-label="Open office-reference.jpg"
+                  aria-label="Open aiellie.clouds.png"
                 />
               }
             />
@@ -542,26 +542,22 @@ function AttachmentImages() {
           <Attachment orientation="vertical">
             <AttachmentMedia variant="image">
               <img
-                src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=900&auto=format&fit=crop&q=80"
-                alt="Workspace"
+                src="/brand/aiellie.haze.png"
+                alt="Aiellie haze"
               />
             </AttachmentMedia>
-            <AttachmentContent>
-              <AttachmentTitle>workspace.png</AttachmentTitle>
-              <AttachmentDescription>PNG · 820 KB</AttachmentDescription>
-            </AttachmentContent>
             <AttachmentActions>
-              <AttachmentAction aria-label="Remove workspace.png">
+              <AttachmentAction aria-label="Remove aiellie.haze.png">
                 <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} />
               </AttachmentAction>
             </AttachmentActions>
             <AttachmentTrigger
               render={
                 <a
-                  href="https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=900&auto=format&fit=crop&q=80"
+                  href="/brand/aiellie.haze.png"
                   target="_blank"
                   rel="noreferrer"
-                  aria-label="Open workspace.png"
+                  aria-label="Open aiellie.haze.png"
                 />
               }
             />
@@ -569,26 +565,22 @@ function AttachmentImages() {
           <Attachment orientation="vertical">
             <AttachmentMedia variant="image">
               <img
-                src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?w=900&auto=format&fit=crop&q=80"
-                alt="Desk"
+                src="/brand/aiellie.grain.png"
+                alt="Aiellie grain"
               />
             </AttachmentMedia>
-            <AttachmentContent>
-              <AttachmentTitle>desk-reference.jpg</AttachmentTitle>
-              <AttachmentDescription>JPG · 1.1 MB</AttachmentDescription>
-            </AttachmentContent>
             <AttachmentActions>
-              <AttachmentAction aria-label="Remove desk-reference.jpg">
+              <AttachmentAction aria-label="Remove aiellie.grain.png">
                 <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} />
               </AttachmentAction>
             </AttachmentActions>
             <AttachmentTrigger
               render={
                 <a
-                  href="https://images.unsplash.com/photo-1497215728101-856f4ea42174?w=900&auto=format&fit=crop&q=80"
+                  href="/brand/aiellie.grain.png"
                   target="_blank"
                   rel="noreferrer"
-                  aria-label="Open desk-reference.jpg"
+                  aria-label="Open aiellie.grain.png"
                 />
               }
             />
@@ -596,26 +588,22 @@ function AttachmentImages() {
           <Attachment orientation="vertical">
             <AttachmentMedia variant="image">
               <img
-                src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=900&auto=format&fit=crop&q=80"
-                alt="Office"
+                src="/brand/aiellie.clouds.png"
+                alt="Aiellie clouds"
               />
             </AttachmentMedia>
-            <AttachmentContent>
-              <AttachmentTitle>office-reference.jpg</AttachmentTitle>
-              <AttachmentDescription>JPG · 940 KB</AttachmentDescription>
-            </AttachmentContent>
             <AttachmentActions>
-              <AttachmentAction aria-label="Remove office-reference.jpg">
+              <AttachmentAction aria-label="Remove aiellie.clouds.png">
                 <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} />
               </AttachmentAction>
             </AttachmentActions>
             <AttachmentTrigger
               render={
                 <a
-                  href="https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=900&auto=format&fit=crop&q=80"
+                  href="/brand/aiellie.clouds.png"
                   target="_blank"
                   rel="noreferrer"
-                  aria-label="Open office-reference.jpg"
+                  aria-label="Open aiellie.clouds.png"
                 />
               }
             />
@@ -623,26 +611,22 @@ function AttachmentImages() {
           <Attachment orientation="vertical">
             <AttachmentMedia variant="image">
               <img
-                src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=900&auto=format&fit=crop&q=80"
-                alt="Outdoor patio"
+                src="/avatars/ellie.png"
+                alt="Ellie"
               />
             </AttachmentMedia>
-            <AttachmentContent>
-              <AttachmentTitle>patio-reference.jpg</AttachmentTitle>
-              <AttachmentDescription>JPG · 1.6 MB</AttachmentDescription>
-            </AttachmentContent>
             <AttachmentActions>
-              <AttachmentAction aria-label="Remove patio-reference.jpg">
+              <AttachmentAction aria-label="Remove ellie.png">
                 <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} />
               </AttachmentAction>
             </AttachmentActions>
             <AttachmentTrigger
               render={
                 <a
-                  href="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=900&auto=format&fit=crop&q=80"
+                  href="/avatars/ellie.png"
                   target="_blank"
                   rel="noreferrer"
-                  aria-label="Open patio-reference.jpg"
+                  aria-label="Open ellie.png"
                 />
               }
             />
@@ -650,26 +634,22 @@ function AttachmentImages() {
           <Attachment orientation="vertical">
             <AttachmentMedia variant="image">
               <img
-                src="https://images.unsplash.com/photo-1494526585095-c41746248156?w=900&auto=format&fit=crop&q=80"
-                alt="House exterior"
+                src="/avatars/aiellie.png"
+                alt="Aiellie"
               />
             </AttachmentMedia>
-            <AttachmentContent>
-              <AttachmentTitle>house-exterior.jpg</AttachmentTitle>
-              <AttachmentDescription>JPG · 1.4 MB</AttachmentDescription>
-            </AttachmentContent>
             <AttachmentActions>
-              <AttachmentAction aria-label="Remove house-exterior.jpg">
+              <AttachmentAction aria-label="Remove aiellie.png">
                 <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} />
               </AttachmentAction>
             </AttachmentActions>
             <AttachmentTrigger
               render={
                 <a
-                  href="https://images.unsplash.com/photo-1494526585095-c41746248156?w=900&auto=format&fit=crop&q=80"
+                  href="/avatars/aiellie.png"
                   target="_blank"
                   rel="noreferrer"
-                  aria-label="Open house-exterior.jpg"
+                  aria-label="Open aiellie.png"
                 />
               }
             />
@@ -691,16 +671,16 @@ function AttachmentImageStates() {
           <Attachment state="idle" className="w-full">
             <AttachmentMedia variant="image">
               <img
-                src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=900&auto=format&fit=crop&q=80"
-                alt="Office"
+                src="/brand/aiellie.clouds.png"
+                alt="Aiellie clouds"
               />
             </AttachmentMedia>
             <AttachmentContent>
-              <AttachmentTitle>office-reference.jpg</AttachmentTitle>
+              <AttachmentTitle>aiellie.clouds.png</AttachmentTitle>
               <AttachmentDescription>Ready to upload</AttachmentDescription>
             </AttachmentContent>
             <AttachmentActions>
-              <AttachmentAction aria-label="Remove office-reference.jpg">
+              <AttachmentAction aria-label="Remove aiellie.clouds.png">
                 <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} />
               </AttachmentAction>
             </AttachmentActions>
@@ -708,16 +688,16 @@ function AttachmentImageStates() {
           <Attachment state="uploading" className="w-full">
             <AttachmentMedia variant="image">
               <img
-                src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=900&auto=format&fit=crop&q=80"
-                alt="Workspace"
+                src="/brand/aiellie.haze.png"
+                alt="Aiellie haze"
               />
             </AttachmentMedia>
             <AttachmentContent>
-              <AttachmentTitle>workspace.png</AttachmentTitle>
+              <AttachmentTitle>aiellie.haze.png</AttachmentTitle>
               <AttachmentDescription>Uploading · 72%</AttachmentDescription>
             </AttachmentContent>
             <AttachmentActions>
-              <AttachmentAction aria-label="Remove workspace.png">
+              <AttachmentAction aria-label="Remove aiellie.haze.png">
                 <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} />
               </AttachmentAction>
             </AttachmentActions>
@@ -725,16 +705,16 @@ function AttachmentImageStates() {
           <Attachment state="processing" className="w-full">
             <AttachmentMedia variant="image">
               <img
-                src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?w=900&auto=format&fit=crop&q=80"
-                alt="Desk"
+                src="/brand/aiellie.grain.png"
+                alt="Aiellie grain"
               />
             </AttachmentMedia>
             <AttachmentContent>
-              <AttachmentTitle>desk-reference.jpg</AttachmentTitle>
+              <AttachmentTitle>aiellie.grain.png</AttachmentTitle>
               <AttachmentDescription>Processing image</AttachmentDescription>
             </AttachmentContent>
             <AttachmentActions>
-              <AttachmentAction aria-label="Remove desk-reference.jpg">
+              <AttachmentAction aria-label="Remove aiellie.grain.png">
                 <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} />
               </AttachmentAction>
             </AttachmentActions>
@@ -742,12 +722,12 @@ function AttachmentImageStates() {
           <Attachment state="error" className="w-full">
             <AttachmentMedia variant="image">
               <img
-                src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=900&auto=format&fit=crop&q=80"
-                alt="Office"
+                src="/brand/aiellie.clouds.png"
+                alt="Aiellie clouds"
               />
             </AttachmentMedia>
             <AttachmentContent>
-              <AttachmentTitle>office-reference.jpg</AttachmentTitle>
+              <AttachmentTitle>aiellie.clouds.png</AttachmentTitle>
               <AttachmentDescription>Upload failed</AttachmentDescription>
             </AttachmentContent>
             <AttachmentActions>
@@ -762,16 +742,16 @@ function AttachmentImageStates() {
           <Attachment state="done" className="w-full">
             <AttachmentMedia variant="image">
               <img
-                src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=900&auto=format&fit=crop&q=80"
-                alt="Workspace"
+                src="/brand/aiellie.haze.png"
+                alt="Aiellie haze"
               />
             </AttachmentMedia>
             <AttachmentContent>
-              <AttachmentTitle>workspace.png</AttachmentTitle>
+              <AttachmentTitle>aiellie.haze.png</AttachmentTitle>
               <AttachmentDescription>Uploaded · 1.2 MB</AttachmentDescription>
             </AttachmentContent>
             <AttachmentActions>
-              <AttachmentAction aria-label="Remove workspace.png">
+              <AttachmentAction aria-label="Remove aiellie.haze.png">
                 <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} />
               </AttachmentAction>
             </AttachmentActions>
@@ -786,16 +766,16 @@ function AttachmentImageStates() {
           <Attachment state="idle" orientation="vertical">
             <AttachmentMedia variant="image">
               <img
-                src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=900&auto=format&fit=crop&q=80"
-                alt="Office"
+                src="/brand/aiellie.clouds.png"
+                alt="Aiellie clouds"
               />
             </AttachmentMedia>
             <AttachmentContent>
-              <AttachmentTitle>office-reference.jpg</AttachmentTitle>
+              <AttachmentTitle>aiellie.clouds.png</AttachmentTitle>
               <AttachmentDescription>Ready</AttachmentDescription>
             </AttachmentContent>
             <AttachmentActions>
-              <AttachmentAction aria-label="Remove office-reference.jpg">
+              <AttachmentAction aria-label="Remove aiellie.clouds.png">
                 <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} />
               </AttachmentAction>
             </AttachmentActions>
@@ -803,16 +783,16 @@ function AttachmentImageStates() {
           <Attachment state="uploading" orientation="vertical">
             <AttachmentMedia variant="image">
               <img
-                src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=900&auto=format&fit=crop&q=80"
-                alt="Workspace"
+                src="/brand/aiellie.haze.png"
+                alt="Aiellie haze"
               />
             </AttachmentMedia>
             <AttachmentContent>
-              <AttachmentTitle>workspace.png</AttachmentTitle>
+              <AttachmentTitle>aiellie.haze.png</AttachmentTitle>
               <AttachmentDescription>Uploading</AttachmentDescription>
             </AttachmentContent>
             <AttachmentActions>
-              <AttachmentAction aria-label="Remove workspace.png">
+              <AttachmentAction aria-label="Remove aiellie.haze.png">
                 <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} />
               </AttachmentAction>
             </AttachmentActions>
@@ -820,16 +800,16 @@ function AttachmentImageStates() {
           <Attachment state="processing" orientation="vertical">
             <AttachmentMedia variant="image">
               <img
-                src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?w=900&auto=format&fit=crop&q=80"
-                alt="Desk"
+                src="/brand/aiellie.grain.png"
+                alt="Aiellie grain"
               />
             </AttachmentMedia>
             <AttachmentContent>
-              <AttachmentTitle>desk-reference.jpg</AttachmentTitle>
+              <AttachmentTitle>aiellie.grain.png</AttachmentTitle>
               <AttachmentDescription>Processing</AttachmentDescription>
             </AttachmentContent>
             <AttachmentActions>
-              <AttachmentAction aria-label="Remove desk-reference.jpg">
+              <AttachmentAction aria-label="Remove aiellie.grain.png">
                 <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} />
               </AttachmentAction>
             </AttachmentActions>
@@ -837,19 +817,19 @@ function AttachmentImageStates() {
           <Attachment state="error" orientation="vertical">
             <AttachmentMedia variant="image">
               <img
-                src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=900&auto=format&fit=crop&q=80"
-                alt="Office"
+                src="/brand/aiellie.clouds.png"
+                alt="Aiellie clouds"
               />
             </AttachmentMedia>
             <AttachmentContent>
-              <AttachmentTitle>office-reference.jpg</AttachmentTitle>
+              <AttachmentTitle>aiellie.clouds.png</AttachmentTitle>
               <AttachmentDescription>Failed</AttachmentDescription>
             </AttachmentContent>
             <AttachmentActions>
-              <AttachmentAction aria-label="Retry office-reference.jpg">
+              <AttachmentAction aria-label="Retry aiellie.clouds.png">
                 <HugeiconsIcon icon={RefreshIcon} strokeWidth={2} />
               </AttachmentAction>
-              <AttachmentAction aria-label="Remove office-reference.jpg">
+              <AttachmentAction aria-label="Remove aiellie.clouds.png">
                 <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} />
               </AttachmentAction>
             </AttachmentActions>
@@ -857,16 +837,16 @@ function AttachmentImageStates() {
           <Attachment state="done" orientation="vertical">
             <AttachmentMedia variant="image">
               <img
-                src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=900&auto=format&fit=crop&q=80"
-                alt="Workspace"
+                src="/brand/aiellie.haze.png"
+                alt="Aiellie haze"
               />
             </AttachmentMedia>
             <AttachmentContent>
-              <AttachmentTitle>workspace.png</AttachmentTitle>
+              <AttachmentTitle>aiellie.haze.png</AttachmentTitle>
               <AttachmentDescription>Done</AttachmentDescription>
             </AttachmentContent>
             <AttachmentActions>
-              <AttachmentAction aria-label="Remove workspace.png">
+              <AttachmentAction aria-label="Remove aiellie.haze.png">
                 <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} />
               </AttachmentAction>
             </AttachmentActions>
@@ -931,16 +911,16 @@ function AttachmentScrollableGroup() {
         <Attachment className="w-64">
           <AttachmentMedia variant="image">
             <img
-              src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=900&auto=format&fit=crop&q=80"
-              alt="Workspace"
+              src="/avatars/aiellieui.avatar.png"
+              alt="Aiellie UI avatar"
             />
           </AttachmentMedia>
           <AttachmentContent>
-            <AttachmentTitle>workspace.png</AttachmentTitle>
+            <AttachmentTitle>aiellieui.avatar.png</AttachmentTitle>
             <AttachmentDescription>PNG · 820 KB</AttachmentDescription>
           </AttachmentContent>
           <AttachmentActions>
-            <AttachmentAction aria-label="Remove workspace.png">
+            <AttachmentAction aria-label="Remove aiellieui.avatar.png">
               <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} />
             </AttachmentAction>
           </AttachmentActions>
@@ -992,16 +972,16 @@ function AttachmentScrollableGroup() {
         <Attachment orientation="vertical">
           <AttachmentMedia variant="image" className="aspect-square w-full">
             <img
-              src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?w=900&auto=format&fit=crop&q=80"
-              alt="Desk"
+              src="/brand/aiellie.grain.png"
+              alt="Aiellie grain"
             />
           </AttachmentMedia>
           <AttachmentContent>
-            <AttachmentTitle>desk.jpg</AttachmentTitle>
-            <AttachmentDescription>JPG</AttachmentDescription>
+            <AttachmentTitle>aiellie.grain.png</AttachmentTitle>
+            <AttachmentDescription>PNG</AttachmentDescription>
           </AttachmentContent>
           <AttachmentActions>
-            <AttachmentAction aria-label="Remove desk.jpg">
+            <AttachmentAction aria-label="Remove aiellie.grain.png">
               <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} />
             </AttachmentAction>
           </AttachmentActions>
@@ -1023,16 +1003,16 @@ function AttachmentScrollableGroup() {
         <Attachment orientation="vertical">
           <AttachmentMedia variant="image" className="aspect-square w-full">
             <img
-              src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=900&auto=format&fit=crop&q=80"
-              alt="Office"
+              src="/brand/aiellie.clouds.png"
+              alt="Aiellie clouds"
             />
           </AttachmentMedia>
           <AttachmentContent>
-            <AttachmentTitle>office.jpg</AttachmentTitle>
-            <AttachmentDescription>JPG</AttachmentDescription>
+            <AttachmentTitle>aiellie.clouds.png</AttachmentTitle>
+            <AttachmentDescription>PNG</AttachmentDescription>
           </AttachmentContent>
           <AttachmentActions>
-            <AttachmentAction aria-label="Remove office.jpg">
+            <AttachmentAction aria-label="Remove aiellie.clouds.png">
               <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} />
             </AttachmentAction>
           </AttachmentActions>

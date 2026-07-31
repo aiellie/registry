@@ -593,7 +593,7 @@ export const TerminalInput = ({
         autoCorrect="off"
         spellCheck={false}
         {...props}
-        className="min-w-0 flex-1 bg-transparent outline-none placeholder:text-muted-foreground disabled:opacity-50"
+        className="min-w-0 flex-1 bg-transparent text-ellipsis outline-none placeholder:text-muted-foreground disabled:opacity-50"
         disabled={disabled ?? isStreaming}
         onChange={(event) => {
           onChange?.(event)
