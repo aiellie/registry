@@ -3,8 +3,8 @@
 import type { ReactNode } from "react"
 import {
   Home01Icon,
-  PlusSignCircleIcon,
   Tick02Icon,
+  SmileIcon,
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { House } from "lucide-react"
@@ -76,7 +76,7 @@ export function BrandFilter({
           <Button variant="outline" size="sm" className="h-8 border-dashed" />
         }
       >
-        <HugeiconsIcon icon={PlusSignCircleIcon} strokeWidth={2} />
+        <HugeiconsIcon icon={SmileIcon} strokeWidth={2} />
         Brand
         {selected.size > 0 && (
           <>
@@ -85,7 +85,7 @@ export function BrandFilter({
             <Separator
               orientation="vertical"
               render={<span />}
-              className="mx-0.5 h-4"
+              className="mx-0.5"
             />
             <span className="flex gap-1">
               {value.map((brand) => (

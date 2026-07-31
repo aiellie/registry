@@ -86,7 +86,7 @@ export function BrandCards({
         onBrowse={onBrowse}
         sample={HUGEICONS_SAMPLE.map((icon, index) => (
           <span key={index} className="flex size-9 items-center justify-center">
-            <HugeiconsIcon icon={icon} size={20} strokeWidth={2} />
+            <HugeiconsIcon icon={icon} size={20} strokeWidth={1.5} />
           </span>
         ))}
       />

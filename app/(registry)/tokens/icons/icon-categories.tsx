@@ -1,6 +1,6 @@
 "use client"
 
-import { PlusSignCircleIcon, Tick02Icon } from "@hugeicons/core-free-icons"
+import { PlusSignCircleIcon, Tag01Icon, Tick02Icon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
 import { Badge } from "@/components/ui/badge"
@@ -65,7 +65,7 @@ export function IconCategories({
           <Button variant="outline" size="sm" className="h-8 border-dashed" />
         }
       >
-        <HugeiconsIcon icon={PlusSignCircleIcon} strokeWidth={2} />
+        <HugeiconsIcon icon={Tag01Icon} strokeWidth={2} />
         Category
         {selected.size > 0 && (
           <>
@@ -74,7 +74,7 @@ export function IconCategories({
             <Separator
               orientation="vertical"
               render={<span />}
-              className="mx-0.5 h-4"
+              className="mx-0.5"
             />
             <Badge
               variant="secondary"

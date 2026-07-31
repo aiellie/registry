@@ -95,7 +95,7 @@ const IconCell = memo(function IconCell({
         onClick={() => onSelect(entry)}
         // `text-foreground` anchors the tint's `currentColor` fallback — a bare
         // button would otherwise resolve it against the UA's form-control color.
-        className="group flex aspect-square cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border border-transparent p-1.5 text-foreground transition-colors hover:border-border hover:bg-accent focus-visible:border-border focus-visible:bg-accent focus-visible:outline-none"
+        className="group flex aspect-square cursor-pointer flex-col items-center justify-center gap-2 rounded-full border p-1.5 text-foreground transition-colors hover:border-border hover:bg-accent focus-visible:border-border focus-visible:bg-accent focus-visible:outline-none"
       >
         <span className="flex flex-1 items-center justify-center">
           {elements ? (
@@ -112,9 +112,6 @@ const IconCell = memo(function IconCell({
               style={{ width: size, height: size }}
             />
           )}
-        </span>
-        <span className="w-full truncate text-center text-[10px] leading-none text-muted-foreground group-hover:text-foreground">
-          {displayName(entry)}
         </span>
       </TooltipTrigger>
       {/* The label under the icon is truncated, so the tooltip carries the full
@@ -462,22 +459,21 @@ export function IconsView({ meta }: { meta: IconSetsMeta }) {
             {countLabel}
           </span>
 
-          {(!isDefaultView || tint) && (
-            <Button
-              variant="ghost"
-              size="sm"
-              className="ms-auto"
-              onClick={() => {
-                setQuery("")
-                setBrands([])
-                setCategories([])
-                setTint(null)
-              }}
-            >
-              <HugeiconsIcon icon={Cancel01Icon} />
-              Reset
-            </Button>
-          )}
+          <Button
+            variant="destructive"
+            size="sm"
+            className="ms-auto"
+            disabled={isDefaultView && !tint}
+            onClick={() => {
+              setQuery("")
+              setBrands([])
+              setCategories([])
+              setTint(null)
+            }}
+          >
+            <HugeiconsIcon icon={Cancel01Icon} />
+            Reset
+          </Button>
         </div>
       </div>
 
