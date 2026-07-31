@@ -1,8 +1,9 @@
 "use client"
 
 import * as React from "react"
-import { ArrowUpIcon, CheckIcon, PlusIcon } from "lucide-react"
+import { ArrowUpIcon, PlusIcon } from "lucide-react"
 
+import { gradientImage } from "@/lib/gradient"
 import { cn } from "@/lib/utils"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
@@ -40,29 +41,30 @@ const users = [
   {
     name: "Olivia Martin",
     email: "m@example.com",
-    avatar: "/avatars/01.png",
+  },
+  {
+    name: "Aiden Rodriguez",
+    email: "aiden.rodriguez@email.com",
   },
   {
     name: "Isabella Nguyen",
     email: "isabella.nguyen@email.com",
-    avatar: "/avatars/03.png",
-  },
-  {
-    name: "Emma Wilson",
-    email: "emma@example.com",
-    avatar: "/avatars/05.png",
   },
   {
     name: "Jackson Lee",
     email: "lee@example.com",
-    avatar: "/avatars/02.png",
   },
   {
-    name: "William Kim",
-    email: "will@email.com",
-    avatar: "/avatars/04.png",
+    name: "Ethan Chen",
+    email: "ethan.chen@email.com",
+  },
+  {
+    name: "Emma Wilson",
+    email: "emma@example.com",
   },
 ] as const
+
+const gradientAvatar = (seed: string) => gradientImage(seed)
 
 type User = (typeof users)[number]
 
@@ -97,7 +99,10 @@ export function CardsChat() {
         <CardHeader className="flex flex-row items-center">
           <div className="flex items-center gap-4">
             <Avatar className="border">
-              <AvatarImage src="/avatars/01.png" alt="Image" />
+              <AvatarImage
+                src={gradientAvatar("sofia.davis@example.com")}
+                alt="Sofia Davis"
+              />
               <AvatarFallback>S</AvatarFallback>
             </Avatar>
             <div className="flex flex-col gap-0.5">
@@ -180,15 +185,15 @@ export function CardsChat() {
         </CardFooter>
       </Card>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="gap-0 p-0 outline-none">
-          <DialogHeader className="px-4 pt-5 pb-4">
+        <DialogContent className=" outline-none">
+          <DialogHeader className="">
             <DialogTitle>New message</DialogTitle>
             <DialogDescription>
               Invite a user to this thread. This will create a new group
               message.
             </DialogDescription>
           </DialogHeader>
-          <Command className="overflow-hidden rounded-t-none border-t bg-transparent">
+          <Command className="overflow-hidden rounded-t-none border bg-transparent">
             <CommandInput placeholder="Search user..." />
             <CommandList>
               <CommandEmpty>No users found.</CommandEmpty>
@@ -196,8 +201,7 @@ export function CardsChat() {
                 {users.map((user) => (
                   <CommandItem
                     key={user.email}
-                    data-active={selectedUsers.includes(user)}
-                    className="data-[active=true]:opacity-50"
+                    data-checked={selectedUsers.includes(user)}
                     onSelect={() => {
                       if (selectedUsers.includes(user)) {
                         return setSelectedUsers(
@@ -215,20 +219,20 @@ export function CardsChat() {
                     }}
                   >
                     <Avatar className="border">
-                      <AvatarImage src={user.avatar} alt="Image" />
+                      <AvatarImage
+                        src={gradientAvatar(user.email)}
+                        alt={user.name}
+                      />
                       <AvatarFallback>{user.name[0]}</AvatarFallback>
                     </Avatar>
                     <div className="ml-2">
-                      <p className="text-sm leading-none font-medium">
+                      <p className="text-sm leading-none">
                         {user.name}
                       </p>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-xs text-muted-foreground">
                         {user.email}
                       </p>
                     </div>
-                    {selectedUsers.includes(user) ? (
-                      <CheckIcon className="ml-auto flex size-4 text-primary" />
-                    ) : null}
                   </CommandItem>
                 ))}
               </CommandGroup>
@@ -239,7 +243,10 @@ export function CardsChat() {
               <div className="flex -space-x-2 overflow-hidden">
                 {selectedUsers.map((user) => (
                   <Avatar key={user.email} className="inline-block border">
-                    <AvatarImage src={user.avatar} />
+                    <AvatarImage
+                      src={gradientAvatar(user.email)}
+                      alt={user.name}
+                    />
                     <AvatarFallback>{user.name[0]}</AvatarFallback>
                   </Avatar>
                 ))}
@@ -251,7 +258,6 @@ export function CardsChat() {
             )}
             <Button
               disabled={selectedUsers.length < 2}
-              size="sm"
               onClick={() => {
                 setOpen(false)
               }}

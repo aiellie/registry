@@ -9,7 +9,7 @@ import {
   GitBranchIcon,
   GitForkIcon,
   LinkSquare02Icon,
-  MoreHorizontalIcon,
+  MoreVerticalIcon,
   PencilEdit02Icon,
   PinOffIcon,
   PlusSignCircleIcon,
@@ -155,7 +155,7 @@ export function ChatDropdown({
             />
           }
         >
-          <HugeiconsIcon icon={MoreHorizontalIcon} strokeWidth={2} />
+          <HugeiconsIcon icon={MoreVerticalIcon} strokeWidth={2} />
         </TooltipTrigger>
         <TooltipContent side="bottom">Chat actions</TooltipContent>
       </Tooltip>

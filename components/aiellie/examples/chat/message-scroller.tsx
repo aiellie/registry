@@ -2,14 +2,17 @@
 
 import { useChat } from "@ai-sdk/react"
 import {
-  ArrowUpIcon,
-  GlobeIcon,
-  ImageIcon,
-  PaperclipIcon,
-  PlusIcon,
-  RotateCwIcon,
-  TelescopeIcon,
-} from "lucide-react"
+  PlusSignIcon,
+  Paperclip,
+  Image,
+  Telescope,
+  Search,
+  RotateCw,
+  ArrowUp02Icon,
+  ChatAddIcon,
+} from "@hugeicons/core-free-icons"
+import { HugeiconsIcon } from "@hugeicons/react"
+
 import { Icons } from "@/components/icons"
 import { createChat, getMessageText } from "@/lib/ai"
 import { MessageAnimated } from "@/components/ai/message-animated"
@@ -55,7 +58,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { ChatDropdown } from "@/components/chat-dropdown"
-
+import { SummaryDropdown } from "@/components/summary-dropdown"
 const chat = createChat()
   .user(
     "I'm building a chat for our app and the scroll behavior is driving me nuts. Every time the AI streams a reply, the whole thread jumps around."
@@ -97,22 +100,25 @@ export function MessageScrollerDemo() {
   return (
     <MessageScrollerProvider>
       <div className="relative flex flex-col gap-4">
-        <Card className="mx-auto h-140 w-full max-w-lg gap-0">
-          <CardHeader className="gap-1 border-b flex justify-between items-center">
-            <CardDescription>New Chat</CardDescription> 
+        <Card className="rounded-2xl mx-auto h-140 w-full max-w-lg gap-0 p-0">
+          <CardHeader className="gap-1 border-b flex justify-between items-center p-3!">
+            <CardDescription className="flex items-center gap-2">
+              <HugeiconsIcon icon={ChatAddIcon} strokeWidth={1.5} className="size-4 text-muted-foreground" />
+              New Chat</CardDescription> 
             <ChatDropdown />
+            <SummaryDropdown />
             <CardAction>
               <Tooltip>
                 <TooltipTrigger
                   render={
                     <Button
                       variant="outline"
-                      size="icon-sm"
+                      size="icon-xs"
                       aria-label="Reset conversation"
                       onClick={() => setMessages(initialMessages)}
                       disabled={isBusy}
                     >
-                      <RotateCwIcon />
+                      <HugeiconsIcon icon={RotateCw} />
                     </Button>
                   }
                 />
@@ -177,7 +183,7 @@ export function MessageScrollerDemo() {
               }}
               className="w-full"
             >
-              <InputGroup>
+              <InputGroup className="rounded-xl">
                 <div className="h-14 w-full px-3 py-2.5">
                   <span
                     className="line-clamp-2 opacity-60 data-[status=ready]:opacity-100"
@@ -199,10 +205,10 @@ export function MessageScrollerDemo() {
                         <InputGroupButton
                           aria-label="Add files"
                           type="button"
-                          size="icon-sm"
+                          size="icon-xs"
                           variant="outline"
                         >
-                          <PlusIcon />
+                          <HugeiconsIcon icon={PlusSignIcon} />
                         </InputGroupButton>
                       }
                     />
@@ -212,20 +218,20 @@ export function MessageScrollerDemo() {
                       className="w-44"
                     >
                       <DropdownMenuItem>
-                        <PaperclipIcon />
+                        <HugeiconsIcon icon={Paperclip} />
                         Add Photos & Files
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem>
-                        <ImageIcon />
+                        <HugeiconsIcon icon={Image} />
                         Create Image
                       </DropdownMenuItem>
                       <DropdownMenuItem>
-                        <TelescopeIcon />
+                        <HugeiconsIcon icon={Telescope} />
                         Deep Research
                       </DropdownMenuItem>
                       <DropdownMenuItem>
-                        <GlobeIcon />
+                        <HugeiconsIcon icon={Search} />
                         Web Search
                       </DropdownMenuItem>
                     </DropdownMenuContent>
@@ -233,11 +239,11 @@ export function MessageScrollerDemo() {
                   <InputGroupButton
                     type="submit"
                     variant="default"
-                    size="icon-sm"
+                    size="icon-xs"
                     disabled={!nextMessage || isBusy}
                     className="ml-auto"
                   >
-                    <ArrowUpIcon />
+                    <HugeiconsIcon icon={ArrowUp02Icon} />
                     <span className="sr-only">Send</span>
                   </InputGroupButton>
                 </InputGroupAddon>
