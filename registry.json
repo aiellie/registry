@@ -3393,9 +3393,10 @@
       "name": "terminal",
       "type": "registry:ui",
       "title": "Terminal",
-      "description": "Terminal with theme-aware Shiki highlighting, a streaming cursor, tabs, an interactive prompt with command history, and copy and clear actions.",
+      "description": "Terminal with theme-aware Shiki highlighting, a streaming cursor, tabs with a panel-type menu, an interactive prompt with command history, and copy and clear actions.",
       "registryDependencies": [
         "https://ui.aiellie.dev/r/button.json",
+        "https://ui.aiellie.dev/r/dropdown-menu.json",
         "https://ui.aiellie.dev/r/tooltip.json"
       ],
       "dependencies": [

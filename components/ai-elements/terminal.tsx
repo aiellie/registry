@@ -2,6 +2,12 @@
 
 import { Button } from "@/components/ui/button"
 import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
@@ -10,10 +16,13 @@ import {
 import { highlightCode } from "@/lib/highlight"
 import { cn } from "@/lib/utils"
 import {
+  AlertCircleIcon,
   Cancel01Icon,
+  ConsoleIcon,
   Copy01Icon,
   Delete01Icon,
   PlusSignIcon,
+  SourceCodeIcon,
   TerminalIcon,
   Tick02Icon,
 } from "@hugeicons/core-free-icons"
@@ -183,11 +192,7 @@ export const TerminalTab = ({
       tabIndex={0}
       {...props}
     >
-      <HugeiconsIcon
-        className="size-3 shrink-0"
-        icon={icon}
-        strokeWidth={2}
-      />
+      <HugeiconsIcon className="size-3 shrink-0" icon={icon} strokeWidth={2} />
       <span className="min-w-0 flex-1 truncate">{children}</span>
       {onClose && (
         <TooltipProvider>
@@ -225,42 +230,87 @@ export const TerminalTab = ({
   )
 }
 
-export type TerminalTabAddProps = ComponentProps<typeof Button> & {
+export type TerminalTabType = "terminal" | "console" | "problems" | "output"
+
+export const TERMINAL_TAB_OPTIONS: {
+  type: TerminalTabType
+  label: string
+  icon: IconSvgElement
+}[] = [
+  { icon: TerminalIcon, label: "Terminal", type: "terminal" },
+  { icon: ConsoleIcon, label: "Console", type: "console" },
+  { icon: AlertCircleIcon, label: "Problems", type: "problems" },
+  { icon: SourceCodeIcon, label: "Output", type: "output" },
+]
+
+export type TerminalTabAddProps = Omit<
+  ComponentProps<typeof Button>,
+  "onSelect"
+> & {
+  onSelect?: (type: TerminalTabType) => void
   tooltip?: string
 }
 
 export const TerminalTabAdd = ({
+  onSelect,
   tooltip = "New tab",
   children,
   className,
   ...props
-}: TerminalTabAddProps) => (
-  <TooltipProvider>
-    <Tooltip>
-      <TooltipTrigger
-        render={
-          <Button
-            className={cn("shrink-0", className)}
-            size="icon-xs"
-            variant="ghost"
-            {...props}
-          />
-        }
-      >
-        {children ?? (
-          <HugeiconsIcon
-            className="text-muted-foreground"
-            icon={PlusSignIcon}
-            strokeWidth={2}
-          />
-        )}
-      </TooltipTrigger>
-      <TooltipContent>
-        <p>{tooltip}</p>
-      </TooltipContent>
-    </Tooltip>
-  </TooltipProvider>
-)
+}: TerminalTabAddProps) => {
+  const ariaLabel = props["aria-label"] ?? tooltip
+
+  return (
+    <DropdownMenu>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger
+            render={
+              <DropdownMenuTrigger
+                render={
+                  <Button
+                    aria-label={ariaLabel}
+                    className={cn("shrink-0", className)}
+                    size="icon-xs"
+                    variant="ghost"
+                    {...props}
+                  />
+                }
+              />
+            }
+          >
+            {children ?? (
+              <HugeiconsIcon
+                className="text-muted-foreground"
+                icon={PlusSignIcon}
+                strokeWidth={2}
+              />
+            )}
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>{tooltip}</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+      <DropdownMenuContent align="start" className="w-44" sideOffset={6}>
+        {TERMINAL_TAB_OPTIONS.map((option) => (
+          <DropdownMenuItem
+            className="gap-2.5 px-2 py-1.5"
+            key={option.type}
+            onClick={() => onSelect?.(option.type)}
+          >
+            <HugeiconsIcon
+              className="size-4 shrink-0 text-muted-foreground"
+              icon={option.icon}
+              strokeWidth={2}
+            />
+            {option.label}
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
 
 export type TerminalCopyButtonProps = ComponentProps<typeof Button> & {
   onCopy?: () => void
@@ -579,7 +629,7 @@ export const Terminal = ({
     <TerminalContext.Provider value={contextValue}>
       <div
         className={cn(
-          "flex flex-col overflow-hidden rounded-xl border bg-card",
+          "flex flex-col overflow-hidden rounded-2xl border bg-card",
           className
         )}
         {...props}

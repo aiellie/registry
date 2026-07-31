@@ -1,15 +1,25 @@
 "use client"
 
 import * as React from "react"
+import {
+  ExclamationMarkIcon,
+  Cancel01Icon,
+  Tick02Icon,
+  InformationCircleIcon,
+} from "@hugeicons/core-free-icons"
+import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react"
 
 import {
   Terminal,
   TerminalContent,
   TerminalInput,
+  TERMINAL_TAB_OPTIONS,
   TerminalTab,
   TerminalTabAdd,
   TerminalTabs,
+  type TerminalTabType,
 } from "@/components/ai-elements/terminal"
+import { Badge } from "@/components/ui/badge"
 
 const PROMPT = "stashd@Mac ui.aiellie.dev %"
 
@@ -24,11 +34,102 @@ const HELP_TEXT = [
   "  clear             clear the terminal",
 ].join("\n")
 
-type Session = { id: number; title: string; output: string }
+type StatusLevel = "info" | "success" | "warning" | "error"
+type StaticPanelType = Exclude<TerminalTabType, "terminal">
+type PanelLine = { level: StatusLevel; text: string }
+
+const STATUS_ICONS: Record<StatusLevel, IconSvgElement> = {
+  info: InformationCircleIcon,
+  success: Tick02Icon,
+  warning: ExclamationMarkIcon,
+  error: Cancel01Icon,
+}
+
+const STATUS_ICON_CLASSES: Record<StatusLevel, string> = {
+  info: "",
+  success:
+    "bg-emerald-500/10 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400",
+  warning:
+    "bg-amber-500/10 text-amber-600 dark:bg-amber-500/20 dark:text-amber-400",
+  error: "bg-destructive/10 text-destructive dark:bg-destructive/20",
+}
+
+const PANEL_LINES: Record<StaticPanelType, PanelLine[]> = {
+  console: [
+    { level: "success", text: "[14:02:11] ready in 812 ms" },
+    {
+      level: "info",
+      text: "[14:02:12] compiled /demo/terminal in 214 ms",
+    },
+    {
+      level: "success",
+      text: "[14:02:14] GET /demo/terminal 200 in 38 ms",
+    },
+    {
+      level: "warning",
+      text: "[14:02:19] slow compilation detected (1.4 s)",
+    },
+    { level: "error", text: "[14:02:26] failed to load /api/session" },
+  ],
+  problems: [
+    {
+      level: "warning",
+      text: "components/terminal-panel.tsx:42:9 — Add an accessible label to this control",
+    },
+    {
+      level: "error",
+      text: "lib/session.ts:118:5 — Type 'undefined' is not assignable to type 'Session'",
+    },
+  ],
+  output: [
+    { level: "info", text: "$ pnpm build" },
+    { level: "info", text: "> ui.aiellie.dev@0.0.1 build — next build" },
+    { level: "info", text: "Creating an optimized production build ..." },
+    { level: "success", text: "Compiled successfully in 8.2s" },
+    { level: "success", text: "Generated static pages (150/150)" },
+  ],
+}
+
+const PROBLEM_COUNT = PANEL_LINES.problems.length
+
+const PANEL_DESCRIPTIONS: Record<TerminalTabType, string> = {
+  terminal: "Run shell commands and keep independent command history.",
+  console: "Inspect timestamped application and development-server logs.",
+  problems: "Review sample warnings and errors grouped by source file.",
+  output: "Follow sample build and task output.",
+}
+
+type Session = {
+  id: number
+  title: string
+  output: string
+  type: TerminalTabType
+}
+
+function PanelOutput({ type }: { type: StaticPanelType }) {
+  return (
+    <div className="space-y-1.5 p-2.5">
+      {PANEL_LINES[type].map((line) => (
+        <div className="flex items-start gap-2 leading-relaxed" key={line.text}>
+          <span
+            className={`mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full ${STATUS_ICON_CLASSES[line.level]}`}
+          >
+            <HugeiconsIcon
+              className="size-3"
+              icon={STATUS_ICONS[line.level]}
+              strokeWidth={2}
+            />
+          </span>
+          <span>{line.text}</span>
+        </div>
+      ))}
+    </div>
+  )
+}
 
 export function TerminalDemo() {
   const [sessions, setSessions] = React.useState<Session[]>([
-    { id: 1, output: "", title: "ui.aiellie.dev" },
+    { id: 1, output: "", title: "ui.aiellie.dev", type: "terminal" },
   ])
   const [activeId, setActiveId] = React.useState(1)
   const nextId = React.useRef(2)
@@ -70,9 +171,11 @@ export function TerminalDemo() {
     )
   }
 
-  const addTab = () => {
+  const addTab = (type: TerminalTabType) => {
     const id = nextId.current++
-    setSessions((current) => [...current, { id, output: "", title: "zsh" }])
+    const title =
+      TERMINAL_TAB_OPTIONS.find((option) => option.type === type)?.label ?? type
+    setSessions((current) => [...current, { id, output: "", title, type }])
     setActiveId(id)
   }
 
@@ -89,22 +192,43 @@ export function TerminalDemo() {
           {sessions.map((tab) => (
             <TerminalTab
               active={tab.id === session.id}
+              icon={
+                TERMINAL_TAB_OPTIONS.find((option) => option.type === tab.type)
+                  ?.icon
+              }
               key={tab.id}
               onClick={() => setActiveId(tab.id)}
               onClose={sessions.length > 1 ? () => closeTab(tab.id) : undefined}
             >
               {tab.title}
+              {tab.type === "problems" && (
+                <Badge
+                  className="ms-1 h-4 min-w-4 px-1 text-[10px] leading-none"
+                  variant="destructive"
+                >
+                  {PROBLEM_COUNT}
+                </Badge>
+              )}
             </TerminalTab>
           ))}
-          <TerminalTabAdd onClick={addTab} />
+          <TerminalTabAdd onSelect={addTab} />
         </TerminalTabs>
         <TerminalContent className="min-h-48">
-          <TerminalInput onSubmit={run} prompt={PROMPT} />
+          {session.type === "terminal" ? (
+            <TerminalInput onSubmit={run} prompt={PROMPT} />
+          ) : (
+            <PanelOutput type={session.type} />
+          )}
         </TerminalContent>
       </Terminal>
       <p className="text-sm text-muted-foreground">
-        Click the terminal and type <code>help</code>. Each tab keeps its own
-        scrollback; ArrowUp recalls history.
+        {PANEL_DESCRIPTIONS[session.type]}
+        {session.type === "terminal" && (
+          <>
+            {" "}
+            Type <code>help</code> to see the available commands.
+          </>
+        )}
       </p>
     </div>
   )

@@ -534,18 +534,26 @@ export function DemoControls({
         )}
       </AnimatePresence>
 
-      <button
-        type="button"
-        onClick={() => setOpen((prev) => !prev)}
-        aria-expanded={open}
-        className="inline-flex cursor-pointer items-center gap-2 rounded-full border border-border/60 bg-background/70 px-4 py-2.5 text-[13px] font-medium backdrop-blur-xl backdrop-saturate-150 transition-colors hover:bg-muted/70"
-      >
-        <HugeiconsIcon
-          aria-hidden
-          className="size-3.5"
-          icon={open ? Cancel01Icon : SlidersHorizontalIcon}
+      <Tooltip>
+        <TooltipTrigger
+          render={
+            <button
+              type="button"
+              onClick={() => setOpen((prev) => !prev)}
+              aria-expanded={open}
+              aria-label={open ? `Close ${title}` : `Open ${title}`}
+              className="inline-flex cursor-pointer items-center gap-2 rounded-full border border-border/60 bg-background/70 px-4 py-2.5 text-[13px] font-medium backdrop-blur-xl backdrop-saturate-150 transition-colors hover:bg-muted/70"
+            >
+              <HugeiconsIcon
+                aria-hidden
+                className="size-3.5"
+                icon={open ? Cancel01Icon : SlidersHorizontalIcon}
+              />
+            </button>
+          }
         />
-      </button>
+        <TooltipContent>{open ? `Close ${title}` : title}</TooltipContent>
+      </Tooltip>
     </div>
   )
 }
