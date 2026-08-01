@@ -1,8 +1,10 @@
 import type { Metadata } from "next"
-import { Geist, Geist_Mono } from "next/font/google"
 
 import "./globals.css"
+import { fontVariables } from "./fonts"
 import { ThemeProvider } from "@/components/theme-provider"
+import { ThemeStudio } from "@/components/theme-studio/theme-studio"
+import { ThemeStudioScript } from "@/components/theme-studio/theme-studio-script"
 import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/toast"
 
@@ -11,13 +13,6 @@ export const metadata: Metadata = {
   description:
     "A shadcn/ui registry distributing the ui.aiellie.dev design system: theme tokens, UI primitives, components, and blocks.",
 }
-
-const geist = Geist({subsets:['latin'],variable:'--font-sans'})
-
-const fontMono = Geist_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
-})
 
 export default function RootLayout({
   children,
@@ -28,11 +23,13 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn("antialiased", fontMono.variable, "font-sans", geist.variable)}
+      className={cn("antialiased", "font-sans", ...fontVariables)}
     >
       <body>
+        <ThemeStudioScript />
         <ThemeProvider>
           {children}
+          <ThemeStudio />
           <Toaster />
         </ThemeProvider>
       </body>

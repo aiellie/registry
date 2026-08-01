@@ -381,26 +381,44 @@ function BlockViewerCode() {
 
   return (
     <div className="me-[14px] hidden overflow-hidden rounded-xl border bg-code text-code-foreground group-data-[view=preview]/block-view-wrapper:hidden lg:flex lg:min-h-0 lg:flex-1">
-      <div className="flex h-full min-h-0 w-72 shrink-0 flex-col">
-        <BlockViewerFileTree />
-      </div>
-      <figure className="mx-0! mt-0 flex min-w-0 flex-1 flex-col rounded-xl border-none">
-        <figcaption className="font-mono flex h-12 shrink-0 items-center gap-2 border-b px-4 py-2 text-xs text-code-foreground [&_svg]:size-4 [&_svg]:opacity-70">
-          <span className="flex size-4 shrink-0 items-center justify-center [&_svg]:size-4">
-            {getIconForLanguageExtension(extensionOf(file.target))}
-          </span>
-          {file.target}
-          <div className="ms-auto flex items-center gap-2">
-            <CopyCodeButton content={rawContent} />
-            <DownloadButton content={rawContent} name={file.target} />
-          </div>
-        </figcaption>
-        <div
-          key={file.path}
-          dangerouslySetInnerHTML={{ __html: file.highlightedContent }}
-          className="code-lines no-scrollbar overflow-y-auto font-mono text-xs"
+      <ResizablePanelGroup orientation="horizontal">
+        <ResizablePanel
+          defaultSize="18rem"
+          minSize="10rem"
+          maxSize="50%"
+          className="flex h-full min-h-0 flex-col"
+          style={{ overflow: "hidden" }}
+        >
+          <BlockViewerFileTree />
+        </ResizablePanel>
+        <ResizableHandle
+          withHandle
+          className="bg-border transition-colors hover:bg-muted-foreground/40 [&>div]:h-8 [&>div]:transition-all hover:[&>div]:h-10 hover:[&>div]:bg-muted-foreground/60"
         />
-      </figure>
+        <ResizablePanel
+          minSize="30%"
+          className="flex h-full min-h-0 min-w-0 flex-col"
+          style={{ overflow: "hidden" }}
+        >
+          <figure className="mx-0! mt-0 flex min-h-0 min-w-0 flex-1 flex-col rounded-xl border-none">
+            <figcaption className="flex h-12 shrink-0 items-center gap-2 border-b px-4 py-2 font-mono text-xs text-code-foreground [&_svg]:size-4 [&_svg]:opacity-70">
+              <span className="flex size-4 shrink-0 items-center justify-center [&_svg]:size-4">
+                {getIconForLanguageExtension(extensionOf(file.target))}
+              </span>
+              <span className="truncate">{file.target}</span>
+              <div className="ms-auto flex shrink-0 items-center gap-2">
+                <CopyCodeButton content={rawContent} />
+                <DownloadButton content={rawContent} name={file.target} />
+              </div>
+            </figcaption>
+            <div
+              key={file.path}
+              dangerouslySetInnerHTML={{ __html: file.highlightedContent }}
+              className="code-lines no-scrollbar min-h-0 flex-1 overflow-auto font-mono text-xs"
+            />
+          </figure>
+        </ResizablePanel>
+      </ResizablePanelGroup>
     </div>
   )
 }
@@ -413,7 +431,7 @@ function BlockViewerFileTree() {
   }
 
   return (
-    <SidebarProvider className="flex h-full min-h-0 flex-col border-e">
+    <SidebarProvider className="flex h-full min-h-0 flex-col">
       <Sidebar
         collapsible="none"
         className="flex h-full min-h-0 w-full flex-1 flex-col bg-transparent"

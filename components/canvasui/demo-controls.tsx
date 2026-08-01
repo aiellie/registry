@@ -57,6 +57,44 @@ function subscribeHover(callback: () => void) {
 
 const getIsHoverDevice = () => window.matchMedia(HOVER_QUERY).matches
 
+/** Reverts one row, shown only while that row is holding a custom value. */
+function ResetButton({
+  label,
+  onReset,
+}: {
+  label: string
+  onReset: () => void
+}) {
+  return (
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger
+          render={
+            <button
+              type="button"
+              aria-label={`Reset ${label}`}
+              onClick={onReset}
+              // Rows that own a pointer gesture (the scrubber's track, a select
+              // trigger) sit underneath; swallowing the press keeps a reset from
+              // reading as the start of a drag.
+              onPointerDown={(event) => event.stopPropagation()}
+              className="inline-flex size-5 cursor-pointer items-center justify-center rounded-full text-muted-foreground/60 transition-colors hover:bg-foreground/10 hover:text-foreground"
+            />
+          }
+        >
+          <HugeiconsIcon
+            aria-hidden
+            className="size-3"
+            icon={RefreshIcon}
+            strokeWidth={2}
+          />
+        </TooltipTrigger>
+        <TooltipContent>Reset</TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  )
+}
+
 /** The leading icon + name every control row shares. */
 function RowLabel({
   icon,
@@ -91,6 +129,8 @@ export interface ScrubberProps {
   max?: number
   min?: number
   onValueChange?: (value: number) => void
+  /** When set, shows a reset icon that reverts the row. */
+  onReset?: () => void
   step?: number
   /** Number of tick marks (0 to hide). */
   ticks?: number
@@ -107,6 +147,7 @@ export function Scrubber({
   value: controlledValue,
   defaultValue = 0,
   onValueChange,
+  onReset,
   min = 0,
   max = 1,
   step = 0.01,
@@ -289,12 +330,23 @@ export function Scrubber({
         </div>
 
         <div
-          className="pointer-events-none absolute top-1/2 right-3 z-4 -translate-y-1/2 text-[12.5px] font-medium text-muted-foreground"
+          className={cn(
+            "pointer-events-none absolute top-1/2 z-4 -translate-y-1/2 text-[12.5px] font-medium text-muted-foreground",
+            onReset ? "right-9" : "right-3"
+          )}
           style={{ fontVariantNumeric: "tabular-nums" }}
         >
           {value.toFixed(decimals)}
         </div>
       </div>
+
+      {/* A sibling of the track rather than a child, so pressing it never
+          enters the track's pointer capture. */}
+      {onReset && (
+        <span className="absolute inset-y-0 right-2 z-5 flex items-center">
+          <ResetButton label={label} onReset={onReset} />
+        </span>
+      )}
     </div>
   )
 }
@@ -471,9 +523,15 @@ export interface DemoControlsProps {
   onReset: () => void
   /** Control rows: scrubbers, switches, radios, color pickers. */
   children: ReactNode
+  /** Extra buttons in the header, placed before Reset. */
+  headerActions?: ReactNode
   /** Pinned below the scroll area, e.g. a "Copy values" action. */
   footer?: ReactNode
 }
+
+/** The header's button treatment, so `headerActions` can match Reset. */
+export const DEMO_CONTROLS_HEADER_BUTTON =
+  "inline-flex cursor-pointer items-center gap-1.5 rounded-full px-2 py-1 text-[12px] font-medium text-muted-foreground transition-colors hover:text-foreground disabled:pointer-events-none disabled:opacity-40"
 
 /**
  * A floating "Controls" pill that expands into a glassy panel of control
@@ -484,6 +542,7 @@ export function DemoControls({
   isDefault,
   onReset,
   children,
+  headerActions,
   footer,
 }: DemoControlsProps) {
   const shouldReduceMotion = useReducedMotion()
@@ -508,23 +567,26 @@ export function DemoControls({
             transition={{ duration: open ? 0.3 : 0.15, ease: EASE }}
             className="w-72 rounded-2xl border border-border/60 bg-background/85 p-3 shadow-xl shadow-black/5 backdrop-blur-xl backdrop-saturate-150"
           >
-            <div className="mb-2 flex items-center justify-between pl-1">
+            <div className="mb-2 flex items-center justify-between gap-1 pl-1">
               <p className="text-[13px] font-semibold tracking-[-0.01em]">
                 {title}
               </p>
-              <button
-                type="button"
-                onClick={onReset}
-                disabled={isDefault}
-                className="inline-flex cursor-pointer items-center gap-1.5 rounded-full px-2 py-1 text-[12px] font-medium text-muted-foreground transition-colors hover:text-foreground disabled:pointer-events-none disabled:opacity-40"
-              >
-                <HugeiconsIcon
-                  aria-hidden
-                  className="size-3"
-                  icon={RefreshIcon}
-                />
-                Reset
-              </button>
+              <span className="flex shrink-0 items-center">
+                {headerActions}
+                <button
+                  type="button"
+                  onClick={onReset}
+                  disabled={isDefault}
+                  className={DEMO_CONTROLS_HEADER_BUTTON}
+                >
+                  <HugeiconsIcon
+                    aria-hidden
+                    className="size-3"
+                    icon={RefreshIcon}
+                  />
+                  Reset
+                </button>
+              </span>
             </div>
             <ScrollFade>{children}</ScrollFade>
             {footer && (
@@ -634,8 +696,9 @@ export function RadioRow<V extends string>({
   onValueChange,
 }: {
   label: string
+  /** Leading icon for the group. Omit when the options carry their own. */
   icon?: IconSvgElement
-  options: readonly { value: V; label: string }[]
+  options: readonly { value: V; label: string; icon?: IconSvgElement }[]
   value: V
   onValueChange: (value: V) => void
 }) {
@@ -643,7 +706,10 @@ export function RadioRow<V extends string>({
     <div
       role="radiogroup"
       aria-label={label}
-      className="flex h-8 w-full shrink-0 items-center gap-1 rounded-lg bg-muted/60 p-1 ps-3"
+      className={cn(
+        "flex h-8 w-full shrink-0 items-center gap-1 rounded-lg bg-muted/60 p-1",
+        icon && "ps-3"
+      )}
     >
       {icon && (
         <HugeiconsIcon
@@ -659,12 +725,21 @@ export function RadioRow<V extends string>({
           role="radio"
           aria-checked={value === option.value}
           onClick={() => onValueChange(option.value)}
-          className={`h-6 flex-1 cursor-pointer rounded-md text-[12px] font-medium transition-colors ${
+          className={cn(
+            "flex h-6 flex-1 cursor-pointer items-center justify-center gap-1.5 rounded-md text-[12px] font-medium transition-colors",
             value === option.value
               ? "bg-background text-foreground shadow-sm"
               : "text-muted-foreground hover:text-foreground"
-          }`}
+          )}
         >
+          {option.icon && (
+            <HugeiconsIcon
+              aria-hidden
+              className="size-3.5 shrink-0"
+              icon={option.icon}
+              strokeWidth={2}
+            />
+          )}
           {option.label}
         </button>
       ))}
@@ -696,30 +771,7 @@ export function ColorRow({
     <div className={cn(ROW, "select-none")}>
       <RowLabel icon={icon} label={label} />
       <span className="flex items-center gap-2">
-        {onReset && (
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger
-                render={
-                  <button
-                    type="button"
-                    aria-label={`Reset ${label}`}
-                    onClick={onReset}
-                    className="inline-flex size-5 cursor-pointer items-center justify-center rounded-full text-muted-foreground/60 transition-colors hover:bg-foreground/10 hover:text-foreground"
-                  />
-                }
-              >
-                <HugeiconsIcon
-                  aria-hidden
-                  className="size-3"
-                  icon={RefreshIcon}
-                  strokeWidth={2}
-                />
-              </TooltipTrigger>
-              <TooltipContent>Reset</TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        )}
+        {onReset && <ResetButton label={label} onReset={onReset} />}
         <ColorPicker
           label={label}
           value={value}
@@ -786,44 +838,57 @@ export function SelectRow<V extends string>({
   options,
   value,
   onValueChange,
+  onReset,
 }: {
   label: string
   icon?: IconSvgElement
   options: readonly { value: V; label: string }[]
   value: V
   onValueChange: (value: V) => void
+  /** When set, shows a reset icon that reverts the row. */
+  onReset?: () => void
 }) {
   return (
-    <Select
-      items={options as { value: V; label: string }[]}
-      value={value}
-      onValueChange={(next) => onValueChange(next as V)}
-    >
-      <SelectTrigger
-        aria-label={label}
-        className={cn(
-          ROW,
-          "cursor-pointer border-0 py-0 ps-3 pe-2.5 shadow-none focus-visible:ring-0 dark:bg-muted/60 dark:hover:bg-muted/80",
-          "[&_svg]:size-3.5"
-        )}
+    <div className="relative w-full shrink-0">
+      <Select
+        items={options as { value: V; label: string }[]}
+        value={value}
+        onValueChange={(next) => onValueChange(next as V)}
       >
-        <RowLabel icon={icon} label={label} />
-        <SelectValue className="flex-none text-[12.5px] font-medium text-muted-foreground" />
-      </SelectTrigger>
-      <SelectContent align="end" alignItemWithTrigger={false}>
-        <SelectGroup>
-          {options.map((option) => (
-            <SelectItem
-              key={option.value}
-              value={option.value}
-              className="text-[12.5px] font-medium"
-            >
-              {option.label}
-            </SelectItem>
-          ))}
-        </SelectGroup>
-      </SelectContent>
-    </Select>
+        <SelectTrigger
+          aria-label={label}
+          className={cn(
+            ROW,
+            "cursor-pointer border-0 py-0 ps-3 pe-2.5 shadow-none focus-visible:ring-0 dark:bg-muted/60 dark:hover:bg-muted/80",
+            "[&_svg]:size-3.5",
+            onReset && "pe-9"
+          )}
+        >
+          <RowLabel icon={icon} label={label} />
+          <SelectValue className="flex-none text-[12.5px] font-medium text-muted-foreground" />
+        </SelectTrigger>
+        <SelectContent align="end" alignItemWithTrigger={false}>
+          <SelectGroup>
+            {options.map((option) => (
+              <SelectItem
+                key={option.value}
+                value={option.value}
+                className="text-[12.5px] font-medium"
+              >
+                {option.label}
+              </SelectItem>
+            ))}
+          </SelectGroup>
+        </SelectContent>
+      </Select>
+
+      {/* Outside the trigger, so resetting never opens the menu. */}
+      {onReset && (
+        <span className="absolute inset-y-0 end-2 flex items-center">
+          <ResetButton label={label} onReset={onReset} />
+        </span>
+      )}
+    </div>
   )
 }
 

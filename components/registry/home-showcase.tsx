@@ -7,22 +7,9 @@ import { MessageScrollerDemo } from "@/app/(registry)/cards/message-scroller"
 import {
   AiOrbDemo,
   AnimatedBotsDemo,
-  AttachmentDemo,
-  BubbleDemo,
-  BubblesDemo,
   FileTreeDemo,
-  FindInPageDemo,
-  GlassDemo,
-  LiquidDemo,
-  LiveWaveformDemo,
-  MarkerDemo,
-  MessageDemo,
-  MicSelectorDemo,
-  ModelSelectorExample,
-  PromptInputDemo,
-  SpeechInputDemo,
-  TerminalDemo,
   WebPreviewDemo,
+  TerminalDemo,
 } from "@/components/aiellie/examples"
 import { ItemWrapper } from "@/components/item-wrapper"
 import { ItemDetailsDialog } from "@/components/registry/item-details-dialog"
@@ -51,17 +38,7 @@ const columns: { className: string; cells: Cell[] }[] = [
   {
     className: "flex flex-col gap-(--gap)",
     cells: [
-      { name: "prompt-input", demo: PromptInputDemo },
-      {
-        // AiOrb ships as a full-page playground — collapse its viewport-height
-        // wrapper, let the dot grid show through, and drop the floating
-        // shader-controls panel that would pin itself to the page corner.
-        name: "ai-orb",
-        demo: AiOrbDemo,
-        demoClassName:
-          "**:[.min-h-screen]:min-h-0! **:[.min-h-screen]:bg-transparent! **:[.fixed]:hidden",
-      },
-      { name: "animated-bots", demo: AnimatedBotsDemo },
+      { name: "web-preview", demo: WebPreviewDemo },
       {
         // The terminal demo centers itself in a viewport-height wrapper; the
         // card already provides the frame and padding.
@@ -69,24 +46,6 @@ const columns: { className: string; cells: Cell[] }[] = [
         demo: TerminalDemo,
         demoClassName: "**:[.min-h-dvh]:min-h-0! **:[.min-h-dvh]:p-0!",
       },
-      { name: "speech-input", demo: SpeechInputDemo },
-    ],
-  },
-  {
-    className: "hidden flex-col gap-(--gap) lg:flex",
-    cells: [
-      { name: "liquid", demo: LiquidDemo },
-      { name: "web-preview", demo: WebPreviewDemo },
-      { name: "bubble", demo: BubbleDemo },
-    ],
-  },
-  {
-    className: "hidden flex-col gap-(--gap) min-[1400px]:flex",
-    cells: [
-      { name: "glass", demo: GlassDemo },
-      { name: "attachment", demo: AttachmentDemo },
-      { name: "find-in-page", demo: FindInPageDemo },
-      { name: "model-selector", demo: ModelSelectorExample },
     ],
   },
   {
@@ -100,16 +59,21 @@ const columns: { className: string; cells: Cell[] }[] = [
         demoClassName: "**:[.text-center.text-xs]:hidden",
       },
       { name: "file-tree", demo: FileTreeDemo },
-      { name: "live-waveform", demo: LiveWaveformDemo },
     ],
   },
   {
-    className: "hidden flex-col gap-(--gap) min-[1900px]:flex",
+    className: "hidden flex-col gap-(--gap) lg:flex",
     cells: [
-      { name: "bubbles", demo: BubblesDemo },
-      { name: "message", demo: MessageDemo },
-      { name: "mic-selector", demo: MicSelectorDemo },
-      { name: "marker", demo: MarkerDemo },
+      {
+        // AiOrb ships as a full-page playground — collapse its viewport-height
+        // wrapper, let the dot grid show through, and drop the floating
+        // shader-controls panel that would pin itself to the page corner.
+        name: "ai-orb",
+        demo: AiOrbDemo,
+        demoClassName:
+          "**:[.min-h-screen]:min-h-0! **:[.min-h-screen]:bg-transparent! **:[.fixed]:hidden",
+      },
+      { name: "animated-bots", demo: AnimatedBotsDemo },
     ],
   },
 ]
@@ -207,7 +171,7 @@ export function HomeShowcase({
           the terminal demo's fixed w-xl would otherwise floor the implicit
           track at its 576px min-content width and blow the page out sideways
           on phones (percentage max-widths don't cap intrinsic sizing). */}
-      <div className="relative z-10 mx-auto grid max-w-full grid-cols-1 gap-(--gap) **:data-[slot=card]:w-full min-[1400px]:grid-cols-4! min-[1900px]:grid-cols-5! md:max-w-3xl md:grid-cols-2 lg:max-w-none lg:grid-cols-3 xl:max-w-[1600px] 2xl:max-w-[1900px]">
+      <div className="relative z-10 mx-auto grid max-w-full grid-cols-1 gap-(--gap) **:data-[slot=card]:w-full md:max-w-3xl md:grid-cols-2 lg:max-w-none lg:grid-cols-3 xl:max-w-[1600px]">
         {columns.map((column, columnIndex) => (
           <div key={columnIndex} className={column.className}>
             {column.cells.map((cell) => {

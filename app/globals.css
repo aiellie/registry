@@ -166,6 +166,10 @@
   --code-foreground: var(--surface-foreground);
   --code-highlight: oklch(0.96 0 0);
   --code-number: oklch(0.71 0.04 257);
+  /* Recolours syntax highlighting as a whole. Shiki bakes its palette into the
+     markup at render time, so the only knob left at runtime is a filter over
+     the finished block — enough for muted / vivid / mono / warm variants. */
+  --code-syntax-filter: none;
 }
 
 .dark {
@@ -274,6 +278,10 @@
   .dark .shiki span {
     color: var(--shiki-dark);
     background-color: var(--shiki-dark-bg);
+  }
+
+  .shiki {
+    filter: var(--code-syntax-filter);
   }
 
   /* Line numbers for code blocks that opt in via `.code-lines`. */
