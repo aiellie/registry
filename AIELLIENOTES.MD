@@ -3,7 +3,7 @@ These are just my notes for remembering certain commands etc
 Create Push:
 
 git add .
-git commit -m "webicon"
+git commit -m "ainotes"
 git push origin main
 
 git push origin main --force
@@ -37,3 +37,6 @@ todo:
 5. orangize registry
 6. add authentication to registry
 7. have claude build SOO many apps with your design system
+
+components:
+1. animated bots
