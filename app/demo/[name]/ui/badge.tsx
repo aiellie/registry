@@ -26,7 +26,7 @@ function BadgeVariants() {
     <Example title="Variants">
       <div className="flex flex-wrap gap-2">
         <Badge>Default</Badge>
-        <Badge variant="inverse">Inverse</Badge>
+        <Badge variant="accent">Accent</Badge>
         <Badge variant="secondary">Secondary</Badge>
         <Badge variant="destructive">Destructive</Badge>
         <Badge variant="outline">Outline</Badge>
@@ -45,7 +45,7 @@ function BadgeWithIconLeft() {
           <HugeiconsIcon icon={CheckmarkBadge02Icon} strokeWidth={2} data-icon="inline-start" />
           Default
         </Badge>
-        <Badge variant="inverse">
+        <Badge variant="accent">
           <HugeiconsIcon icon={CheckmarkBadge02Icon} strokeWidth={2} data-icon="inline-start" />
           Inverse
         </Badge>
@@ -82,8 +82,8 @@ function BadgeWithIconRight() {
           Default
           <HugeiconsIcon icon={ArrowRight02Icon} strokeWidth={2} data-icon="inline-end" />
         </Badge>
-        <Badge variant="inverse">
-          Inverse
+        <Badge variant="accent">
+          Accent
           <HugeiconsIcon icon={ArrowRight02Icon} strokeWidth={2} data-icon="inline-end" />
         </Badge>
         <Badge variant="secondary">
@@ -119,9 +119,9 @@ function BadgeWithSpinner() {
           <Spinner data-icon="inline-start" />
           Default
         </Badge>
-        <Badge variant="inverse">
+        <Badge variant="accent">
           <Spinner data-icon="inline-start" />
-          Inverse
+          Accent
         </Badge>
         <Badge variant="secondary">
           <Spinner data-icon="inline-start" />

@@ -64,7 +64,49 @@ function AttachmentMixedGroup() {
             </AttachmentAction>
           </AttachmentActions>
         </Attachment>
-        <Attachment size="sm" orientation="vertical">
+        <Attachment size="sm" className="w-56">
+          <AttachmentMedia>
+            <HugeiconsIcon icon={TableIcon} strokeWidth={2} />
+          </AttachmentMedia>
+          <AttachmentContent>
+            <AttachmentTitle>customer-import.csv</AttachmentTitle>
+            <AttachmentDescription>CSV · 18 KB</AttachmentDescription>
+          </AttachmentContent>
+          <AttachmentActions>
+            <AttachmentAction aria-label="Remove customer-import.csv">
+              <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} />
+            </AttachmentAction>
+          </AttachmentActions>
+        </Attachment>
+        <Attachment size="sm" className="w-56">
+          <AttachmentMedia>
+            <HugeiconsIcon icon={File01Icon} strokeWidth={2} />
+          </AttachmentMedia>
+          <AttachmentContent>
+            <AttachmentTitle>source-assets.zip</AttachmentTitle>
+            <AttachmentDescription>ZIP · 4.2 MB</AttachmentDescription>
+          </AttachmentContent>
+          <AttachmentActions>
+            <AttachmentAction aria-label="Remove source-assets.zip">
+              <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} />
+            </AttachmentAction>
+          </AttachmentActions>
+        </Attachment>
+        <Attachment size="sm" className="w-56">
+          <AttachmentMedia>
+            <HugeiconsIcon icon={Presentation01Icon} strokeWidth={2} />
+          </AttachmentMedia>
+          <AttachmentContent>
+            <AttachmentTitle>quarterly-review.key</AttachmentTitle>
+            <AttachmentDescription>Keynote · 9 MB</AttachmentDescription>
+          </AttachmentContent>
+          <AttachmentActions>
+            <AttachmentAction aria-label="Remove quarterly-review.key">
+              <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} />
+            </AttachmentAction>
+          </AttachmentActions>
+        </Attachment>
+        <Attachment size="xs" orientation="vertical">
           <AttachmentMedia variant="image">
             <img
               src="/brand/aiellie.haze.png"
@@ -87,21 +129,8 @@ function AttachmentMixedGroup() {
             }
           />
         </Attachment>
-        <Attachment size="sm" className="w-56">
-          <AttachmentMedia>
-            <HugeiconsIcon icon={TableIcon} strokeWidth={2} />
-          </AttachmentMedia>
-          <AttachmentContent>
-            <AttachmentTitle>customer-import.csv</AttachmentTitle>
-            <AttachmentDescription>CSV · 18 KB</AttachmentDescription>
-          </AttachmentContent>
-          <AttachmentActions>
-            <AttachmentAction aria-label="Remove customer-import.csv">
-              <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} />
-            </AttachmentAction>
-          </AttachmentActions>
-        </Attachment>
-        <Attachment size="sm" orientation="vertical">
+      
+        <Attachment size="xs" orientation="vertical">
           <AttachmentMedia variant="image">
             <img
               src="/brand/aiellie.grain.png"
@@ -124,21 +153,8 @@ function AttachmentMixedGroup() {
             }
           />
         </Attachment>
-        <Attachment size="sm" className="w-56">
-          <AttachmentMedia>
-            <HugeiconsIcon icon={File01Icon} strokeWidth={2} />
-          </AttachmentMedia>
-          <AttachmentContent>
-            <AttachmentTitle>source-assets.zip</AttachmentTitle>
-            <AttachmentDescription>ZIP · 4.2 MB</AttachmentDescription>
-          </AttachmentContent>
-          <AttachmentActions>
-            <AttachmentAction aria-label="Remove source-assets.zip">
-              <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} />
-            </AttachmentAction>
-          </AttachmentActions>
-        </Attachment>
-        <Attachment size="sm" orientation="vertical">
+
+        <Attachment size="xs" orientation="vertical">
           <AttachmentMedia variant="image">
             <img
               src="/brand/aiellie.clouds.png"
@@ -161,21 +177,8 @@ function AttachmentMixedGroup() {
             }
           />
         </Attachment>
-        <Attachment size="sm" className="w-56">
-          <AttachmentMedia>
-            <HugeiconsIcon icon={Presentation01Icon} strokeWidth={2} />
-          </AttachmentMedia>
-          <AttachmentContent>
-            <AttachmentTitle>quarterly-review.key</AttachmentTitle>
-            <AttachmentDescription>Keynote · 9 MB</AttachmentDescription>
-          </AttachmentContent>
-          <AttachmentActions>
-            <AttachmentAction aria-label="Remove quarterly-review.key">
-              <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} />
-            </AttachmentAction>
-          </AttachmentActions>
-        </Attachment>
-        <Attachment size="sm" orientation="vertical">
+
+        <Attachment size="xs" orientation="vertical">
           <AttachmentMedia variant="image">
             <img
               src="/avatars/ellie.png"

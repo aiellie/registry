@@ -1,7 +1,4 @@
-import {
-  Example,
-  ExampleWrapper,
-} from "@/components/example"
+import { Example, ExampleWrapper } from "@/components/example"
 import {
   Avatar,
   AvatarBadge,
@@ -36,6 +33,7 @@ export default function AvatarExample() {
   return (
     <ExampleWrapper>
       <AvatarSizes />
+      <AvatarColors />
       <AvatarDropdown />
       <AvatarWithBadge />
       <AvatarWithBadgeIcon />
@@ -81,6 +79,157 @@ function AvatarSizes() {
   )
 }
 
+/* Tailwind needs complete class names in source, so each color spells out its
+   full recipe. The avatar border is drawn by the root's `after` pseudo. */
+const avatarColors = [
+  {
+    name: "red",
+    root: "after:border-red-200",
+    fallback: "bg-red-500/5 text-red-500",
+  },
+  {
+    name: "orange",
+    root: "after:border-orange-200",
+    fallback: "bg-orange-500/5 text-orange-500",
+  },
+  {
+    name: "amber",
+    root: "after:border-amber-200",
+    fallback: "bg-amber-500/5 text-amber-500",
+  },
+  {
+    name: "yellow",
+    root: "after:border-yellow-200",
+    fallback: "bg-yellow-500/5 text-yellow-500",
+  },
+  {
+    name: "lime",
+    root: "after:border-lime-200",
+    fallback: "bg-lime-500/5 text-lime-500",
+  },
+  {
+    name: "green",
+    root: "after:border-green-200",
+    fallback: "bg-green-500/5 text-green-500",
+  },
+  {
+    name: "emerald",
+    root: "after:border-emerald-200",
+    fallback: "bg-emerald-500/5 text-emerald-500",
+  },
+  {
+    name: "teal",
+    root: "after:border-teal-200",
+    fallback: "bg-teal-500/5 text-teal-500",
+  },
+  {
+    name: "cyan",
+    root: "after:border-cyan-200",
+    fallback: "bg-cyan-500/5 text-cyan-500",
+  },
+  {
+    name: "sky",
+    root: "after:border-sky-200",
+    fallback: "bg-sky-500/5 text-sky-500",
+  },
+  {
+    name: "blue",
+    root: "after:border-blue-200",
+    fallback: "bg-blue-500/5 text-blue-500",
+  },
+  {
+    name: "indigo",
+    root: "after:border-indigo-200",
+    fallback: "bg-indigo-500/5 text-indigo-500",
+  },
+  {
+    name: "violet",
+    root: "after:border-violet-200",
+    fallback: "bg-violet-500/5 text-violet-500",
+  },
+  {
+    name: "purple",
+    root: "after:border-purple-200",
+    fallback: "bg-purple-500/5 text-purple-500",
+  },
+  {
+    name: "fuchsia",
+    root: "after:border-fuchsia-200",
+    fallback: "bg-fuchsia-500/5 text-fuchsia-500",
+  },
+  {
+    name: "pink",
+    root: "after:border-pink-200",
+    fallback: "bg-pink-500/5 text-pink-500",
+  },
+  {
+    name: "rose",
+    root: "after:border-rose-200",
+    fallback: "bg-rose-500/5 text-rose-500",
+  },
+  {
+    name: "slate",
+    root: "after:border-slate-200",
+    fallback: "bg-slate-500/5 text-slate-500",
+  },
+  {
+    name: "gray",
+    root: "after:border-gray-200",
+    fallback: "bg-gray-500/5 text-gray-500",
+  },
+  {
+    name: "zinc",
+    root: "after:border-zinc-200",
+    fallback: "bg-zinc-500/5 text-zinc-500",
+  },
+  {
+    name: "neutral",
+    root: "after:border-neutral-200",
+    fallback: "bg-neutral-500/5 text-neutral-500",
+  },
+  {
+    name: "stone",
+    root: "after:border-stone-200",
+    fallback: "bg-stone-500/5 text-stone-500",
+  },
+  {
+    name: "taupe",
+    root: "after:border-taupe-200",
+    fallback: "bg-taupe-500/5 text-taupe-500",
+  },
+  {
+    name: "mauve",
+    root: "after:border-mauve-200",
+    fallback: "bg-mauve-500/5 text-mauve-500",
+  },
+  {
+    name: "mist",
+    root: "after:border-mist-200",
+    fallback: "bg-mist-500/5 text-mist-500",
+  },
+  {
+    name: "olive",
+    root: "after:border-olive-200",
+    fallback: "bg-olive-500/5 text-olive-500",
+  },
+]
+
+function AvatarColors() {
+  return (
+    <Example title="Colors">
+      <div className="flex flex-wrap items-center gap-2">
+        {avatarColors.map((color) => (
+          <Avatar key={color.name} className={color.root}>
+            <AvatarFallback className={color.fallback}>
+              {color.name.slice(0, 2).toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
+        ))}
+      </div>
+    </Example>
+  )
+}
+
 function AvatarDropdown() {
   return (
     <Example title="Dropdown">
@@ -116,26 +265,17 @@ function AvatarWithBadge() {
     <Example title="Badge">
       <div className="flex flex-wrap items-center gap-2">
         <Avatar size="sm">
-          <AvatarImage
-            src="/avatars/ellie.png"
-            alt="Ellie"
-          />
+          <AvatarImage src="/avatars/ellie.png" alt="Ellie" />
           <AvatarFallback>EL</AvatarFallback>
           <AvatarBadge />
         </Avatar>
         <Avatar>
-          <AvatarImage
-            src="/avatars/ellie.png"
-            alt="Ellie"
-          />
+          <AvatarImage src="/avatars/ellie.png" alt="Ellie" />
           <AvatarFallback>EL</AvatarFallback>
           <AvatarBadge />
         </Avatar>
         <Avatar size="lg">
-          <AvatarImage
-            src="/avatars/ellie.png"
-            alt="Ellie"
-          />
+          <AvatarImage src="/avatars/ellie.png" alt="Ellie" />
           <AvatarFallback>EL</AvatarFallback>
           <AvatarBadge />
         </Avatar>
@@ -163,30 +303,21 @@ function AvatarWithBadgeIcon() {
     <Example title="Badge with Icon">
       <div className="flex flex-wrap items-center gap-2">
         <Avatar size="sm">
-          <AvatarImage
-            src="/favicon.svg"
-            alt="Aiellie favicon"
-          />
+          <AvatarImage src="/favicon.svg" alt="Aiellie favicon" />
           <AvatarFallback>AE</AvatarFallback>
           <AvatarBadge>
             <HugeiconsIcon icon={PlusSignIcon} strokeWidth={2} />
           </AvatarBadge>
         </Avatar>
         <Avatar>
-          <AvatarImage
-            src="/favicon.svg"
-            alt="Aiellie favicon"
-          />
+          <AvatarImage src="/favicon.svg" alt="Aiellie favicon" />
           <AvatarFallback>AE</AvatarFallback>
           <AvatarBadge>
             <HugeiconsIcon icon={PlusSignIcon} strokeWidth={2} />
           </AvatarBadge>
         </Avatar>
         <Avatar size="lg">
-          <AvatarImage
-            src="/favicon.svg"
-            alt="Aiellie favicon"
-          />
+          <AvatarImage src="/favicon.svg" alt="Aiellie favicon" />
           <AvatarFallback>AE</AvatarFallback>
           <AvatarBadge>
             <HugeiconsIcon icon={PlusSignIcon} strokeWidth={2} />
@@ -226,17 +357,11 @@ function AvatarGroupExample() {
           <AvatarFallback>AI</AvatarFallback>
         </Avatar>
         <Avatar size="sm">
-          <AvatarImage
-            src="/avatars/ellie.png"
-            alt="Ellie"
-          />
+          <AvatarImage src="/avatars/ellie.png" alt="Ellie" />
           <AvatarFallback>EL</AvatarFallback>
         </Avatar>
         <Avatar size="sm">
-          <AvatarImage
-            src="/favicon.svg"
-            alt="Aiellie favicon"
-          />
+          <AvatarImage src="/favicon.svg" alt="Aiellie favicon" />
           <AvatarFallback>ER</AvatarFallback>
         </Avatar>
       </AvatarGroup>
@@ -246,17 +371,11 @@ function AvatarGroupExample() {
           <AvatarFallback>AI</AvatarFallback>
         </Avatar>
         <Avatar>
-          <AvatarImage
-            src="/avatars/ellie.png"
-            alt="Ellie"
-          />
+          <AvatarImage src="/avatars/ellie.png" alt="Ellie" />
           <AvatarFallback>EL</AvatarFallback>
         </Avatar>
         <Avatar>
-          <AvatarImage
-            src="/favicon.svg"
-            alt="Aiellie favicon"
-          />
+          <AvatarImage src="/favicon.svg" alt="Aiellie favicon" />
           <AvatarFallback>ER</AvatarFallback>
         </Avatar>
       </AvatarGroup>
@@ -266,17 +385,11 @@ function AvatarGroupExample() {
           <AvatarFallback>AI</AvatarFallback>
         </Avatar>
         <Avatar size="lg">
-          <AvatarImage
-            src="/avatars/ellie.png"
-            alt="Ellie"
-          />
+          <AvatarImage src="/avatars/ellie.png" alt="Ellie" />
           <AvatarFallback>EL</AvatarFallback>
         </Avatar>
         <Avatar size="lg">
-          <AvatarImage
-            src="/favicon.svg"
-            alt="Aiellie favicon"
-          />
+          <AvatarImage src="/favicon.svg" alt="Aiellie favicon" />
           <AvatarFallback>ER</AvatarFallback>
         </Avatar>
       </AvatarGroup>
@@ -293,17 +406,11 @@ function AvatarGroupWithCount() {
           <AvatarFallback>AI</AvatarFallback>
         </Avatar>
         <Avatar size="sm">
-          <AvatarImage
-            src="/avatars/ellie.png"
-            alt="Ellie"
-          />
+          <AvatarImage src="/avatars/ellie.png" alt="Ellie" />
           <AvatarFallback>EL</AvatarFallback>
         </Avatar>
         <Avatar size="sm">
-          <AvatarImage
-            src="/favicon.svg"
-            alt="Aiellie favicon"
-          />
+          <AvatarImage src="/favicon.svg" alt="Aiellie favicon" />
           <AvatarFallback>ER</AvatarFallback>
         </Avatar>
         <AvatarGroupCount>+3</AvatarGroupCount>
@@ -314,17 +421,11 @@ function AvatarGroupWithCount() {
           <AvatarFallback>AI</AvatarFallback>
         </Avatar>
         <Avatar>
-          <AvatarImage
-            src="/avatars/ellie.png"
-            alt="Ellie"
-          />
+          <AvatarImage src="/avatars/ellie.png" alt="Ellie" />
           <AvatarFallback>EL</AvatarFallback>
         </Avatar>
         <Avatar>
-          <AvatarImage
-            src="/favicon.svg"
-            alt="Aiellie favicon"
-          />
+          <AvatarImage src="/favicon.svg" alt="Aiellie favicon" />
           <AvatarFallback>ER</AvatarFallback>
         </Avatar>
         <AvatarGroupCount>+3</AvatarGroupCount>
@@ -335,17 +436,11 @@ function AvatarGroupWithCount() {
           <AvatarFallback>AI</AvatarFallback>
         </Avatar>
         <Avatar size="lg">
-          <AvatarImage
-            src="/avatars/ellie.png"
-            alt="Ellie"
-          />
+          <AvatarImage src="/avatars/ellie.png" alt="Ellie" />
           <AvatarFallback>EL</AvatarFallback>
         </Avatar>
         <Avatar size="lg">
-          <AvatarImage
-            src="/favicon.svg"
-            alt="Aiellie favicon"
-          />
+          <AvatarImage src="/favicon.svg" alt="Aiellie favicon" />
           <AvatarFallback>ER</AvatarFallback>
         </Avatar>
         <AvatarGroupCount>+3</AvatarGroupCount>
@@ -363,17 +458,11 @@ function AvatarGroupWithIconCount() {
           <AvatarFallback>AI</AvatarFallback>
         </Avatar>
         <Avatar size="sm">
-          <AvatarImage
-            src="/avatars/ellie.png"
-            alt="Ellie"
-          />
+          <AvatarImage src="/avatars/ellie.png" alt="Ellie" />
           <AvatarFallback>EL</AvatarFallback>
         </Avatar>
         <Avatar size="sm">
-          <AvatarImage
-            src="/favicon.svg"
-            alt="Aiellie favicon"
-          />
+          <AvatarImage src="/favicon.svg" alt="Aiellie favicon" />
           <AvatarFallback>ER</AvatarFallback>
         </Avatar>
         <AvatarGroupCount>
@@ -386,17 +475,11 @@ function AvatarGroupWithIconCount() {
           <AvatarFallback>AI</AvatarFallback>
         </Avatar>
         <Avatar>
-          <AvatarImage
-            src="/avatars/ellie.png"
-            alt="Ellie"
-          />
+          <AvatarImage src="/avatars/ellie.png" alt="Ellie" />
           <AvatarFallback>EL</AvatarFallback>
         </Avatar>
         <Avatar>
-          <AvatarImage
-            src="/favicon.svg"
-            alt="Aiellie favicon"
-          />
+          <AvatarImage src="/favicon.svg" alt="Aiellie favicon" />
           <AvatarFallback>ER</AvatarFallback>
         </Avatar>
         <AvatarGroupCount>

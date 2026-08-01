@@ -54,8 +54,8 @@ function AccordionBasic() {
 
   return (
     <Example title="Basic">
-      <Accordion className="mx-auto max-w-lg">
-        {items.map((item) => (
+      <Accordion className="mx-auto max-w-lg overflow-hidden border rounded-xl p-2">
+      {items.map((item) => (
           <AccordionItem key={item.value} value={item.value}>
             <AccordionTrigger>{item.trigger}</AccordionTrigger>
             <AccordionContent>{item.content}</AccordionContent>

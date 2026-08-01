@@ -68,6 +68,55 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+/* Custom tinted-neutral scales extending the Tailwind palette, shaded on the
+   same lightness curve as the built-in gray family. */
+@theme {
+  --color-taupe-50: oklch(0.985 0.004 60);
+  --color-taupe-100: oklch(0.967 0.006 60);
+  --color-taupe-200: oklch(0.922 0.009 60);
+  --color-taupe-300: oklch(0.87 0.013 60);
+  --color-taupe-400: oklch(0.708 0.019 60);
+  --color-taupe-500: oklch(0.556 0.024 60);
+  --color-taupe-600: oklch(0.444 0.024 60);
+  --color-taupe-700: oklch(0.371 0.021 60);
+  --color-taupe-800: oklch(0.269 0.019 60);
+  --color-taupe-900: oklch(0.205 0.017 60);
+  --color-taupe-950: oklch(0.13 0.014 60);
+  --color-mauve-50: oklch(0.985 0.004 315);
+  --color-mauve-100: oklch(0.967 0.006 315);
+  --color-mauve-200: oklch(0.922 0.009 315);
+  --color-mauve-300: oklch(0.87 0.013 315);
+  --color-mauve-400: oklch(0.708 0.019 315);
+  --color-mauve-500: oklch(0.556 0.024 315);
+  --color-mauve-600: oklch(0.444 0.024 315);
+  --color-mauve-700: oklch(0.371 0.021 315);
+  --color-mauve-800: oklch(0.269 0.019 315);
+  --color-mauve-900: oklch(0.205 0.017 315);
+  --color-mauve-950: oklch(0.13 0.014 315);
+  --color-mist-50: oklch(0.985 0.004 230);
+  --color-mist-100: oklch(0.967 0.006 230);
+  --color-mist-200: oklch(0.922 0.009 230);
+  --color-mist-300: oklch(0.87 0.013 230);
+  --color-mist-400: oklch(0.708 0.019 230);
+  --color-mist-500: oklch(0.556 0.024 230);
+  --color-mist-600: oklch(0.444 0.024 230);
+  --color-mist-700: oklch(0.371 0.021 230);
+  --color-mist-800: oklch(0.269 0.019 230);
+  --color-mist-900: oklch(0.205 0.017 230);
+  --color-mist-950: oklch(0.13 0.014 230);
+  --color-olive-50: oklch(0.985 0.004 125);
+  --color-olive-100: oklch(0.967 0.006 125);
+  --color-olive-200: oklch(0.922 0.009 125);
+  --color-olive-300: oklch(0.87 0.013 125);
+  --color-olive-400: oklch(0.708 0.019 125);
+  --color-olive-500: oklch(0.556 0.024 125);
+  --color-olive-600: oklch(0.444 0.024 125);
+  --color-olive-700: oklch(0.371 0.021 125);
+  --color-olive-800: oklch(0.269 0.019 125);
+  --color-olive-900: oklch(0.205 0.017 125);
+  --color-olive-950: oklch(0.13 0.014 125);
+}
+
 :root {
   /* Compact layout rhythm. Keep control and icon sizing independent. */
   --background: oklch(1 0 0);
@@ -86,8 +135,8 @@
   --accent-foreground: oklch(0.457 0.24 277.023);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: #fef2f2;
-  --success: oklch(0.70 0.15 162);
-  --success-foreground: oklch(0.70 0.15 162/10%);
+  --success: oklch(0.7 0.15 162);
+  --success-foreground: oklch(0.7 0.15 162/10%);
   --warning: oklch(0.77 0.16 70);
   --warning-foreground: oklch(0.77 0.16 70/10%);
   --info: oklch(0.62 0.19 260);

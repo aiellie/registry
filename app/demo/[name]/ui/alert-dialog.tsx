@@ -25,7 +25,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { BluetoothIcon, Delete02Icon } from "@hugeicons/core-free-icons"
+import { BluetoothIcon, Delete01Icon } from "@hugeicons/core-free-icons"
 
 export default function AlertDialogExample() {
   return (
@@ -150,16 +150,14 @@ function AlertDialogDestructive() {
         <AlertDialogTrigger
           render={<Button variant="destructive">Delete Chat</Button>}
         />
-        <AlertDialogContent size="sm">
+        <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogMedia className="bg-destructive/10 text-destructive dark:bg-destructive/20 dark:text-destructive">
-              <HugeiconsIcon icon={Delete02Icon} strokeWidth={2} />
+            <AlertDialogMedia className="bg-destructive/5 text-destructive dark:bg-destructive/20 dark:text-destructive">
+              <HugeiconsIcon icon={Delete01Icon} strokeWidth={2} />
             </AlertDialogMedia>
             <AlertDialogTitle>Delete chat?</AlertDialogTitle>
             <AlertDialogDescription>
-              This will permanently delete this chat conversation. View{" "}
-              <a href="#">Settings</a> delete any memories saved during this
-              chat.
+              This will permanently delete this chat conversation.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
