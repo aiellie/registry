@@ -34,6 +34,7 @@ todo:
 2. complete user profile
 3. complete shadcn components how we want
 4. complete ai elements how we want
+4.5 update ui to match examples messages
 5. orangize registry
 6. add authentication to registry
 7. have claude build SOO many apps with your design system
