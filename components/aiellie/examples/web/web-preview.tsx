@@ -314,9 +314,10 @@ export function WebPreviewDemo() {
   return (
     <div
       className={cn(
-        "flex w-full flex-col gap-3 py-6",
-        expanded &&
-          "fixed inset-0 z-50 gap-0 bg-background p-4 py-4 sm:p-6 [&>p]:hidden"
+        "flex w-full flex-col gap-3",
+        expanded
+          ? "fixed inset-0 z-50 gap-0 bg-background p-4 sm:p-6 [&>p]:hidden"
+          : "py-6"
       )}
     >
       <WebPreview
