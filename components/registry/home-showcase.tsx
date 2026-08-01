@@ -6,6 +6,7 @@ import { HugeiconsIcon } from "@hugeicons/react"
 import { MessageScrollerDemo } from "@/app/(registry)/cards/message-scroller"
 import {
   AiOrbDemo,
+  AnimatedBotsDemo,
   AttachmentDemo,
   BubbleDemo,
   BubblesDemo,
@@ -60,6 +61,7 @@ const columns: { className: string; cells: Cell[] }[] = [
         demoClassName:
           "**:[.min-h-screen]:min-h-0! **:[.min-h-screen]:bg-transparent! **:[.fixed]:hidden",
       },
+      { name: "animated-bots", demo: AnimatedBotsDemo },
       {
         // The terminal demo centers itself in a viewport-height wrapper; the
         // card already provides the frame and padding.

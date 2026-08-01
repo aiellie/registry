@@ -50,6 +50,12 @@ import {
   SidebarMenuSub,
   SidebarProvider,
 } from "@/components/ui/sidebar"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 import { getItemIcon } from "@/lib/items"
 import type {
   FileTree,
@@ -375,7 +381,7 @@ function BlockViewerCode() {
 
   return (
     <div className="me-[14px] hidden overflow-hidden rounded-xl border bg-code text-code-foreground group-data-[view=preview]/block-view-wrapper:hidden lg:flex lg:min-h-0 lg:flex-1">
-      <div className="w-72 shrink-0">
+      <div className="flex h-full min-h-0 w-72 shrink-0 flex-col">
         <BlockViewerFileTree />
       </div>
       <figure className="mx-0! mt-0 flex min-w-0 flex-1 flex-col rounded-xl border-none">
@@ -407,19 +413,29 @@ function BlockViewerFileTree() {
   }
 
   return (
-    <SidebarProvider className="flex min-h-full! flex-col border-e">
-      <Sidebar collapsible="none" className="w-full flex-1 bg-transparent">
-        <div className="flex h-12 items-center border-b px-2">
-          <SidebarMenuButton size="sm">
-            <HugeiconsIcon
-              icon={getItemIcon(item.name)}
-              strokeWidth={2}
-              className="size-3.5 shrink-0 text-sidebar-primary-foreground"
-            />
-            <span>{item.title}</span>
-          </SidebarMenuButton>
+    <SidebarProvider className="flex h-full min-h-0 flex-col border-e">
+      <Sidebar
+        collapsible="none"
+        className="flex h-full min-h-0 w-full flex-1 flex-col bg-transparent"
+      >
+        <div className="flex h-12 shrink-0 items-center border-b px-2">
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger
+                render={<Button variant="ghost" size="icon-sm" />}
+              >
+                <HugeiconsIcon
+                  icon={getItemIcon(item.name)}
+                  strokeWidth={2}
+                  className="size-3.5"
+                />
+                <span className="sr-only">{item.title}</span>
+              </TooltipTrigger>
+              <TooltipContent>{item.title}</TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </div>
-        <SidebarGroup className="p-0">
+        <SidebarGroup className="min-h-0 flex-1 overflow-y-auto p-0">
           <SidebarGroupContent>
             <SidebarMenu className="translate-x-0 gap-1.5">
               {tree.map((file, index) => (

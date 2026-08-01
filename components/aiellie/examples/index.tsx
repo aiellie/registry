@@ -5,6 +5,7 @@ import * as React from "react"
 import { ModelSelectorDemo } from "@/components/aiellie/examples/chat/model-selector"
 import { models } from "@/lib/models"
 
+export { AnimatedBotsDemo } from "@/components/aiellie/examples/animation/animated-bots"
 export { BubblesDemo } from "@/components/aiellie/examples/animation/bubbles"
 export { GlassDemo } from "@/components/aiellie/examples/animation/glass"
 export { LiquidDemo } from "@/components/aiellie/examples/animation/liquid"
