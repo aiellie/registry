@@ -28,6 +28,7 @@ import {
   WebPreview,
   WebPreviewAnnotateToggle,
   WebPreviewBody,
+  WebPreviewConsole,
   WebPreviewMenu,
   WebPreviewNavigation,
   WebPreviewNavigationButton,
@@ -139,6 +140,12 @@ function TabFavicon({ url }: { url: string }) {
   )
 }
 
+type ConsoleLog = {
+  level: "log" | "warn" | "error"
+  message: string
+  timestamp: Date
+}
+
 interface FindState {
   open: boolean
   query: string
@@ -244,7 +251,17 @@ export function BrandSidebarRight({ className }: { className?: string }) {
   const [annotating, setAnnotating] = React.useState(false)
   const [zoom, setZoom] = React.useState(100)
   const [find, setFind] = React.useState<FindState>(emptyFindState)
+  const [logs, setLogs] = React.useState<ConsoleLog[]>([])
   const [panelOpenSnapshot, setPanelOpenSnapshot] = React.useState(rightOpen)
+
+  const log = React.useCallback(
+    (level: ConsoleLog["level"], message: string) => {
+      setLogs((current) =>
+        [...current, { level, message, timestamp: new Date() }].slice(-50)
+      )
+    },
+    []
+  )
 
   if (panelOpenSnapshot !== rightOpen) {
     setPanelOpenSnapshot(rightOpen)
@@ -295,13 +312,24 @@ export function BrandSidebarRight({ className }: { className?: string }) {
     (tabId: string, next: string) => {
       const target = normalizeUrl(next)
       if (!target) return
-      updateTab(tabId, (tab) => {
-        if (tabUrl(tab) === target) return tab
+      let opened = false
+      setState((current) => {
+        const tab = current.tabs.find((item) => item.id === tabId)
+        if (!tab || tabUrl(tab) === target) return current
+        opened = true
         const entries = [...tab.entries.slice(0, tab.index + 1), target]
-        return { ...tab, entries, index: entries.length - 1 }
+        return {
+          ...current,
+          tabs: current.tabs.map((item) =>
+            item.id === tabId
+              ? { ...tab, entries, index: entries.length - 1 }
+              : item
+          ),
+        }
       })
+      if (opened) log("log", `Opening ${target}`)
     },
-    [updateTab]
+    [log]
   )
 
   const go = (delta: number) =>
@@ -377,6 +405,7 @@ export function BrandSidebarRight({ className }: { className?: string }) {
     activeTabId: activeTab.id,
     annotating,
     find,
+    url,
     zoom,
   })
   React.useEffect(() => {
@@ -384,6 +413,7 @@ export function BrandSidebarRight({ className }: { className?: string }) {
       activeTabId: activeTab.id,
       annotating,
       find,
+      url,
       zoom,
     }
   })
@@ -425,6 +455,7 @@ export function BrandSidebarRight({ className }: { className?: string }) {
       if (sourceTabId !== toolbar.activeTabId) return
 
       if (data.type === "loaded") {
+        if (toolbar.url) log("log", `Loaded ${toolbar.url}`)
         if (toolbar.zoom !== 100) {
           sendToTab(sourceTabId, "zoom", { zoom: toolbar.zoom })
         }
@@ -447,7 +478,7 @@ export function BrandSidebarRight({ className }: { className?: string }) {
     }
     window.addEventListener("message", onMessage)
     return () => window.removeEventListener("message", onMessage)
-  }, [navigateTab, sendToTab])
+  }, [log, navigateTab, sendToTab])
 
   const panel = (
     <div
@@ -674,6 +705,7 @@ export function BrandSidebarRight({ className }: { className?: string }) {
             onActiveChange={(next) => {
               setAnnotating(next)
               send("annotate", { enabled: next })
+              log("log", next ? "Annotating enabled" : "Annotating disabled")
             }}
           />
 
@@ -766,6 +798,8 @@ export function BrandSidebarRight({ className }: { className?: string }) {
             </div>
           )
         })}
+
+        <WebPreviewConsole logs={logs} />
       </WebPreview>
     </div>
   )
