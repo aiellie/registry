@@ -120,54 +120,80 @@ export function LogoIcon({
   const orbBw = `${id}-orb-bw`;
   const shadeBw = `${id}-shade-bw`;
   const specBw = `${id}-spec-bw`;
-
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="#141B34" fill="none">
-    <path d="M7.3 6.9C4.6 5.6 2.2 7.3 2.2 10C2.2 12.7 4.4 14.4 7 13.6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-    <path d="M16.7 6.9C19.4 5.6 21.8 7.3 21.8 10C21.8 12.7 19.6 14.4 17 13.6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-    <path d="M6.5 10C6.5 6.8 8.9 4.4 12 4.4C15.1 4.4 17.5 6.8 17.5 10C17.5 11.9 16.8 13.5 15.5 14.6C15 15.05 14.35 15.35 13.6 15.45L13.6 18.3C13.6 19.35 12.9 20.05 12 20.05C11.1 20.05 10.4 19.35 10.4 18.3L10.4 15.45C9.65 15.35 9 15.05 8.5 14.6C7.2 13.5 6.5 11.9 6.5 10Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-    <path d="M9.8 9.4L9.81 9.4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-    <path d="M14.2 9.4L14.21 9.4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-  </svg>
-  
-  );
-}
-
-export function LogoOutline({
-  className,
-  ...props
-}: ComponentProps<"svg">) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 100 100"
-      fill="none"
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
       className={cn("size-8 shrink-0", className)}
-      aria-hidden="true"
       {...props}
     >
-      {/* Ears */}
-      <path
-        d="M30 42C18 30 6 34 4 48c-2 14 8 26 22 28 4-10 6-18 6-26 0-4-1-6-2-8Z"
-        strokeWidth={1.5}
-      />
-      <path
-        d="M70 42C82 30 94 34 96 48c2 14-8 26-22 28-4-10-6-18-6-26 0-4 1-6 2-8Z"
-        strokeWidth={1.5}
-      />
-      {/* Head */}
-      <ellipse cx="50" cy="46" rx="30" ry="28" strokeWidth={1.5} />
-      {/* Trunk */}
-      <path
-        d="M42 66c-1 8-6 14-4 22 2 7 12 8 14 2 1-5-1-9-1-14 0-4 3-7 6-8"
-        strokeWidth={1.5}
-      />
-      {/* Eyes */}
-      <ellipse cx="38" cy="46" rx="4.2" ry="5.4" strokeWidth={1.5} />
-      <ellipse cx="62" cy="46" rx="4.2" ry="5.4" strokeWidth={1.5} />
+      <defs>
+        <radialGradient id={orb} cx="36%" cy="30%" r="74%">
+          <stop offset="0%" stopColor="#ffffff" />
+          <stop offset="20%" stopColor="#fce7f3" />
+          <stop offset="46%" stopColor="#e9d5ff" />
+          <stop offset="73%" stopColor="#c4b5fd" />
+          <stop offset="100%" stopColor="#a5b4fc" />
+        </radialGradient>
+        <radialGradient id={shade} cx="30%" cy="80%" r="58%">
+          <stop offset="58%" stopColor="#8b7ff0" stopOpacity={0} />
+          <stop offset="100%" stopColor="#7d6fe8" stopOpacity={0.42} />
+        </radialGradient>
+        <radialGradient id={spec} cx="68%" cy="22%" r="26%">
+          <stop offset="0%" stopColor="#ffffff" stopOpacity={0.95} />
+          <stop offset="100%" stopColor="#ffffff" stopOpacity={0} />
+        </radialGradient>
+        <radialGradient id={orbBw} cx="36%" cy="30%" r="74%">
+          <stop offset="0%" stopColor="#ffffff" />
+          <stop offset="34%" stopColor="#e4e4e7" />
+          <stop offset="70%" stopColor="#a1a1aa" />
+          <stop offset="100%" stopColor="#52525b" />
+        </radialGradient>
+        <radialGradient id={shadeBw} cx="30%" cy="82%" r="58%">
+          <stop offset="54%" stopColor="#18181b" stopOpacity={0} />
+          <stop offset="100%" stopColor="#18181b" stopOpacity={0.45} />
+        </radialGradient>
+        <radialGradient id={specBw} cx="68%" cy="22%" r="26%">
+          <stop offset="0%" stopColor="#ffffff" stopOpacity={0.95} />
+          <stop offset="100%" stopColor="#ffffff" stopOpacity={0} />
+        </radialGradient>
+      </defs>
+      <g className="group-hover:hidden dark:hidden">
+        <circle cx="50" cy="50" r="48" fill={`url(#${orb})`} />
+        <circle cx="50" cy="50" r="48" fill={`url(#${shade})`} />
+        <circle cx="50" cy="50" r="48" fill={`url(#${spec})`} />
+        <g fill="#2a1f57">
+          <ellipse cx="40" cy="53" rx="5" ry="6.4" />
+          <ellipse cx="60" cy="53" rx="5" ry="6.4" />
+        </g>
+        <g fill="#ffffff" fillOpacity={0.92}>
+          <circle cx="38.1" cy="50" r="1.6" />
+          <circle cx="58.1" cy="50" r="1.6" />
+        </g>
+      </g>
+      <g className="hidden group-hover:block dark:group-hover:hidden">
+        <circle cx="50" cy="50" r="48" fill={`url(#${orb})`} />
+        <circle cx="50" cy="50" r="48" fill={`url(#${shade})`} />
+        <circle cx="50" cy="50" r="48" fill={`url(#${spec})`} />
+        <ellipse cx="40" cy="53" rx="5" ry="6.4" fill="#2a1f57" />
+        <circle cx="38.1" cy="50" r="1.6" fill="#ffffff" fillOpacity={0.92} />
+        <path
+          d="M53 54 Q60 49 67 54"
+          fill="none"
+          stroke="#2a1f57"
+          strokeWidth={4}
+          strokeLinecap="round"
+        />
+      </g>
+      <g className="hidden dark:block">
+        <circle cx="50" cy="50" r="48" fill={`url(#${orbBw})`} />
+        <circle cx="50" cy="50" r="48" fill={`url(#${shadeBw})`} />
+        <circle cx="50" cy="50" r="48" fill={`url(#${specBw})`} />
+        <g fill="none" stroke="#18181b" strokeWidth={4} strokeLinecap="round">
+          <path d="M33 56 Q40 48 47 56" />
+          <path d="M53 56 Q60 48 67 56" />
+        </g>
+      </g>
     </svg>
   );
 }

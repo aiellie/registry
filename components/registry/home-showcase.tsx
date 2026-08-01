@@ -186,9 +186,13 @@ export function HomeShowcase({ items }: { items: Component[] }) {
   return (
     <div
       data-slot="components-demo"
-      className="relative flex w-full max-w-none flex-col gap-(--gap) overflow-hidden bg-muted p-12 pb-0! [--gap:--spacing(8)] 3xl:[--gap:--spacing(8)] min-[1900px]:p-12 min-[1900px]:[--gap:--spacing(10)]! lg:p-6 lg:[--gap:--spacing(6)] dark:bg-background"
+      className="relative flex w-full max-w-none flex-col gap-(--gap) overflow-hidden bg-muted p-4 pb-0! [--gap:--spacing(8)] 3xl:[--gap:--spacing(8)] min-[1900px]:p-12 min-[1900px]:[--gap:--spacing(10)]! md:p-12 lg:p-6 lg:[--gap:--spacing(6)] dark:bg-background"
     >
-      <div className="relative z-10 mx-auto grid gap-(--gap) **:data-[slot=card]:w-full min-[1400px]:grid-cols-4! min-[1900px]:grid-cols-5! md:max-w-3xl md:grid-cols-2 lg:max-w-none lg:grid-cols-3 xl:max-w-[1600px] 2xl:max-w-[1900px]">
+      {/* Unlike CardsDemo, the base breakpoint needs an explicit grid-cols-1:
+          the terminal demo's fixed w-xl would otherwise floor the implicit
+          track at its 576px min-content width and blow the page out sideways
+          on phones (percentage max-widths don't cap intrinsic sizing). */}
+      <div className="relative z-10 mx-auto grid max-w-full grid-cols-1 gap-(--gap) **:data-[slot=card]:w-full min-[1400px]:grid-cols-4! min-[1900px]:grid-cols-5! md:max-w-3xl md:grid-cols-2 lg:max-w-none lg:grid-cols-3 xl:max-w-[1600px] 2xl:max-w-[1900px]">
         {columns.map((column, columnIndex) => (
           <div key={columnIndex} className={column.className}>
             {column.cells.map((cell) => {

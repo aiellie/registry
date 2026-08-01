@@ -3,7 +3,7 @@ These are just my notes for remembering certain commands etc
 Create Push:
 
 git add .
-git commit -m "profile"
+git commit -m "logoicon"
 git push origin main
 
 git push origin main --force
@@ -28,7 +28,12 @@ lsof -nP -iTCP:3000,3002,3003 -sTCP:LISTEN
 kill 98039
 pkill -9 node
 
-todo: 
-nav components (structure like registry template https://registry-starter.vercel.app/)
-search
-1 component or block
+
+todo:
+1. complete home page
+2. complete user profile
+3. complete shadcn components how we want
+4. complete ai elements how we want
+5. orangize registry
+6. add authentication to registry
+7. have claude build SOO many apps with your design system

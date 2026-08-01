@@ -54,7 +54,9 @@ export default async function IndexPage() {
   )
 
   return (
-    <div className="flex flex-1 flex-col">
+    // min-w-0 keeps a wide demo's min-content from flooring the page column
+    // past the viewport on phones.
+    <div className="flex min-w-0 flex-1 flex-col">
       <PageHeader className="md:**:[.container]:pb-8 lg:**:[.container]:pb-12">
         {/* min-h keeps the header from collapsing in the html-in-canvas path,
             where Bubble's children render inside an absolutely-positioned
