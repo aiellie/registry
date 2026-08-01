@@ -1,6 +1,5 @@
 import { type Metadata } from "next"
 
-import { Bubble } from "@/components/canvasui/Bubble"
 import { Announcement } from "@/components/registry/announcement"
 import {
   PageActions,
@@ -54,29 +53,23 @@ export default async function IndexPage() {
   )
 
   return (
-    // Bubble fills the column below the sticky site header (h-14) so the
-    // effect covers header, showcase, and footer. Explicit height is required
-    // in the html-in-canvas path, where children render inside an
-    // absolutely-positioned canvas and contribute no intrinsic height;
-    // content scrolls inside Bubble. min-w-0 keeps a wide demo's min-content
-    // from flooring the page column past the viewport on phones.
-    <Bubble className="h-[calc(100dvh-3.5rem)] min-w-0 w-full">
-      <div className="flex w-full flex-col">
-        <PageHeader className="border-0">
-          <div className="flex w-full flex-col items-center gap-2 xl:gap-4">
-            <Announcement />
-            <PageHeaderHeading className="max-w-4xl">{title}</PageHeaderHeading>
-            <PageHeaderDescription>{description}</PageHeaderDescription>
-            <PageActions>
-              <ScrollToComponentsButton />
-            </PageActions>
-          </div>
-        </PageHeader>
-        <div className="flex-1">
-          <HomeShowcase items={items} seamless />
+    // min-w-0 keeps a wide demo's min-content from flooring the page column
+    // past the viewport on phones.
+    <div className="flex min-w-0 w-full flex-1 flex-col">
+      <PageHeader className="border-0">
+        <div className="flex w-full flex-col items-center gap-2 xl:gap-4">
+          <Announcement />
+          <PageHeaderHeading className="max-w-4xl">{title}</PageHeaderHeading>
+          <PageHeaderDescription>{description}</PageHeaderDescription>
+          <PageActions>
+            <ScrollToComponentsButton />
+          </PageActions>
         </div>
-        <RegistryFooter className="border-t-0" />
+      </PageHeader>
+      <div className="flex-1">
+        <HomeShowcase items={items} seamless />
       </div>
-    </Bubble>
+      <RegistryFooter className="z-10 border-t-0 bg-transparent backdrop-blur-none" />
+    </div>
   )
 }

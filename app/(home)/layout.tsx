@@ -1,5 +1,6 @@
 import type { ReactNode } from "react"
 
+import { Bubble } from "@/components/canvasui/Bubble"
 import { RegistryHeader } from "@/components/registry/registry-header"
 import { getRootUrl } from "@/lib/mcp-config"
 import { getHighlightedMcpConfig } from "@/lib/mcp-config.server"
@@ -13,13 +14,21 @@ export default async function HomeLayout({
     await getHighlightedMcpConfig(getRootUrl())
 
   return (
-    <>
-      <RegistryHeader
-        highlightedConfig={highlightedConfig}
-        highlightedClients={highlightedClients}
-        showSidebarTrigger={false}
-      />
-      <main className="flex w-full justify-center">{children}</main>
-    </>
+    // Bubble owns the full viewport so the effect covers site chrome + page.
+    // Explicit height is required in the html-in-canvas path, where children
+    // render inside an absolutely-positioned canvas; content scrolls inside.
+    <Bubble className="h-dvh min-w-0 w-full">
+      <div className="flex min-h-full w-full flex-col">
+        <RegistryHeader
+          highlightedConfig={highlightedConfig}
+          highlightedClients={highlightedClients}
+          showSidebarTrigger={false}
+          blurOnScroll
+        />
+        <main className="flex min-w-0 w-full flex-1 flex-col justify-center">
+          {children}
+        </main>
+      </div>
+    </Bubble>
   )
 }

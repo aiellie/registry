@@ -748,8 +748,11 @@ export function Bubble({
         ref={outputRef}
         aria-hidden
         style={{
+          // Above sticky chrome inside content (e.g. header z-30). Clicks
+          // still reach controls underneath via pointer-events: none.
           position: "absolute",
           inset: 0,
+          zIndex: 40,
           width: "100%",
           height: "100%",
           pointerEvents: "none",
