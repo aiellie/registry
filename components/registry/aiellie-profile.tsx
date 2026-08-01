@@ -366,7 +366,7 @@ export function AiellieProfile() {
             ))}
           </div>
           <div className="flex flex-col">
-            <p className="mb-2 text-sm font-medium">Most used plugins</p>
+            <p className="mb-2 text-sm font-medium">Tech Stack</p>
             {PLUGINS.map((plugin) => (
               <div
                 key={plugin.name}
