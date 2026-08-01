@@ -63,9 +63,9 @@ export default function FieldExample() {
   )
 }
 
-function InputFields() {
+function InputFields({ className }: { className?: string }) {
   return (
-    <Example title="Input Fields">
+    <Example title="Input Fields" containerClassName={className}>
       <FieldGroup>
         <Field>
           <FieldLabel htmlFor="input-basic">Basic Input</FieldLabel>
@@ -137,9 +137,9 @@ function InputFields() {
   )
 }
 
-function TextareaFields() {
+function TextareaFields({ className }: { className?: string }) {
   return (
-    <Example title="Textarea Fields">
+    <Example title="Textarea Fields" containerClassName={className}>
       <FieldGroup>
         <Field>
           <FieldLabel htmlFor="textarea-basic">Basic Textarea</FieldLabel>
@@ -199,7 +199,7 @@ function TextareaFields() {
   )
 }
 
-function SelectFields() {
+function SelectFields({ className }: { className?: string }) {
   const basicItems = [
     { label: "Choose an option", value: null },
     { label: "Option 1", value: "option1" },
@@ -232,7 +232,7 @@ function SelectFields() {
   ]
 
   return (
-    <Example title="Select Fields">
+    <Example title="Select Fields" containerClassName={className}>
       <FieldGroup>
         <Field>
           <FieldLabel htmlFor="select-basic">Basic Select</FieldLabel>
@@ -336,9 +336,9 @@ function SelectFields() {
   )
 }
 
-function NativeSelectFields() {
+function NativeSelectFields({ className }: { className?: string }) {
   return (
-    <Example title="Native Select Fields">
+    <Example title="Native Select Fields" containerClassName={className}>
       <FieldGroup>
         <Field>
           <FieldLabel htmlFor="native-select-basic">
@@ -431,9 +431,9 @@ function NativeSelectFields() {
   )
 }
 
-function CheckboxFields() {
+function CheckboxFields({ className }: { className?: string }) {
   return (
-    <Example title="Checkbox Fields">
+    <Example title="Checkbox Fields" containerClassName={className}>
       <FieldGroup>
         <Field orientation="horizontal">
           <Checkbox id="checkbox-basic" defaultChecked />
@@ -506,9 +506,9 @@ function CheckboxFields() {
   )
 }
 
-function RadioFields() {
+function RadioFields({ className }: { className?: string }) {
   return (
-    <Example title="Radio Fields">
+    <Example title="Radio Fields" containerClassName={className}>
       <FieldGroup>
         <FieldSet>
           <FieldLegend variant="label">Subscription Plan</FieldLegend>
@@ -626,9 +626,9 @@ function RadioFields() {
   )
 }
 
-function SwitchFields() {
+function SwitchFields({ className }: { className?: string }) {
   return (
-    <Example title="Switch Fields">
+    <Example title="Switch Fields" containerClassName={className}>
       <FieldGroup>
         <Field orientation="horizontal">
           <FieldContent>
@@ -693,7 +693,7 @@ function SwitchFields() {
   )
 }
 
-function SliderFields() {
+function SliderFields({ className }: { className?: string }) {
   const [volume, setVolume] = useState([50])
   const [brightness, setBrightness] = useState([75])
   const [temperature, setTemperature] = useState([0.3, 0.7])
@@ -701,7 +701,7 @@ function SliderFields() {
   const [colorBalance, setColorBalance] = useState([10, 20, 70])
 
   return (
-    <Example title="Slider Fields">
+    <Example title="Slider Fields" containerClassName={className}>
       <FieldGroup>
         <Field>
           <FieldLabel htmlFor="slider-volume">Volume</FieldLabel>
@@ -813,12 +813,12 @@ function SliderFields() {
   )
 }
 
-function InputOTPFields() {
+function InputOTPFields({ className }: { className?: string }) {
   const [value, setValue] = useState("")
   const [pinValue, setPinValue] = useState("")
 
   return (
-    <Example title="OTP Input Fields">
+    <Example title="OTP Input Fields" containerClassName={className}>
       <FieldGroup>
         <Field>
           <FieldLabel htmlFor="otp-basic">Verification Code</FieldLabel>
@@ -932,7 +932,7 @@ function InputOTPFields() {
   )
 }
 
-function HorizontalFields() {
+function HorizontalFields({ className }: { className?: string }) {
   const basicItems = [
     { label: "Select a fruit", value: null },
     { label: "Apple", value: "apple" },
@@ -941,7 +941,7 @@ function HorizontalFields() {
   ]
 
   return (
-    <Example title="Horizontal Fields">
+    <Example title="Horizontal Fields" containerClassName={className}>
       <FieldGroup className="**:data-[slot=field-content]:min-w-48">
         <Field orientation="horizontal">
           <FieldContent>
@@ -1017,9 +1017,9 @@ function HorizontalFields() {
   )
 }
 
-function ResponsiveFields() {
+function ResponsiveFields({ className }: { className?: string }) {
   return (
-    <Example title="Responsive Fields">
+    <Example title="Responsive Fields" containerClassName={className}>
       <FieldSet>
         <FieldLegend>Profile</FieldLegend>
         <FieldDescription>Fill in your profile information.</FieldDescription>

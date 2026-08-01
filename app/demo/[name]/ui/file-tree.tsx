@@ -234,9 +234,9 @@ export default function FileTreeExample() {
   )
 }
 
-function DefaultVariant() {
+function DefaultVariant({ className }: { className?: string }) {
   return (
-    <Example title="Default">
+    <Example title="Default" containerClassName={className}>
       <FileTree defaultExpanded={new Set(["app", "components"])}>
         <TreeNodes nodes={TREE} />
       </FileTree>
@@ -244,9 +244,9 @@ function DefaultVariant() {
   )
 }
 
-function FileTypeVariant() {
+function FileTypeVariant({ className }: { className?: string }) {
   return (
-    <Example title="File Type Icons">
+    <Example title="File Type Icons" containerClassName={className}>
       <FileTree
         defaultExpanded={new Set(["app", "components", "public"])}
         variant="file-type"
@@ -257,13 +257,13 @@ function FileTypeVariant() {
   )
 }
 
-function SelectionExample() {
+function SelectionExample({ className }: { className?: string }) {
   const [selectedPath, setSelectedPath] = React.useState<string | undefined>(
     "app/page.tsx"
   )
 
   return (
-    <Example title="Selection">
+    <Example title="Selection" containerClassName={className}>
       <div className="flex w-full flex-col gap-3">
         <FileTree
           defaultExpanded={new Set(["app", "components", "components/ui"])}
@@ -281,11 +281,11 @@ function SelectionExample() {
   )
 }
 
-function ControlledExample() {
+function ControlledExample({ className }: { className?: string }) {
   const [expanded, setExpanded] = React.useState<Set<string>>(new Set(["app"]))
 
   return (
-    <Example title="Controlled Expansion">
+    <Example title="Controlled Expansion" containerClassName={className}>
       <div className="flex w-full flex-col gap-3">
         <div className="flex gap-2">
           <Button
@@ -315,9 +315,9 @@ function ControlledExample() {
   )
 }
 
-function CustomIconsExample() {
+function CustomIconsExample({ className }: { className?: string }) {
   return (
-    <Example title="Custom Icon">
+    <Example title="Custom Icon" containerClassName={className}>
       <FileTree defaultExpanded={new Set(["app"])} variant="file-type">
         <FileTreeFolder contextMenu={<FolderMenu />} name="app" path="app">
           <FileTreeFile

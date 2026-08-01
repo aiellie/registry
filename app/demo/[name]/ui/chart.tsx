@@ -40,6 +40,7 @@ import {
   ChartTooltipContent,
   type ChartConfig,
 } from "@/components/ui/chart"
+import { cn } from "@/lib/utils"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { ChartUpIcon } from "@hugeicons/core-free-icons"
 
@@ -73,9 +74,9 @@ export default function ChartExample() {
   )
 }
 
-function ChartAreaExample() {
+function ChartAreaExample({ className }: { className?: string }) {
   return (
-    <Example title="Area Chart">
+    <Example title="Area Chart" containerClassName={className}>
       <Card className="w-full">
         <CardHeader>
           <CardTitle>Area Chart</CardTitle>
@@ -153,9 +154,9 @@ const barChartConfig = {
   },
 } satisfies ChartConfig
 
-function ChartBarExample() {
+function ChartBarExample({ className }: { className?: string }) {
   return (
-    <Example title="Bar Chart">
+    <Example title="Bar Chart" containerClassName={className}>
       <Card className="w-full">
         <CardHeader>
           <CardTitle>Bar Chart - Multiple</CardTitle>
@@ -215,9 +216,9 @@ const lineChartConfig = {
   },
 } satisfies ChartConfig
 
-function ChartLineExample() {
+function ChartLineExample({ className }: { className?: string }) {
   return (
-    <Example title="Line Chart">
+    <Example title="Line Chart" containerClassName={className}>
       <Card className="w-full">
         <CardHeader>
           <CardTitle>Line Chart - Multiple</CardTitle>
@@ -311,13 +312,13 @@ const pieChartConfig = {
   },
 } satisfies ChartConfig
 
-function ChartPieExample() {
+function ChartPieExample({ className }: { className?: string }) {
   const totalVisitors = React.useMemo(() => {
     return pieChartData.reduce((acc, curr) => acc + curr.visitors, 0)
   }, [])
 
   return (
-    <Example title="Pie Chart">
+    <Example title="Pie Chart" containerClassName={className}>
       <Card className="w-full">
         <CardHeader className="items-center pb-0">
           <CardTitle>Pie Chart - Donut with Text</CardTitle>
@@ -407,9 +408,9 @@ const radarChartConfig = {
   },
 } satisfies ChartConfig
 
-function ChartRadarExample() {
+function ChartRadarExample({ className }: { className?: string }) {
   return (
-    <Example title="Radar Chart">
+    <Example title="Radar Chart" containerClassName={className}>
       <Card className="w-full">
         <CardHeader className="items-center pb-4">
           <CardTitle>Radar Chart - Multiple</CardTitle>
@@ -499,7 +500,7 @@ const interactiveChartConfig = {
   },
 } satisfies ChartConfig
 
-function ChartInteractiveExample() {
+function ChartInteractiveExample({ className }: { className?: string }) {
   const [activeChart, setActiveChart] =
     React.useState<keyof typeof interactiveChartConfig>("desktop")
 
@@ -514,7 +515,7 @@ function ChartInteractiveExample() {
   return (
     <Example
       title="Interactive Bar Chart"
-      containerClassName="col-span-full 2xl:col-span-full"
+      containerClassName={cn("col-span-full 2xl:col-span-full", className)}
     >
       <Card className="w-full py-0 pb-4">
         <CardHeader className="flex flex-col items-stretch border-b p-0! sm:flex-row">
@@ -611,9 +612,9 @@ const radialChartConfig = {
   },
 } satisfies ChartConfig
 
-function ChartRadialExample() {
+function ChartRadialExample({ className }: { className?: string }) {
   return (
-    <Example title="Radial Chart">
+    <Example title="Radial Chart" containerClassName={className}>
       <Card className="w-full">
         <CardHeader>
           <CardTitle>Radial Chart - Shape</CardTitle>

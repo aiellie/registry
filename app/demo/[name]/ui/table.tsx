@@ -93,9 +93,9 @@ export default function TableExample() {
   )
 }
 
-function TableBasic() {
+function TableBasic({ className }: { className?: string }) {
   return (
-    <Example title="Basic">
+    <Example title="Basic" containerClassName={className}>
       <Table>
         <TableCaption>A list of your recent invoices.</TableCaption>
         <TableHeader>
@@ -123,9 +123,9 @@ function TableBasic() {
   )
 }
 
-function TableWithFooter() {
+function TableWithFooter({ className }: { className?: string }) {
   return (
-    <Example title="With Footer">
+    <Example title="With Footer" containerClassName={className}>
       <Table>
         <TableCaption>A list of your recent invoices.</TableCaption>
         <TableHeader>
@@ -159,9 +159,9 @@ function TableWithFooter() {
   )
 }
 
-function TableSimple() {
+function TableSimple({ className }: { className?: string }) {
   return (
-    <Example title="Simple">
+    <Example title="Simple" containerClassName={className}>
       <Table>
         <TableHeader>
           <TableRow>
@@ -192,9 +192,9 @@ function TableSimple() {
   )
 }
 
-function TableWithBadges() {
+function TableWithBadges({ className }: { className?: string }) {
   return (
-    <Example title="With Badges">
+    <Example title="With Badges" containerClassName={className}>
       <Table>
         <TableHeader>
           <TableRow>
@@ -249,9 +249,9 @@ function TableWithBadges() {
   )
 }
 
-function TableWithActions() {
+function TableWithActions({ className }: { className?: string }) {
   return (
-    <Example title="With Actions">
+    <Example title="With Actions" containerClassName={className}>
       <Table>
         <TableHeader>
           <TableRow>
@@ -364,9 +364,9 @@ const tasks = [
   },
 ]
 
-function TableWithSelect() {
+function TableWithSelect({ className }: { className?: string }) {
   return (
-    <Example title="With Select">
+    <Example title="With Select" containerClassName={className}>
       <Table>
         <TableHeader>
           <TableRow>
@@ -412,9 +412,9 @@ function TableWithSelect() {
   )
 }
 
-function TableWithInput() {
+function TableWithInput({ className }: { className?: string }) {
   return (
-    <Example title="With Input">
+    <Example title="With Input" containerClassName={className}>
       <Table>
         <TableHeader>
           <TableRow>

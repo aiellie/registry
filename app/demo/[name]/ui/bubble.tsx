@@ -52,9 +52,9 @@ export default function BubbleExample() {
   )
 }
 
-function BubbleVariants() {
+function BubbleVariants({ className }: { className?: string }) {
   return (
-    <Example title="Variants">
+    <Example title="Variants" containerClassName={className}>
       <div className="flex w-full max-w-md flex-col gap-8">
         <Bubble>
           <BubbleContent>
@@ -114,9 +114,9 @@ Ghost bubbles are full width and can take the full width of the container.
   )
 }
 
-function BubbleSizes() {
+function BubbleSizes({ className }: { className?: string }) {
   return (
-    <Example title="Sizes">
+    <Example title="Sizes" containerClassName={className}>
       <div className="flex w-full max-w-md flex-col gap-8">
         <Bubble>
           <BubbleContent>This is a one line bubble.</BubbleContent>
@@ -142,9 +142,9 @@ function BubbleSizes() {
   )
 }
 
-function BubbleGrouped() {
+function BubbleGrouped({ className }: { className?: string }) {
   return (
-    <Example title="Grouped">
+    <Example title="Grouped" containerClassName={className}>
       <div className="flex w-full max-w-md flex-col gap-8">
         <BubbleGroup>
           <Bubble variant="secondary">
@@ -182,13 +182,13 @@ I also recommend keeping the change in the style file instead of the primitive s
 
 const previewLength = 180
 
-function BubbleCollapsible() {
+function BubbleCollapsible({ className }: { className?: string }) {
   const [open, setOpen] = React.useState(false)
   const isLong = text.length > previewLength
   const preview = `${text.slice(0, previewLength)}...`
 
   return (
-    <Example title="Collapsible">
+    <Example title="Collapsible" containerClassName={className}>
       <div className="flex w-full max-w-md flex-col gap-8">
         <Collapsible open={open} onOpenChange={setOpen}>
           <Bubble variant="muted" align="end">
@@ -226,9 +226,9 @@ Use this for content that needs the whole row.`}
   )
 }
 
-function BubbleWithReactions() {
+function BubbleWithReactions({ className }: { className?: string }) {
   return (
-    <Example title="Reaction Placement">
+    <Example title="Reaction Placement" containerClassName={className}>
       <div className="flex w-full max-w-md flex-col gap-12">
         <Marker variant="separator">
           <MarkerContent>side=bottom align=end</MarkerContent>
@@ -375,9 +375,9 @@ function BubbleWithReactions() {
   )
 }
 
-function BubbleReactionsButtons() {
+function BubbleReactionsButtons({ className }: { className?: string }) {
   return (
-    <Example title="Reactions Buttons">
+    <Example title="Reactions Buttons" containerClassName={className}>
       <div className="flex w-full max-w-md flex-col gap-8">
         <Bubble>
           <BubbleContent>This is a one line message.</BubbleContent>
@@ -435,9 +435,9 @@ function BubbleReactionsButtons() {
   )
 }
 
-function BubblePopover() {
+function BubblePopover({ className }: { className?: string }) {
   return (
-    <Example title="Popover">
+    <Example title="Popover" containerClassName={className}>
       <div className="flex w-full max-w-md flex-col gap-4">
         <Bubble align="end">
           <BubbleContent>Run the build script.</BubbleContent>
@@ -476,9 +476,9 @@ function BubblePopover() {
   )
 }
 
-function BubbleTooltip() {
+function BubbleTooltip({ className }: { className?: string }) {
   return (
-    <Example title="Tooltip">
+    <Example title="Tooltip" containerClassName={className}>
       <div className="flex w-full max-w-md flex-col gap-4">
         <Bubble variant="secondary">
           <BubbleContent>Did you remove the stale route?</BubbleContent>
@@ -499,9 +499,9 @@ function BubbleTooltip() {
   )
 }
 
-function BubbleAlignment() {
+function BubbleAlignment({ className }: { className?: string }) {
   return (
-    <Example title="Alignment">
+    <Example title="Alignment" containerClassName={className}>
       <div className="flex w-full max-w-md flex-col gap-8">
         <Bubble variant="muted">
           <BubbleContent>This bubble is aligned to the start.</BubbleContent>
@@ -543,9 +543,9 @@ const quickReplies = [
   },
 ]
 
-function BubbleButtonLinks() {
+function BubbleButtonLinks({ className }: { className?: string }) {
   return (
-    <Example title="Button & Links">
+    <Example title="Button & Links" containerClassName={className}>
       <div className="flex w-full max-w-md flex-col gap-8">
         <Bubble>
           <BubbleContent render={<a href="#" />}>

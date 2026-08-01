@@ -32,6 +32,7 @@ import {
   MenubarSubTrigger,
   MenubarTrigger,
 } from "@/components/ui/menubar"
+import { cn } from "@/lib/utils"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { FileIcon, FolderIcon, FloppyDiskIcon, DashedLineCircleIcon, TextBoldIcon, TextItalicIcon, TextUnderlineIcon, ImageIcon, LinkIcon, TableIcon, SearchIcon, Tick02Icon, DeleteIcon, UserIcon, SettingsIcon, LogoutIcon, CopyIcon, ScissorIcon, ClipboardIcon } from "@hugeicons/core-free-icons"
 
@@ -54,9 +55,9 @@ export default function MenubarExample() {
   )
 }
 
-function MenubarBasic() {
+function MenubarBasic({ className }: { className?: string }) {
   return (
-    <Example title="Basic">
+    <Example title="Basic" containerClassName={className}>
       <Menubar>
         <MenubarMenu>
           <MenubarTrigger>File</MenubarTrigger>
@@ -94,9 +95,9 @@ function MenubarBasic() {
   )
 }
 
-function MenubarSides() {
+function MenubarSides({ className }: { className?: string }) {
   return (
-    <Example title="Sides" containerClassName="col-span-2">
+    <Example title="Sides" containerClassName={cn("col-span-2", className)}>
       <div className="flex flex-wrap justify-center gap-2">
         {(
           [
@@ -128,9 +129,9 @@ function MenubarSides() {
   )
 }
 
-function MenubarWithSubmenu() {
+function MenubarWithSubmenu({ className }: { className?: string }) {
   return (
-    <Example title="With Submenu">
+    <Example title="With Submenu" containerClassName={className}>
       <Menubar>
         <MenubarMenu>
           <MenubarTrigger>File</MenubarTrigger>
@@ -178,9 +179,9 @@ function MenubarWithSubmenu() {
   )
 }
 
-function MenubarWithCheckboxes() {
+function MenubarWithCheckboxes({ className }: { className?: string }) {
   return (
-    <Example title="With Checkboxes">
+    <Example title="With Checkboxes" containerClassName={className}>
       <Menubar>
         <MenubarMenu>
           <MenubarTrigger>View</MenubarTrigger>
@@ -211,12 +212,12 @@ function MenubarWithCheckboxes() {
   )
 }
 
-function MenubarWithRadio() {
+function MenubarWithRadio({ className }: { className?: string }) {
   const [user, setUser] = React.useState("benoit")
   const [theme, setTheme] = React.useState("system")
 
   return (
-    <Example title="With Radio">
+    <Example title="With Radio" containerClassName={className}>
       <Menubar>
         <MenubarMenu>
           <MenubarTrigger>Profiles</MenubarTrigger>
@@ -246,9 +247,9 @@ function MenubarWithRadio() {
   )
 }
 
-function MenubarWithIcons() {
+function MenubarWithIcons({ className }: { className?: string }) {
   return (
-    <Example title="With Icons">
+    <Example title="With Icons" containerClassName={className}>
       <Menubar>
         <MenubarMenu>
           <MenubarTrigger>File</MenubarTrigger>
@@ -293,9 +294,9 @@ function MenubarWithIcons() {
   )
 }
 
-function MenubarWithShortcuts() {
+function MenubarWithShortcuts({ className }: { className?: string }) {
   return (
-    <Example title="With Shortcuts">
+    <Example title="With Shortcuts" containerClassName={className}>
       <Menubar>
         <MenubarMenu>
           <MenubarTrigger>File</MenubarTrigger>
@@ -337,9 +338,9 @@ function MenubarWithShortcuts() {
   )
 }
 
-function MenubarFormat() {
+function MenubarFormat({ className }: { className?: string }) {
   return (
-    <Example title="Format">
+    <Example title="Format" containerClassName={className}>
       <Menubar>
         <MenubarMenu>
           <MenubarTrigger>Format</MenubarTrigger>
@@ -376,9 +377,9 @@ function MenubarFormat() {
   )
 }
 
-function MenubarInsert() {
+function MenubarInsert({ className }: { className?: string }) {
   return (
-    <Example title="Insert">
+    <Example title="Insert" containerClassName={className}>
       <Menubar>
         <MenubarMenu>
           <MenubarTrigger>Insert</MenubarTrigger>
@@ -423,9 +424,9 @@ function MenubarInsert() {
   )
 }
 
-function MenubarDestructive() {
+function MenubarDestructive({ className }: { className?: string }) {
   return (
-    <Example title="Destructive">
+    <Example title="Destructive" containerClassName={className}>
       <Menubar>
         <MenubarMenu>
           <MenubarTrigger>File</MenubarTrigger>
@@ -473,9 +474,9 @@ function MenubarDestructive() {
   )
 }
 
-function MenubarInDialog() {
+function MenubarInDialog({ className }: { className?: string }) {
   return (
-    <Example title="In Dialog">
+    <Example title="In Dialog" containerClassName={className}>
       <Dialog>
         <DialogTrigger render={<Button variant="outline" />}>
           Open Dialog
@@ -539,13 +540,13 @@ function MenubarInDialog() {
   )
 }
 
-function MenubarWithInset() {
+function MenubarWithInset({ className }: { className?: string }) {
   const [showBookmarks, setShowBookmarks] = React.useState(true)
   const [showUrls, setShowUrls] = React.useState(false)
   const [theme, setTheme] = React.useState("system")
 
   return (
-    <Example title="With Inset">
+    <Example title="With Inset" containerClassName={className}>
       <Menubar>
         <MenubarMenu>
           <MenubarTrigger>View</MenubarTrigger>

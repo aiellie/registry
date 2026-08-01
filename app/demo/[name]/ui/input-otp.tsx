@@ -35,9 +35,9 @@ export default function InputOTPExample() {
   )
 }
 
-function InputOTPSimple() {
+function InputOTPSimple({ className }: { className?: string }) {
   return (
-    <Example title="Simple">
+    <Example title="Simple" containerClassName={className}>
       <Field>
         <FieldLabel htmlFor="simple">Simple</FieldLabel>
         <InputOTP id="simple" maxLength={6}>
@@ -58,9 +58,9 @@ function InputOTPSimple() {
   )
 }
 
-function InputOTPPattern() {
+function InputOTPPattern({ className }: { className?: string }) {
   return (
-    <Example title="Digits Only">
+    <Example title="Digits Only" containerClassName={className}>
       <Field>
         <FieldLabel htmlFor="digits-only">Digits Only</FieldLabel>
         <InputOTP id="digits-only" maxLength={6} pattern={REGEXP_ONLY_DIGITS}>
@@ -78,11 +78,11 @@ function InputOTPPattern() {
   )
 }
 
-function InputOTPWithSeparator() {
+function InputOTPWithSeparator({ className }: { className?: string }) {
   const [value, setValue] = React.useState("123456")
 
   return (
-    <Example title="With Separator">
+    <Example title="With Separator" containerClassName={className}>
       <Field>
         <FieldLabel htmlFor="with-separator">With Separator</FieldLabel>
         <InputOTP
@@ -111,11 +111,11 @@ function InputOTPWithSeparator() {
   )
 }
 
-function InputOTPControlled() {
+function InputOTPControlled({ className }: { className?: string }) {
   const [value, setValue] = React.useState("")
 
   return (
-    <Example title="Controlled">
+    <Example title="Controlled" containerClassName={className}>
       <Field>
         <FieldLabel htmlFor="controlled">Controlled</FieldLabel>
         <InputOTP
@@ -143,9 +143,9 @@ function InputOTPControlled() {
   )
 }
 
-function InputOTPAlphanumeric() {
+function InputOTPAlphanumeric({ className }: { className?: string }) {
   return (
-    <Example title="Alphanumeric">
+    <Example title="Alphanumeric" containerClassName={className}>
       <Field>
         <FieldLabel htmlFor="alphanumeric">Alphanumeric</FieldLabel>
         <FieldDescription>Accepts both letters and numbers.</FieldDescription>
@@ -171,9 +171,9 @@ function InputOTPAlphanumeric() {
   )
 }
 
-function InputOTPDisabled() {
+function InputOTPDisabled({ className }: { className?: string }) {
   return (
-    <Example title="Disabled">
+    <Example title="Disabled" containerClassName={className}>
       <Field>
         <FieldLabel htmlFor="disabled">Disabled</FieldLabel>
         <InputOTP id="disabled" maxLength={6} disabled value="123456">
@@ -194,9 +194,9 @@ function InputOTPDisabled() {
   )
 }
 
-function InputOTPFourDigits() {
+function InputOTPFourDigits({ className }: { className?: string }) {
   return (
-    <Example title="4 Digits">
+    <Example title="4 Digits" containerClassName={className}>
       <Field>
         <FieldLabel htmlFor="four-digits">4 Digits</FieldLabel>
         <FieldDescription>Common pattern for PIN codes.</FieldDescription>
@@ -213,11 +213,11 @@ function InputOTPFourDigits() {
   )
 }
 
-function InputOTPInvalid() {
+function InputOTPInvalid({ className }: { className?: string }) {
   const [value, setValue] = React.useState("000000")
 
   return (
-    <Example title="Invalid State">
+    <Example title="Invalid State" containerClassName={className}>
       <Field>
         <FieldLabel htmlFor="invalid">Invalid State</FieldLabel>
         <FieldDescription>

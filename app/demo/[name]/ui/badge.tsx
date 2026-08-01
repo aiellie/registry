@@ -4,6 +4,7 @@ import {
 } from "@/components/example"
 import { Badge } from "@/components/ui/badge"
 import { Spinner } from "@/components/ui/spinner"
+import { cn } from "@/lib/utils"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { CheckmarkBadge02Icon, ArrowRight02Icon, ArrowUpRightIcon } from "@hugeicons/core-free-icons"
 
@@ -21,9 +22,9 @@ export default function BadgeExample() {
   )
 }
 
-function BadgeVariants() {
+function BadgeVariants({ className }: { className?: string }) {
   return (
-    <Example title="Variants">
+    <Example title="Variants" containerClassName={className}>
       <div className="flex flex-wrap gap-2">
         <Badge>Default</Badge>
         <Badge variant="accent">Accent</Badge>
@@ -37,9 +38,9 @@ function BadgeVariants() {
   )
 }
 
-function BadgeWithIconLeft() {
+function BadgeWithIconLeft({ className }: { className?: string }) {
   return (
-    <Example title="Icon Left" className="max-w-fit">
+    <Example title="Icon Left" className="max-w-fit" containerClassName={className}>
       <div className="flex flex-wrap gap-2">
         <Badge>
           <HugeiconsIcon icon={CheckmarkBadge02Icon} strokeWidth={2} data-icon="inline-start" />
@@ -74,9 +75,9 @@ function BadgeWithIconLeft() {
   )
 }
 
-function BadgeWithIconRight() {
+function BadgeWithIconRight({ className }: { className?: string }) {
   return (
-    <Example title="Icon Right" className="max-w-fit">
+    <Example title="Icon Right" className="max-w-fit" containerClassName={className}>
       <div className="flex flex-wrap gap-2">
         <Badge>
           Default
@@ -111,9 +112,9 @@ function BadgeWithIconRight() {
   )
 }
 
-function BadgeWithSpinner() {
+function BadgeWithSpinner({ className }: { className?: string }) {
   return (
-    <Example title="With Spinner" className="max-w-fit">
+    <Example title="With Spinner" className="max-w-fit" containerClassName={className}>
       <div className="flex flex-wrap gap-2">
         <Badge>
           <Spinner data-icon="inline-start" />
@@ -148,9 +149,9 @@ function BadgeWithSpinner() {
   )
 }
 
-function BadgeAsLink() {
+function BadgeAsLink({ className }: { className?: string }) {
   return (
-    <Example title="asChild">
+    <Example title="asChild" containerClassName={className}>
       <div className="flex flex-wrap gap-2">
         <Badge
           render={
@@ -192,9 +193,9 @@ function BadgeAsLink() {
   )
 }
 
-function BadgeLongText() {
+function BadgeLongText({ className }: { className?: string }) {
   return (
-    <Example title="Long Text">
+    <Example title="Long Text" containerClassName={className}>
       <div className="flex flex-wrap gap-2">
         <Badge variant="secondary">
           A badge with a lot of text to see how it wraps
@@ -265,11 +266,11 @@ const badgeColorGroups: BadgeColorGroup[] = [
   },
 ]
 
-function BadgeCustomColors() {
+function BadgeCustomColors({ className }: { className?: string }) {
   return (
     <Example
       title="Custom Colors"
-      containerClassName="lg:col-span-full 2xl:col-span-full"
+      containerClassName={cn("lg:col-span-full 2xl:col-span-full", className)}
     >
       <div className="flex w-full flex-col gap-6">
         {badgeColorGroups.map((group) => (

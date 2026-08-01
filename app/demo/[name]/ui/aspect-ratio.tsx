@@ -18,9 +18,9 @@ export default function AspectRatioExample() {
   )
 }
 
-function AspectRatio16x9() {
+function AspectRatio16x9({ className }: { className?: string }) {
   return (
-    <Example title="16:9" className="items-center justify-center">
+    <Example title="16:9" className="items-center justify-center" containerClassName={className}>
       <AspectRatio
         ratio={16 / 9}
         className="rounded-lg bg-muted"
@@ -36,9 +36,9 @@ function AspectRatio16x9() {
   )
 }
 
-function AspectRatio1x1() {
+function AspectRatio1x1({ className }: { className?: string }) {
   return (
-    <Example title="1:1" className="items-start">
+    <Example title="1:1" className="items-start" containerClassName={className}>
       <AspectRatio
         ratio={1 / 1}
         className="rounded-lg bg-muted"
@@ -54,9 +54,9 @@ function AspectRatio1x1() {
   )
 }
 
-function AspectRatio9x16() {
+function AspectRatio9x16({ className }: { className?: string }) {
   return (
-    <Example title="9:16" className="items-center justify-center">
+    <Example title="9:16" className="items-center justify-center" containerClassName={className}>
       <AspectRatio
         ratio={9 / 16}
         className="rounded-lg bg-muted"
@@ -72,9 +72,9 @@ function AspectRatio9x16() {
   )
 }
 
-function AspectRatio21x9() {
+function AspectRatio21x9({ className }: { className?: string }) {
   return (
-    <Example title="21:9" className="items-center justify-center">
+    <Example title="21:9" className="items-center justify-center" containerClassName={className}>
       <AspectRatio
         ratio={21 / 9}
         className="rounded-lg bg-muted"

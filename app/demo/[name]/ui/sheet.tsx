@@ -26,9 +26,9 @@ export default function SheetExample() {
   )
 }
 
-function SheetWithForm() {
+function SheetWithForm({ className }: { className?: string }) {
   return (
-    <Example title="With Form">
+    <Example title="With Form" containerClassName={className}>
       <Sheet>
         <SheetTrigger render={<Button variant="outline" />}>Open</SheetTrigger>
         <SheetContent>
@@ -61,9 +61,9 @@ function SheetWithForm() {
   )
 }
 
-function SheetNoCloseButton() {
+function SheetNoCloseButton({ className }: { className?: string }) {
   return (
-    <Example title="No Close Button">
+    <Example title="No Close Button" containerClassName={className}>
       <Sheet>
         <SheetTrigger render={<Button variant="outline" />}>
           No Close Button
@@ -84,9 +84,9 @@ function SheetNoCloseButton() {
 
 const SHEET_SIDES = ["top", "right", "bottom", "left"] as const
 
-function SheetWithSides() {
+function SheetWithSides({ className }: { className?: string }) {
   return (
-    <Example title="Sides">
+    <Example title="Sides" containerClassName={className}>
       <div className="flex flex-wrap gap-2">
         {SHEET_SIDES.map((side) => (
           <Sheet key={side}>

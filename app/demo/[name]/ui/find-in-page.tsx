@@ -46,13 +46,13 @@ export default function FindInPageExample() {
  * `useFindInPage` searches a DOM subtree with the CSS Custom Highlight API,
  * so matches are painted without touching the markup being searched.
  */
-function DefaultExample() {
+function DefaultExample({ className }: { className?: string }) {
   const articleRef = React.useRef<HTMLDivElement>(null)
   const [open, setOpen] = React.useState(true)
   const find = useFindInPage(articleRef)
 
   return (
-    <Example title="Searching a live document">
+    <Example title="Searching a live document" containerClassName={className}>
       <div className="flex w-full flex-col gap-4">
         {open ? (
           <FindInPage
@@ -123,13 +123,13 @@ function DefaultExample() {
 }
 
 /** Fully controlled: the counter and stepping are driven from outside. */
-function ControlledExample() {
+function ControlledExample({ className }: { className?: string }) {
   const [query, setQuery] = React.useState("token")
   const [active, setActive] = React.useState(1)
   const total = 4
 
   return (
-    <Example title="Controlled">
+    <Example title="Controlled" containerClassName={className}>
       <div className="flex w-full flex-col gap-3">
         <FindInPage
           active={active}

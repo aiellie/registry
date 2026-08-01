@@ -61,9 +61,9 @@ export default function DrawerExample() {
   )
 }
 
-function DrawerDemo() {
+function DrawerDemo({ className }: { className?: string }) {
   return (
-    <Example title="Demo">
+    <Example title="Demo" containerClassName={className}>
       <div className="flex flex-wrap gap-2">
         <Drawer>
           <DrawerTrigger render={<Button variant="outline" />}>
@@ -144,13 +144,13 @@ function DrawerDemo() {
   )
 }
 
-function DrawerResponsiveDialog() {
+function DrawerResponsiveDialog({ className }: { className?: string }) {
   const [open, setOpen] = React.useState(false)
   const isDesktop = !useIsMobile()
 
   if (isDesktop) {
     return (
-      <Example title="Dialog">
+      <Example title="Dialog" containerClassName={className}>
         <div className="flex flex-wrap gap-2">
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger render={<Button variant="outline" />}>
@@ -173,7 +173,7 @@ function DrawerResponsiveDialog() {
   }
 
   return (
-    <Example title="Dialog">
+    <Example title="Dialog" containerClassName={className}>
       <div className="flex flex-wrap gap-2">
         <Drawer open={open} onOpenChange={setOpen}>
           <DrawerTrigger render={<Button variant="outline" />}>
@@ -211,9 +211,9 @@ function ProfileForm({ className }: React.ComponentProps<"form">) {
   )
 }
 
-function DrawerSwipeHandleExample() {
+function DrawerSwipeHandleExample({ className }: { className?: string }) {
   return (
-    <Example title="Swipe Handle">
+    <Example title="Swipe Handle" containerClassName={className}>
       <div className="flex flex-wrap gap-2">
         {DRAWER_SIDES.map((side) => (
           <Drawer key={side} swipeDirection={side} showSwipeHandle>
@@ -240,9 +240,9 @@ function DrawerSwipeHandleExample() {
   )
 }
 
-function DrawerCustomWidthAndHeight() {
+function DrawerCustomWidthAndHeight({ className }: { className?: string }) {
   return (
-    <Example title="Custom Width and Height">
+    <Example title="Custom Width and Height" containerClassName={className}>
       <div className="flex flex-wrap gap-2">
         <Drawer swipeDirection="down">
           <DrawerTrigger render={<Button variant="outline" />}>
@@ -359,9 +359,9 @@ function DrawerCustomWidthAndHeight() {
 
 const DRAWER_SIDES = ["up", "right", "down", "left"] as const
 
-function DrawerPosition() {
+function DrawerPosition({ className }: { className?: string }) {
   return (
-    <Example title="Position">
+    <Example title="Position" containerClassName={className}>
       <div className="flex flex-wrap gap-2">
         {DRAWER_SIDES.map((side) => (
           <Drawer key={side} swipeDirection={side}>
@@ -394,9 +394,9 @@ function DrawerPosition() {
   )
 }
 
-function DrawerScrollable() {
+function DrawerScrollable({ className }: { className?: string }) {
   return (
-    <Example title="Scrollable Content">
+    <Example title="Scrollable Content" containerClassName={className}>
       <div className="flex flex-wrap gap-2">
         {DRAWER_SIDES.map((side) => (
           <Drawer key={side} swipeDirection={side}>
@@ -438,9 +438,9 @@ function DrawerScrollable() {
 
 const SNAP_POINTS = ["31rem", 1]
 
-function DrawerSnapPoints() {
+function DrawerSnapPoints({ className }: { className?: string }) {
   return (
-    <Example title="Snap Points">
+    <Example title="Snap Points" containerClassName={className}>
       <Drawer snapPoints={SNAP_POINTS} showSwipeHandle>
         <DrawerTrigger render={<Button variant="outline" />}>
           Open Snap Drawer
@@ -464,9 +464,9 @@ function DrawerSnapPoints() {
   )
 }
 
-function DrawerNested() {
+function DrawerNested({ className }: { className?: string }) {
   return (
-    <Example title="Nested">
+    <Example title="Nested" containerClassName={className}>
       <div className="flex flex-wrap gap-2">
         {DRAWER_SIDES.map((side) => (
           <Drawer key={side} swipeDirection={side} showSwipeHandle>
@@ -540,9 +540,9 @@ function DrawerNested() {
   )
 }
 
-function DrawerNonModal() {
+function DrawerNonModal({ className }: { className?: string }) {
   return (
-    <Example title="Non Modal">
+    <Example title="Non Modal" containerClassName={className}>
       <Drawer modal={false} disablePointerDismissal swipeDirection="right">
         <DrawerTrigger render={<Button variant="outline" />}>
           Non Modal

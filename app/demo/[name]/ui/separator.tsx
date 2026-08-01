@@ -15,9 +15,9 @@ export default function SeparatorExample() {
   )
 }
 
-function SeparatorHorizontal() {
+function SeparatorHorizontal({ className }: { className?: string }) {
   return (
-    <Example title="Horizontal">
+    <Example title="Horizontal" containerClassName={className}>
       <div className="flex flex-col gap-4 text-sm">
         <div className="flex flex-col gap-1">
           <div className="leading-none font-medium">shadcn/ui</div>
@@ -35,9 +35,9 @@ function SeparatorHorizontal() {
   )
 }
 
-function SeparatorVertical() {
+function SeparatorVertical({ className }: { className?: string }) {
   return (
-    <Example title="Vertical">
+    <Example title="Vertical" containerClassName={className}>
       <div className="flex h-5 items-center gap-4 text-sm">
         <div>Blog</div>
         <Separator orientation="vertical" />
@@ -49,9 +49,9 @@ function SeparatorVertical() {
   )
 }
 
-function SeparatorVerticalMenu() {
+function SeparatorVerticalMenu({ className }: { className?: string }) {
   return (
-    <Example title="Vertical Menu">
+    <Example title="Vertical Menu" containerClassName={className}>
       <div className="flex items-center gap-2 text-sm md:gap-4">
         <div className="flex flex-col gap-1">
           <span className="font-medium">Settings</span>
@@ -76,9 +76,9 @@ function SeparatorVerticalMenu() {
   )
 }
 
-function SeparatorInList() {
+function SeparatorInList({ className }: { className?: string }) {
   return (
-    <Example title="In List">
+    <Example title="In List" containerClassName={className}>
       <div className="flex flex-col gap-2 text-sm">
         <dl className="flex items-center justify-between">
           <dt>Item 1</dt>

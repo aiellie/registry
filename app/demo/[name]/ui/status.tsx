@@ -29,9 +29,9 @@ import {
     )
   }
   
-  function StatusVariants() {
+  function StatusVariants({ className }: { className?: string }) {
     return (
-      <Example title="Variants">
+      <Example title="Variants" containerClassName={className}>
         <div className="flex flex-wrap gap-2">
           <Status variant="success">
             <StatusIndicator />
@@ -70,9 +70,9 @@ import {
     )
   }
   
-  function StatusPulse() {
+  function StatusPulse({ className }: { className?: string }) {
     return (
-      <Example title="Pulse" className="max-w-fit">
+      <Example title="Pulse" className="max-w-fit" containerClassName={className}>
         <div className="flex flex-wrap gap-2">
           <Status variant="loading" pulse>
             <StatusIndicator />
@@ -91,9 +91,9 @@ import {
     )
   }
   
-  function StatusIcon() {
+  function StatusIcon({ className }: { className?: string }) {
     return (
-      <Example title="Icon">
+      <Example title="Icon" containerClassName={className}>
         <div className="flex flex-wrap gap-2">
           <Status variant="success">
             <HugeiconsIcon icon={CheckmarkCircle02Icon} />
@@ -128,9 +128,9 @@ import {
     )
   }
   
-  function StatusIndicatorOnly() {
+  function StatusIndicatorOnly({ className }: { className?: string }) {
     return (
-      <Example title="Indicator Only" className="max-w-fit">
+      <Example title="Indicator Only" className="max-w-fit" containerClassName={className}>
         <div className="flex flex-wrap items-center gap-4">
           <Tooltip>
             <TooltipTrigger
@@ -244,9 +244,9 @@ import {
     )
   }
   
-  function StatusCustomColors() {
+  function StatusCustomColors({ className }: { className?: string }) {
     return (
-      <Example title="Custom Colors" className="max-w-fit">
+      <Example title="Custom Colors" className="max-w-fit" containerClassName={className}>
         <div className="flex flex-wrap gap-2">
           <Status className="border-purple-500/20 bg-purple-500/10 text-purple-700 dark:border-purple-400/20 dark:bg-purple-400/10 dark:text-purple-400">
             <StatusIndicator />

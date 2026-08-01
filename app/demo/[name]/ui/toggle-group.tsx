@@ -50,9 +50,9 @@ export default function ToggleGroupExample() {
   )
 }
 
-function ToggleGroupBasic() {
+function ToggleGroupBasic({ className }: { className?: string }) {
   return (
-    <Example title="Basic">
+    <Example title="Basic" containerClassName={className}>
       <ToggleGroup multiple spacing={1}>
         <ToggleGroupItem value="bold" aria-label="Toggle bold">
           <HugeiconsIcon icon={TextBoldIcon} strokeWidth={2} />
@@ -68,9 +68,9 @@ function ToggleGroupBasic() {
   )
 }
 
-function ToggleGroupOutline() {
+function ToggleGroupOutline({ className }: { className?: string }) {
   return (
-    <Example title="Outline">
+    <Example title="Outline" containerClassName={className}>
       <ToggleGroup variant="outline" defaultValue={["all"]}>
         <ToggleGroupItem value="all" aria-label="Toggle all">
           All
@@ -83,9 +83,9 @@ function ToggleGroupOutline() {
   )
 }
 
-function ToggleGroupOutlineWithIcons() {
+function ToggleGroupOutlineWithIcons({ className }: { className?: string }) {
   return (
-    <Example title="Outline With Icons">
+    <Example title="Outline With Icons" containerClassName={className}>
       <ToggleGroup variant="outline" multiple size="sm">
         <ToggleGroupItem value="bold" aria-label="Toggle bold">
           <HugeiconsIcon icon={TextBoldIcon} strokeWidth={2} />
@@ -101,9 +101,9 @@ function ToggleGroupOutlineWithIcons() {
   )
 }
 
-function ToggleGroupSizes() {
+function ToggleGroupSizes({ className }: { className?: string }) {
   return (
-    <Example title="Sizes">
+    <Example title="Sizes" containerClassName={className}>
       <div className="flex flex-col gap-4">
         <ToggleGroup size="sm" defaultValue={["top"]} variant="outline">
           <ToggleGroupItem value="top" aria-label="Toggle top">
@@ -138,9 +138,9 @@ function ToggleGroupSizes() {
   )
 }
 
-function ToggleGroupSpacing() {
+function ToggleGroupSpacing({ className }: { className?: string }) {
   return (
-    <Example title="With Spacing">
+    <Example title="With Spacing" containerClassName={className}>
       <ToggleGroup size="sm" defaultValue={["top"]} spacing={2}>
         <ToggleGroupItem value="top" aria-label="Toggle top">
           Top
@@ -159,9 +159,9 @@ function ToggleGroupSpacing() {
   )
 }
 
-function ToggleGroupWithIcons() {
+function ToggleGroupWithIcons({ className }: { className?: string }) {
   return (
-    <Example title="With Icons">
+    <Example title="With Icons" containerClassName={className}>
       <ToggleGroup multiple variant="outline" spacing={2} size="sm">
         <ToggleGroupItem
           value="star"
@@ -192,9 +192,9 @@ function ToggleGroupWithIcons() {
   )
 }
 
-function ToggleGroupDisabled() {
+function ToggleGroupDisabled({ className }: { className?: string }) {
   return (
-    <Example title="Disabled">
+    <Example title="Disabled" containerClassName={className}>
       <ToggleGroup disabled>
         <ToggleGroupItem value="bold" aria-label="Toggle bold">
           <HugeiconsIcon icon={TextBoldIcon} strokeWidth={2} />
@@ -210,9 +210,9 @@ function ToggleGroupDisabled() {
   )
 }
 
-function ToggleGroupFilter() {
+function ToggleGroupFilter({ className }: { className?: string }) {
   return (
-    <Example title="Filter">
+    <Example title="Filter" containerClassName={className}>
       <ToggleGroup defaultValue={["all"]} variant="outline" size="sm">
         <ToggleGroupItem value="all" aria-label="All">
           All
@@ -231,9 +231,9 @@ function ToggleGroupFilter() {
   )
 }
 
-function ToggleGroupDateRange() {
+function ToggleGroupDateRange({ className }: { className?: string }) {
   return (
-    <Example title="Date Range">
+    <Example title="Date Range" containerClassName={className}>
       <ToggleGroup
         defaultValue={["today"]}
         variant="outline"
@@ -257,9 +257,9 @@ function ToggleGroupDateRange() {
   )
 }
 
-function ToggleGroupSort() {
+function ToggleGroupSort({ className }: { className?: string }) {
   return (
-    <Example title="Sort">
+    <Example title="Sort" containerClassName={className}>
       <ToggleGroup defaultValue={["newest"]} variant="outline" size="sm">
         <ToggleGroupItem value="newest" aria-label="Newest">
           <HugeiconsIcon icon={ArrowDownIcon} strokeWidth={2} />
@@ -278,14 +278,14 @@ function ToggleGroupSort() {
   )
 }
 
-function ToggleGroupWithInputAndSelect() {
+function ToggleGroupWithInputAndSelect({ className }: { className?: string }) {
   const items = [
     { label: "All", value: "all" },
     { label: "Active", value: "active" },
     { label: "Archived", value: "archived" },
   ]
   return (
-    <Example title="With Input and Select">
+    <Example title="With Input and Select" containerClassName={className}>
       <div className="flex items-center gap-2">
         <Input type="search" placeholder="Search..." className="flex-1" />
         <Select items={items} defaultValue={items[0]}>
@@ -315,9 +315,9 @@ function ToggleGroupWithInputAndSelect() {
   )
 }
 
-function ToggleGroupVertical() {
+function ToggleGroupVertical({ className }: { className?: string }) {
   return (
-    <Example title="Vertical">
+    <Example title="Vertical" containerClassName={className}>
       <ToggleGroup multiple orientation="vertical" spacing={1}>
         <ToggleGroupItem value="bold" aria-label="Toggle bold">
           <HugeiconsIcon icon={TextBoldIcon} strokeWidth={2} />
@@ -333,9 +333,9 @@ function ToggleGroupVertical() {
   )
 }
 
-function ToggleGroupVerticalOutline() {
+function ToggleGroupVerticalOutline({ className }: { className?: string }) {
   return (
-    <Example title="Vertical Outline">
+    <Example title="Vertical Outline" containerClassName={className}>
       <ToggleGroup
         variant="outline"
         defaultValue={["all"]}
@@ -359,9 +359,9 @@ function ToggleGroupVerticalOutline() {
   )
 }
 
-function ToggleGroupVerticalOutlineWithIcons() {
+function ToggleGroupVerticalOutlineWithIcons({ className }: { className?: string }) {
   return (
-    <Example title="Vertical Outline With Icons">
+    <Example title="Vertical Outline With Icons" containerClassName={className}>
       <ToggleGroup variant="outline" multiple orientation="vertical" size="sm">
         <ToggleGroupItem value="bold" aria-label="Toggle bold">
           <HugeiconsIcon icon={TextBoldIcon} strokeWidth={2} />
@@ -377,10 +377,10 @@ function ToggleGroupVerticalOutlineWithIcons() {
   )
 }
 
-function ToggleGroupFontWeightSelector() {
+function ToggleGroupFontWeightSelector({ className }: { className?: string }) {
   const [fontWeight, setFontWeight] = React.useState("normal")
   return (
-    <Example title="Font Weight Selector">
+    <Example title="Font Weight Selector" containerClassName={className}>
       <Field>
         <FieldLabel>Font Weight</FieldLabel>
         <ToggleGroup
@@ -435,9 +435,9 @@ function ToggleGroupFontWeightSelector() {
   )
 }
 
-function ToggleGroupVerticalWithSpacing() {
+function ToggleGroupVerticalWithSpacing({ className }: { className?: string }) {
   return (
-    <Example title="Vertical With Spacing">
+    <Example title="Vertical With Spacing" containerClassName={className}>
       <ToggleGroup
         size="sm"
         defaultValue={["top"]}

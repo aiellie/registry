@@ -33,9 +33,9 @@ export default function PaginationExample() {
   )
 }
 
-function PaginationBasic() {
+function PaginationBasic({ className }: { className?: string }) {
   return (
-    <Example title="Basic">
+    <Example title="Basic" containerClassName={className}>
       <Pagination>
         <PaginationContent>
           <PaginationItem>
@@ -64,9 +64,9 @@ function PaginationBasic() {
   )
 }
 
-function PaginationSimple() {
+function PaginationSimple({ className }: { className?: string }) {
   return (
-    <Example title="Simple">
+    <Example title="Simple" containerClassName={className}>
       <Pagination>
         <PaginationContent>
           <PaginationItem>
@@ -92,9 +92,9 @@ function PaginationSimple() {
   )
 }
 
-function PaginationIconsOnly() {
+function PaginationIconsOnly({ className }: { className?: string }) {
   return (
-    <Example title="With Select">
+    <Example title="With Select" containerClassName={className}>
       <div className="flex items-center justify-between gap-4">
         <Field orientation="horizontal" className="w-fit">
           <FieldLabel htmlFor="select-rows-per-page">Rows per page</FieldLabel>

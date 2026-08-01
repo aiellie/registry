@@ -16,6 +16,7 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card"
+import { cn } from "@/lib/utils"
 
 export default function HoverCardExample() {
   return (
@@ -36,9 +37,9 @@ const HOVER_CARD_SIDES = [
   "inline-end",
 ] as const
 
-function HoverCardDemo() {
+function HoverCardDemo({ className }: { className?: string }) {
   return (
-    <Example title="Basic">
+    <Example title="Basic" containerClassName={className}>
       <HoverCard>
         <HoverCardTrigger
           delay={10}
@@ -59,9 +60,9 @@ function HoverCardDemo() {
   )
 }
 
-function HoverCardSides() {
+function HoverCardSides({ className }: { className?: string }) {
   return (
-    <Example title="Sides" containerClassName="col-span-2">
+    <Example title="Sides" containerClassName={cn("col-span-2", className)}>
       <div className="flex flex-wrap items-center justify-center gap-2">
         {HOVER_CARD_SIDES.map((side) => (
           <HoverCard key={side}>
@@ -88,9 +89,9 @@ function HoverCardSides() {
   )
 }
 
-function HoverCardInDialog() {
+function HoverCardInDialog({ className }: { className?: string }) {
   return (
-    <Example title="In Dialog">
+    <Example title="In Dialog" containerClassName={className}>
       <Dialog>
         <DialogTrigger render={<Button variant="outline" />}>
           Open Dialog

@@ -40,11 +40,11 @@ export default function DatePickerExample() {
   )
 }
 
-function DatePickerBasic() {
+function DatePickerBasic({ className }: { className?: string }) {
   const [date, setDate] = React.useState<Date>()
 
   return (
-    <Example title="Basic" className="items-center justify-center">
+    <Example title="Basic" className="items-center justify-center" containerClassName={className}>
       <Field className="mx-auto w-44">
         <FieldLabel htmlFor="date-picker-simple">Date</FieldLabel>
         <Popover>
@@ -73,11 +73,11 @@ function DatePickerBasic() {
   )
 }
 
-function DatePickerDemo() {
+function DatePickerDemo({ className }: { className?: string }) {
   const [date, setDate] = React.useState<Date>()
 
   return (
-    <Example title="Demo" className="items-center justify-center">
+    <Example title="Demo" className="items-center justify-center" containerClassName={className}>
       <Popover>
         <PopoverTrigger
           render={
@@ -108,12 +108,12 @@ function DatePickerDemo() {
   )
 }
 
-function DatePickerDateOfBirth() {
+function DatePickerDateOfBirth({ className }: { className?: string }) {
   const [open, setOpen] = React.useState(false)
   const [date, setDate] = React.useState<Date | undefined>(undefined)
 
   return (
-    <Example title="Date of Birth" className="items-center justify-center">
+    <Example title="Date of Birth" className="items-center justify-center" containerClassName={className}>
       <Field className="mx-auto w-44">
         <FieldLabel htmlFor="date">Date of birth</FieldLabel>
         <Popover open={open} onOpenChange={setOpen}>
@@ -165,7 +165,7 @@ function isValidDate(date: Date | undefined) {
   return !isNaN(date.getTime())
 }
 
-function DatePickerInput() {
+function DatePickerInput({ className }: { className?: string }) {
   const [open, setOpen] = React.useState(false)
   const [date, setDate] = React.useState<Date | undefined>(
     new Date("2025-06-01")
@@ -174,7 +174,7 @@ function DatePickerInput() {
   const [value, setValue] = React.useState(formatDate(date))
 
   return (
-    <Example title="Input" className="items-center justify-center">
+    <Example title="Input" className="items-center justify-center" containerClassName={className}>
       <Field className="mx-auto w-48">
         <FieldLabel htmlFor="date-required">Subscription Date</FieldLabel>
         <InputGroup>
@@ -238,14 +238,14 @@ function DatePickerInput() {
   )
 }
 
-function DatePickerRange() {
+function DatePickerRange({ className }: { className?: string }) {
   const [date, setDate] = React.useState<DateRange | undefined>({
     from: new Date(new Date().getFullYear(), 0, 20),
     to: addDays(new Date(new Date().getFullYear(), 0, 20), 20),
   })
 
   return (
-    <Example title="Range" className="items-center justify-center">
+    <Example title="Range" className="items-center justify-center" containerClassName={className}>
       <Field className="mx-auto w-60">
         <FieldLabel htmlFor="date-picker-range">Date Picker Range</FieldLabel>
         <Popover>
@@ -291,12 +291,12 @@ function DatePickerRange() {
   )
 }
 
-function DatePickerTime() {
+function DatePickerTime({ className }: { className?: string }) {
   const [open, setOpen] = React.useState(false)
   const [date, setDate] = React.useState<Date | undefined>(undefined)
 
   return (
-    <Example title="Time" className="items-center justify-center">
+    <Example title="Time" className="items-center justify-center" containerClassName={className}>
       <FieldGroup className="mx-auto max-w-xs flex-row">
         <Field>
           <FieldLabel htmlFor="date-picker-optional">Date</FieldLabel>
@@ -346,12 +346,12 @@ function DatePickerTime() {
   )
 }
 
-function DatePickerWithDropdowns() {
+function DatePickerWithDropdowns({ className }: { className?: string }) {
   const [date, setDate] = React.useState<Date>()
   const [open, setOpen] = React.useState(false)
 
   return (
-    <Example title="With Dropdowns" className="items-center justify-center">
+    <Example title="With Dropdowns" className="items-center justify-center" containerClassName={className}>
       <Field className="mx-auto w-72">
         <Popover open={open} onOpenChange={setOpen}>
           <FieldLabel htmlFor="date-picker-with-dropdowns-desktop">

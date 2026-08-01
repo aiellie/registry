@@ -23,25 +23,25 @@ export default function TextareaExample() {
   )
 }
 
-function TextareaBasic() {
+function TextareaBasic({ className }: { className?: string }) {
   return (
-    <Example title="Basic">
+    <Example title="Basic" containerClassName={className}>
       <Textarea placeholder="Type your message here." />
     </Example>
   )
 }
 
-function TextareaInvalid() {
+function TextareaInvalid({ className }: { className?: string }) {
   return (
-    <Example title="Invalid">
+    <Example title="Invalid" containerClassName={className}>
       <Textarea placeholder="Type your message here." aria-invalid="true" />
     </Example>
   )
 }
 
-function TextareaWithLabel() {
+function TextareaWithLabel({ className }: { className?: string }) {
   return (
-    <Example title="With Label">
+    <Example title="With Label" containerClassName={className}>
       <Field>
         <FieldLabel htmlFor="textarea-demo-message">Message</FieldLabel>
         <Textarea
@@ -54,9 +54,9 @@ function TextareaWithLabel() {
   )
 }
 
-function TextareaWithDescription() {
+function TextareaWithDescription({ className }: { className?: string }) {
   return (
-    <Example title="With Description">
+    <Example title="With Description" containerClassName={className}>
       <Field>
         <FieldLabel htmlFor="textarea-demo-message-2">Message</FieldLabel>
         <Textarea
@@ -72,9 +72,9 @@ function TextareaWithDescription() {
   )
 }
 
-function TextareaDisabled() {
+function TextareaDisabled({ className }: { className?: string }) {
   return (
-    <Example title="Disabled">
+    <Example title="Disabled" containerClassName={className}>
       <Field>
         <FieldLabel htmlFor="textarea-demo-disabled">Message</FieldLabel>
         <Textarea
@@ -87,9 +87,9 @@ function TextareaDisabled() {
   )
 }
 
-function TextareaWithButton() {
+function TextareaWithButton({ className }: { className?: string }) {
   return (
-    <Example title="With Button">
+    <Example title="With Button" containerClassName={className}>
       <div className="grid w-full gap-2">
         <Textarea placeholder="Type your message here." />
         <Button>Send message</Button>

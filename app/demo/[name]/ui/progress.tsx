@@ -20,6 +20,7 @@ import {
   ProgressValue,
 } from "@/components/ui/progress"
 import { Slider } from "@/components/ui/slider"
+import { cn } from "@/lib/utils"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { FileIcon } from "@hugeicons/core-free-icons"
 
@@ -34,9 +35,9 @@ export default function ProgressExample() {
   )
 }
 
-function ProgressValues() {
+function ProgressValues({ className }: { className?: string }) {
   return (
-    <Example title="Progress Bar">
+    <Example title="Progress Bar" containerClassName={className}>
       <div className="flex w-full flex-col gap-4">
         <Progress value={0} />
         <Progress value={25} className="w-full" />
@@ -48,9 +49,9 @@ function ProgressValues() {
   )
 }
 
-function ProgressWithLabel() {
+function ProgressWithLabel({ className }: { className?: string }) {
   return (
-    <Example title="With Label">
+    <Example title="With Label" containerClassName={className}>
       <Progress value={56}>
         <ProgressLabel>Upload progress</ProgressLabel>
         <ProgressValue />
@@ -59,11 +60,11 @@ function ProgressWithLabel() {
   )
 }
 
-function ProgressControlled() {
+function ProgressControlled({ className }: { className?: string }) {
   const [value, setValue] = React.useState(50)
 
   return (
-    <Example title="Controlled">
+    <Example title="Controlled" containerClassName={className}>
       <div className="flex w-full flex-col gap-4">
         <Progress value={value} className="w-full" />
         <Slider
@@ -78,7 +79,7 @@ function ProgressControlled() {
   )
 }
 
-function FileUploadList() {
+function FileUploadList({ className }: { className?: string }) {
   const files = React.useMemo(
     () => [
       {
@@ -112,7 +113,7 @@ function FileUploadList() {
   return (
     <Example
       title="File Upload List"
-      containerClassName="lg:col-span-full 2xl:col-span-full"
+      containerClassName={cn("lg:col-span-full 2xl:col-span-full", className)}
     >
       <ItemGroup>
         {files.map((file) => (

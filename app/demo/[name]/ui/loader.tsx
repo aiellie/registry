@@ -28,9 +28,9 @@ export default function LoaderExample() {
   )
 }
 
-function LoaderVariants() {
+function LoaderVariants({ className }: { className?: string }) {
   return (
-    <Example title="Variants">
+    <Example title="Variants" containerClassName={className}>
       <div className="flex flex-wrap items-center gap-6">
         <CircularLoader />
         <ClassicLoader />
@@ -47,9 +47,9 @@ function LoaderVariants() {
   )
 }
 
-function LoaderSpinners() {
+function LoaderSpinners({ className }: { className?: string }) {
   return (
-    <Example title="Spinners">
+    <Example title="Spinners" containerClassName={className}>
       <div className="flex flex-wrap items-center gap-6">
         <CircularLoader />
         <ClassicLoader />
@@ -60,9 +60,9 @@ function LoaderSpinners() {
   )
 }
 
-function LoaderDots() {
+function LoaderDots({ className }: { className?: string }) {
   return (
-    <Example title="Dots">
+    <Example title="Dots" containerClassName={className}>
       <div className="flex flex-wrap items-center gap-6">
         <PulseDotLoader />
         <DotsLoader />
@@ -72,9 +72,9 @@ function LoaderDots() {
   )
 }
 
-function LoaderText() {
+function LoaderText({ className }: { className?: string }) {
   return (
-    <Example title="Text">
+    <Example title="Text" containerClassName={className}>
       <div className="flex flex-col gap-4">
         <TextBlinkLoader text="Thinking" />
         <TextShimmerLoader text="Generating" />
@@ -85,9 +85,9 @@ function LoaderText() {
   )
 }
 
-function LoaderSizes() {
+function LoaderSizes({ className }: { className?: string }) {
   return (
-    <Example title="Sizes">
+    <Example title="Sizes" containerClassName={className}>
       <div className="flex flex-wrap items-end gap-6">
         <Loader variant="circular" size="sm" />
         <Loader variant="circular" size="md" />

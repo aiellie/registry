@@ -41,9 +41,9 @@ export default function EmptyExample() {
   )
 }
 
-function EmptyBasic() {
+function EmptyBasic({ className }: { className?: string }) {
   return (
-    <Example title="Basic">
+    <Example title="Basic" containerClassName={className}>
       <Empty>
         <EmptyHeader>
           <EmptyTitle>No projects yet</EmptyTitle>
@@ -74,9 +74,9 @@ function EmptyBasic() {
   )
 }
 
-function EmptyWithMutedBackground() {
+function EmptyWithMutedBackground({ className }: { className?: string }) {
   return (
-    <Example title="With Muted Background">
+    <Example title="With Muted Background" containerClassName={className}>
       <Empty className="bg-muted">
         <EmptyHeader>
           <EmptyTitle>No results found</EmptyTitle>
@@ -101,9 +101,9 @@ function EmptyWithMutedBackground() {
   )
 }
 
-function EmptyWithBorder() {
+function EmptyWithBorder({ className }: { className?: string }) {
   return (
-    <Example title="With Border">
+    <Example title="With Border" containerClassName={className}>
       <Empty className="border">
         <EmptyHeader>
           <EmptyTitle>404 - Not Found</EmptyTitle>
@@ -131,9 +131,9 @@ function EmptyWithBorder() {
   )
 }
 
-function EmptyWithIcon() {
+function EmptyWithIcon({ className }: { className?: string }) {
   return (
-    <Example title="With Icon">
+    <Example title="With Icon" containerClassName={className}>
       <Empty className="border">
         <EmptyHeader>
           <EmptyMedia variant="icon">
@@ -156,9 +156,9 @@ function EmptyWithIcon() {
   )
 }
 
-function EmptyWithMutedBackgroundAlt() {
+function EmptyWithMutedBackgroundAlt({ className }: { className?: string }) {
   return (
-    <Example title="With Muted Background Alt">
+    <Example title="With Muted Background Alt" containerClassName={className}>
       <Empty className="bg-muted/50">
         <EmptyHeader>
           <EmptyTitle>404 - Not Found</EmptyTitle>
@@ -186,9 +186,9 @@ function EmptyWithMutedBackgroundAlt() {
   )
 }
 
-function EmptyInCard() {
+function EmptyInCard({ className }: { className?: string }) {
   return (
-    <Example title="In Card">
+    <Example title="In Card" containerClassName={className}>
       <Empty>
         <EmptyHeader>
           <EmptyMedia variant="icon">
@@ -222,9 +222,9 @@ function EmptyInCard() {
   )
 }
 
-function EmptyWithAvatar() {
+function EmptyWithAvatar({ className }: { className?: string }) {
   return (
-    <Example title="With Avatar">
+    <Example title="With Avatar" containerClassName={className}>
       <Empty>
         <EmptyHeader>
           <EmptyMedia variant="default">
@@ -250,9 +250,9 @@ function EmptyWithAvatar() {
   )
 }
 
-function EmptyWithAvatarGroup() {
+function EmptyWithAvatarGroup({ className }: { className?: string }) {
   return (
-    <Example title="With Avatar Group">
+    <Example title="With Avatar Group" containerClassName={className}>
       <Empty>
         <EmptyHeader>
           <EmptyMedia>
@@ -293,9 +293,9 @@ function EmptyWithAvatarGroup() {
   )
 }
 
-function EmptyOutline() {
+function EmptyOutline({ className }: { className?: string }) {
   return (
-    <Example title="Outline">
+    <Example title="Outline" containerClassName={className}>
       <Empty className="border border-dashed">
         <EmptyHeader>
           <EmptyMedia variant="icon">

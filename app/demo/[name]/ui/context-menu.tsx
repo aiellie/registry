@@ -31,6 +31,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
+import { cn } from "@/lib/utils"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { CopyIcon, ScissorIcon, ClipboardIcon, DeleteIcon, EditIcon, ShareIcon, Archive02Icon } from "@hugeicons/core-free-icons"
 
@@ -52,9 +53,9 @@ export default function ContextMenuExample() {
   )
 }
 
-function ContextMenuBasic() {
+function ContextMenuBasic({ className }: { className?: string }) {
   return (
-    <Example title="Basic">
+    <Example title="Basic" containerClassName={className}>
       <ContextMenu>
         <ContextMenuTrigger className="flex aspect-[2/0.5] w-full items-center justify-center rounded-lg border text-sm">
           Right click here
@@ -71,9 +72,9 @@ function ContextMenuBasic() {
   )
 }
 
-function ContextMenuWithIcons() {
+function ContextMenuWithIcons({ className }: { className?: string }) {
   return (
-    <Example title="With Icons">
+    <Example title="With Icons" containerClassName={className}>
       <ContextMenu>
         <ContextMenuTrigger className="flex aspect-[2/0.5] w-full items-center justify-center rounded-lg border text-sm">
           Right click here
@@ -106,9 +107,9 @@ function ContextMenuWithIcons() {
   )
 }
 
-function ContextMenuWithShortcuts() {
+function ContextMenuWithShortcuts({ className }: { className?: string }) {
   return (
-    <Example title="With Shortcuts">
+    <Example title="With Shortcuts" containerClassName={className}>
       <ContextMenu>
         <ContextMenuTrigger className="flex aspect-[2/0.5] w-full items-center justify-center rounded-lg border text-sm">
           Right click here
@@ -145,9 +146,9 @@ function ContextMenuWithShortcuts() {
   )
 }
 
-function ContextMenuWithSubmenu() {
+function ContextMenuWithSubmenu({ className }: { className?: string }) {
   return (
-    <Example title="With Submenu">
+    <Example title="With Submenu" containerClassName={className}>
       <ContextMenu>
         <ContextMenuTrigger className="flex aspect-[2/0.5] w-full items-center justify-center rounded-lg border text-sm">
           Right click here
@@ -187,9 +188,9 @@ function ContextMenuWithSubmenu() {
   )
 }
 
-function ContextMenuWithGroups() {
+function ContextMenuWithGroups({ className }: { className?: string }) {
   return (
-    <Example title="With Groups, Labels & Separators">
+    <Example title="With Groups, Labels & Separators" containerClassName={className}>
       <ContextMenu>
         <ContextMenuTrigger className="flex aspect-[2/0.5] w-full items-center justify-center rounded-lg border text-sm">
           Right click here
@@ -250,9 +251,9 @@ function ContextMenuWithGroups() {
   )
 }
 
-function ContextMenuWithCheckboxes() {
+function ContextMenuWithCheckboxes({ className }: { className?: string }) {
   return (
-    <Example title="With Checkboxes">
+    <Example title="With Checkboxes" containerClassName={className}>
       <ContextMenu>
         <ContextMenuTrigger className="flex aspect-[2/0.5] w-full items-center justify-center rounded-lg border text-sm">
           Right click here
@@ -273,12 +274,12 @@ function ContextMenuWithCheckboxes() {
   )
 }
 
-function ContextMenuWithRadio() {
+function ContextMenuWithRadio({ className }: { className?: string }) {
   const [user, setUser] = React.useState("pedro")
   const [theme, setTheme] = React.useState("light")
 
   return (
-    <Example title="With Radio Group">
+    <Example title="With Radio Group" containerClassName={className}>
       <ContextMenu>
         <ContextMenuTrigger className="flex aspect-[2/0.5] w-full items-center justify-center rounded-lg border text-sm">
           Right click here
@@ -310,9 +311,9 @@ function ContextMenuWithRadio() {
   )
 }
 
-function ContextMenuWithDestructive() {
+function ContextMenuWithDestructive({ className }: { className?: string }) {
   return (
-    <Example title="With Destructive Items">
+    <Example title="With Destructive Items" containerClassName={className}>
       <ContextMenu>
         <ContextMenuTrigger className="flex aspect-[2/0.5] w-full items-center justify-center rounded-lg border text-sm">
           Right click here
@@ -345,9 +346,9 @@ function ContextMenuWithDestructive() {
   )
 }
 
-function ContextMenuWithSides() {
+function ContextMenuWithSides({ className }: { className?: string }) {
   return (
-    <Example title="With Sides" containerClassName="col-span-2">
+    <Example title="With Sides" containerClassName={cn("col-span-2", className)}>
       <div className="flex flex-wrap justify-center gap-2">
         {(
           [
@@ -377,9 +378,9 @@ function ContextMenuWithSides() {
   )
 }
 
-function ContextMenuInDialog() {
+function ContextMenuInDialog({ className }: { className?: string }) {
   return (
-    <Example title="In Dialog">
+    <Example title="In Dialog" containerClassName={className}>
       <Dialog>
         <DialogTrigger render={<Button variant="outline" />}>
           Open Dialog
@@ -440,13 +441,13 @@ function ContextMenuInDialog() {
   )
 }
 
-function ContextMenuWithInset() {
+function ContextMenuWithInset({ className }: { className?: string }) {
   const [showBookmarks, setShowBookmarks] = React.useState(true)
   const [showUrls, setShowUrls] = React.useState(false)
   const [theme, setTheme] = React.useState("system")
 
   return (
-    <Example title="With Inset">
+    <Example title="With Inset" containerClassName={className}>
       <ContextMenu>
         <ContextMenuTrigger className="flex aspect-[2/0.5] w-full items-center justify-center rounded-lg border text-sm">
           Right click here

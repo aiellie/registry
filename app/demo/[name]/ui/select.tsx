@@ -40,6 +40,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { cn } from "@/lib/utils"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { Chart03Icon } from "@hugeicons/core-free-icons"
 
@@ -65,7 +66,7 @@ export default function SelectExample() {
   )
 }
 
-function SelectBasic() {
+function SelectBasic({ className }: { className?: string }) {
   const items = [
     { label: "Select a fruit", value: null },
     { label: "Apple", value: "apple" },
@@ -75,7 +76,7 @@ function SelectBasic() {
     { label: "Pineapple", value: "pineapple" },
   ]
   return (
-    <Example title="Basic">
+    <Example title="Basic" containerClassName={className}>
       <Select items={items}>
         <SelectTrigger>
           <SelectValue />
@@ -94,7 +95,7 @@ function SelectBasic() {
   )
 }
 
-function SelectSides() {
+function SelectSides({ className }: { className?: string }) {
   const items = [
     { label: "Select", value: null },
     { label: "Apple", value: "apple" },
@@ -102,7 +103,7 @@ function SelectSides() {
     { label: "Blueberry", value: "blueberry" },
   ]
   return (
-    <Example title="Sides" containerClassName="col-span-2">
+    <Example title="Sides" containerClassName={cn("col-span-2", className)}>
       <div className="flex flex-wrap justify-center gap-2">
         {(
           [
@@ -134,7 +135,7 @@ function SelectSides() {
   )
 }
 
-function SelectWithIcons() {
+function SelectWithIcons({ className }: { className?: string }) {
   const items = [
     {
       label: (
@@ -174,7 +175,7 @@ function SelectWithIcons() {
     },
   ]
   return (
-    <Example title="With Icons">
+    <Example title="With Icons" containerClassName={className}>
       <div className="flex flex-col gap-4">
         <Select items={items}>
           <SelectTrigger size="sm">
@@ -209,7 +210,7 @@ function SelectWithIcons() {
   )
 }
 
-function SelectWithGroups() {
+function SelectWithGroups({ className }: { className?: string }) {
   const fruits = [
     { label: "Apple", value: "apple" },
     { label: "Banana", value: "banana" },
@@ -226,7 +227,7 @@ function SelectWithGroups() {
     ...vegetables,
   ]
   return (
-    <Example title="With Groups & Labels">
+    <Example title="With Groups & Labels" containerClassName={className}>
       <Select items={allItems}>
         <SelectTrigger>
           <SelectValue />
@@ -255,7 +256,7 @@ function SelectWithGroups() {
   )
 }
 
-function SelectLargeList() {
+function SelectLargeList({ className }: { className?: string }) {
   const items = [
     { label: "Select an item", value: null },
     ...Array.from({ length: 100 }).map((_, i) => ({
@@ -264,7 +265,7 @@ function SelectLargeList() {
     })),
   ]
   return (
-    <Example title="Large List">
+    <Example title="Large List" containerClassName={className}>
       <Select items={items}>
         <SelectTrigger>
           <SelectValue />
@@ -283,7 +284,7 @@ function SelectLargeList() {
   )
 }
 
-function SelectSizes() {
+function SelectSizes({ className }: { className?: string }) {
   const items = [
     { label: "Select a fruit", value: null },
     { label: "Apple", value: "apple" },
@@ -291,7 +292,7 @@ function SelectSizes() {
     { label: "Blueberry", value: "blueberry" },
   ]
   return (
-    <Example title="Sizes">
+    <Example title="Sizes" containerClassName={className}>
       <div className="flex flex-col gap-4">
         <Select items={items}>
           <SelectTrigger size="sm">
@@ -326,7 +327,7 @@ function SelectSizes() {
   )
 }
 
-function SelectWithButton() {
+function SelectWithButton({ className }: { className?: string }) {
   const items = [
     { label: "Select a fruit", value: null },
     { label: "Apple", value: "apple" },
@@ -334,7 +335,7 @@ function SelectWithButton() {
     { label: "Blueberry", value: "blueberry" },
   ]
   return (
-    <Example title="With Button">
+    <Example title="With Button" containerClassName={className}>
       <div className="flex flex-col gap-4">
         <div className="flex items-center gap-2">
           <Select items={items}>
@@ -377,7 +378,7 @@ function SelectWithButton() {
   )
 }
 
-function SelectItemAligned() {
+function SelectItemAligned({ className }: { className?: string }) {
   const items = [
     { label: "Select a fruit", value: null },
     { label: "Apple", value: "apple" },
@@ -387,7 +388,7 @@ function SelectItemAligned() {
     { label: "Pineapple", value: "pineapple" },
   ]
   return (
-    <Example title="Item Aligned">
+    <Example title="Item Aligned" containerClassName={className}>
       <Select items={items}>
         <SelectTrigger>
           <SelectValue />
@@ -410,7 +411,7 @@ function SelectItemAligned() {
   )
 }
 
-function SelectWithField() {
+function SelectWithField({ className }: { className?: string }) {
   const items = [
     { label: "Select a fruit", value: null },
     { label: "Apple", value: "apple" },
@@ -420,7 +421,7 @@ function SelectWithField() {
     { label: "Pineapple", value: "pineapple" },
   ]
   return (
-    <Example title="With Field">
+    <Example title="With Field" containerClassName={className}>
       <Field>
         <FieldLabel htmlFor="select-fruit">Favorite Fruit</FieldLabel>
         <Select items={items}>
@@ -445,7 +446,7 @@ function SelectWithField() {
   )
 }
 
-function SelectInvalid() {
+function SelectInvalid({ className }: { className?: string }) {
   const items = [
     { label: "Select a fruit", value: null },
     { label: "Apple", value: "apple" },
@@ -455,7 +456,7 @@ function SelectInvalid() {
     { label: "Pineapple", value: "pineapple" },
   ]
   return (
-    <Example title="Invalid">
+    <Example title="Invalid" containerClassName={className}>
       <div className="flex flex-col gap-4">
         <Select items={items}>
           <SelectTrigger aria-invalid="true">
@@ -494,7 +495,7 @@ function SelectInvalid() {
   )
 }
 
-function SelectInline() {
+function SelectInline({ className }: { className?: string }) {
   const items = [
     { label: "Filter", value: null },
     { label: "All", value: "all" },
@@ -502,7 +503,7 @@ function SelectInline() {
     { label: "Inactive", value: "inactive" },
   ]
   return (
-    <Example title="Inline with Input & NativeSelect">
+    <Example title="Inline with Input & NativeSelect" containerClassName={className}>
       <div className="flex items-center gap-2">
         <Input placeholder="Search..." className="flex-1" />
         <Select items={items}>
@@ -530,7 +531,7 @@ function SelectInline() {
   )
 }
 
-function SelectDisabled() {
+function SelectDisabled({ className }: { className?: string }) {
   const items = [
     { label: "Select a fruit", value: null },
     { label: "Apple", value: "apple" },
@@ -540,7 +541,7 @@ function SelectDisabled() {
     { label: "Pineapple", value: "pineapple" },
   ]
   return (
-    <Example title="Disabled">
+    <Example title="Disabled" containerClassName={className}>
       <Select items={items} disabled>
         <SelectTrigger>
           <SelectValue />
@@ -578,9 +579,9 @@ const plans = [
   },
 ]
 
-function SelectPlan() {
+function SelectPlan({ className }: { className?: string }) {
   return (
-    <Example title="Subscription Plan">
+    <Example title="Subscription Plan" containerClassName={className}>
       <Select
         defaultValue={plans[0]}
         itemToStringValue={(plan: (typeof plans)[number]) => plan.name}
@@ -617,7 +618,7 @@ function SelectPlanItem({ plan }: { plan: (typeof plans)[number] }) {
   )
 }
 
-function SelectMultiple() {
+function SelectMultiple({ className }: { className?: string }) {
   const items = [
     { label: "Apple", value: "apple" },
     { label: "Banana", value: "banana" },
@@ -628,7 +629,7 @@ function SelectMultiple() {
     { label: "Watermelon", value: "watermelon" },
   ]
   return (
-    <Example title="Multiple Selection">
+    <Example title="Multiple Selection" containerClassName={className}>
       <Select items={items} multiple defaultValue={[]}>
         <SelectTrigger className="w-72">
           <SelectValue>
@@ -657,7 +658,7 @@ function SelectMultiple() {
   )
 }
 
-function SelectInDialog() {
+function SelectInDialog({ className }: { className?: string }) {
   const items = [
     { label: "Select a fruit", value: null },
     { label: "Apple", value: "apple" },
@@ -667,7 +668,7 @@ function SelectInDialog() {
     { label: "Pineapple", value: "pineapple" },
   ]
   return (
-    <Example title="In Dialog">
+    <Example title="In Dialog" containerClassName={className}>
       <Dialog>
         <DialogTrigger render={<Button variant="outline" />}>
           Open Dialog

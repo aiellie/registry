@@ -99,9 +99,11 @@ StateButton.displayName = "StateButton";
 function PersonaVariantExample({
   title,
   variant,
+  className,
 }: {
   title: string;
   variant: PersonaVariant;
+  className?: string;
 }) {
   const [currentState, setCurrentState] = useState<PersonaState>("idle");
 
@@ -110,7 +112,7 @@ function PersonaVariantExample({
   }, []);
 
   return (
-    <Example title={title}>
+    <Example title={title} containerClassName={className}>
       <div className="flex size-full flex-col items-center justify-center gap-4">
         <Persona className="size-32" state={currentState} variant={variant} />
 

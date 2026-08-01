@@ -30,6 +30,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { cn } from "@/lib/utils"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { InformationCircleIcon } from "@hugeicons/core-free-icons"
 
@@ -55,25 +56,25 @@ export default function InputExample() {
   )
 }
 
-function InputBasic() {
+function InputBasic({ className }: { className?: string }) {
   return (
-    <Example title="Basic">
+    <Example title="Basic" containerClassName={className}>
       <Input type="email" placeholder="Email" />
     </Example>
   )
 }
 
-function InputInvalid() {
+function InputInvalid({ className }: { className?: string }) {
   return (
-    <Example title="Invalid">
+    <Example title="Invalid" containerClassName={className}>
       <Input type="text" placeholder="Error" aria-invalid="true" />
     </Example>
   )
 }
 
-function InputWithLabel() {
+function InputWithLabel({ className }: { className?: string }) {
   return (
-    <Example title="With Label">
+    <Example title="With Label" containerClassName={className}>
       <Field>
         <FieldLabel htmlFor="input-demo-email">Email</FieldLabel>
         <Input
@@ -86,9 +87,9 @@ function InputWithLabel() {
   )
 }
 
-function InputWithDescription() {
+function InputWithDescription({ className }: { className?: string }) {
   return (
-    <Example title="With Description">
+    <Example title="With Description" containerClassName={className}>
       <Field>
         <FieldLabel htmlFor="input-demo-username">Username</FieldLabel>
         <Input
@@ -104,9 +105,9 @@ function InputWithDescription() {
   )
 }
 
-function InputDisabled() {
+function InputDisabled({ className }: { className?: string }) {
   return (
-    <Example title="Disabled">
+    <Example title="Disabled" containerClassName={className}>
       <Field>
         <FieldLabel htmlFor="input-demo-disabled">Email</FieldLabel>
         <Input
@@ -120,9 +121,9 @@ function InputDisabled() {
   )
 }
 
-function InputRequired() {
+function InputRequired({ className }: { className?: string }) {
   return (
-    <Example title="Required">
+    <Example title="Required" containerClassName={className}>
       <Field>
         <FieldLabel htmlFor="input-required">
           Required Field <span className="text-destructive">*</span>
@@ -138,9 +139,9 @@ function InputRequired() {
   )
 }
 
-function InputWithBadge() {
+function InputWithBadge({ className }: { className?: string }) {
   return (
-    <Example title="With Badge">
+    <Example title="With Badge" containerClassName={className}>
       <Field>
         <FieldLabel htmlFor="input-badge">
           Webhook URL{" "}
@@ -158,11 +159,11 @@ function InputWithBadge() {
   )
 }
 
-function InputTypes() {
+function InputTypes({ className }: { className?: string }) {
   return (
     <Example
       title="Input Types"
-      containerClassName="lg:col-span-full 2xl:col-span-full"
+      containerClassName={cn("lg:col-span-full 2xl:col-span-full", className)}
     >
       <div className="flex w-full flex-col gap-6">
         <Field>
@@ -214,9 +215,9 @@ function InputTypes() {
   )
 }
 
-function InputGrid() {
+function InputGrid({ className }: { className?: string }) {
   return (
-    <Example title="Grid">
+    <Example title="Grid" containerClassName={className}>
       <FieldGroup className="grid max-w-sm grid-cols-2">
         <Field>
           <FieldLabel htmlFor="grid-first-name">First Name</FieldLabel>
@@ -231,9 +232,9 @@ function InputGrid() {
   )
 }
 
-function InputWithSelect() {
+function InputWithSelect({ className }: { className?: string }) {
   return (
-    <Example title="With Select">
+    <Example title="With Select" containerClassName={className}>
       <div className="flex w-full gap-2">
         <Input type="text" placeholder="Enter amount" className="flex-1" />
         <Select defaultValue="usd">
@@ -253,9 +254,9 @@ function InputWithSelect() {
   )
 }
 
-function InputWithButton() {
+function InputWithButton({ className }: { className?: string }) {
   return (
-    <Example title="With Button">
+    <Example title="With Button" containerClassName={className}>
       <div className="flex w-full gap-2">
         <Input type="search" placeholder="Search..." className="flex-1" />
         <Button>Search</Button>
@@ -264,9 +265,9 @@ function InputWithButton() {
   )
 }
 
-function InputButtonGroup() {
+function InputButtonGroup({ className }: { className?: string }) {
   return (
-    <Example title="Button Group">
+    <Example title="Button Group" containerClassName={className}>
       <Field>
         <FieldLabel htmlFor="input-button-group">Search</FieldLabel>
         <ButtonGroup>
@@ -278,9 +279,9 @@ function InputButtonGroup() {
   )
 }
 
-function InputInputGroup() {
+function InputInputGroup({ className }: { className?: string }) {
   return (
-    <Example title="Input Group">
+    <Example title="Input Group" containerClassName={className}>
       <Field>
         <FieldLabel htmlFor="input-group-url">Website URL</FieldLabel>
         <InputGroup>
@@ -297,9 +298,9 @@ function InputInputGroup() {
   )
 }
 
-function InputWithNativeSelect() {
+function InputWithNativeSelect({ className }: { className?: string }) {
   return (
-    <Example title="With Native Select">
+    <Example title="With Native Select" containerClassName={className}>
       <div className="flex w-full gap-2">
         <Input type="tel" placeholder="(555) 123-4567" className="flex-1" />
         <NativeSelect defaultValue="+1">
@@ -312,11 +313,11 @@ function InputWithNativeSelect() {
   )
 }
 
-function InputForm() {
+function InputForm({ className }: { className?: string }) {
   return (
     <Example
       title="Form"
-      containerClassName="lg:col-span-full 2xl:col-span-full"
+      containerClassName={cn("lg:col-span-full 2xl:col-span-full", className)}
     >
       <form className="w-full">
         <FieldGroup>

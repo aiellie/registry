@@ -27,9 +27,9 @@ export default function SwitchExample() {
   )
 }
 
-function SwitchBasic() {
+function SwitchBasic({ className }: { className?: string }) {
   return (
-    <Example title="Basic">
+    <Example title="Basic" containerClassName={className}>
       <Field orientation="horizontal">
         <Switch id="switch-basic" />
         <FieldLabel htmlFor="switch-basic">Airplane Mode</FieldLabel>
@@ -38,9 +38,9 @@ function SwitchBasic() {
   )
 }
 
-function SwitchWithLabel() {
+function SwitchWithLabel({ className }: { className?: string }) {
   return (
-    <Example title="With Label">
+    <Example title="With Label" containerClassName={className}>
       <div className="flex items-center gap-2">
         <Switch id="switch-bluetooth" defaultChecked />
         <Label htmlFor="switch-bluetooth">Bluetooth</Label>
@@ -49,9 +49,9 @@ function SwitchWithLabel() {
   )
 }
 
-function SwitchWithDescription() {
+function SwitchWithDescription({ className }: { className?: string }) {
   return (
-    <Example title="With Description">
+    <Example title="With Description" containerClassName={className}>
       <FieldLabel htmlFor="switch-focus-mode">
         <Field orientation="horizontal">
           <FieldContent>
@@ -68,9 +68,9 @@ function SwitchWithDescription() {
   )
 }
 
-function SwitchDisabled() {
+function SwitchDisabled({ className }: { className?: string }) {
   return (
-    <Example title="Disabled">
+    <Example title="Disabled" containerClassName={className}>
       <div className="flex flex-col gap-12">
         <div className="flex items-center gap-2">
           <Switch id="switch-disabled-unchecked" disabled />
@@ -87,9 +87,9 @@ function SwitchDisabled() {
   )
 }
 
-function SwitchSizes() {
+function SwitchSizes({ className }: { className?: string }) {
   return (
-    <Example title="Sizes">
+    <Example title="Sizes" containerClassName={className}>
       <div className="flex flex-col gap-12">
         <div className="flex items-center gap-2">
           <Switch id="switch-size-sm" size="sm" />
@@ -104,9 +104,9 @@ function SwitchSizes() {
   )
 }
 
-function SwitchChoiceCard() {
+function SwitchChoiceCard({ className }: { className?: string }) {
   return (
-    <Example title="Choice Card">
+    <Example title="Choice Card" containerClassName={className}>
       <FieldGroup className="w-full max-w-sm">
         <FieldLabel htmlFor="switch-share">
           <Field orientation="horizontal">
@@ -136,9 +136,9 @@ function SwitchChoiceCard() {
   )
 }
 
-function SwitchInvalid() {
+function SwitchInvalid({ className }: { className?: string }) {
   return (
-    <Example title="Invalid">
+    <Example title="Invalid" containerClassName={className}>
       <Field orientation="horizontal" className="max-w-sm" data-invalid>
         <FieldContent>
           <FieldLabel htmlFor="switch-terms">

@@ -34,9 +34,9 @@ export default function CommandExample() {
   )
 }
 
-function CommandInline() {
+function CommandInline({ className }: { className?: string }) {
   return (
-    <Example title="Inline">
+    <Example title="Inline" containerClassName={className}>
       <Card className="w-full p-0">
         <CardContent className="p-0">
           <Command>
@@ -83,11 +83,11 @@ function CommandInline() {
   )
 }
 
-function CommandBasic() {
+function CommandBasic({ className }: { className?: string }) {
   const [open, setOpen] = React.useState(false)
 
   return (
-    <Example title="Basic">
+    <Example title="Basic" containerClassName={className}>
       <div className="flex flex-col gap-4">
         <Button
           onClick={() => setOpen(true)}
@@ -114,11 +114,11 @@ function CommandBasic() {
   )
 }
 
-function CommandWithShortcuts() {
+function CommandWithShortcuts({ className }: { className?: string }) {
   const [open, setOpen] = React.useState(false)
 
   return (
-    <Example title="With Shortcuts">
+    <Example title="With Shortcuts" containerClassName={className}>
       <div className="flex flex-col gap-4">
         <Button
           onClick={() => setOpen(true)}
@@ -157,11 +157,11 @@ function CommandWithShortcuts() {
   )
 }
 
-function CommandWithGroups() {
+function CommandWithGroups({ className }: { className?: string }) {
   const [open, setOpen] = React.useState(false)
 
   return (
-    <Example title="With Groups">
+    <Example title="With Groups" containerClassName={className}>
       <div className="flex flex-col gap-4">
         <Button
           onClick={() => setOpen(true)}
@@ -215,11 +215,11 @@ function CommandWithGroups() {
   )
 }
 
-function CommandManyItems() {
+function CommandManyItems({ className }: { className?: string }) {
   const [open, setOpen] = React.useState(false)
 
   return (
-    <Example title="Many Groups & Items">
+    <Example title="Many Groups & Items" containerClassName={className}>
       <div className="flex flex-col gap-4">
         <Button
           onClick={() => setOpen(true)}

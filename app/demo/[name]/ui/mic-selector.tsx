@@ -42,9 +42,9 @@ function DeviceList() {
   )
 }
 
-function Default() {
+function Default({ className }: { className?: string }) {
   return (
-    <Example title="Default">
+    <Example title="Default" containerClassName={className}>
       <MicSelector>
         <MicSelectorTrigger className="w-full max-w-sm">
           <MicSelectorValue />
@@ -55,11 +55,11 @@ function Default() {
   )
 }
 
-function Controlled() {
+function Controlled({ className }: { className?: string }) {
   const [value, setValue] = React.useState<string | undefined>(undefined)
 
   return (
-    <Example title="Controlled">
+    <Example title="Controlled" containerClassName={className}>
       <div className="flex w-full max-w-sm flex-col gap-3">
         <MicSelector onValueChange={setValue} value={value}>
           <MicSelectorTrigger className="w-full">

@@ -26,9 +26,9 @@ export default function NativeSelectExample() {
   )
 }
 
-function NativeSelectBasic() {
+function NativeSelectBasic({ className }: { className?: string }) {
   return (
-    <Example title="Basic">
+    <Example title="Basic" containerClassName={className}>
       <NativeSelect>
         <NativeSelectOption value="">Select a fruit</NativeSelectOption>
         <NativeSelectOption value="apple">Apple</NativeSelectOption>
@@ -43,9 +43,9 @@ function NativeSelectBasic() {
   )
 }
 
-function NativeSelectWithGroups() {
+function NativeSelectWithGroups({ className }: { className?: string }) {
   return (
-    <Example title="With Groups">
+    <Example title="With Groups" containerClassName={className}>
       <NativeSelect>
         <NativeSelectOption value="">Select a food</NativeSelectOption>
         <NativeSelectOptGroup label="Fruits">
@@ -63,9 +63,9 @@ function NativeSelectWithGroups() {
   )
 }
 
-function NativeSelectSizes() {
+function NativeSelectSizes({ className }: { className?: string }) {
   return (
-    <Example title="Sizes">
+    <Example title="Sizes" containerClassName={className}>
       <div className="flex flex-col gap-4">
         <NativeSelect size="sm">
           <NativeSelectOption value="">Select a fruit</NativeSelectOption>
@@ -84,9 +84,9 @@ function NativeSelectSizes() {
   )
 }
 
-function NativeSelectWithField() {
+function NativeSelectWithField({ className }: { className?: string }) {
   return (
-    <Example title="With Field">
+    <Example title="With Field" containerClassName={className}>
       <Field>
         <FieldLabel htmlFor="native-select-country">Country</FieldLabel>
         <NativeSelect id="native-select-country">
@@ -102,9 +102,9 @@ function NativeSelectWithField() {
   )
 }
 
-function NativeSelectDisabled() {
+function NativeSelectDisabled({ className }: { className?: string }) {
   return (
-    <Example title="Disabled">
+    <Example title="Disabled" containerClassName={className}>
       <NativeSelect disabled>
         <NativeSelectOption value="">Disabled</NativeSelectOption>
         <NativeSelectOption value="apple">Apple</NativeSelectOption>
@@ -115,9 +115,9 @@ function NativeSelectDisabled() {
   )
 }
 
-function NativeSelectInvalid() {
+function NativeSelectInvalid({ className }: { className?: string }) {
   return (
-    <Example title="Invalid">
+    <Example title="Invalid" containerClassName={className}>
       <NativeSelect aria-invalid="true">
         <NativeSelectOption value="">Error state</NativeSelectOption>
         <NativeSelectOption value="apple">Apple</NativeSelectOption>

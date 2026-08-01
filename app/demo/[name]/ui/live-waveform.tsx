@@ -61,11 +61,11 @@ function MicToggle({
   )
 }
 
-function Static() {
+function Static({ className }: { className?: string }) {
   const [active, setActive] = React.useState(false)
 
   return (
-    <Example title="Static">
+    <Example title="Static" containerClassName={className}>
       <div className="flex w-full max-w-md items-center gap-3">
         <LiveWaveform active={active} height={48} className="min-w-0 flex-1" />
         <MicToggle active={active} onActiveChange={setActive} />
@@ -74,11 +74,11 @@ function Static() {
   )
 }
 
-function Scrolling() {
+function Scrolling({ className }: { className?: string }) {
   const [active, setActive] = React.useState(false)
 
   return (
-    <Example title="Scrolling">
+    <Example title="Scrolling" containerClassName={className}>
       <div className="flex w-full max-w-md items-center gap-3">
         <LiveWaveform
           active={active}
@@ -95,9 +95,9 @@ function Scrolling() {
   )
 }
 
-function Processing() {
+function Processing({ className }: { className?: string }) {
   return (
-    <Example title="Processing">
+    <Example title="Processing" containerClassName={className}>
       <div className="w-full max-w-md">
         <LiveWaveform processing height={48} />
       </div>

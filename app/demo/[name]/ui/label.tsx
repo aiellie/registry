@@ -19,9 +19,9 @@ export default function LabelExample() {
   )
 }
 
-function LabelWithCheckbox() {
+function LabelWithCheckbox({ className }: { className?: string }) {
   return (
-    <Example title="With Checkbox">
+    <Example title="With Checkbox" containerClassName={className}>
       <Field orientation="horizontal">
         <Checkbox id="label-demo-terms" />
         <Label htmlFor="label-demo-terms">Accept terms and conditions</Label>
@@ -30,9 +30,9 @@ function LabelWithCheckbox() {
   )
 }
 
-function LabelWithInput() {
+function LabelWithInput({ className }: { className?: string }) {
   return (
-    <Example title="With Input">
+    <Example title="With Input" containerClassName={className}>
       <Field>
         <Label htmlFor="label-demo-username">Username</Label>
         <Input id="label-demo-username" placeholder="Username" />
@@ -41,9 +41,9 @@ function LabelWithInput() {
   )
 }
 
-function LabelDisabled() {
+function LabelDisabled({ className }: { className?: string }) {
   return (
-    <Example title="Disabled">
+    <Example title="Disabled" containerClassName={className}>
       <Field data-disabled={true}>
         <Label htmlFor="label-demo-disabled">Disabled</Label>
         <Input id="label-demo-disabled" placeholder="Disabled" disabled />
@@ -52,9 +52,9 @@ function LabelDisabled() {
   )
 }
 
-function LabelWithTextarea() {
+function LabelWithTextarea({ className }: { className?: string }) {
   return (
-    <Example title="With Textarea">
+    <Example title="With Textarea" containerClassName={className}>
       <Field>
         <Label htmlFor="label-demo-message">Message</Label>
         <Textarea id="label-demo-message" placeholder="Message" />

@@ -48,8 +48,8 @@ import {
 
 export default function DataTableExample() {
   return (
-    <ExampleWrapper className="lg:grid-cols-1">
-      <DataTableDemo />
+    <ExampleWrapper className="grid-cols-1">
+      <DataTableDemo className="col-span-full"/>
     </ExampleWrapper>
   )
 }
@@ -189,7 +189,7 @@ const columns: ColumnDef<Payment>[] = [
   },
 ]
 
-function DataTableDemo() {
+function DataTableDemo({ className }: { className?: string }) {
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -218,7 +218,7 @@ function DataTableDemo() {
   })
 
   return (
-    <Example title="Data Table">
+    <Example title="Data Table" containerClassName={className}>
       <div className="w-full">
         <div className="flex items-center py-4">
           <Input

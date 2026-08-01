@@ -65,9 +65,9 @@ export default function NavigationMenuExample() {
   )
 }
 
-function NavigationMenuBasic() {
+function NavigationMenuBasic({ className }: { className?: string }) {
   return (
-    <Example title="Basic">
+    <Example title="Basic" containerClassName={className}>
       <NavigationMenu>
         <NavigationMenuList>
           <NavigationMenuItem>

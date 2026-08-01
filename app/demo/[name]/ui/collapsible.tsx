@@ -36,9 +36,9 @@ export default function CollapsibleExample() {
   )
 }
 
-function CollapsibleBasic() {
+function CollapsibleBasic({ className }: { className?: string }) {
   return (
-    <Example title="Basic" className="items-center">
+    <Example title="Basic" className="items-center" containerClassName={className}>
       <Card className="mx-auto w-full max-w-sm">
         <CardContent>
           <Collapsible className="rounded-md data-open:bg-muted">
@@ -66,11 +66,11 @@ function CollapsibleBasic() {
   )
 }
 
-function CollapsibleOrder() {
+function CollapsibleOrder({ className }: { className?: string }) {
   const [isOpen, setIsOpen] = React.useState(false)
 
   return (
-    <Example title="Order Details" className="items-center">
+    <Example title="Order Details" className="items-center" containerClassName={className}>
       <Collapsible
         open={isOpen}
         onOpenChange={setIsOpen}
@@ -106,7 +106,7 @@ function CollapsibleOrder() {
 
 type FileTreeItem = { name: string } | { name: string; items: FileTreeItem[] }
 
-function CollapsibleFileTree() {
+function CollapsibleFileTree({ className }: { className?: string }) {
   const fileTree: FileTreeItem[] = [
     {
       name: "components",
@@ -198,7 +198,7 @@ function CollapsibleFileTree() {
   }
 
   return (
-    <Example title="File Tree" className="items-center">
+    <Example title="File Tree" className="items-center" containerClassName={className}>
       <Card className="mx-auto w-full max-w-[16rem] gap-2" size="sm">
         <CardHeader>
           <Tabs defaultValue="explorer">
@@ -218,11 +218,11 @@ function CollapsibleFileTree() {
   )
 }
 
-function CollapsibleSettings() {
+function CollapsibleSettings({ className }: { className?: string }) {
   const [isOpen, setIsOpen] = React.useState(false)
 
   return (
-    <Example title="Settings" className="items-center">
+    <Example title="Settings" className="items-center" containerClassName={className}>
       <Card className="mx-auto w-full max-w-xs" size="sm">
         <CardHeader>
           <CardTitle>Radius</CardTitle>

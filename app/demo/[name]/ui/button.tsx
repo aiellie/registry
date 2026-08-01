@@ -28,9 +28,9 @@ export default function ButtonExample() {
   )
 }
 
-function ButtonVariants() {
+function ButtonVariants({ className }: { className?: string }) {
   return (
-    <Example title="Variants">
+    <Example title="Variants" containerClassName={className}>
       <div className="flex flex-wrap items-center justify-center gap-2">
         <Button>Default</Button>
         <Button variant="inverse">Inverse</Button>
@@ -44,9 +44,9 @@ function ButtonVariants() {
   )
 }
 
-function ButtonSizes() {
+function ButtonSizes({ className }: { className?: string }) {
   return (
-    <Example title="Sizes">
+    <Example title="Sizes" containerClassName={className}>
       <div className="flex flex-col items-center gap-2">
         <div className="flex flex-wrap items-center justify-center gap-2">
           <Button variant="outline" size="xs">
@@ -107,9 +107,9 @@ function ButtonSizes() {
   )
 }
 
-function ButtonWithIconAndLoading() {
+function ButtonWithIconAndLoading({ className }: { className?: string }) {
   return (
-    <Example title="With Icon & Loading">
+    <Example title="With Icon & Loading" containerClassName={className}>
       <div className="flex flex-wrap items-center justify-center gap-2">
         <Button variant="outline">
           <HugeiconsIcon

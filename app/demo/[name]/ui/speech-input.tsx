@@ -16,11 +16,11 @@ export default function SpeechInputExample() {
   )
 }
 
-function Default() {
+function Default({ className }: { className?: string }) {
   const [transcript, setTranscript] = React.useState("")
 
   return (
-    <Example title="Default">
+    <Example title="Default" containerClassName={className}>
       <div className="flex w-full flex-col items-center gap-4">
         <SpeechInput onTranscriptionChange={setTranscript} size="icon" />
         <p className="text-center text-sm text-muted-foreground">
@@ -31,11 +31,11 @@ function Default() {
   )
 }
 
-function VoiceToText() {
+function VoiceToText({ className }: { className?: string }) {
   const [value, setValue] = React.useState("")
 
   return (
-    <Example title="Voice to text">
+    <Example title="Voice to text" containerClassName={className}>
       <div className="flex w-full max-w-sm items-center gap-2">
         <Input
           onChange={(event) => setValue(event.target.value)}
@@ -53,9 +53,9 @@ function VoiceToText() {
   )
 }
 
-function Sizes() {
+function Sizes({ className }: { className?: string }) {
   return (
-    <Example title="Sizes">
+    <Example title="Sizes" containerClassName={className}>
       <div className="flex w-full items-center justify-center gap-4">
         <SpeechInput size="icon-sm" />
         <SpeechInput size="icon" />

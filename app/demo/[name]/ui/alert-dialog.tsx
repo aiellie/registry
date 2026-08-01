@@ -40,9 +40,9 @@ export default function AlertDialogExample() {
   )
 }
 
-function AlertDialogBasic() {
+function AlertDialogBasic({ className }: { className?: string }) {
   return (
-    <Example title="Basic" className="items-center">
+    <Example title="Basic" className="items-center" containerClassName={className}>
       <AlertDialog>
         <AlertDialogTrigger
           render={<Button variant="outline">Default</Button>}
@@ -65,9 +65,9 @@ function AlertDialogBasic() {
   )
 }
 
-function AlertDialogSmall() {
+function AlertDialogSmall({ className }: { className?: string }) {
   return (
-    <Example title="Small" className="items-center">
+    <Example title="Small" className="items-center" containerClassName={className}>
       <AlertDialog>
         <AlertDialogTrigger render={<Button variant="outline">Small</Button>} />
         <AlertDialogContent size="sm">
@@ -87,9 +87,9 @@ function AlertDialogSmall() {
   )
 }
 
-function AlertDialogWithMedia() {
+function AlertDialogWithMedia({ className }: { className?: string }) {
   return (
-    <Example title="With Media" className="items-center">
+    <Example title="With Media" className="items-center" containerClassName={className}>
       <AlertDialog>
         <AlertDialogTrigger
           render={<Button variant="outline">Default (Media)</Button>}
@@ -115,9 +115,9 @@ function AlertDialogWithMedia() {
   )
 }
 
-function AlertDialogSmallWithMedia() {
+function AlertDialogSmallWithMedia({ className }: { className?: string }) {
   return (
-    <Example title="Small With Media" className="items-center">
+    <Example title="Small With Media" className="items-center" containerClassName={className}>
       <AlertDialog>
         <AlertDialogTrigger
           render={<Button variant="outline">Small (Media)</Button>}
@@ -143,9 +143,9 @@ function AlertDialogSmallWithMedia() {
   )
 }
 
-function AlertDialogDestructive() {
+function AlertDialogDestructive({ className }: { className?: string }) {
   return (
-    <Example title="Destructive" className="items-center">
+    <Example title="Destructive" className="items-center" containerClassName={className}>
       <AlertDialog>
         <AlertDialogTrigger
           render={<Button variant="destructive">Delete Chat</Button>}
@@ -170,9 +170,9 @@ function AlertDialogDestructive() {
   )
 }
 
-function AlertDialogInDialog() {
+function AlertDialogInDialog({ className }: { className?: string }) {
   return (
-    <Example title="In Dialog" className="items-center">
+    <Example title="In Dialog" className="items-center" containerClassName={className}>
       <Dialog>
         <DialogTrigger render={<Button variant="outline" />}>
           Open Dialog

@@ -4,6 +4,7 @@ import {
   type BrandAvatarState,
 } from "@/components/brand/brand-avatar"
 import { Example, ExampleWrapper } from "@/components/example"
+import { cn } from "@/lib/utils"
 
 export default function BrandAvatarExample() {
   return (
@@ -37,9 +38,9 @@ function StateFigure({
   )
 }
 
-function BrandAvatarDefault() {
+function BrandAvatarDefault({ className }: { className?: string }) {
   return (
-    <Example title="Default" className="items-center justify-center">
+    <Example title="Default" className="items-center justify-center" containerClassName={className}>
       <div className="flex flex-col items-center gap-4">
         <BrandAvatar className="size-24" />
         <span className="font-mono text-[10px] tracking-widest text-muted-foreground">
@@ -50,9 +51,9 @@ function BrandAvatarDefault() {
   )
 }
 
-function BrandAvatarSleeping() {
+function BrandAvatarSleeping({ className }: { className?: string }) {
   return (
-    <Example title="Sleeping" className="items-center justify-center">
+    <Example title="Sleeping" className="items-center justify-center" containerClassName={className}>
       <div className="flex flex-col items-center gap-4">
         <BrandAvatar state="sleeping" className="size-24" />
         <span className="font-mono text-[10px] tracking-widest text-muted-foreground">
@@ -63,9 +64,9 @@ function BrandAvatarSleeping() {
   )
 }
 
-function BrandAvatarExpressions() {
+function BrandAvatarExpressions({ className }: { className?: string }) {
   return (
-    <Example title="Expressions" className="items-center justify-center">
+    <Example title="Expressions" className="items-center justify-center" containerClassName={className}>
       <div className="flex flex-wrap items-start justify-center gap-8">
         <StateFigure state="happy" />
         <StateFigure state="winking" />
@@ -76,9 +77,9 @@ function BrandAvatarExpressions() {
   )
 }
 
-function BrandAvatarReactions() {
+function BrandAvatarReactions({ className }: { className?: string }) {
   return (
-    <Example title="Reactions" className="items-center justify-center">
+    <Example title="Reactions" className="items-center justify-center" containerClassName={className}>
       <div className="flex flex-wrap items-start justify-center gap-8">
         <StateFigure state="yawning" />
         <StateFigure state="startled" />
@@ -88,9 +89,9 @@ function BrandAvatarReactions() {
   )
 }
 
-function BrandAvatarSizes() {
+function BrandAvatarSizes({ className }: { className?: string }) {
   return (
-    <Example title="Sizes" className="items-center justify-center">
+    <Example title="Sizes" className="items-center justify-center" containerClassName={className}>
       <div className="flex items-end gap-6">
         <BrandAvatar className="size-6" />
         <BrandAvatar className="size-8" />
@@ -103,7 +104,7 @@ function BrandAvatarSizes() {
 }
 
 /** The intro sequence in stills: she was sleeping, you woke her. */
-function BrandAvatarWakeUp() {
+function BrandAvatarWakeUp({ className }: { className?: string }) {
   const sequence: BrandAvatarState[] = [
     "sleeping",
     "grumpy",
@@ -112,7 +113,7 @@ function BrandAvatarWakeUp() {
     "happy",
   ]
   return (
-    <Example title="Wake-up Sequence" className="items-center justify-center">
+    <Example title="Wake-up Sequence" className="items-center justify-center" containerClassName={className}>
       <div className="flex flex-wrap items-center justify-center gap-3">
         {sequence.map((state, i) => (
           <div key={state} className="flex w-auto items-center gap-3">
@@ -150,9 +151,9 @@ function StatusRow({
   )
 }
 
-function BrandAvatarStatusRows() {
+function BrandAvatarStatusRows({ className }: { className?: string }) {
   return (
-    <Example title="As a Presence Indicator">
+    <Example title="As a Presence Indicator" containerClassName={className}>
       <div className="flex w-full flex-col gap-2">
         <StatusRow state="awake" status="[ status: online ]" />
         <StatusRow state="dizzy" status="[ status: dizzy ]" />
@@ -162,9 +163,9 @@ function BrandAvatarStatusRows() {
   )
 }
 
-function BrandAvatarAllStates() {
+function BrandAvatarAllStates({ className }: { className?: string }) {
   return (
-    <Example title="All States" containerClassName="lg:col-span-full">
+    <Example title="All States" containerClassName={cn("lg:col-span-full", className)}>
       <div className="grid w-full grid-cols-3 gap-x-4 gap-y-8 sm:grid-cols-5 lg:grid-cols-9">
         {brandAvatarStates.map((state) => (
           <StateFigure key={state} state={state} size="size-14" />

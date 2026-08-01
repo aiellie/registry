@@ -101,7 +101,7 @@ export default function WebPreviewExample() {
 
 /* -------------------------------------------------------------------------- */
 
-function BrowserExample() {
+function BrowserExample({ className }: { className?: string }) {
   const [history, setHistory] = React.useState({
     entries: [HOME_URL],
     index: 0,
@@ -330,6 +330,7 @@ function BrowserExample() {
     <Example
       title="Browser — loads any public URL"
       className={cn(expanded && "p-0")}
+      containerClassName={className}
     >
       <div
         className={cn(
@@ -557,11 +558,11 @@ function BrowserExample() {
 
 /* -------------------------------------------------------------------------- */
 
-function MinimalExample() {
+function MinimalExample({ className }: { className?: string }) {
   const [url, setUrl] = React.useState("https://wikipedia.org")
 
   return (
-    <Example title="Minimal — URL bar only">
+    <Example title="Minimal — URL bar only" containerClassName={className}>
       <WebPreview className="h-[380px]" defaultUrl={url} onUrlChange={setUrl}>
         <WebPreviewNavigation>
           <WebPreviewUrl />
@@ -574,7 +575,7 @@ function MinimalExample() {
 
 /* -------------------------------------------------------------------------- */
 
-function ConsoleExample() {
+function ConsoleExample({ className }: { className?: string }) {
   const [logs, setLogs] = React.useState<ConsoleLog[]>([
     {
       level: "log",
@@ -605,7 +606,7 @@ function ConsoleExample() {
   }, [])
 
   return (
-    <Example title="Console output">
+    <Example title="Console output" containerClassName={className}>
       <div className="flex w-full flex-col gap-3">
         <WebPreview className="h-[380px]" defaultUrl="https://example.com">
           <WebPreviewNavigation>

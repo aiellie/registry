@@ -34,9 +34,9 @@ export default function PopoverExample() {
   )
 }
 
-function PopoverBasic() {
+function PopoverBasic({ className }: { className?: string }) {
   return (
-    <Example title="Basic">
+    <Example title="Basic" containerClassName={className}>
       <Popover>
         <PopoverTrigger render={<Button variant="outline" className="w-fit" />}>
           Open Popover
@@ -54,9 +54,9 @@ function PopoverBasic() {
   )
 }
 
-function PopoverSides() {
+function PopoverSides({ className }: { className?: string }) {
   return (
-    <Example title="Sides">
+    <Example title="Sides" containerClassName={className}>
       <div className="flex flex-col gap-2">
         <div className="flex flex-wrap gap-2">
           {(["inline-start", "left", "top"] as const).map((side) => (
@@ -95,9 +95,9 @@ function PopoverSides() {
   )
 }
 
-function PopoverWithForm() {
+function PopoverWithForm({ className }: { className?: string }) {
   return (
-    <Example title="With Form">
+    <Example title="With Form" containerClassName={className}>
       <Popover>
         <PopoverTrigger render={<Button variant="outline" />}>
           Open Popover
@@ -129,9 +129,9 @@ function PopoverWithForm() {
   )
 }
 
-function PopoverAlignments() {
+function PopoverAlignments({ className }: { className?: string }) {
   return (
-    <Example title="Alignments">
+    <Example title="Alignments" containerClassName={className}>
       <div className="flex gap-6">
         <Popover>
           <PopoverTrigger render={<Button variant="outline" size="sm" />}>
@@ -162,9 +162,9 @@ function PopoverAlignments() {
   )
 }
 
-function PopoverInDialog() {
+function PopoverInDialog({ className }: { className?: string }) {
   return (
-    <Example title="In Dialog">
+    <Example title="In Dialog" containerClassName={className}>
       <Dialog>
         <DialogTrigger render={<Button variant="outline" />}>
           Open Dialog

@@ -29,9 +29,9 @@ export default function TooltipExample() {
   )
 }
 
-function TooltipBasic() {
+function TooltipBasic({ className }: { className?: string }) {
   return (
-    <Example title="Basic">
+    <Example title="Basic" containerClassName={className}>
       <Tooltip>
         <TooltipTrigger render={<Button variant="outline" className="w-fit" />}>
           Show Tooltip
@@ -44,9 +44,9 @@ function TooltipBasic() {
   )
 }
 
-function TooltipSides() {
+function TooltipSides({ className }: { className?: string }) {
   return (
-    <Example title="Sides">
+    <Example title="Sides" containerClassName={className}>
       <div className="flex flex-wrap gap-2">
         {(
           [
@@ -74,9 +74,9 @@ function TooltipSides() {
   )
 }
 
-function TooltipWithIcon() {
+function TooltipWithIcon({ className }: { className?: string }) {
   return (
-    <Example title="With Icon">
+    <Example title="With Icon" containerClassName={className}>
       <Tooltip>
         <TooltipTrigger render={<Button variant="ghost" size="icon" />}>
           <HugeiconsIcon icon={AlertCircleIcon} strokeWidth={2} />
@@ -90,9 +90,9 @@ function TooltipWithIcon() {
   )
 }
 
-function TooltipLongContent() {
+function TooltipLongContent({ className }: { className?: string }) {
   return (
-    <Example title="Long Content">
+    <Example title="Long Content" containerClassName={className}>
       <Tooltip>
         <TooltipTrigger render={<Button variant="outline" className="w-fit" />}>
           Show Tooltip
@@ -106,9 +106,9 @@ function TooltipLongContent() {
   )
 }
 
-function TooltipDisabled() {
+function TooltipDisabled({ className }: { className?: string }) {
   return (
-    <Example title="Disabled">
+    <Example title="Disabled" containerClassName={className}>
       <Tooltip>
         <TooltipTrigger render={<span className="inline-block w-fit" />}>
           <Button variant="outline" disabled>
@@ -123,9 +123,9 @@ function TooltipDisabled() {
   )
 }
 
-function TooltipWithKeyboard() {
+function TooltipWithKeyboard({ className }: { className?: string }) {
   return (
-    <Example title="With Keyboard Shortcut">
+    <Example title="With Keyboard Shortcut" containerClassName={className}>
       <Tooltip>
         <TooltipTrigger render={<Button variant="outline" size="icon-sm" />}>
           <HugeiconsIcon icon={FloppyDiskIcon} strokeWidth={2} />
@@ -138,9 +138,9 @@ function TooltipWithKeyboard() {
   )
 }
 
-function TooltipOnLink() {
+function TooltipOnLink({ className }: { className?: string }) {
   return (
-    <Example title="On Link">
+    <Example title="On Link" containerClassName={className}>
       <Tooltip>
         <TooltipTrigger
           render={
@@ -161,9 +161,9 @@ function TooltipOnLink() {
   )
 }
 
-function TooltipFormatted() {
+function TooltipFormatted({ className }: { className?: string }) {
   return (
-    <Example title="Formatted Content">
+    <Example title="Formatted Content" containerClassName={className}>
       <Tooltip>
         <TooltipTrigger render={<Button variant="outline" className="w-fit" />}>
           Status

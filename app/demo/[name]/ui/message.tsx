@@ -165,9 +165,9 @@ function MessageTextPart({
   )
 }
 
-function MessageDefault() {
+function MessageDefault({ className }: { className?: string }) {
   return (
-    <Example title="Message">
+    <Example title="Message" containerClassName={className}>
       <div className="flex w-full max-w-md min-w-0 flex-col gap-10">
         <Message align="end">
           <MessageContent>
@@ -210,9 +210,9 @@ function MessageDefault() {
   )
 }
 
-function MessageWithAvatar() {
+function MessageWithAvatar({ className }: { className?: string }) {
   return (
-    <Example title="Avatar">
+    <Example title="Avatar" containerClassName={className}>
       <div className="flex w-full max-w-md flex-col gap-10">
         <Message>
           <MessageAvatar>
@@ -305,9 +305,9 @@ function MessageWithAvatar() {
   )
 }
 
-function MessageGroupExample() {
+function MessageGroupExample({ className }: { className?: string }) {
   return (
-    <Example title="Group">
+    <Example title="Group" containerClassName={className}>
       <div className="flex w-full max-w-md flex-col gap-10">
         <MessageGroup>
           <Message>
@@ -406,9 +406,9 @@ function MessageGroupExample() {
   )
 }
 
-function MessageGroupChat() {
+function MessageGroupChat({ className }: { className?: string }) {
   return (
-    <Example title="Group Chat">
+    <Example title="Group Chat" containerClassName={className}>
       <div className="flex w-full max-w-md flex-col gap-10">
         <Message align="end">
           <MessageContent>
@@ -486,9 +486,9 @@ Can you check if the users are being created?`}
   )
 }
 
-function MessageHeaderFooter() {
+function MessageHeaderFooter({ className }: { className?: string }) {
   return (
-    <Example title="Header and Footer">
+    <Example title="Header and Footer" containerClassName={className}>
       <div className="flex w-full max-w-md flex-col gap-12">
         <Message align="end">
           <MessageContent>
@@ -590,9 +590,9 @@ function MessageHeaderFooter() {
   )
 }
 
-function MessageAttachment() {
+function MessageAttachment({ className }: { className?: string }) {
   return (
-    <Example title="Attachment">
+    <Example title="Attachment" containerClassName={className}>
       <div className="flex w-full max-w-sm flex-col gap-8">
         <Message align="end">
           <MessageContent>
@@ -654,9 +654,9 @@ function MessageAttachment() {
   )
 }
 
-function MessageAttachmentGroup() {
+function MessageAttachmentGroup({ className }: { className?: string }) {
   return (
-    <Example title="Attachment Group">
+    <Example title="Attachment Group" containerClassName={className}>
       <div className="flex w-full max-w-sm flex-col gap-8">
         <Message align="end">
           <MessageContent>
@@ -769,9 +769,9 @@ function MessageAttachmentGroup() {
   )
 }
 
-function MessageActions() {
+function MessageActions({ className }: { className?: string }) {
   return (
-    <Example title="Actions">
+    <Example title="Actions" containerClassName={className}>
       <div className="flex w-full max-w-md flex-col gap-10">
         <Message align="end">
           <MessageContent>

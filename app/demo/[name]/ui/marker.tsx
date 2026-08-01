@@ -28,6 +28,7 @@ import {
 } from "@/components/ui/marker"
 import { Spinner } from "@/components/ui/spinner"
 import { toast } from "@/components/ui/toast"
+import { cn } from "@/lib/utils"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { File01Icon, GitBranchIcon, Clock01Icon, ArrowRight01Icon, UserCircleIcon, Search01Icon, Tick02Icon, SearchIcon } from "@hugeicons/core-free-icons"
 
@@ -43,9 +44,9 @@ export default function MarkerExamples() {
   )
 }
 
-function MarkerExample() {
+function MarkerExample({ className }: { className?: string }) {
   return (
-    <Example title="Markers" className="gap-8">
+    <Example title="Markers" className="gap-8" containerClassName={className}>
       <Marker>
         <MarkerContent>A default marker</MarkerContent>
       </Marker>
@@ -117,9 +118,9 @@ function MarkerExample() {
   )
 }
 
-function MarkerBorder() {
+function MarkerBorder({ className }: { className?: string }) {
   return (
-    <Example title="Border" className="gap-3">
+    <Example title="Border" className="gap-3" containerClassName={className}>
       <Marker variant="border">
         <MarkerIcon>
           <HugeiconsIcon icon={GitBranchIcon} strokeWidth={2} />
@@ -142,9 +143,9 @@ function MarkerBorder() {
   )
 }
 
-function MarkerSeparator() {
+function MarkerSeparator({ className }: { className?: string }) {
   return (
-    <Example title="Separator" className="gap-8">
+    <Example title="Separator" className="gap-8" containerClassName={className}>
       <Marker variant="separator">
         <MarkerContent>Worked for 42s</MarkerContent>
       </Marker>
@@ -180,9 +181,9 @@ function MarkerSeparator() {
   )
 }
 
-function MarkerAccordion() {
+function MarkerAccordion({ className }: { className?: string }) {
   return (
-    <Example title="Accordion" containerClassName="min-h-72">
+    <Example title="Accordion" containerClassName={cn("min-h-72", className)}>
       <Accordion>
         <AccordionItem value="1">
           <AccordionTrigger>
@@ -206,9 +207,9 @@ function MarkerAccordion() {
   )
 }
 
-function MarkerDrawer() {
+function MarkerDrawer({ className }: { className?: string }) {
   return (
-    <Example title="Drawer">
+    <Example title="Drawer" containerClassName={className}>
       <Drawer swipeDirection="right">
         <Marker variant="separator">
           <DrawerTrigger render={<Button variant="outline" />}>

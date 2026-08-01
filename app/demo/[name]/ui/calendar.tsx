@@ -23,6 +23,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
+import { cn } from "@/lib/utils"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { CalendarIcon, Clock03Icon, ArrowDownIcon } from "@hugeicons/core-free-icons"
 
@@ -47,9 +48,9 @@ export default function CalendarExample() {
   )
 }
 
-function CalendarInCard() {
+function CalendarInCard({ className }: { className?: string }) {
   return (
-    <Example title="In Card">
+    <Example title="In Card" containerClassName={className}>
       <Card className="mx-auto w-fit p-0">
         <CardContent className="p-0">
           <Calendar mode="single" />
@@ -59,9 +60,9 @@ function CalendarInCard() {
   )
 }
 
-function CalendarInPopover() {
+function CalendarInPopover({ className }: { className?: string }) {
   return (
-    <Example title="In Popover">
+    <Example title="In Popover" containerClassName={className}>
       <Popover>
         <PopoverTrigger
           render={<Button variant="outline" className="px-2.5 font-normal" />}
@@ -77,12 +78,12 @@ function CalendarInPopover() {
   )
 }
 
-function CalendarSingle() {
+function CalendarSingle({ className }: { className?: string }) {
   const [date, setDate] = React.useState<Date | undefined>(
     new Date(new Date().getFullYear(), new Date().getMonth(), 12)
   )
   return (
-    <Example title="Single">
+    <Example title="Single" containerClassName={className}>
       <Card className="mx-auto w-fit p-0">
         <CardContent className="p-0">
           <Calendar
@@ -97,9 +98,9 @@ function CalendarSingle() {
   )
 }
 
-function CalendarMultiple() {
+function CalendarMultiple({ className }: { className?: string }) {
   return (
-    <Example title="Multiple">
+    <Example title="Multiple" containerClassName={className}>
       <Card className="mx-auto w-fit p-0">
         <CardContent className="p-0">
           <Calendar mode="multiple" />
@@ -109,7 +110,7 @@ function CalendarMultiple() {
   )
 }
 
-function CalendarRange() {
+function CalendarRange({ className }: { className?: string }) {
   const [dateRange, setDateRange] = React.useState<DateRange | undefined>({
     from: new Date(new Date().getFullYear(), 0, 12),
     to: addDays(new Date(new Date().getFullYear(), 0, 12), 30),
@@ -118,7 +119,7 @@ function CalendarRange() {
   return (
     <Example
       title="Range"
-      containerClassName="lg:col-span-full 2xl:col-span-full"
+      containerClassName={cn("lg:col-span-full 2xl:col-span-full", className)}
       className="p-12"
     >
       <Card className="mx-auto w-fit p-0">
@@ -139,7 +140,7 @@ function CalendarRange() {
   )
 }
 
-function CalendarRangeMultipleMonths() {
+function CalendarRangeMultipleMonths({ className }: { className?: string }) {
   const [range, setRange] = React.useState<DateRange | undefined>({
     from: new Date(new Date().getFullYear(), 3, 12),
     to: addDays(new Date(new Date().getFullYear(), 3, 12), 60),
@@ -148,7 +149,7 @@ function CalendarRangeMultipleMonths() {
   return (
     <Example
       title="Range Multiple Months"
-      containerClassName="lg:col-span-full 2xl:col-span-full"
+      containerClassName={cn("lg:col-span-full 2xl:col-span-full", className)}
       className="p-12"
     >
       <Card className="mx-auto w-fit p-0">
@@ -168,7 +169,7 @@ function CalendarRangeMultipleMonths() {
   )
 }
 
-function CalendarBookedDates() {
+function CalendarBookedDates({ className }: { className?: string }) {
   const [date, setDate] = React.useState<Date | undefined>(
     new Date(new Date().getFullYear(), 1, 3)
   )
@@ -178,7 +179,7 @@ function CalendarBookedDates() {
   )
 
   return (
-    <Example title="Booked Dates">
+    <Example title="Booked Dates" containerClassName={className}>
       <Card className="mx-auto w-fit p-0">
         <CardContent className="p-0">
           <Calendar
@@ -200,13 +201,13 @@ function CalendarBookedDates() {
   )
 }
 
-function CalendarWithTime() {
+function CalendarWithTime({ className }: { className?: string }) {
   const [date, setDate] = React.useState<Date | undefined>(
     new Date(new Date().getFullYear(), new Date().getMonth(), 12)
   )
 
   return (
-    <Example title="With Time">
+    <Example title="With Time" containerClassName={className}>
       <Card size="sm" className="mx-auto w-fit">
         <CardContent>
           <Calendar
@@ -255,14 +256,14 @@ function CalendarWithTime() {
   )
 }
 
-function CalendarCustomDays() {
+function CalendarCustomDays({ className }: { className?: string }) {
   const [range, setRange] = React.useState<DateRange | undefined>({
     from: new Date(new Date().getFullYear(), 11, 8),
     to: addDays(new Date(new Date().getFullYear(), 11, 8), 10),
   })
 
   return (
-    <Example title="Custom Days">
+    <Example title="Custom Days" containerClassName={className}>
       <Card className="mx-auto w-fit p-0">
         <CardContent className="p-0">
           <Calendar
@@ -300,7 +301,7 @@ function CalendarCustomDays() {
   )
 }
 
-function CalendarWithPresets() {
+function CalendarWithPresets({ className }: { className?: string }) {
   const [date, setDate] = React.useState<Date | undefined>(
     new Date(new Date().getFullYear(), 1, 12)
   )
@@ -309,7 +310,7 @@ function CalendarWithPresets() {
   )
 
   return (
-    <Example title="With Presets">
+    <Example title="With Presets" containerClassName={className}>
       <Card className="mx-auto w-fit max-w-[300px]" size="sm">
         <CardContent>
           <Calendar
@@ -352,11 +353,11 @@ function CalendarWithPresets() {
   )
 }
 
-function DatePickerSimple() {
+function DatePickerSimple({ className }: { className?: string }) {
   const [date, setDate] = React.useState<Date>()
 
   return (
-    <Example title="Date Picker Simple">
+    <Example title="Date Picker Simple" containerClassName={className}>
       <Field className="mx-auto w-72">
         <FieldLabel htmlFor="date-picker-simple">Date</FieldLabel>
         <Popover>
@@ -381,14 +382,14 @@ function DatePickerSimple() {
   )
 }
 
-function DatePickerWithRange() {
+function DatePickerWithRange({ className }: { className?: string }) {
   const [date, setDate] = React.useState<DateRange | undefined>({
     from: new Date(new Date().getFullYear(), 0, 20),
     to: addDays(new Date(new Date().getFullYear(), 0, 20), 20),
   })
 
   return (
-    <Example title="Date Picker Range">
+    <Example title="Date Picker Range" containerClassName={className}>
       <Field className="mx-auto w-72">
         <FieldLabel htmlFor="date-picker-range">Date Picker Range</FieldLabel>
         <Popover>
@@ -430,12 +431,12 @@ function DatePickerWithRange() {
   )
 }
 
-function DataPickerWithDropdowns() {
+function DataPickerWithDropdowns({ className }: { className?: string }) {
   const [date, setDate] = React.useState<Date>()
   const [open, setOpen] = React.useState(false)
 
   return (
-    <Example title="Date Picker with Dropdowns">
+    <Example title="Date Picker with Dropdowns" containerClassName={className}>
       <Field className="mx-auto w-72">
         <Popover open={open} onOpenChange={setOpen}>
           <FieldLabel htmlFor="date-picker-with-dropdowns-desktop">
@@ -477,13 +478,13 @@ function DataPickerWithDropdowns() {
   )
 }
 
-function CalendarWeekNumbers() {
+function CalendarWeekNumbers({ className }: { className?: string }) {
   const [date, setDate] = React.useState<Date | undefined>(
     new Date(new Date().getFullYear(), 1, 3)
   )
 
   return (
-    <Example title="Week Numbers" className="justify-center">
+    <Example title="Week Numbers" className="justify-center" containerClassName={className}>
       <Card className="mx-auto w-fit p-0">
         <CardContent className="p-0">
           <Calendar

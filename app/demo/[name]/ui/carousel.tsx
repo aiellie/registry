@@ -28,9 +28,9 @@ export default function CarouselExample() {
   )
 }
 
-function CarouselBasic() {
+function CarouselBasic({ className }: { className?: string }) {
   return (
-    <Example title="Basic">
+    <Example title="Basic" containerClassName={className}>
       <Carousel className="mx-auto max-w-xs sm:max-w-sm">
         <CarouselContent>
           {Array.from({ length: 5 }).map((_, index) => (
@@ -52,9 +52,9 @@ function CarouselBasic() {
   )
 }
 
-function CarouselMultiple() {
+function CarouselMultiple({ className }: { className?: string }) {
   return (
-    <Example title="Multiple">
+    <Example title="Multiple" containerClassName={className}>
       <Carousel
         className="mx-auto max-w-xs sm:max-w-sm"
         opts={{
@@ -81,7 +81,7 @@ function CarouselMultiple() {
   )
 }
 
-function CarouselApiDemo() {
+function CarouselApiDemo({ className }: { className?: string }) {
   const [api, setApi] = React.useState<CarouselApi>()
   const [current, setCurrent] = React.useState(0)
   const [count, setCount] = React.useState(0)
@@ -100,7 +100,7 @@ function CarouselApiDemo() {
   }, [api])
 
   return (
-    <Example title="API">
+    <Example title="API" containerClassName={className}>
       <div className="mx-auto max-w-xs sm:max-w-sm">
         <Carousel setApi={setApi} className="w-full">
           <CarouselContent>
@@ -129,9 +129,9 @@ function CarouselApiDemo() {
   )
 }
 
-function CarouselOrientation() {
+function CarouselOrientation({ className }: { className?: string }) {
   return (
-    <Example title="Orientation">
+    <Example title="Orientation" containerClassName={className}>
       <Carousel
         opts={{
           align: "start",
@@ -159,9 +159,9 @@ function CarouselOrientation() {
   )
 }
 
-function CarouselWithGap() {
+function CarouselWithGap({ className }: { className?: string }) {
   return (
-    <Example title="With Gap">
+    <Example title="With Gap" containerClassName={className}>
       <Carousel className="mx-auto max-w-xs sm:max-w-sm">
         <CarouselContent className="-ms-1">
           {Array.from({ length: 5 }).map((_, index) => (

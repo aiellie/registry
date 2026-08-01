@@ -25,9 +25,9 @@ export default function ResizableExample() {
   )
 }
 
-function ResizableHorizontal() {
+function ResizableHorizontal({ className }: { className?: string }) {
   return (
-    <Example title="Horizontal">
+    <Example title="Horizontal" containerClassName={className}>
       <ResizablePanelGroup
         orientation="horizontal"
         className="min-h-[200px] rounded-lg border"
@@ -48,9 +48,9 @@ function ResizableHorizontal() {
   )
 }
 
-function ResizableVertical() {
+function ResizableVertical({ className }: { className?: string }) {
   return (
-    <Example title="Vertical">
+    <Example title="Vertical" containerClassName={className}>
       <ResizablePanelGroup
         orientation="vertical"
         className="min-h-[200px] rounded-lg border"
@@ -71,9 +71,9 @@ function ResizableVertical() {
   )
 }
 
-function ResizableWithHandle() {
+function ResizableWithHandle({ className }: { className?: string }) {
   return (
-    <Example title="With Handle">
+    <Example title="With Handle" containerClassName={className}>
       <ResizablePanelGroup
         orientation="horizontal"
         className="min-h-[200px] rounded-lg border"
@@ -94,9 +94,9 @@ function ResizableWithHandle() {
   )
 }
 
-function ResizableNested() {
+function ResizableNested({ className }: { className?: string }) {
   return (
-    <Example title="Nested">
+    <Example title="Nested" containerClassName={className}>
       <ResizablePanelGroup
         orientation="horizontal"
         className="rounded-lg border"
@@ -127,11 +127,11 @@ function ResizableNested() {
   )
 }
 
-function ResizableControlled() {
+function ResizableControlled({ className }: { className?: string }) {
   const [layout, setLayout] = React.useState<Layout>({})
 
   return (
-    <Example title="Controlled">
+    <Example title="Controlled" containerClassName={className}>
       <ResizablePanelGroup
         orientation="horizontal"
         className="min-h-[200px] rounded-lg border"

@@ -19,6 +19,7 @@ import {
   InputGroupInput,
 } from "@/components/ui/input-group"
 import { Spinner } from "@/components/ui/spinner"
+import { cn } from "@/lib/utils"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { ArrowRight02Icon, Loading03Icon } from "@hugeicons/core-free-icons"
 
@@ -36,9 +37,9 @@ export default function SpinnerExample() {
   )
 }
 
-function SpinnerBasic() {
+function SpinnerBasic({ className }: { className?: string }) {
   return (
-    <Example title="Basic">
+    <Example title="Basic" containerClassName={className}>
       <div className="flex items-center gap-6">
         <Spinner />
         <Spinner className="size-6" />
@@ -47,9 +48,9 @@ function SpinnerBasic() {
   )
 }
 
-function SpinnerSize() {
+function SpinnerSize({ className }: { className?: string }) {
   return (
-    <Example title="Sizes">
+    <Example title="Sizes" containerClassName={className}>
       <div className="flex items-center gap-6">
         <Spinner className="size-3" />
         <Spinner className="size-4" />
@@ -60,9 +61,9 @@ function SpinnerSize() {
   )
 }
 
-function SpinnerCustom() {
+function SpinnerCustom({ className }: { className?: string }) {
   return (
-    <Example title="Custom">
+    <Example title="Custom" containerClassName={className}>
       <div className="flex items-center gap-4">
         <HugeiconsIcon
           icon={Loading03Icon}
@@ -76,9 +77,9 @@ function SpinnerCustom() {
   )
 }
 
-function SpinnerInButtons() {
+function SpinnerInButtons({ className }: { className?: string }) {
   return (
-    <Example title="In Buttons">
+    <Example title="In Buttons" containerClassName={className}>
       <div className="flex flex-wrap items-center gap-4">
         <Button>
           <Spinner data-icon="inline-start" /> Submit
@@ -98,9 +99,9 @@ function SpinnerInButtons() {
   )
 }
 
-function SpinnerInBadges() {
+function SpinnerInBadges({ className }: { className?: string }) {
   return (
-    <Example title="In Badges" className="items-center justify-center">
+    <Example title="In Badges" className="items-center justify-center" containerClassName={className}>
       <div className="flex flex-wrap items-center justify-center gap-4">
         <Badge>
           <Spinner data-icon="inline-start" />
@@ -123,9 +124,9 @@ function SpinnerInBadges() {
   )
 }
 
-function SpinnerInInputGroup() {
+function SpinnerInInputGroup({ className }: { className?: string }) {
   return (
-    <Example title="In Input Group">
+    <Example title="In Input Group" containerClassName={className}>
       <Field>
         <FieldLabel htmlFor="input-group-spinner">Input Group</FieldLabel>
         <InputGroup>
@@ -139,9 +140,9 @@ function SpinnerInInputGroup() {
   )
 }
 
-function SpinnerInEmpty() {
+function SpinnerInEmpty({ className }: { className?: string }) {
   return (
-    <Example title="In Empty State" containerClassName="lg:col-span-full">
+    <Example title="In Empty State" containerClassName={cn("lg:col-span-full", className)}>
       <Empty className="min-h-[300px]">
         <EmptyHeader>
           <EmptyMedia variant="icon">

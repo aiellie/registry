@@ -47,9 +47,9 @@ export default function AvatarExample() {
   )
 }
 
-function AvatarSizes() {
+function AvatarSizes({ className }: { className?: string }) {
   return (
-    <Example title="Sizes">
+    <Example title="Sizes" containerClassName={className}>
       <div className="flex flex-wrap items-center gap-2">
         <Avatar size="sm">
           <AvatarImage src="/avatars/aiellie.png" alt="Aiellie avatar" />
@@ -214,9 +214,9 @@ const avatarColors = [
   },
 ]
 
-function AvatarColors() {
+function AvatarColors({ className }: { className?: string }) {
   return (
-    <Example title="Colors">
+    <Example title="Colors" containerClassName={className}>
       <div className="flex flex-wrap items-center gap-2">
         {avatarColors.map((color) => (
           <Avatar key={color.name} className={color.root}>
@@ -230,9 +230,9 @@ function AvatarColors() {
   )
 }
 
-function AvatarDropdown() {
+function AvatarDropdown({ className }: { className?: string }) {
   return (
-    <Example title="Dropdown">
+    <Example title="Dropdown" containerClassName={className}>
       <DropdownMenu>
         <DropdownMenuTrigger
           render={
@@ -260,9 +260,9 @@ function AvatarDropdown() {
   )
 }
 
-function AvatarWithBadge() {
+function AvatarWithBadge({ className }: { className?: string }) {
   return (
-    <Example title="Badge">
+    <Example title="Badge" containerClassName={className}>
       <div className="flex flex-wrap items-center gap-2">
         <Avatar size="sm">
           <AvatarImage src="/avatars/ellie.png" alt="Ellie" />
@@ -298,9 +298,9 @@ function AvatarWithBadge() {
   )
 }
 
-function AvatarWithBadgeIcon() {
+function AvatarWithBadgeIcon({ className }: { className?: string }) {
   return (
-    <Example title="Badge with Icon">
+    <Example title="Badge with Icon" containerClassName={className}>
       <div className="flex flex-wrap items-center gap-2">
         <Avatar size="sm">
           <AvatarImage src="/favicon.svg" alt="Aiellie favicon" />
@@ -348,9 +348,9 @@ function AvatarWithBadgeIcon() {
   )
 }
 
-function AvatarGroupExample() {
+function AvatarGroupExample({ className }: { className?: string }) {
   return (
-    <Example title="Group">
+    <Example title="Group" containerClassName={className}>
       <AvatarGroup>
         <Avatar size="sm">
           <AvatarImage src="/avatars/aiellie.png" alt="Aiellie avatar" />
@@ -397,9 +397,9 @@ function AvatarGroupExample() {
   )
 }
 
-function AvatarGroupWithCount() {
+function AvatarGroupWithCount({ className }: { className?: string }) {
   return (
-    <Example title="Group with Count">
+    <Example title="Group with Count" containerClassName={className}>
       <AvatarGroup>
         <Avatar size="sm">
           <AvatarImage src="/avatars/aiellie.png" alt="Aiellie avatar" />
@@ -449,9 +449,9 @@ function AvatarGroupWithCount() {
   )
 }
 
-function AvatarGroupWithIconCount() {
+function AvatarGroupWithIconCount({ className }: { className?: string }) {
   return (
-    <Example title="Group with Icon Count">
+    <Example title="Group with Icon Count" containerClassName={className}>
       <AvatarGroup>
         <Avatar size="sm">
           <AvatarImage src="/avatars/aiellie.png" alt="Aiellie avatar" />
@@ -519,11 +519,11 @@ function AvatarGroupWithIconCount() {
   )
 }
 
-function AvatarGlass() {
+function AvatarGlass({ className }: { className?: string }) {
   const seeds = ["brand", "aurora", "nebula"] as const
 
   return (
-    <Example title="Glass">
+    <Example title="Glass" containerClassName={className}>
       {seeds.map((seed) => (
         <div key={seed} className="flex flex-wrap items-center gap-2">
           <Avatar size="sm">
@@ -553,11 +553,11 @@ function AvatarGlass() {
   )
 }
 
-function AvatarGradient() {
+function AvatarGradient({ className }: { className?: string }) {
   const seeds = ["aiellie", "aurora", "cosmos"] as const
 
   return (
-    <Example title="Gradient">
+    <Example title="Gradient" containerClassName={className}>
       {seeds.map((seed) => (
         <div key={seed} className="flex flex-wrap items-center gap-2">
           <Avatar size="sm">
@@ -587,9 +587,9 @@ function AvatarGradient() {
   )
 }
 
-function AvatarInEmpty() {
+function AvatarInEmpty({ className }: { className?: string }) {
   return (
-    <Example title="In Empty">
+    <Example title="In Empty" containerClassName={className}>
       <Empty className="w-full flex-none border">
         <EmptyHeader>
           <EmptyMedia>

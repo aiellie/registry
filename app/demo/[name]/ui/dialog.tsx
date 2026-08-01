@@ -35,9 +35,9 @@ export default function DialogExample() {
   )
 }
 
-function DialogWithForm() {
+function DialogWithForm({ className }: { className?: string }) {
   return (
-    <Example title="With Form" className="items-center justify-center">
+    <Example title="With Form" className="items-center justify-center" containerClassName={className}>
       <Dialog>
         <form>
           <DialogTrigger render={<Button variant="outline" />}>
@@ -78,9 +78,9 @@ function DialogWithForm() {
   )
 }
 
-function DialogCloseButton() {
+function DialogCloseButton({ className }: { className?: string }) {
   return (
-    <Example title="Close Button" className="items-center justify-center">
+    <Example title="Close Button" className="items-center justify-center" containerClassName={className}>
       <Dialog>
         <DialogTrigger render={<Button variant="outline" />}>Share</DialogTrigger>
         <DialogContent className="sm:max-w-md">
@@ -111,9 +111,9 @@ function DialogCloseButton() {
   )
 }
 
-function DialogScrollableContent() {
+function DialogScrollableContent({ className }: { className?: string }) {
   return (
-    <Example title="Scrollable Content" className="items-center justify-center">
+    <Example title="Scrollable Content" className="items-center justify-center" containerClassName={className}>
       <Dialog>
         <DialogTrigger render={<Button variant="outline" />}>
           Scrollable Content
@@ -147,9 +147,9 @@ function DialogScrollableContent() {
   )
 }
 
-function DialogWithStickyFooter() {
+function DialogWithStickyFooter({ className }: { className?: string }) {
   return (
-    <Example title="With Sticky Footer" className="items-center justify-center">
+    <Example title="With Sticky Footer" className="items-center justify-center" containerClassName={className}>
       <Dialog>
         <DialogTrigger render={<Button variant="outline" />}>
           Sticky Footer
@@ -188,9 +188,9 @@ function DialogWithStickyFooter() {
   )
 }
 
-function DialogNoCloseButton() {
+function DialogNoCloseButton({ className }: { className?: string }) {
   return (
-    <Example title="No Close Button" className="items-center justify-center">
+    <Example title="No Close Button" className="items-center justify-center" containerClassName={className}>
       <Dialog>
         <DialogTrigger render={<Button variant="outline" />}>
           No Close Button

@@ -37,6 +37,7 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { cn } from "@/lib/utils"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { UserIcon, CreditCardIcon, SettingsIcon, LogoutIcon, LayoutIcon, ActivityIcon, LayoutLeftIcon, ArrowUp01Icon, ArrowDown01Icon, ArrowRight01Icon, MailIcon, MessageIcon, NotificationIcon, WalletIcon, BankIcon, EditIcon, ShareIcon, Archive02Icon, DeleteIcon, CheckmarkBadgeIcon, UnfoldMoreIcon, CopyIcon, ScissorIcon, ClipboardIcon, UserGroupIcon, AddCircleIcon, HelpCircleIcon } from "@hugeicons/core-free-icons"
 
@@ -61,9 +62,9 @@ export default function DropdownMenuExample() {
   )
 }
 
-function DropdownMenuBasic() {
+function DropdownMenuBasic({ className }: { className?: string }) {
   return (
-    <Example title="Basic">
+    <Example title="Basic" containerClassName={className}>
       <DropdownMenu>
         <DropdownMenuTrigger
           render={<Button variant="outline" className="w-fit" />}
@@ -87,9 +88,9 @@ function DropdownMenuBasic() {
   )
 }
 
-function DropdownMenuSides() {
+function DropdownMenuSides({ className }: { className?: string }) {
   return (
-    <Example title="Sides" containerClassName="col-span-2">
+    <Example title="Sides" containerClassName={cn("col-span-2", className)}>
       <div className="flex flex-wrap justify-center gap-2">
         {(
           [
@@ -121,9 +122,9 @@ function DropdownMenuSides() {
   )
 }
 
-function DropdownMenuWithIcons() {
+function DropdownMenuWithIcons({ className }: { className?: string }) {
   return (
-    <Example title="With Icons">
+    <Example title="With Icons" containerClassName={className}>
       <DropdownMenu>
         <DropdownMenuTrigger
           render={<Button variant="outline" className="w-fit" />}
@@ -154,9 +155,9 @@ function DropdownMenuWithIcons() {
   )
 }
 
-function DropdownMenuWithShortcuts() {
+function DropdownMenuWithShortcuts({ className }: { className?: string }) {
   return (
-    <Example title="With Shortcuts">
+    <Example title="With Shortcuts" containerClassName={className}>
       <DropdownMenu>
         <DropdownMenuTrigger
           render={<Button variant="outline" className="w-fit" />}
@@ -194,9 +195,9 @@ function DropdownMenuWithShortcuts() {
   )
 }
 
-function DropdownMenuWithSubmenu() {
+function DropdownMenuWithSubmenu({ className }: { className?: string }) {
   return (
-    <Example title="With Submenu">
+    <Example title="With Submenu" containerClassName={className}>
       <DropdownMenu>
         <DropdownMenuTrigger
           render={<Button variant="outline" className="w-fit" />}
@@ -228,13 +229,13 @@ function DropdownMenuWithSubmenu() {
   )
 }
 
-function DropdownMenuWithCheckboxes() {
+function DropdownMenuWithCheckboxes({ className }: { className?: string }) {
   const [showStatusBar, setShowStatusBar] = React.useState(true)
   const [showActivityBar, setShowActivityBar] = React.useState(false)
   const [showPanel, setShowPanel] = React.useState(false)
 
   return (
-    <Example title="With Checkboxes">
+    <Example title="With Checkboxes" containerClassName={className}>
       <DropdownMenu>
         <DropdownMenuTrigger
           render={<Button variant="outline" className="w-fit" />}
@@ -273,11 +274,11 @@ function DropdownMenuWithCheckboxes() {
   )
 }
 
-function DropdownMenuWithRadio() {
+function DropdownMenuWithRadio({ className }: { className?: string }) {
   const [position, setPosition] = React.useState("bottom")
 
   return (
-    <Example title="With Radio Group">
+    <Example title="With Radio Group" containerClassName={className}>
       <DropdownMenu>
         <DropdownMenuTrigger
           render={<Button variant="outline" className="w-fit" />}
@@ -311,7 +312,7 @@ function DropdownMenuWithRadio() {
   )
 }
 
-function DropdownMenuWithCheckboxesIcons() {
+function DropdownMenuWithCheckboxesIcons({ className }: { className?: string }) {
   const [notifications, setNotifications] = React.useState({
     email: true,
     sms: false,
@@ -319,7 +320,7 @@ function DropdownMenuWithCheckboxesIcons() {
   })
 
   return (
-    <Example title="Checkboxes with Icons">
+    <Example title="Checkboxes with Icons" containerClassName={className}>
       <DropdownMenu>
         <DropdownMenuTrigger
           render={<Button variant="outline" className="w-fit" />}
@@ -363,11 +364,11 @@ function DropdownMenuWithCheckboxesIcons() {
   )
 }
 
-function DropdownMenuWithRadioIcons() {
+function DropdownMenuWithRadioIcons({ className }: { className?: string }) {
   const [paymentMethod, setPaymentMethod] = React.useState("card")
 
   return (
-    <Example title="Radio with Icons">
+    <Example title="Radio with Icons" containerClassName={className}>
       <DropdownMenu>
         <DropdownMenuTrigger
           render={<Button variant="outline" className="w-fit" />}
@@ -401,9 +402,9 @@ function DropdownMenuWithRadioIcons() {
   )
 }
 
-function DropdownMenuWithDestructive() {
+function DropdownMenuWithDestructive({ className }: { className?: string }) {
   return (
-    <Example title="With Destructive Items">
+    <Example title="With Destructive Items" containerClassName={className}>
       <DropdownMenu>
         <DropdownMenuTrigger
           render={<Button variant="outline" className="w-fit" />}
@@ -434,7 +435,7 @@ function DropdownMenuWithDestructive() {
   )
 }
 
-function DropdownMenuWithAvatar() {
+function DropdownMenuWithAvatar({ className }: { className?: string }) {
   const menuContent = (
     <>
       <DropdownMenuGroup>
@@ -460,7 +461,7 @@ function DropdownMenuWithAvatar() {
   )
 
   return (
-    <Example title="With Avatar">
+    <Example title="With Avatar" containerClassName={className}>
       <div className="flex items-center justify-between gap-4">
         <DropdownMenu>
           <DropdownMenuTrigger
@@ -507,9 +508,9 @@ function DropdownMenuWithAvatar() {
   )
 }
 
-function DropdownMenuInDialog() {
+function DropdownMenuInDialog({ className }: { className?: string }) {
   return (
-    <Example title="In Dialog">
+    <Example title="In Dialog" containerClassName={className}>
       <Dialog>
         <DialogTrigger render={<Button variant="outline" />}>
           Open Dialog
@@ -566,13 +567,13 @@ function DropdownMenuInDialog() {
   )
 }
 
-function DropdownMenuWithInset() {
+function DropdownMenuWithInset({ className }: { className?: string }) {
   const [showBookmarks, setShowBookmarks] = React.useState(true)
   const [showUrls, setShowUrls] = React.useState(false)
   const [theme, setTheme] = React.useState("system")
 
   return (
-    <Example title="With Inset">
+    <Example title="With Inset" containerClassName={className}>
       <DropdownMenu>
         <DropdownMenuTrigger
           render={<Button variant="outline" className="w-fit" />}
@@ -643,12 +644,12 @@ function DropdownMenuWithInset() {
   )
 }
 
-function DropdownMenuComplex() {
+function DropdownMenuComplex({ className }: { className?: string }) {
   const [showSidebar, setShowSidebar] = React.useState(true)
   const [showStatusBar, setShowStatusBar] = React.useState(false)
 
   return (
-    <Example title="Complex">
+    <Example title="Complex" containerClassName={className}>
       <DropdownMenu>
         <DropdownMenuTrigger
           render={<Button variant="outline" className="w-fit" />}

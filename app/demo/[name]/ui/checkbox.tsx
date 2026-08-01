@@ -38,9 +38,9 @@ export default function CheckboxExample() {
   )
 }
 
-function CheckboxBasic() {
+function CheckboxBasic({ className }: { className?: string }) {
   return (
-    <Example title="Basic">
+    <Example title="Basic" containerClassName={className}>
       <Field orientation="horizontal">
         <Checkbox id="terms" />
         <FieldLabel htmlFor="terms">Accept terms and conditions</FieldLabel>
@@ -49,9 +49,9 @@ function CheckboxBasic() {
   )
 }
 
-function CheckboxWithDescription() {
+function CheckboxWithDescription({ className }: { className?: string }) {
   return (
-    <Example title="With Description">
+    <Example title="With Description" containerClassName={className}>
       <Field orientation="horizontal">
         <Checkbox id="terms-2" defaultChecked />
         <FieldContent>
@@ -65,9 +65,9 @@ function CheckboxWithDescription() {
   )
 }
 
-function CheckboxInvalid() {
+function CheckboxInvalid({ className }: { className?: string }) {
   return (
-    <Example title="Invalid">
+    <Example title="Invalid" containerClassName={className}>
       <Field orientation="horizontal" data-invalid>
         <Checkbox id="terms-3" aria-invalid />
         <FieldLabel htmlFor="terms-3">Accept terms and conditions</FieldLabel>
@@ -76,9 +76,9 @@ function CheckboxInvalid() {
   )
 }
 
-function CheckboxDisabled() {
+function CheckboxDisabled({ className }: { className?: string }) {
   return (
-    <Example title="Disabled">
+    <Example title="Disabled" containerClassName={className}>
       <Field orientation="horizontal">
         <Checkbox id="toggle" disabled />
         <FieldLabel htmlFor="toggle">Enable notifications</FieldLabel>
@@ -87,9 +87,9 @@ function CheckboxDisabled() {
   )
 }
 
-function CheckboxWithTitle() {
+function CheckboxWithTitle({ className }: { className?: string }) {
   return (
-    <Example title="With Title">
+    <Example title="With Title" containerClassName={className}>
       <FieldGroup>
         <FieldLabel htmlFor="toggle-2">
           <Field orientation="horizontal">
@@ -145,7 +145,7 @@ const tableData = [
   },
 ]
 
-function CheckboxInTable() {
+function CheckboxInTable({ className }: { className?: string }) {
   const [selectedRows, setSelectedRows] = React.useState<Set<string>>(
     new Set(["1"])
   )
@@ -171,7 +171,7 @@ function CheckboxInTable() {
   }
 
   return (
-    <Example title="In Table">
+    <Example title="In Table" containerClassName={className}>
       <Table>
         <TableHeader>
           <TableRow>
@@ -213,9 +213,9 @@ function CheckboxInTable() {
   )
 }
 
-function CheckboxGroup() {
+function CheckboxGroup({ className }: { className?: string }) {
   return (
-    <Example title="Group">
+    <Example title="Group" containerClassName={className}>
       <Field>
         <FieldLabel>Show these items on the desktop:</FieldLabel>
         <Field orientation="horizontal">

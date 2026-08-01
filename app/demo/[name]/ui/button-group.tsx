@@ -83,9 +83,9 @@ export default function ButtonGroupExample() {
   )
 }
 
-function ButtonGroupBasic() {
+function ButtonGroupBasic({ className }: { className?: string }) {
   return (
-    <Example title="Basic">
+    <Example title="Basic" containerClassName={className}>
       <div className="flex flex-col gap-4">
         <ButtonGroup>
           <Button variant="outline">Button</Button>
@@ -96,9 +96,9 @@ function ButtonGroupBasic() {
   )
 }
 
-function ButtonGroupWithInput() {
+function ButtonGroupWithInput({ className }: { className?: string }) {
   return (
-    <Example title="With Input">
+    <Example title="With Input" containerClassName={className}>
       <div className="flex flex-col gap-4">
         <ButtonGroup>
           <Button variant="outline">Button</Button>
@@ -113,9 +113,9 @@ function ButtonGroupWithInput() {
   )
 }
 
-function ButtonGroupWithText() {
+function ButtonGroupWithText({ className }: { className?: string }) {
   return (
-    <Example title="With Text">
+    <Example title="With Text" containerClassName={className}>
       <div className="flex flex-col gap-4">
         <ButtonGroup>
           <ButtonGroupText>Text</ButtonGroupText>
@@ -135,9 +135,9 @@ function ButtonGroupWithText() {
   )
 }
 
-function ButtonGroupWithDropdown() {
+function ButtonGroupWithDropdown({ className }: { className?: string }) {
   return (
-    <Example title="With Dropdown">
+    <Example title="With Dropdown" containerClassName={className}>
       <div className="flex flex-col gap-4">
         <ButtonGroup>
           <Button variant="outline">Update</Button>
@@ -211,9 +211,9 @@ const currencyItems = [
   { label: "£", value: "£" },
 ]
 
-function ButtonGroupWithSelect() {
+function ButtonGroupWithSelect({ className }: { className?: string }) {
   return (
-    <Example title="With Select">
+    <Example title="With Select" containerClassName={className}>
       <Field>
         <Label htmlFor="amount">Amount</Label>
         <ButtonGroup>
@@ -241,9 +241,9 @@ function ButtonGroupWithSelect() {
   )
 }
 
-function ButtonGroupWithIcons() {
+function ButtonGroupWithIcons({ className }: { className?: string }) {
   return (
-    <Example title="With Icons">
+    <Example title="With Icons" containerClassName={className}>
       <div className="flex flex-col gap-4">
         <ButtonGroup>
           <Button variant="outline">
@@ -261,9 +261,9 @@ function ButtonGroupWithIcons() {
   )
 }
 
-function ButtonGroupWithInputGroup() {
+function ButtonGroupWithInputGroup({ className }: { className?: string }) {
   return (
-    <Example title="With Input Group">
+    <Example title="With Input Group" containerClassName={className}>
       <div className="flex flex-col gap-4">
         <InputGroup>
           <InputGroupInput placeholder="Type to search..." />
@@ -279,9 +279,9 @@ function ButtonGroupWithInputGroup() {
   )
 }
 
-function ButtonGroupWithFields() {
+function ButtonGroupWithFields({ className }: { className?: string }) {
   return (
-    <Example title="With Fields">
+    <Example title="With Fields" containerClassName={className}>
       <FieldGroup className="grid grid-cols-3 gap-4">
         <Field className="col-span-2">
           <Label htmlFor="width">Width</Label>
@@ -311,9 +311,9 @@ function ButtonGroupWithFields() {
   )
 }
 
-function ButtonGroupWithLike() {
+function ButtonGroupWithLike({ className }: { className?: string }) {
   return (
-    <Example title="With Like">
+    <Example title="With Like" containerClassName={className}>
       <ButtonGroup>
         <Button variant="outline">
           <HugeiconsIcon icon={Notification02Icon} strokeWidth={2} data-icon="inline-start" />{" "}
@@ -339,9 +339,9 @@ const durationItems = [
   { label: "Weeks", value: "weeks" },
 ]
 
-function ButtonGroupWithSelectAndInput() {
+function ButtonGroupWithSelectAndInput({ className }: { className?: string }) {
   return (
-    <Example title="With Select and Input">
+    <Example title="With Select and Input" containerClassName={className}>
       <ButtonGroup>
         <Select items={durationItems} defaultValue={durationItems[0]}>
           <SelectTrigger id="duration">
@@ -363,9 +363,9 @@ function ButtonGroupWithSelectAndInput() {
   )
 }
 
-function ButtonGroupNested() {
+function ButtonGroupNested({ className }: { className?: string }) {
   return (
-    <Example title="Nested">
+    <Example title="Nested" containerClassName={className}>
       <ButtonGroup>
         <ButtonGroup>
           <Button variant="outline" size="icon">
@@ -388,9 +388,9 @@ function ButtonGroupNested() {
   )
 }
 
-function ButtonGroupPagination() {
+function ButtonGroupPagination({ className }: { className?: string }) {
   return (
-    <Example title="Pagination">
+    <Example title="Pagination" containerClassName={className}>
       <ButtonGroup>
         <Button variant="outline" size="sm">
           <HugeiconsIcon icon={ArrowLeft02Icon} strokeWidth={2} data-icon="inline-start" />
@@ -420,9 +420,9 @@ function ButtonGroupPagination() {
   )
 }
 
-function ButtonGroupPaginationSplit() {
+function ButtonGroupPaginationSplit({ className }: { className?: string }) {
   return (
-    <Example title="Pagination Split">
+    <Example title="Pagination Split" containerClassName={className}>
       <ButtonGroup>
         <ButtonGroup>
           <Button variant="outline" size="sm">
@@ -454,9 +454,9 @@ function ButtonGroupPaginationSplit() {
   )
 }
 
-function ButtonGroupNavigation() {
+function ButtonGroupNavigation({ className }: { className?: string }) {
   return (
-    <Example title="Navigation">
+    <Example title="Navigation" containerClassName={className}>
       <ButtonGroup>
         <ButtonGroup>
           <Button variant="outline">
@@ -476,9 +476,9 @@ function ButtonGroupNavigation() {
   )
 }
 
-function ButtonGroupTextAlignment() {
+function ButtonGroupTextAlignment({ className }: { className?: string }) {
   return (
-    <Example title="Text Alignment">
+    <Example title="Text Alignment" containerClassName={className}>
       <Field>
         <Label id="alignment-label">Text Alignment</Label>
         <ButtonGroup aria-labelledby="alignment-label">
@@ -500,9 +500,9 @@ function ButtonGroupTextAlignment() {
   )
 }
 
-function ButtonGroupVertical() {
+function ButtonGroupVertical({ className }: { className?: string }) {
   return (
-    <Example title="Vertical">
+    <Example title="Vertical" containerClassName={className}>
       <div className="flex gap-6">
         <ButtonGroup
           orientation="vertical"
@@ -521,9 +521,9 @@ function ButtonGroupVertical() {
   )
 }
 
-function ButtonGroupVerticalNested() {
+function ButtonGroupVerticalNested({ className }: { className?: string }) {
   return (
-    <Example title="Vertical Nested">
+    <Example title="Vertical Nested" containerClassName={className}>
       <ButtonGroup orientation="vertical" aria-label="Design tools palette">
         <ButtonGroup orientation="vertical">
           <Button variant="outline" size="icon">
@@ -557,9 +557,9 @@ function ButtonGroupVerticalNested() {
   )
 }
 
-function ButtonGroupWithPopover() {
+function ButtonGroupWithPopover({ className }: { className?: string }) {
   return (
-    <Example title="With Popover">
+    <Example title="With Popover" containerClassName={className}>
       <ButtonGroup>
         <Button variant="outline">
           <HugeiconsIcon icon={BotIcon} strokeWidth={2} data-icon="inline-start" />{" "}
@@ -600,9 +600,9 @@ function ButtonGroupWithPopover() {
   )
 }
 
-function ButtonGroupWithSeparator() {
+function ButtonGroupWithSeparator({ className }: { className?: string }) {
   return (
-    <Example title="With Separator">
+    <Example title="With Separator" containerClassName={className}>
       <ButtonGroup>
         <Button variant="secondary" size="sm">
           Copy
@@ -616,9 +616,9 @@ function ButtonGroupWithSeparator() {
   )
 }
 
-function ButtonGroupSize() {
+function ButtonGroupSize({ className }: { className?: string }) {
   return (
-    <Example title="Size">
+    <Example title="Size" containerClassName={className}>
       <div className="flex flex-col items-start gap-8">
         <ButtonGroup>
           <Button variant="outline" size="sm">

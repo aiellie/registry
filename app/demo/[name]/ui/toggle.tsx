@@ -22,9 +22,9 @@ export default function ToggleExample() {
   )
 }
 
-function ToggleBasic() {
+function ToggleBasic({ className }: { className?: string }) {
   return (
-    <Example title="Basic">
+    <Example title="Basic" containerClassName={className}>
       <div className="flex flex-wrap items-center gap-2">
         <Toggle aria-label="Toggle bold" defaultPressed>
           <HugeiconsIcon icon={TextBoldIcon} strokeWidth={2} />
@@ -40,9 +40,9 @@ function ToggleBasic() {
   )
 }
 
-function ToggleOutline() {
+function ToggleOutline({ className }: { className?: string }) {
   return (
-    <Example title="Outline">
+    <Example title="Outline" containerClassName={className}>
       <div className="flex flex-wrap items-center gap-2">
         <Toggle variant="outline" aria-label="Toggle italic">
           <HugeiconsIcon icon={TextItalicIcon} strokeWidth={2} />
@@ -57,9 +57,9 @@ function ToggleOutline() {
   )
 }
 
-function ToggleSizes() {
+function ToggleSizes({ className }: { className?: string }) {
   return (
-    <Example title="Sizes">
+    <Example title="Sizes" containerClassName={className}>
       <div className="flex flex-wrap items-center gap-2">
         <Toggle variant="outline" aria-label="Toggle small" size="sm">
           Small
@@ -75,9 +75,9 @@ function ToggleSizes() {
   )
 }
 
-function ToggleWithButtonText() {
+function ToggleWithButtonText({ className }: { className?: string }) {
   return (
-    <Example title="With Button Text">
+    <Example title="With Button Text" containerClassName={className}>
       <div className="flex flex-col gap-4">
         <div className="flex items-center gap-2">
           <Button size="sm" variant="outline">
@@ -108,9 +108,9 @@ function ToggleWithButtonText() {
   )
 }
 
-function ToggleWithButtonIcon() {
+function ToggleWithButtonIcon({ className }: { className?: string }) {
   return (
-    <Example title="With Button Icon">
+    <Example title="With Button Icon" containerClassName={className}>
       <div className="flex flex-col gap-4">
         <div className="flex items-center gap-2">
           <Button variant="outline" size="icon-sm">
@@ -145,9 +145,9 @@ function ToggleWithButtonIcon() {
   )
 }
 
-function ToggleWithButtonIconText() {
+function ToggleWithButtonIconText({ className }: { className?: string }) {
   return (
-    <Example title="With Button Icon + Text">
+    <Example title="With Button Icon + Text" containerClassName={className}>
       <div className="flex flex-col gap-4">
         <div className="flex items-center gap-2">
           <Button size="sm" variant="outline">
@@ -188,9 +188,9 @@ function ToggleWithButtonIconText() {
   )
 }
 
-function ToggleDisabled() {
+function ToggleDisabled({ className }: { className?: string }) {
   return (
-    <Example title="Disabled">
+    <Example title="Disabled" containerClassName={className}>
       <div className="flex flex-wrap items-center gap-2">
         <Toggle aria-label="Toggle disabled" disabled>
           Disabled
@@ -203,9 +203,9 @@ function ToggleDisabled() {
   )
 }
 
-function ToggleWithIcon() {
+function ToggleWithIcon({ className }: { className?: string }) {
   return (
-    <Example title="With Icon">
+    <Example title="With Icon" containerClassName={className}>
       <div className="flex flex-wrap items-center gap-2">
         <Toggle aria-label="Toggle bookmark" defaultPressed>
           <HugeiconsIcon icon={BookmarkIcon} strokeWidth={2} className="group-data-[state=on]/toggle:fill-accent-foreground" />

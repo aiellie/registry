@@ -18,9 +18,9 @@ export default function ToastExample() {
   )
 }
 
-function ToastBasic() {
+function ToastBasic({ className }: { className?: string }) {
   return (
-    <Example title="Basic" className="items-center justify-center">
+    <Example title="Basic" className="items-center justify-center" containerClassName={className}>
       <Button
         variant="outline"
         className="w-fit"
@@ -32,9 +32,9 @@ function ToastBasic() {
   )
 }
 
-function ToastWithDescription() {
+function ToastWithDescription({ className }: { className?: string }) {
   return (
-    <Example title="With Description" className="items-center justify-center">
+    <Example title="With Description" className="items-center justify-center" containerClassName={className}>
       <Button
         variant="outline"
         className="w-fit"
@@ -51,9 +51,9 @@ function ToastWithDescription() {
   )
 }
 
-function ToastTypes() {
+function ToastTypes({ className }: { className?: string }) {
   return (
-    <Example title="Types" className="items-center justify-center">
+    <Example title="Types" className="items-center justify-center" containerClassName={className}>
       <div className="flex flex-wrap justify-center gap-2">
         <Button
           variant="outline"
@@ -110,9 +110,9 @@ function ToastTypes() {
   )
 }
 
-function ToastWithAction() {
+function ToastWithAction({ className }: { className?: string }) {
   return (
-    <Example title="With Action" className="items-center justify-center">
+    <Example title="With Action" className="items-center justify-center" containerClassName={className}>
       <Button
         variant="outline"
         className="w-fit"
@@ -133,9 +133,9 @@ function ToastWithAction() {
   )
 }
 
-function ToastPromise() {
+function ToastPromise({ className }: { className?: string }) {
   return (
-    <Example title="Promise" className="items-center justify-center">
+    <Example title="Promise" className="items-center justify-center" containerClassName={className}>
       <Button
         variant="outline"
         className="w-fit"
@@ -161,9 +161,9 @@ function ToastPromise() {
   )
 }
 
-function ToastPersistent() {
+function ToastPersistent({ className }: { className?: string }) {
   return (
-    <Example title="Persistent" className="items-center justify-center">
+    <Example title="Persistent" className="items-center justify-center" containerClassName={className}>
       <Button
         variant="outline"
         className="w-fit"
@@ -182,9 +182,9 @@ function ToastPersistent() {
   )
 }
 
-function ToastStacking() {
+function ToastStacking({ className }: { className?: string }) {
   return (
-    <Example title="Stacking" className="items-center justify-center">
+    <Example title="Stacking" className="items-center justify-center" containerClassName={className}>
       <Button
         variant="outline"
         className="w-fit"

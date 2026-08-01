@@ -30,9 +30,9 @@ export default function AlertExample() {
   )
 }
 
-function AlertDefault() {
+function AlertDefault({ className }: { className?: string }) {
   return (
-    <Example title="Default">
+    <Example title="Default" containerClassName={className}>
       <div className="mx-auto flex w-full max-w-lg flex-col gap-4">
         <Alert>
           <HugeiconsIcon icon={TerminalIcon} strokeWidth={2} />
@@ -46,9 +46,9 @@ function AlertDefault() {
   )
 }
 
-function AlertDestructive() {
+function AlertDestructive({ className }: { className?: string }) {
   return (
-    <Example title="Destructive">
+    <Example title="Destructive" containerClassName={className}>
       <div className="mx-auto flex w-full max-w-lg flex-col gap-4">
         <Alert variant="destructive">
           <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} />
@@ -62,9 +62,9 @@ function AlertDestructive() {
   )
 }
 
-function AlertSuccess() {
+function AlertSuccess({ className }: { className?: string }) {
   return (
-    <Example title="Success">
+    <Example title="Success" containerClassName={className}>
       <div className="mx-auto flex w-full max-w-lg flex-col gap-4">
         <Alert variant="success">
           <HugeiconsIcon icon={CheckmarkCircle02Icon} strokeWidth={2} />
@@ -78,9 +78,9 @@ function AlertSuccess() {
   )
 }
 
-function AlertInfo() {
+function AlertInfo({ className }: { className?: string }) {
   return (
-    <Example title="Info">
+    <Example title="Info" containerClassName={className}>
       <div className="mx-auto flex w-full max-w-lg flex-col gap-4">
         <Alert variant="info">
           <HugeiconsIcon icon={InformationCircleIcon} strokeWidth={2} />
@@ -94,9 +94,9 @@ function AlertInfo() {
   )
 }
 
-function AlertWarning() {
+function AlertWarning({ className }: { className?: string }) {
   return (
-    <Example title="Warning">
+    <Example title="Warning" containerClassName={className}>
       <div className="mx-auto flex w-full max-w-lg flex-col gap-4">
         <Alert variant="warning">
           <HugeiconsIcon icon={Alert02Icon} strokeWidth={2} />
@@ -110,9 +110,9 @@ function AlertWarning() {
   )
 }
 
-function AlertMuted() {
+function AlertMuted({ className }: { className?: string }) {
   return (
-    <Example title="Muted">
+    <Example title="Muted" containerClassName={className}>
       <div className="mx-auto flex w-full max-w-lg flex-col gap-4">
         <Alert variant="muted">
           <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} />
@@ -126,9 +126,9 @@ function AlertMuted() {
   )
 }
 
-function AlertPrimary() {
+function AlertPrimary({ className }: { className?: string }) {
   return (
-    <Example title="Primary">
+    <Example title="Primary" containerClassName={className}>
       <div className="mx-auto flex w-full max-w-lg flex-col gap-4">
         <Alert variant="primary">
           <HugeiconsIcon icon={TradeMarkIcon} strokeWidth={2} />

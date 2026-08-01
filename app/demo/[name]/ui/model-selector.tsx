@@ -187,7 +187,7 @@ export default function ModelSelectorExample() {
   )
 }
 
-function CommandDefaultTrigger() {
+function CommandDefaultTrigger({ className }: { className?: string }) {
   const [open, setOpen] = React.useState(false)
   const [selected, setSelected] = React.useState("claude-opus-4.8")
   const model = findModel(selected)
@@ -198,7 +198,7 @@ function CommandDefaultTrigger() {
   }, [])
 
   return (
-    <Example title="Command — default trigger">
+    <Example title="Command — default trigger" containerClassName={className}>
       <ModelSelector onOpenChange={setOpen} open={open}>
         <ModelSelectorTrigger>
           {model && <ModelSelectorLogo provider={model.chefSlug} />}
@@ -227,7 +227,7 @@ function CommandDefaultTrigger() {
   )
 }
 
-function CommandIconTrigger() {
+function CommandIconTrigger({ className }: { className?: string }) {
   const [open, setOpen] = React.useState(false)
   const [selected, setSelected] = React.useState("gpt-5.6-sol")
   const model = findModel(selected)
@@ -238,7 +238,7 @@ function CommandIconTrigger() {
   }, [])
 
   return (
-    <Example title="Command — icon trigger">
+    <Example title="Command — icon trigger" containerClassName={className}>
       <ModelSelector onOpenChange={setOpen} open={open}>
         <ModelSelectorTrigger tooltip={model?.name} variant="icon">
           {model && (
@@ -268,13 +268,13 @@ function CommandIconTrigger() {
   )
 }
 
-function ComboboxDefaultTrigger() {
+function ComboboxDefaultTrigger({ className }: { className?: string }) {
   const [selected, setSelected] = React.useState<Model | null>(
     findModel("gemini-3.1-pro-preview") ?? models[0]
   )
 
   return (
-    <Example title="Combobox — default trigger (color)">
+    <Example title="Combobox — default trigger (color)" containerClassName={className}>
       <ModelSelectorCombobox
         items={MODEL_GROUPS}
         itemToStringValue={(model: Model) => `${model.name} ${model.chef}`}
@@ -303,13 +303,13 @@ function ComboboxDefaultTrigger() {
   )
 }
 
-function ComboboxIconTrigger() {
+function ComboboxIconTrigger({ className }: { className?: string }) {
   const [selected, setSelected] = React.useState<Model | null>(
     findModel("claude-opus-4.8") ?? models[0]
   )
 
   return (
-    <Example title="Combobox — icon trigger (color)">
+    <Example title="Combobox — icon trigger (color)" containerClassName={className}>
       <ModelSelectorCombobox
         items={MODEL_GROUPS}
         itemToStringValue={(model: Model) => `${model.name} ${model.chef}`}
@@ -334,13 +334,14 @@ function ComboboxIconTrigger() {
   )
 }
 
-function ClusterLabels() {
+function ClusterLabels({ className }: { className?: string }) {
   const model = findModel("claude-opus-4.8") ?? models[0]
 
   return (
     <Example
       className="justify-center gap-4"
       title="Clusters — input, output, features"
+      containerClassName={className}
     >
       <div className="flex w-full flex-col gap-3">
         <ModelSelectorCluster
@@ -363,7 +364,7 @@ function ClusterLabels() {
   )
 }
 
-function CommandPalette() {
+function CommandPalette({ className }: { className?: string }) {
   const [open, setOpen] = React.useState(false)
   const [selected, setSelected] = React.useState("claude-fable-5")
 
@@ -389,7 +390,7 @@ function CommandPalette() {
   }, [])
 
   return (
-    <Example title="Command palette — ⌘⇧M, no trigger">
+    <Example title="Command palette — ⌘⇧M, no trigger" containerClassName={className}>
       <p className="text-sm text-muted-foreground">
         Press <Kbd>⌘</Kbd> <Kbd>⇧</Kbd> <Kbd>M</Kbd> to pick a model.{" "}
         <span className="text-foreground">{findModel(selected)?.name}</span> is

@@ -38,9 +38,9 @@ export default function ScrollAreaExample() {
   )
 }
 
-function ScrollAreaVertical() {
+function ScrollAreaVertical({ className }: { className?: string }) {
   return (
-    <Example title="Vertical">
+    <Example title="Vertical" containerClassName={className}>
       <ScrollArea className="mx-auto h-72 w-48 rounded-md border">
         <div className="p-4">
           <h4 className="mb-4 text-sm leading-none font-medium">Tags</h4>
@@ -56,9 +56,9 @@ function ScrollAreaVertical() {
   )
 }
 
-function ScrollAreaHorizontal() {
+function ScrollAreaHorizontal({ className }: { className?: string }) {
   return (
-    <Example title="Horizontal">
+    <Example title="Horizontal" containerClassName={className}>
       <ScrollArea className="mx-auto w-full max-w-96 rounded-md border p-4">
         <div className="flex gap-4">
           {works.map((artwork) => (

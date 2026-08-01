@@ -61,14 +61,14 @@ export default function CardExample() {
   )
 }
 
-function CardCustomSpacing() {
+function CardCustomSpacing({ className }: { className?: string }) {
   const [spacing, setSpacing] = React.useState("4")
   const selectedSpacing = spacingOptions.find(
     (option) => option.value === spacing
   )
 
   return (
-    <Example title="Custom Spacing">
+    <Example title="Custom Spacing" containerClassName={className}>
       <div className="mx-auto grid w-full max-w-sm gap-4">
         <ToggleGroup
           value={[spacing]}
@@ -112,9 +112,9 @@ function CardCustomSpacing() {
   )
 }
 
-function CardWithImage() {
+function CardWithImage({ className }: { className?: string }) {
   return (
-    <Example title="With Image">
+    <Example title="With Image" containerClassName={className}>
       <Card size="default" className="relative mx-auto w-full max-w-sm pt-0">
         <div className="absolute inset-0 z-30 aspect-video bg-primary opacity-50 mix-blend-color" />
         <img
@@ -140,9 +140,9 @@ function CardWithImage() {
   )
 }
 
-function CardWithImageSmall() {
+function CardWithImageSmall({ className }: { className?: string }) {
   return (
-    <Example title="With Image (Small)">
+    <Example title="With Image (Small)" containerClassName={className}>
       <Card size="sm" className="relative mx-auto w-full max-w-sm pt-0">
         <div className="absolute inset-0 z-30 aspect-video bg-primary opacity-50 mix-blend-color" />
         <img
@@ -168,9 +168,9 @@ function CardWithImageSmall() {
   )
 }
 
-function CardHeaderWithBorder() {
+function CardHeaderWithBorder({ className }: { className?: string }) {
   return (
-    <Example title="Header with Border">
+    <Example title="Header with Border" containerClassName={className}>
       <Card className="mx-auto w-full max-w-sm">
         <CardHeader className="border-b">
           <CardTitle>Header with Border</CardTitle>
@@ -189,9 +189,9 @@ function CardHeaderWithBorder() {
   )
 }
 
-function CardFooterWithBorder() {
+function CardFooterWithBorder({ className }: { className?: string }) {
   return (
-    <Example title="Footer with Border">
+    <Example title="Footer with Border" containerClassName={className}>
       <Card className="mx-auto w-full max-w-sm">
         <CardContent>
           <p>
@@ -209,9 +209,9 @@ function CardFooterWithBorder() {
   )
 }
 
-function CardDefault() {
+function CardDefault({ className }: { className?: string }) {
   return (
-    <Example title="Default Size">
+    <Example title="Default Size" containerClassName={className}>
       <Card size="default" className="mx-auto w-full max-w-sm">
         <CardHeader>
           <CardTitle>Default Card</CardTitle>
@@ -235,9 +235,9 @@ function CardDefault() {
   )
 }
 
-function CardSmall() {
+function CardSmall({ className }: { className?: string }) {
   return (
-    <Example title="Small Size">
+    <Example title="Small Size" containerClassName={className}>
       <Card size="sm" className="mx-auto w-full max-w-sm">
         <CardHeader>
           <CardTitle>Small Card</CardTitle>
@@ -261,9 +261,9 @@ function CardSmall() {
   )
 }
 
-function CardHeaderWithBorderSmall() {
+function CardHeaderWithBorderSmall({ className }: { className?: string }) {
   return (
-    <Example title="Header with Border (Small)">
+    <Example title="Header with Border (Small)" containerClassName={className}>
       <Card size="sm" className="mx-auto w-full max-w-sm">
         <CardHeader className="border-b">
           <CardTitle>Header with Border</CardTitle>
@@ -282,9 +282,9 @@ function CardHeaderWithBorderSmall() {
   )
 }
 
-function CardFooterWithBorderSmall() {
+function CardFooterWithBorderSmall({ className }: { className?: string }) {
   return (
-    <Example title="Footer with Border (Small)">
+    <Example title="Footer with Border (Small)" containerClassName={className}>
       <Card size="sm" className="mx-auto w-full max-w-sm">
         <CardContent>
           <p>

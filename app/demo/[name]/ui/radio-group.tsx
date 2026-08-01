@@ -13,6 +13,7 @@ import {
   FieldTitle,
 } from "@/components/ui/field"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { cn } from "@/lib/utils"
 
 export default function RadioGroupExample() {
   return (
@@ -28,9 +29,9 @@ export default function RadioGroupExample() {
   )
 }
 
-function RadioGroupBasic() {
+function RadioGroupBasic({ className }: { className?: string }) {
   return (
-    <Example title="Basic">
+    <Example title="Basic" containerClassName={className}>
       <RadioGroup defaultValue="comfortable">
         <Field orientation="horizontal">
           <RadioGroupItem value="default" id="r1" />
@@ -55,9 +56,9 @@ function RadioGroupBasic() {
   )
 }
 
-function RadioGroupWithDescriptions() {
+function RadioGroupWithDescriptions({ className }: { className?: string }) {
   return (
-    <Example title="With Descriptions">
+    <Example title="With Descriptions" containerClassName={className}>
       <RadioGroup defaultValue="plus">
         <FieldLabel htmlFor="plus-plan">
           <Field orientation="horizontal">
@@ -95,9 +96,9 @@ function RadioGroupWithDescriptions() {
   )
 }
 
-function RadioGroupWithFieldSet() {
+function RadioGroupWithFieldSet({ className }: { className?: string }) {
   return (
-    <Example title="With FieldSet">
+    <Example title="With FieldSet" containerClassName={className}>
       <FieldSet>
         <FieldLegend>Battery Level</FieldLegend>
         <FieldDescription>
@@ -128,9 +129,9 @@ function RadioGroupWithFieldSet() {
   )
 }
 
-function RadioGroupGrid() {
+function RadioGroupGrid({ className }: { className?: string }) {
   return (
-    <Example title="Grid Layout">
+    <Example title="Grid Layout" containerClassName={className}>
       <RadioGroup defaultValue="medium" className="grid grid-cols-2 gap-2">
         <FieldLabel htmlFor="size-small">
           <Field orientation="horizontal">
@@ -161,9 +162,9 @@ function RadioGroupGrid() {
   )
 }
 
-function RadioGroupDisabled() {
+function RadioGroupDisabled({ className }: { className?: string }) {
   return (
-    <Example title="Disabled">
+    <Example title="Disabled" containerClassName={className}>
       <RadioGroup defaultValue="option2" disabled>
         <Field orientation="horizontal">
           <RadioGroupItem value="option1" id="disabled-1" />
@@ -188,9 +189,9 @@ function RadioGroupDisabled() {
   )
 }
 
-function RadioGroupInvalid() {
+function RadioGroupInvalid({ className }: { className?: string }) {
   return (
-    <Example title="Invalid">
+    <Example title="Invalid" containerClassName={className}>
       <FieldSet>
         <FieldLegend>Notification Preferences</FieldLegend>
         <FieldDescription>
@@ -221,11 +222,11 @@ function RadioGroupInvalid() {
   )
 }
 
-function RadioGroupFields() {
+function RadioGroupFields({ className }: { className?: string }) {
   return (
     <Example
       title="Fields"
-      containerClassName="lg:col-span-full 2xl:col-span-full"
+      containerClassName={cn("lg:col-span-full 2xl:col-span-full", className)}
     >
       <FieldGroup>
         <FieldSet>

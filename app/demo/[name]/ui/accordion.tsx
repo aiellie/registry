@@ -31,7 +31,7 @@ export default function AccordionExample() {
   )
 }
 
-function AccordionBasic() {
+function AccordionBasic({ className }: { className?: string }) {
   const items = [
     {
       value: "item-1",
@@ -53,7 +53,7 @@ function AccordionBasic() {
   ]
 
   return (
-    <Example title="Basic">
+    <Example title="Basic" containerClassName={className}>
       <Accordion className="mx-auto max-w-lg overflow-hidden border rounded-xl p-2">
       {items.map((item) => (
           <AccordionItem key={item.value} value={item.value}>
@@ -66,7 +66,7 @@ function AccordionBasic() {
   )
 }
 
-function AccordionMultiple() {
+function AccordionMultiple({ className }: { className?: string }) {
   const items = [
     {
       value: "item-1",
@@ -85,7 +85,7 @@ function AccordionMultiple() {
   ]
 
   return (
-    <Example title="Multiple">
+    <Example title="Multiple" containerClassName={className}>
       <Accordion multiple className="mx-auto max-w-lg">
         {items.map((item) => (
           <AccordionItem key={item.value} value={item.value}>
@@ -98,7 +98,7 @@ function AccordionMultiple() {
   )
 }
 
-function AccordionWithBorders() {
+function AccordionWithBorders({ className }: { className?: string }) {
   const items = [
     {
       value: "billing",
@@ -132,7 +132,7 @@ function AccordionWithBorders() {
   ]
 
   return (
-    <Example title="With Borders">
+    <Example title="With Borders" containerClassName={className}>
       <Accordion className="mx-auto max-w-lg gap-2">
         {items.map((item) => (
           <AccordionItem
@@ -153,7 +153,7 @@ function AccordionWithBorders() {
   )
 }
 
-function AccordionInCard() {
+function AccordionInCard({ className }: { className?: string }) {
   const items = [
     {
       value: "plans",
@@ -255,7 +255,7 @@ function AccordionInCard() {
   ]
 
   return (
-    <Example title="In Card">
+    <Example title="In Card" containerClassName={className}>
       <Card className="mx-auto w-full max-w-lg gap-4">
         <CardHeader>
           <CardTitle>Subscription & Billing</CardTitle>
@@ -282,7 +282,7 @@ function AccordionInCard() {
   )
 }
 
-function AccordionWithDisabled() {
+function AccordionWithDisabled({ className }: { className?: string }) {
   const items = [
     {
       value: "item-1",
@@ -308,7 +308,7 @@ function AccordionWithDisabled() {
   ]
 
   return (
-    <Example title="With Disabled">
+    <Example title="With Disabled" containerClassName={className}>
       <Accordion className="mx-auto max-w-lg overflow-hidden border rounded-lg">
         {items.map((item) => (
           <AccordionItem

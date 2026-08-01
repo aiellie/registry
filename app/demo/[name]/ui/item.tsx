@@ -89,9 +89,9 @@ export default function ItemExample() {
   )
 }
 
-function DefaultVariantItems() {
+function DefaultVariantItems({ className }: { className?: string }) {
   return (
-    <Example title="Default">
+    <Example title="Default" containerClassName={className}>
       <Item>
         <ItemContent>
           <ItemTitle>Title Only</ItemTitle>
@@ -187,9 +187,9 @@ function DefaultVariantItems() {
   )
 }
 
-function OutlineVariantItems() {
+function OutlineVariantItems({ className }: { className?: string }) {
   return (
-    <Example title="Outline">
+    <Example title="Outline" containerClassName={className}>
       <Item variant="outline">
         <ItemContent>
           <ItemTitle>Title Only</ItemTitle>
@@ -285,9 +285,9 @@ function OutlineVariantItems() {
   )
 }
 
-function MutedVariantItems() {
+function MutedVariantItems({ className }: { className?: string }) {
   return (
-    <Example title="Muted">
+    <Example title="Muted" containerClassName={className}>
       <Item variant="muted">
         <ItemContent>
           <ItemTitle>Title Only</ItemTitle>
@@ -383,9 +383,9 @@ function MutedVariantItems() {
   )
 }
 
-function DefaultVariantItemsSmall() {
+function DefaultVariantItemsSmall({ className }: { className?: string }) {
   return (
-    <Example title="Small">
+    <Example title="Small" containerClassName={className}>
       <Item size="sm">
         <ItemContent>
           <ItemTitle>Title Only</ItemTitle>
@@ -485,9 +485,9 @@ function DefaultVariantItemsSmall() {
   )
 }
 
-function OutlineVariantItemsSmall() {
+function OutlineVariantItemsSmall({ className }: { className?: string }) {
   return (
-    <Example title="Outline - Small">
+    <Example title="Outline - Small" containerClassName={className}>
       <Item variant="outline" size="sm">
         <ItemContent>
           <ItemTitle>Title Only</ItemTitle>
@@ -587,9 +587,9 @@ function OutlineVariantItemsSmall() {
   )
 }
 
-function MutedVariantItemsSmall() {
+function MutedVariantItemsSmall({ className }: { className?: string }) {
   return (
-    <Example title="Muted - Small">
+    <Example title="Muted - Small" containerClassName={className}>
       <Item variant="muted" size="sm">
         <ItemContent>
           <ItemTitle>Title Only</ItemTitle>
@@ -689,9 +689,9 @@ function MutedVariantItemsSmall() {
   )
 }
 
-function DefaultVariantItemsExtraSmall() {
+function DefaultVariantItemsExtraSmall({ className }: { className?: string }) {
   return (
-    <Example title="Extra Small">
+    <Example title="Extra Small" containerClassName={className}>
       <Item size="xs">
         <ItemContent>
           <ItemTitle>Title Only</ItemTitle>
@@ -791,9 +791,9 @@ function DefaultVariantItemsExtraSmall() {
   )
 }
 
-function OutlineVariantItemsExtraSmall() {
+function OutlineVariantItemsExtraSmall({ className }: { className?: string }) {
   return (
-    <Example title="Outline - Extra Small">
+    <Example title="Outline - Extra Small" containerClassName={className}>
       <Item variant="outline" size="xs">
         <ItemContent>
           <ItemTitle>Title Only</ItemTitle>
@@ -893,9 +893,9 @@ function OutlineVariantItemsExtraSmall() {
   )
 }
 
-function MutedVariantItemsExtraSmall() {
+function MutedVariantItemsExtraSmall({ className }: { className?: string }) {
   return (
-    <Example title="Muted - Extra Small">
+    <Example title="Muted - Extra Small" containerClassName={className}>
       <Item variant="muted" size="xs">
         <ItemContent>
           <ItemTitle>Title Only</ItemTitle>
@@ -995,9 +995,9 @@ function MutedVariantItemsExtraSmall() {
   )
 }
 
-function DefaultLinkItems() {
+function DefaultLinkItems({ className }: { className?: string }) {
   return (
-    <Example title="asChild">
+    <Example title="asChild" containerClassName={className}>
       <ItemGroup>
         <Item render={<a href="#" />}>
           <ItemContent>
@@ -1049,9 +1049,9 @@ function DefaultLinkItems() {
   )
 }
 
-function OutlineLinkItems() {
+function OutlineLinkItems({ className }: { className?: string }) {
   return (
-    <Example title="Outline - asChild">
+    <Example title="Outline - asChild" containerClassName={className}>
       <ItemGroup>
         <Item variant="outline" render={<a href="#" />}>
           <ItemContent>
@@ -1103,9 +1103,9 @@ function OutlineLinkItems() {
   )
 }
 
-function MutedLinkItems() {
+function MutedLinkItems({ className }: { className?: string }) {
   return (
-    <Example title="Muted - asChild">
+    <Example title="Muted - asChild" containerClassName={className}>
       <ItemGroup>
         <Item variant="muted" render={<a href="#" />}>
           <ItemContent>
@@ -1157,9 +1157,9 @@ function MutedLinkItems() {
   )
 }
 
-function DefaultItemGroup() {
+function DefaultItemGroup({ className }: { className?: string }) {
   return (
-    <Example title="ItemGroup">
+    <Example title="ItemGroup" containerClassName={className}>
       <ItemGroup>
         <Item>
           <ItemContent>
@@ -1184,9 +1184,9 @@ function DefaultItemGroup() {
   )
 }
 
-function OutlineItemGroup() {
+function OutlineItemGroup({ className }: { className?: string }) {
   return (
-    <Example title="Outline - ItemGroup">
+    <Example title="Outline - ItemGroup" containerClassName={className}>
       <ItemGroup>
         <Item variant="outline">
           <ItemMedia variant="icon">
@@ -1220,9 +1220,9 @@ function OutlineItemGroup() {
   )
 }
 
-function MutedItemGroup() {
+function MutedItemGroup({ className }: { className?: string }) {
   return (
-    <Example title="Muted - ItemGroup">
+    <Example title="Muted - ItemGroup" containerClassName={className}>
       <ItemGroup>
         <Item variant="muted">
           <ItemContent>
@@ -1262,9 +1262,9 @@ function MutedItemGroup() {
   )
 }
 
-function ItemSeparatorExample() {
+function ItemSeparatorExample({ className }: { className?: string }) {
   return (
-    <Example title="ItemSeparator">
+    <Example title="ItemSeparator" containerClassName={className}>
       <ItemGroup>
         <Item variant="outline">
           <ItemMedia variant="icon">
@@ -1310,9 +1310,9 @@ function ItemSeparatorExample() {
   )
 }
 
-function ItemHeaderExamples() {
+function ItemHeaderExamples({ className }: { className?: string }) {
   return (
-    <Example title="ItemHeader">
+    <Example title="ItemHeader" containerClassName={className}>
       <Item>
         <ItemHeader>
           <span className="text-sm font-medium">Design System</span>
@@ -1353,9 +1353,9 @@ function ItemHeaderExamples() {
   )
 }
 
-function ItemFooterExamples() {
+function ItemFooterExamples({ className }: { className?: string }) {
   return (
-    <Example title="ItemFooter">
+    <Example title="ItemFooter" containerClassName={className}>
       <Item>
         <ItemContent>
           <ItemTitle>Quarterly Report Q4 2024</ItemTitle>
@@ -1400,9 +1400,9 @@ function ItemFooterExamples() {
   )
 }
 
-function ItemHeaderAndFooterExamples() {
+function ItemHeaderAndFooterExamples({ className }: { className?: string }) {
   return (
-    <Example title="ItemHeader + ItemFooter">
+    <Example title="ItemHeader + ItemFooter" containerClassName={className}>
       <Item>
         <ItemHeader>
           <span className="text-sm font-medium">Team Project</span>
@@ -1458,9 +1458,9 @@ function ItemHeaderAndFooterExamples() {
   )
 }
 
-function DefaultVariantItemsWithImage() {
+function DefaultVariantItemsWithImage({ className }: { className?: string }) {
   return (
-    <Example title="Default - ItemMedia image">
+    <Example title="Default - ItemMedia image" containerClassName={className}>
       <Item>
         <ItemMedia variant="image">
           <Image
@@ -1522,9 +1522,9 @@ function DefaultVariantItemsWithImage() {
   )
 }
 
-function OutlineVariantItemsWithImage() {
+function OutlineVariantItemsWithImage({ className }: { className?: string }) {
   return (
-    <Example title="Outline - ItemMedia image">
+    <Example title="Outline - ItemMedia image" containerClassName={className}>
       <Item variant="outline">
         <ItemMedia variant="image">
           <Image
@@ -1586,9 +1586,9 @@ function OutlineVariantItemsWithImage() {
   )
 }
 
-function OutlineVariantItemsWithImageSmall() {
+function OutlineVariantItemsWithImageSmall({ className }: { className?: string }) {
   return (
-    <Example title="Outline - ItemMedia image - Small">
+    <Example title="Outline - ItemMedia image - Small" containerClassName={className}>
       <Item variant="outline" size="sm">
         <ItemMedia variant="image">
           <Image
@@ -1650,9 +1650,9 @@ function OutlineVariantItemsWithImageSmall() {
   )
 }
 
-function OutlineVariantItemsWithImageExtraSmall() {
+function OutlineVariantItemsWithImageExtraSmall({ className }: { className?: string }) {
   return (
-    <Example title="Outline - ItemMedia image - Extra Small">
+    <Example title="Outline - ItemMedia image - Extra Small" containerClassName={className}>
       <Item variant="outline" size="xs">
         <ItemMedia variant="image">
           <Image
@@ -1707,9 +1707,9 @@ function OutlineVariantItemsWithImageExtraSmall() {
   )
 }
 
-function MutedVariantItemsWithImage() {
+function MutedVariantItemsWithImage({ className }: { className?: string }) {
   return (
-    <Example title="Muted - ItemMedia image">
+    <Example title="Muted - ItemMedia image" containerClassName={className}>
       <Item variant="muted">
         <ItemMedia variant="image">
           <Image
@@ -1771,9 +1771,9 @@ function MutedVariantItemsWithImage() {
   )
 }
 
-function ItemAvatarExample() {
+function ItemAvatarExample({ className }: { className?: string }) {
   return (
-    <Example title="Avatar">
+    <Example title="Avatar" containerClassName={className}>
       <Item variant="outline">
         <ItemMedia>
           <Avatar className="size-10">
@@ -1835,9 +1835,9 @@ function ItemAvatarExample() {
   )
 }
 
-function ItemDropdownExample() {
+function ItemDropdownExample({ className }: { className?: string }) {
   return (
-    <Example title="Dropdown">
+    <Example title="Dropdown" containerClassName={className}>
       <DropdownMenu>
         <DropdownMenuTrigger render={<Button variant="outline" />}>
           Select <HugeiconsIcon icon={ArrowDown01Icon} strokeWidth={2} />

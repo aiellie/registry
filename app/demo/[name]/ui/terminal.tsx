@@ -202,7 +202,7 @@ function PanelOutput({ type }: { type: StaticPanelType }) {
   )
 }
 
-function InteractiveExample() {
+function InteractiveExample({ className }: { className?: string }) {
   const [sessions, setSessions] = React.useState<Session[]>([
     { id: 1, output: "", title: "ui.aiellie.dev", type: "terminal" },
   ])
@@ -261,7 +261,7 @@ function InteractiveExample() {
   }
 
   return (
-    <Example title="Interactive — panel tabs">
+    <Example title="Interactive — panel tabs" containerClassName={className}>
       <div className="flex w-full flex-col gap-3">
         <Terminal className="w-full" output={session.output}>
           <TerminalTabs>
@@ -316,11 +316,11 @@ function InteractiveExample() {
 
 /* -------------------------------------------------------------------------- */
 
-function DefaultExample() {
+function DefaultExample({ className }: { className?: string }) {
   const [output, setOutput] = React.useState(BUILD_OUTPUT)
 
   return (
-    <Example title="Default — copy and clear actions">
+    <Example title="Default — copy and clear actions" containerClassName={className}>
       <div className="flex w-full flex-col gap-3">
         <Terminal onClear={() => setOutput("")} output={output} />
         {output === "" && (
@@ -340,7 +340,7 @@ function DefaultExample() {
 
 /* -------------------------------------------------------------------------- */
 
-function StreamingExample() {
+function StreamingExample({ className }: { className?: string }) {
   const [lineCount, setLineCount] = React.useState(0)
   const isStreaming = lineCount < STREAM_LINES.length
 
@@ -354,7 +354,7 @@ function StreamingExample() {
   }, [isStreaming])
 
   return (
-    <Example title="Streaming — clear restarts the run">
+    <Example title="Streaming — clear restarts the run" containerClassName={className}>
       <Terminal
         className="w-full"
         isStreaming={isStreaming}
@@ -382,9 +382,9 @@ function StreamingExample() {
 
 /* -------------------------------------------------------------------------- */
 
-function LanguageExample() {
+function LanguageExample({ className }: { className?: string }) {
   return (
-    <Example title="Custom language — JSON response">
+    <Example title="Custom language — JSON response" containerClassName={className}>
       <Terminal className="w-full" lang="json" output={RESPONSE_OUTPUT}>
         <TerminalHeader>
           <TerminalTitle>terminal.json</TerminalTitle>

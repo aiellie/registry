@@ -76,9 +76,9 @@ export default function InputGroupExample() {
   )
 }
 
-function InputGroupBasic() {
+function InputGroupBasic({ className }: { className?: string }) {
   return (
-    <Example title="Basic">
+    <Example title="Basic" containerClassName={className}>
       <FieldGroup>
         <Field>
           <FieldLabel htmlFor="input-default-01">
@@ -117,9 +117,9 @@ function InputGroupBasic() {
   )
 }
 
-function InputGroupWithAddons() {
+function InputGroupWithAddons({ className }: { className?: string }) {
   return (
-    <Example title="With Addons">
+    <Example title="With Addons" containerClassName={className}>
       <FieldGroup>
         <Field>
           <FieldLabel htmlFor="input-icon-left-05">
@@ -227,9 +227,9 @@ function InputGroupWithAddons() {
   )
 }
 
-function InputGroupWithButtons() {
+function InputGroupWithButtons({ className }: { className?: string }) {
   return (
-    <Example title="With Buttons">
+    <Example title="With Buttons" containerClassName={className}>
       <FieldGroup>
         <Field>
           <FieldLabel htmlFor="input-button-13">Button</FieldLabel>
@@ -282,12 +282,17 @@ function InputGroupWithButtons() {
 function InputGroupWithTooltip({
   country,
   setCountry,
+  className,
 }: {
   country: string
   setCountry: (value: string) => void
+  className?: string
 }) {
   return (
-    <Example title="With Tooltip, Dropdown, Popover">
+    <Example
+      title="With Tooltip, Dropdown, Popover"
+      containerClassName={className}
+    >
       <FieldGroup>
         <Field>
           <FieldLabel htmlFor="input-tooltip-20">Tooltip</FieldLabel>
@@ -403,9 +408,9 @@ function InputGroupWithTooltip({
   )
 }
 
-function InputGroupWithKbd() {
+function InputGroupWithKbd({ className }: { className?: string }) {
   return (
-    <Example title="With Kbd">
+    <Example title="With Kbd" containerClassName={className}>
       <FieldGroup>
         <Field>
           <FieldLabel htmlFor="input-kbd-22">Input Group with Kbd</FieldLabel>
@@ -525,9 +530,9 @@ function InputGroupWithKbd() {
   )
 }
 
-function InputGroupInCard() {
+function InputGroupInCard({ className }: { className?: string }) {
   return (
-    <Example title="In Card">
+    <Example title="In Card" containerClassName={className}>
       <Card className="w-full">
         <CardHeader>
           <CardTitle>Card with Input Group</CardTitle>
@@ -586,9 +591,9 @@ function InputGroupInCard() {
   )
 }
 
-function InputGroupTextareaExamples() {
+function InputGroupTextareaExamples({ className }: { className?: string }) {
   return (
-    <Example title="Textarea">
+    <Example title="Textarea" containerClassName={className}>
       <FieldGroup>
         <Field>
           <FieldLabel htmlFor="textarea-header-footer-12">

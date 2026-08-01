@@ -46,9 +46,9 @@ export default function BreadcrumbExample() {
   )
 }
 
-function BreadcrumbBasic() {
+function BreadcrumbBasic({ className }: { className?: string }) {
   return (
-    <Example title="Basic" className="items-center justify-center">
+    <Example title="Basic" className="items-center justify-center" containerClassName={className}>
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -92,9 +92,9 @@ function BreadcrumbBasic() {
   )
 }
 
-function BreadcrumbWithDropdown() {
+function BreadcrumbWithDropdown({ className }: { className?: string }) {
   return (
-    <Example title="With Dropdown" className="items-center justify-center">
+    <Example title="With Dropdown" className="items-center justify-center" containerClassName={className}>
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -155,9 +155,9 @@ function BreadcrumbWithDropdown() {
   )
 }
 
-function BreadcrumbDropdown() {
+function BreadcrumbDropdown({ className }: { className?: string }) {
   return (
-    <Example title="Dropdown" className="items-center justify-center">
+    <Example title="Dropdown" className="items-center justify-center" containerClassName={className}>
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -209,9 +209,9 @@ function BreadcrumbDropdown() {
   )
 }
 
-function BreadcrumbCustomSeparator() {
+function BreadcrumbCustomSeparator({ className }: { className?: string }) {
   return (
-    <Example title="Custom Separator" className="items-center justify-center">
+    <Example title="Custom Separator" className="items-center justify-center" containerClassName={className}>
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -237,9 +237,9 @@ function BreadcrumbCustomSeparator() {
   )
 }
 
-function BreadcrumbWithLink() {
+function BreadcrumbWithLink({ className }: { className?: string }) {
   return (
-    <Example title="With Link" className="items-center justify-center">
+    <Example title="With Link" className="items-center justify-center" containerClassName={className}>
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>

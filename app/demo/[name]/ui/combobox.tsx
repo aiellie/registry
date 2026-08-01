@@ -63,6 +63,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { toast } from "@/components/ui/toast"
+import { cn } from "@/lib/utils"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { Globe02Icon, UnfoldMoreIcon } from "@hugeicons/core-free-icons"
 
@@ -548,9 +549,9 @@ const timezones = [
   },
 ] as const
 
-function ComboboxBasic() {
+function ComboboxBasic({ className }: { className?: string }) {
   return (
-    <Example title="Basic">
+    <Example title="Basic" containerClassName={className}>
       <Combobox items={frameworks}>
         <ComboboxInput placeholder="Select a framework" />
         <ComboboxContent>
@@ -568,9 +569,9 @@ function ComboboxBasic() {
   )
 }
 
-function ComboboxSides() {
+function ComboboxSides({ className }: { className?: string }) {
   return (
-    <Example title="Sides" containerClassName="col-span-2">
+    <Example title="Sides" containerClassName={cn("col-span-2", className)}>
       <div className="flex flex-wrap justify-center gap-2">
         {(
           [
@@ -604,9 +605,9 @@ function ComboboxSides() {
   )
 }
 
-function ComboboxDisabled() {
+function ComboboxDisabled({ className }: { className?: string }) {
   return (
-    <Example title="Disabled">
+    <Example title="Disabled" containerClassName={className}>
       <Combobox items={frameworks}>
         <ComboboxInput placeholder="Select a framework" disabled />
         <ComboboxContent>
@@ -626,9 +627,9 @@ function ComboboxDisabled() {
 
 const disabledFrameworks = ["Nuxt.js", "Remix"]
 
-function ComboboxDisabledItems() {
+function ComboboxDisabledItems({ className }: { className?: string }) {
   return (
-    <Example title="Disabled Items">
+    <Example title="Disabled Items" containerClassName={className}>
       <Combobox items={frameworks}>
         <ComboboxInput placeholder="Select a framework" />
         <ComboboxContent>
@@ -650,9 +651,9 @@ function ComboboxDisabledItems() {
   )
 }
 
-function ComboboxInvalid() {
+function ComboboxInvalid({ className }: { className?: string }) {
   return (
-    <Example title="Invalid">
+    <Example title="Invalid" containerClassName={className}>
       <div className="flex flex-col gap-4">
         <Combobox items={frameworks}>
           <ComboboxInput placeholder="Select a framework" aria-invalid="true" />
@@ -696,9 +697,9 @@ function ComboboxInvalid() {
   )
 }
 
-function ComboboxWithClear() {
+function ComboboxWithClear({ className }: { className?: string }) {
   return (
-    <Example title="With Clear Button">
+    <Example title="With Clear Button" containerClassName={className}>
       <Combobox items={frameworks} defaultValue={frameworks[0]}>
         <ComboboxInput placeholder="Select a framework" showClear />
         <ComboboxContent>
@@ -716,9 +717,9 @@ function ComboboxWithClear() {
   )
 }
 
-function ComboboxWithGroups() {
+function ComboboxWithGroups({ className }: { className?: string }) {
   return (
-    <Example title="With Groups">
+    <Example title="With Groups" containerClassName={className}>
       <Combobox items={timezones}>
         <ComboboxInput placeholder="Select a timezone" />
         <ComboboxContent>
@@ -743,9 +744,9 @@ function ComboboxWithGroups() {
   )
 }
 
-function ComboboxWithGroupsAndSeparator() {
+function ComboboxWithGroupsAndSeparator({ className }: { className?: string }) {
   return (
-    <Example title="With Groups and Separator">
+    <Example title="With Groups and Separator" containerClassName={className}>
       <Combobox items={timezones}>
         <ComboboxInput placeholder="Select a timezone" />
         <ComboboxContent>
@@ -771,7 +772,7 @@ function ComboboxWithGroupsAndSeparator() {
   )
 }
 
-function ComboboxWithForm() {
+function ComboboxWithForm({ className }: { className?: string }) {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const formData = new FormData(event.target as HTMLFormElement)
@@ -780,7 +781,7 @@ function ComboboxWithForm() {
   }
 
   return (
-    <Example title="Form with Combobox">
+    <Example title="Form with Combobox" containerClassName={className}>
       <Card className="w-full max-w-sm" size="sm">
         <CardContent>
           <form
@@ -825,9 +826,9 @@ function ComboboxWithForm() {
 
 const largeListItems = Array.from({ length: 100 }, (_, i) => `Item ${i + 1}`)
 
-function ComboboxLargeList() {
+function ComboboxLargeList({ className }: { className?: string }) {
   return (
-    <Example title="Large List (100 items)">
+    <Example title="Large List (100 items)" containerClassName={className}>
       <Combobox items={largeListItems}>
         <ComboboxInput placeholder="Search from 100 items" />
         <ComboboxContent>
@@ -845,9 +846,9 @@ function ComboboxLargeList() {
   )
 }
 
-function ComboboxAutoHighlight() {
+function ComboboxAutoHighlight({ className }: { className?: string }) {
   return (
-    <Example title="With Auto Highlight">
+    <Example title="With Auto Highlight" containerClassName={className}>
       <Combobox items={frameworks} autoHighlight>
         <ComboboxInput placeholder="Select a framework" />
         <ComboboxContent>
@@ -865,9 +866,9 @@ function ComboboxAutoHighlight() {
   )
 }
 
-function ComboxboxInputAddon() {
+function ComboxboxInputAddon({ className }: { className?: string }) {
   return (
-    <Example title="With Icon Addon">
+    <Example title="With Icon Addon" containerClassName={className}>
       <Combobox items={timezones}>
         <ComboboxInput placeholder="Select a timezone">
           <InputGroupAddon>
@@ -896,9 +897,9 @@ function ComboxboxInputAddon() {
   )
 }
 
-function ComboboxInPopup() {
+function ComboboxInPopup({ className }: { className?: string }) {
   return (
-    <Example title="Combobox in Popup">
+    <Example title="Combobox in Popup" containerClassName={className}>
       <Combobox items={countries} defaultValue={countries[0]}>
         <ComboboxTrigger
           render={
@@ -931,11 +932,11 @@ function ComboboxInPopup() {
   )
 }
 
-function ComboboxMultiple() {
+function ComboboxMultiple({ className }: { className?: string }) {
   const anchor = useComboboxAnchor()
 
   return (
-    <Example title="Combobox Multiple">
+    <Example title="Combobox Multiple" containerClassName={className}>
       <Combobox
         multiple
         autoHighlight
@@ -969,11 +970,11 @@ function ComboboxMultiple() {
   )
 }
 
-function ComboboxMultipleDisabled() {
+function ComboboxMultipleDisabled({ className }: { className?: string }) {
   const anchor = useComboboxAnchor()
 
   return (
-    <Example title="Combobox Multiple Disabled">
+    <Example title="Combobox Multiple Disabled" containerClassName={className}>
       <Combobox
         multiple
         autoHighlight
@@ -1008,12 +1009,12 @@ function ComboboxMultipleDisabled() {
   )
 }
 
-function ComboboxMultipleInvalid() {
+function ComboboxMultipleInvalid({ className }: { className?: string }) {
   const anchor1 = useComboboxAnchor()
   const anchor2 = useComboboxAnchor()
 
   return (
-    <Example title="Combobox Multiple Invalid">
+    <Example title="Combobox Multiple Invalid" containerClassName={className}>
       <div className="flex flex-col gap-4">
         <Combobox
           multiple
@@ -1090,11 +1091,11 @@ function ComboboxMultipleInvalid() {
   )
 }
 
-function ComboboxMultipleNoRemove() {
+function ComboboxMultipleNoRemove({ className }: { className?: string }) {
   const anchor = useComboboxAnchor()
 
   return (
-    <Example title="Combobox Multiple (No Remove)">
+    <Example title="Combobox Multiple (No Remove)" containerClassName={className}>
       <Combobox
         multiple
         autoHighlight
@@ -1130,9 +1131,9 @@ function ComboboxMultipleNoRemove() {
   )
 }
 
-function ComboboxWithCustomItems() {
+function ComboboxWithCustomItems({ className }: { className?: string }) {
   return (
-    <Example title="With Custom Item Rendering">
+    <Example title="With Custom Item Rendering" containerClassName={className}>
       <Combobox
         items={countries.filter((country) => country.code !== "")}
         itemToStringValue={(country: (typeof countries)[number]) =>
@@ -1164,11 +1165,11 @@ function ComboboxWithCustomItems() {
   )
 }
 
-function ComboboxInDialog() {
+function ComboboxInDialog({ className }: { className?: string }) {
   const [open, setOpen] = React.useState(false)
 
   return (
-    <Example title="Combobox in Dialog">
+    <Example title="Combobox in Dialog" containerClassName={className}>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger render={<Button variant="outline" />}>
           Open Dialog
@@ -1260,9 +1261,9 @@ const items = [
   },
 ]
 
-function ComboboxWithOtherInputs() {
+function ComboboxWithOtherInputs({ className }: { className?: string }) {
   return (
-    <Example title="With Other Inputs">
+    <Example title="With Other Inputs" containerClassName={className}>
       <Combobox items={frameworks}>
         <ComboboxInput placeholder="Select a framework" className="w-52" />
         <ComboboxContent>
