@@ -3606,6 +3606,20 @@
           "target": "components/ui/bubbles.tsx"
         }
       ]
+    },
+    {
+      "name": "animated-bots",
+      "type": "registry:component",
+      "title": "Animated Bots",
+      "description": "Pixel robots that stroll along the bottom edge of a section, with idle bob, blink, and beacon animations.",
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "components/animations/animated-bots.tsx",
+          "type": "registry:component",
+          "target": "components/ui/animated-bots.tsx"
+        }
+      ]
     }
   ]
 }

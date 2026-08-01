@@ -4,7 +4,6 @@ import {
   ArrowRight01Icon,
   Folder01Icon,
   Folder02Icon,
-  SourceCodeIcon,
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 import * as React from "react"
@@ -25,10 +24,17 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible"
+import { Button } from "@/components/ui/button"
 import {
-  NativeSelect,
-  NativeSelectOption,
-} from "@/components/ui/native-select"
+  Combobox,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxList,
+  ComboboxTrigger,
+  ComboboxValue,
+} from "@/components/ui/combobox"
 import {
   ResizableHandle,
   ResizablePanel,
@@ -38,13 +44,13 @@ import {
   Sidebar,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarMenuSub,
   SidebarProvider,
 } from "@/components/ui/sidebar"
+import { getItemIcon } from "@/lib/items"
 import type {
   FileTree,
   HighlightedRegistryFile,
@@ -282,21 +288,61 @@ function BlockViewerMobileCode() {
   return (
     <div className="flex h-[600px] flex-col overflow-hidden rounded-xl border bg-code text-code-foreground">
       <div className="flex h-12 shrink-0 items-center gap-2 border-b px-3 py-2 text-xs [&_svg]:size-4 [&_svg]:opacity-70">
-        <HugeiconsIcon icon={SourceCodeIcon} strokeWidth={2} />
         {highlightedFiles && highlightedFiles.length > 1 ? (
-          <NativeSelect
-            value={activeFile ?? undefined}
-            onChange={(event) => setActiveFile(event.target.value)}
-            className="h-7 min-w-0 flex-1 border-none bg-transparent font-mono text-xs shadow-none"
+          <Combobox
+            items={highlightedFiles.map((file) => file.target)}
+            value={activeFile}
+            onValueChange={(value) => {
+              if (value) setActiveFile(value)
+            }}
           >
-            {highlightedFiles.map((file) => (
-              <NativeSelectOption key={file.target} value={file.target}>
-                {file.target}
-              </NativeSelectOption>
-            ))}
-          </NativeSelect>
+            <ComboboxTrigger
+              render={
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-7 min-w-0 flex-1 justify-between gap-2 border-none bg-transparent px-1 font-mono text-xs shadow-none hover:bg-transparent"
+                />
+              }
+            >
+              <ComboboxValue>
+                {(value: string) => (
+                  <span className="flex min-w-0 items-center gap-2">
+                    <span className="flex size-4 shrink-0 items-center justify-center [&_svg]:size-4">
+                      {getIconForLanguageExtension(extensionOf(value))}
+                    </span>
+                    <span className="truncate">{value}</span>
+                  </span>
+                )}
+              </ComboboxValue>
+            </ComboboxTrigger>
+            <ComboboxContent>
+              <ComboboxInput
+                showTrigger={false}
+                showSearchIcon
+                placeholder="Search files"
+                className="h-8! rounded-none! border-x-0 border-t-0 border-input/30 bg-background shadow-none! *:data-[slot=input-group-addon]:ps-2!"
+              />
+              <ComboboxEmpty>No files found.</ComboboxEmpty>
+              <ComboboxList>
+                {(item) => (
+                  <ComboboxItem key={item} value={item} className="font-mono text-xs">
+                    <span className="flex size-4 shrink-0 items-center justify-center [&_svg]:size-4">
+                      {getIconForLanguageExtension(extensionOf(item))}
+                    </span>
+                    <span className="truncate">{item}</span>
+                  </ComboboxItem>
+                )}
+              </ComboboxList>
+            </ComboboxContent>
+          </Combobox>
         ) : (
-          <span className="line-clamp-1 font-mono">{file.target}</span>
+          <>
+            <span className="flex size-4 shrink-0 items-center justify-center [&_svg]:size-4">
+              {getIconForLanguageExtension(extensionOf(file.target))}
+            </span>
+            <span className="line-clamp-1 font-mono">{file.target}</span>
+          </>
         )}
         <div className="ms-auto flex shrink-0 items-center gap-1">
           <CopyCodeButton content={rawContent} />
@@ -333,8 +379,10 @@ function BlockViewerCode() {
         <BlockViewerFileTree />
       </div>
       <figure className="mx-0! mt-0 flex min-w-0 flex-1 flex-col rounded-xl border-none">
-        <figcaption className="flex h-12 shrink-0 items-center gap-2 border-b px-4 py-2 text-xs text-code-foreground [&_svg]:size-4 [&_svg]:opacity-70">
-          <HugeiconsIcon icon={SourceCodeIcon} strokeWidth={2} />
+        <figcaption className="font-mono flex h-12 shrink-0 items-center gap-2 border-b px-4 py-2 text-xs text-code-foreground [&_svg]:size-4 [&_svg]:opacity-70">
+          <span className="flex size-4 shrink-0 items-center justify-center [&_svg]:size-4">
+            {getIconForLanguageExtension(extensionOf(file.target))}
+          </span>
           {file.target}
           <div className="ms-auto flex items-center gap-2">
             <CopyCodeButton content={rawContent} />
@@ -352,7 +400,7 @@ function BlockViewerCode() {
 }
 
 function BlockViewerFileTree() {
-  const { tree } = useBlockViewer()
+  const { tree, item } = useBlockViewer()
 
   if (!tree) {
     return null
@@ -361,9 +409,16 @@ function BlockViewerFileTree() {
   return (
     <SidebarProvider className="flex min-h-full! flex-col border-e">
       <Sidebar collapsible="none" className="w-full flex-1 bg-transparent">
-        <SidebarGroupLabel className="h-12 rounded-none border-b px-4 text-sm">
-          Files
-        </SidebarGroupLabel>
+        <div className="flex h-12 items-center border-b px-2">
+          <SidebarMenuButton size="sm">
+            <HugeiconsIcon
+              icon={getItemIcon(item.name)}
+              strokeWidth={2}
+              className="size-3.5 shrink-0 text-sidebar-primary-foreground"
+            />
+            <span>{item.title}</span>
+          </SidebarMenuButton>
+        </div>
         <SidebarGroup className="p-0">
           <SidebarGroupContent>
             <SidebarMenu className="translate-x-0 gap-1.5">

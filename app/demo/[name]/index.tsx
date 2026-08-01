@@ -7,6 +7,7 @@ import { newchat } from "@/app/demo/[name]/blocks/newchat"
 import { login } from "@/app/demo/[name]/blocks/login"
 
 // components
+import AnimatedBotsExample from "@/app/demo/[name]/components/animated-bots"
 import BrandAvatarExample from "@/app/demo/[name]/components/brand-avatar"
 import { brandFooter } from "@/app/demo/[name]/components/brand-footer"
 import { brandHeader } from "@/app/demo/[name]/components/brand-header"
@@ -113,6 +114,7 @@ export const demos: { [name: string]: Demo } = {
   newchat,
   login,
   // components
+  "animated-bots": AnimatedBotsExample,
   "brand-header": brandHeader,
   "brand-footer": brandFooter,
   "brand-sidebar": brandSidebar,

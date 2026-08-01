@@ -70,6 +70,7 @@ import {
   ParagraphIcon,
   PasswordValidationIcon,
   RadioButtonIcon,
+  Robot01Icon,
   RoboticIcon,
   Route01Icon,
   Search01Icon,
@@ -914,6 +915,14 @@ export const items: Item[] = [
   {
     name: "bubbles",
     icon: BubblesIcon,
+    type: "registry:component",
+    category: "animation",
+    isNew: true,
+    displayHome: true,
+  },
+  {
+    name: "animated-bots",
+    icon: Robot01Icon,
     type: "registry:component",
     category: "animation",
     isNew: true,
