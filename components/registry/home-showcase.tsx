@@ -3,13 +3,13 @@
 import * as React from "react"
 import { HugeiconsIcon } from "@hugeicons/react"
 
-import { MessageScrollerDemo } from "@/app/(registry)/cards/message-scroller"
 import {
   AiOrbDemo,
   AnimatedBotsDemo,
   FileTreeDemo,
   WebPreviewDemo,
   TerminalDemo,
+  MessageScrollerDemo,
 } from "@/components/aiellie/examples"
 import { ItemWrapper } from "@/components/item-wrapper"
 import { ItemDetailsDialog } from "@/components/registry/item-details-dialog"
