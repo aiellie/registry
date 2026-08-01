@@ -262,12 +262,13 @@ function InteractiveExample({ className }: { className?: string }) {
 
   return (
     <Example title="Interactive — panel tabs" containerClassName={className}>
-      <div className="flex w-full flex-col gap-3">
-        <Terminal className="w-full" output={session.output}>
-          <TerminalTabs>
+      <div className="flex w-xl max-w-full flex-col gap-3">
+        <Terminal className="h-72 w-full" output={session.output}>
+          <TerminalTabs className="shrink-0">
             {sessions.map((tab) => (
               <TerminalTab
                 active={tab.id === session.id}
+                className="w-max shrink-0"
                 icon={
                   TERMINAL_TAB_OPTIONS.find(
                     (option) => option.type === tab.type
@@ -292,7 +293,7 @@ function InteractiveExample({ className }: { className?: string }) {
             ))}
             <TerminalTabAdd onSelect={addTab} />
           </TerminalTabs>
-          <TerminalContent className="min-h-48">
+          <TerminalContent className="min-h-0 min-w-0 flex-1 overflow-auto">
             {session.type === "terminal" ? (
               <TerminalInput onSubmit={run} prompt={PROMPT} />
             ) : (
@@ -321,8 +322,24 @@ function DefaultExample({ className }: { className?: string }) {
 
   return (
     <Example title="Default — copy and clear actions" containerClassName={className}>
-      <div className="flex w-full flex-col gap-3">
-        <Terminal onClear={() => setOutput("")} output={output} />
+      <div className="flex w-xl max-w-full flex-col gap-3">
+        <Terminal
+          className="h-72 w-full"
+          onClear={() => setOutput("")}
+          output={output}
+        >
+          <TerminalHeader className="shrink-0">
+            <TerminalTitle />
+            <div className="flex items-center gap-1">
+              <TerminalStatus />
+              <TerminalActions>
+                <TerminalCopyButton />
+                <TerminalClearButton />
+              </TerminalActions>
+            </div>
+          </TerminalHeader>
+          <TerminalContent className="min-h-0 min-w-0 flex-1 overflow-auto" />
+        </Terminal>
         {output === "" && (
           <Button
             className="self-start"
@@ -356,12 +373,12 @@ function StreamingExample({ className }: { className?: string }) {
   return (
     <Example title="Streaming — clear restarts the run" containerClassName={className}>
       <Terminal
-        className="w-full"
+        className="h-72 w-xl max-w-full"
         isStreaming={isStreaming}
         onClear={() => setLineCount(0)}
         output={STREAM_LINES.slice(0, lineCount).join("\n")}
       >
-        <TerminalHeader>
+        <TerminalHeader className="shrink-0">
           <TerminalTitle>registry:build</TerminalTitle>
           <div className="flex items-center gap-2">
             <TerminalStatus>
@@ -374,7 +391,7 @@ function StreamingExample({ className }: { className?: string }) {
             </TerminalActions>
           </div>
         </TerminalHeader>
-        <TerminalContent />
+        <TerminalContent className="min-h-0 min-w-0 flex-1 overflow-auto" />
       </Terminal>
     </Example>
   )
@@ -385,14 +402,18 @@ function StreamingExample({ className }: { className?: string }) {
 function LanguageExample({ className }: { className?: string }) {
   return (
     <Example title="Custom language — JSON response" containerClassName={className}>
-      <Terminal className="w-full" lang="json" output={RESPONSE_OUTPUT}>
-        <TerminalHeader>
+      <Terminal
+        className="h-72 w-xl max-w-full"
+        lang="json"
+        output={RESPONSE_OUTPUT}
+      >
+        <TerminalHeader className="shrink-0">
           <TerminalTitle>terminal.json</TerminalTitle>
           <TerminalActions>
             <TerminalCopyButton tooltip="Copy JSON" />
           </TerminalActions>
         </TerminalHeader>
-        <TerminalContent />
+        <TerminalContent className="min-h-0 min-w-0 flex-1 overflow-auto" />
       </Terminal>
     </Example>
   )

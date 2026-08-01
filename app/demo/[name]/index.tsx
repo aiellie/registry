@@ -3,6 +3,7 @@ import type { ComponentType, ReactElement, ReactNode } from "react"
 // blocks
 import { blank } from "@/app/demo/[name]/blocks/blank"
 import { dashboard } from "@/app/demo/[name]/blocks/dashboard"
+import { newchat } from "@/app/demo/[name]/blocks/newchat"
 import { login } from "@/app/demo/[name]/blocks/login"
 
 // components
@@ -109,6 +110,7 @@ export const demos: { [name: string]: Demo } = {
   // blocks
   blank,
   dashboard,
+  newchat,
   login,
   // components
   "brand-header": brandHeader,

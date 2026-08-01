@@ -48,13 +48,13 @@ const STATS = [
 const INSIGHTS = [
   {
     label: "Claude Code 101",
-    value: "10%",
+    value: "100%",
     href: "https://verify.skilljar.com/c/tyvtzxsrixux",
   },
-  { label: "Most used reasoning", value: "High · 57%" },
-  { label: "Skills explored", value: "8" },
-  { label: "Total skills used", value: "66" },
-  { label: "Total chats", value: "166" },
+  { label: "Introduction to Claude Cowork", value: "100%", href: "https://verify.skilljar.com/c/p5w4z5wbiq8k" },
+  { label: "Claude 101", value: "100%", href: "https://verify.skilljar.com/c/nwz6msxc4bvh" },
+  { label: "Claude Platform 101", value: "14%" },
+  { label: "Claude Code in Action", value: "10%" },
 ]
 
 const PLUGINS = [

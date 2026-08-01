@@ -187,10 +187,10 @@ export function CardsChat() {
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className=" outline-none">
           <DialogHeader className="">
-            <DialogTitle>New message</DialogTitle>
+            <DialogTitle>New Group Chat</DialogTitle>
             <DialogDescription>
-              Invite a user to this thread. This will create a new group
-              message.
+              Invite a user to this group chat. This will create a new group
+              chat.
             </DialogDescription>
           </DialogHeader>
           <Command className="overflow-hidden rounded-t-none border bg-transparent">

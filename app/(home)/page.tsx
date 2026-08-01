@@ -16,7 +16,7 @@ import { getRegistryItems } from "@/lib/registry"
 
 const title = "AIEllie Design System"
 const description =
-  "Distribute your design system tokens, custom components, hooks, pages, and other files to any React project."
+  "Building my UI brand. Preview a few of my components below."
 
 export const dynamic = "force-static"
 export const revalidate = false

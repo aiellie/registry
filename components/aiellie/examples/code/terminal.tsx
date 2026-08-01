@@ -196,19 +196,19 @@ export function TerminalDemo() {
   }
 
   return (
-    <div className="flex w-full flex-col gap-3 py-6">
+    <div className="flex min-h-dvh w-full items-center justify-center p-6">
       {isOpen ? (
         <Terminal
-          className="w-full"
+          className="h-72 w-xl max-w-full"
           onClear={() => setOutput(session.id, () => "")}
           output={session.output}
         >
-          <div className="flex min-w-0 items-center gap-1 border-b px-2 py-1.5">
+          <div className="flex shrink-0 items-center gap-1 border-b px-2 py-1.5">
             <TerminalTabs className="no-scrollbar min-w-0 flex-1 overflow-x-auto border-0 p-0">
               {sessions.map((tab) => (
                 <TerminalTab
                   active={tab.id === session.id}
-                  className="flex-none"
+                  className="w-max shrink-0"
                   icon={
                     TERMINAL_TAB_OPTIONS.find(
                       (option) => option.type === tab.type
@@ -231,7 +231,7 @@ export function TerminalDemo() {
                   )}
                 </TerminalTab>
               ))}
-              <TerminalTabAdd className="flex-none" onSelect={addTab} />
+              <TerminalTabAdd className="shrink-0" onSelect={addTab} />
             </TerminalTabs>
             <TerminalActions className="ms-auto shrink-0">
               <TerminalClearButton
@@ -262,7 +262,7 @@ export function TerminalDemo() {
               </Tooltip>
             </TerminalActions>
           </div>
-          <TerminalContent className="min-h-48">
+          <TerminalContent className="min-h-0 min-w-0 flex-1 overflow-auto">
             {session.type === "terminal" ? (
               <TerminalInput
                 onSubmit={run}
@@ -288,9 +288,6 @@ export function TerminalDemo() {
           Open terminal
         </Button>
       )}
-      <p className="text-sm text-muted-foreground">
-        {PANEL_DESCRIPTIONS[session.type]}
-      </p>
     </div>
   )
 }

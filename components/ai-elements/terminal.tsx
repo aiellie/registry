@@ -489,7 +489,7 @@ export const TerminalContent = ({
     // header uses, so both fallbacks below carry their own p-2.5.
     <div
       className={cn(
-        "max-h-96 overflow-y-auto p-1.5 font-mono text-xs",
+        "max-h-96 min-h-0 min-w-0 overflow-auto p-1.5 font-mono text-xs",
         className
       )}
       onClick={handleClick}
