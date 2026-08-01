@@ -337,8 +337,8 @@ export function ItemsGrid({ items }: { items: Component[] }) {
   const handleSelect = useCallback((item: Component) => setSelected(item), [])
 
   // Only items curated in `lib/aiellie-items.ts` — each previews via its
-  // inline example from `components/aiellie/examples` or, failing that, its
-  // `/demo/<name>` page — minus the ones opted out via `displayHome`.
+  // inline example from `examples/` or, failing that, its `/demo/<name>`
+  // page — minus the ones opted out via `displayHome`.
   const curated = useMemo(() => {
     const rank = new Map(categoryOrder.map((id, index) => [id, index]))
     return items

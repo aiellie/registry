@@ -13,7 +13,7 @@ import {
 import { Cancel01Icon, Search01Icon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
-import { ColorPicker } from "@/components/canvasui/color-picker"
+import { ColorPicker } from "@/components/design/color-picker"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {

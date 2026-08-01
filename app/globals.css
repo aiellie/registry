@@ -66,6 +66,35 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* Tailwind's own steps, each multiplied by `--text-scale`, so one token
+     resizes the whole system. The paired line heights are unitless ratios and
+     follow along on their own. */
+  --text-xs: calc(0.75rem * var(--text-scale));
+  --text-sm: calc(0.875rem * var(--text-scale));
+  --text-base: calc(1rem * var(--text-scale));
+  --text-lg: calc(1.125rem * var(--text-scale));
+  --text-xl: calc(1.25rem * var(--text-scale));
+  --text-2xl: calc(1.5rem * var(--text-scale));
+  --text-3xl: calc(1.875rem * var(--text-scale));
+  --text-4xl: calc(2.25rem * var(--text-scale));
+  --text-5xl: calc(3rem * var(--text-scale));
+  --text-6xl: calc(3.75rem * var(--text-scale));
+  --text-7xl: calc(4.5rem * var(--text-scale));
+  --text-8xl: calc(6rem * var(--text-scale));
+  --text-9xl: calc(8rem * var(--text-scale));
+
+  /* Tailwind's shadow geometry with the baked-in black swapped for tokens, so
+     the tint and the depth are themeable. `--shadow-{n}` is the alpha ramp. */
+  --shadow-2xs: 0 1px var(--shadow-5);
+  --shadow-xs: 0 1px 2px 0 var(--shadow-5);
+  --shadow-sm: 0 1px 3px 0 var(--shadow-10), 0 1px 2px -1px var(--shadow-10);
+  --shadow-md: 0 4px 6px -1px var(--shadow-10), 0 2px 4px -2px var(--shadow-10);
+  --shadow-lg:
+    0 10px 15px -3px var(--shadow-10), 0 4px 6px -4px var(--shadow-10);
+  --shadow-xl:
+    0 20px 25px -5px var(--shadow-10), 0 8px 10px -6px var(--shadow-10);
+  --shadow-2xl: 0 25px 50px -12px var(--shadow-25);
 }
 
 /* Custom tinted-neutral scales extending the Tailwind palette, shaded on the
@@ -170,6 +199,33 @@
      markup at render time, so the only knob left at runtime is a filter over
      the finished block — enough for muted / vivid / mono / warm variants. */
   --code-syntax-filter: none;
+  /* Multiplies every step of the type scale in `@theme inline`. */
+  --text-scale: 1;
+  /* The base every `p-*`, `gap-*` and `size-*` is a multiple of — one knob for
+     how dense the whole layout reads. Declared here rather than in `@theme`
+     because Tailwind inlines theme values, which would bake `p-4` to a literal
+     `1rem` instead of leaving it as `calc(var(--spacing) * 4)`. */
+  --spacing: 0.25rem;
+  /* What every elevation is tinted with, and how heavy it lands. The `--shadow-{n}`
+     steps below are the alpha ramp the shadow scale is built from; they live
+     here rather than in `@theme` so they stay tokens and not utilities. */
+  --shadow-color: oklch(0 0 0);
+  --shadow-strength: 1;
+  --shadow-5: color-mix(
+    in oklab,
+    var(--shadow-color) calc(var(--shadow-strength) * 5%),
+    transparent
+  );
+  --shadow-10: color-mix(
+    in oklab,
+    var(--shadow-color) calc(var(--shadow-strength) * 10%),
+    transparent
+  );
+  --shadow-25: color-mix(
+    in oklab,
+    var(--shadow-color) calc(var(--shadow-strength) * 25%),
+    transparent
+  );
 }
 
 .dark {
@@ -255,17 +311,6 @@
   svg[viewBox="0 0 24 24"][fill="none"][stroke="currentColor"] {
     stroke-width: 1.5;
   }
-  :where(
-    button,
-    [role="button"],
-    input:not([type="hidden"]),
-    textarea,
-    select,
-    summary,
-    a[href],
-    [tabindex]:not([tabindex="-1"])
-  )
-
   /* Shiki dual-theme: default to light, swap to dark vars under `.dark`. */
   .shiki,
   .shiki span {

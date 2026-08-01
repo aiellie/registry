@@ -260,17 +260,6 @@
   svg[viewBox="0 0 24 24"][fill="none"][stroke="currentColor"] {
     stroke-width: 1.5;
   }
-  :where(
-    button,
-    [role="button"],
-    input:not([type="hidden"]),
-    textarea,
-    select,
-    summary,
-    a[href],
-    [tabindex]:not([tabindex="-1"])
-  )
-
   /* Shiki dual-theme: default to light, swap to dark vars under `.dark`. */
   .shiki,
   .shiki span {

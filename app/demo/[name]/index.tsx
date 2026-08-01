@@ -23,14 +23,16 @@ import { promptInput } from "@/app/demo/[name]/components/prompt-input"
 // registry:example demos — the `*-demo` entries in `registry.json` ship these
 // very files, so previewing them here keeps the home showcase's cards, its
 // details dialog and the installed code all showing the same demo.
-import { AnimatedBotsDemo } from "@/components/aiellie/examples/animation/animated-bots"
-import { AiOrbDemo } from "@/components/aiellie/examples/audio/ai-orb"
-import { MessageScrollerDemo } from "@/components/aiellie/examples/chat/message-scroller"
-import { FileTreeDemo } from "@/components/aiellie/examples/code/file-tree"
-import { WebPreviewDemo } from "@/components/aiellie/examples/web/web-preview"
+import { AnimatedBotsDemo } from "@/examples/animation/animated-bots"
+import { AiOrbDemo } from "@/examples/audio/ai-orb"
+import { MessageScrollerDemo } from "@/examples/chat/message-scroller"
+import { FileTreeDemo } from "@/examples/code/file-tree"
+import { ColorPickerDemo } from "@/examples/design/color-picker"
+import { TailwindColorsDemo } from "@/examples/design/tailwind-colors"
+import { WebPreviewDemo } from "@/examples/web/web-preview"
 
 // ai elements
-import { TerminalDemo } from "@/components/aiellie/examples/code/terminal"
+import { TerminalDemo } from "@/examples/code/terminal"
 import ModelSelectorExample from "@/app/demo/[name]/ui/model-selector"
 import FileTreeExample from "@/app/demo/[name]/ui/file-tree"
 import WebPreviewExample from "@/app/demo/[name]/ui/web-preview"
@@ -146,8 +148,14 @@ export const demos: { [name: string]: Demo } = {
   // registry:example demos (see the import block above)
   "ai-orb-demo": AiOrbDemo,
   "animated-bots-demo": AnimatedBotsDemo,
+  "color-picker-demo": ColorPickerDemo,
   "file-tree-demo": FileTreeDemo,
   "message-scroller-demo": MessageScrollerDemo,
+  // The example doubles as the primitive's own preview, so `/registry/
+  // tailwind-colors` and `/registry/tailwind-colors-demo` both have something
+  // to put in their iframe.
+  "tailwind-colors": TailwindColorsDemo,
+  "tailwind-colors-demo": TailwindColorsDemo,
   "terminal-demo": TerminalDemo,
   "web-preview-demo": WebPreviewDemo,
 

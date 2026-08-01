@@ -3480,9 +3480,27 @@
       ],
       "files": [
         {
-          "path": "components/canvasui/color-picker.tsx",
+          "path": "components/design/color-picker.tsx",
           "type": "registry:ui",
-          "target": "components/canvasui/color-picker.tsx"
+          "target": "components/design/color-picker.tsx"
+        }
+      ]
+    },
+    {
+      "name": "tailwind-colors",
+      "type": "registry:ui",
+      "title": "Tailwind Colors",
+      "description": "A combobox over the whole Tailwind palette — 26 families of eleven shades plus black and white — grouped by family and searchable by name or shade.",
+      "registryDependencies": [
+        "https://ui.aiellie.dev/r/button.json",
+        "https://ui.aiellie.dev/r/combobox.json",
+        "https://ui.aiellie.dev/r/theme.json"
+      ],
+      "files": [
+        {
+          "path": "components/design/tailwind-colors.tsx",
+          "type": "registry:ui",
+          "target": "components/design/tailwind-colors.tsx"
         }
       ]
     },
@@ -3511,7 +3529,7 @@
       "type": "registry:ui",
       "title": "AI Orb",
       "description": "AI Orb with theme selector and call button.",
-      "registryDependencies": [ 
+      "registryDependencies": [
         "@paper-design/shaders-react",
         "@hugeicons/core-free-icons",
         "@hugeicons/react",
@@ -3606,9 +3624,9 @@
       "dependencies": ["@hugeicons/core-free-icons", "@hugeicons/react"],
       "files": [
         {
-          "path": "components/aiellie/examples/web/web-preview.tsx",
+          "path": "examples/web/web-preview.tsx",
           "type": "registry:example",
-          "target": "components/aiellie/examples/web/web-preview.tsx"
+          "target": "examples/web/web-preview.tsx"
         }
       ]
     },
@@ -3627,17 +3645,21 @@
         "https://ui.aiellie.dev/r/tooltip.json",
         "https://ui.aiellie.dev/r/icons.json"
       ],
-      "dependencies": ["@hugeicons/core-free-icons", "@hugeicons/react", "@ai-sdk/react"],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react",
+        "@ai-sdk/react"
+      ],
       "files": [
         {
-          "path": "components/aiellie/examples/chat/message-scroller.tsx",
+          "path": "examples/chat/message-scroller.tsx",
           "type": "registry:example",
-          "target": "components/aiellie/examples/chat/message-scroller.tsx"
+          "target": "examples/chat/message-scroller.tsx"
         },
         {
-          "path": "components/aiellie/examples/chat/chats.tsx",
+          "path": "examples/chat/chats.tsx",
           "type": "registry:example",
-          "target": "components/aiellie/examples/chat/chats.tsx"
+          "target": "examples/chat/chats.tsx"
         }
       ]
     },
@@ -3646,14 +3668,12 @@
       "type": "registry:example",
       "title": "AI Orb Demo",
       "description": "AI Orb UI primitive styled with the Aiellie design system.",
-      "registryDependencies": [
-        "https://ui.aiellie.dev/r/ai-orb.json"
-      ],
+      "registryDependencies": ["https://ui.aiellie.dev/r/ai-orb.json"],
       "files": [
         {
-          "path": "components/aiellie/examples/audio/ai-orb.tsx",
+          "path": "examples/audio/ai-orb.tsx",
           "type": "registry:example",
-          "target": "components/aiellie/examples/audio/ai-orb.tsx"
+          "target": "examples/audio/ai-orb.tsx"
         }
       ]
     },
@@ -3662,14 +3682,12 @@
       "type": "registry:example",
       "title": "Terminal Demo",
       "description": "Terminal UI primitive styled with the Aiellie design system.",
-      "registryDependencies": [
-        "https://ui.aiellie.dev/r/terminal.json"
-      ],  
+      "registryDependencies": ["https://ui.aiellie.dev/r/terminal.json"],
       "files": [
         {
-          "path": "components/aiellie/examples/code/terminal.tsx",
+          "path": "examples/code/terminal.tsx",
           "type": "registry:example",
-          "target": "components/aiellie/examples/code/terminal.tsx"
+          "target": "examples/code/terminal.tsx"
         }
       ]
     },
@@ -3678,14 +3696,12 @@
       "type": "registry:example",
       "title": "File Tree Demo",
       "description": "File Tree UI primitive styled with the Aiellie design system.",
-      "registryDependencies": [
-        "https://ui.aiellie.dev/r/file-tree.json"
-      ],
+      "registryDependencies": ["https://ui.aiellie.dev/r/file-tree.json"],
       "files": [
         {
-          "path": "components/aiellie/examples/code/file-tree.tsx",
+          "path": "examples/code/file-tree.tsx",
           "type": "registry:example",
-          "target": "components/aiellie/examples/code/file-tree.tsx"
+          "target": "examples/code/file-tree.tsx"
         }
       ]
     },
@@ -3694,14 +3710,44 @@
       "type": "registry:example",
       "title": "Animated Bots Demo",
       "description": "Animated Bots UI primitive styled with the Aiellie design system.",
-      "registryDependencies": [
-        "https://ui.aiellie.dev/r/animated-bots.json"
-      ],  
+      "registryDependencies": ["https://ui.aiellie.dev/r/animated-bots.json"],
       "files": [
         {
-          "path": "components/aiellie/examples/animation/animated-bots.tsx",
+          "path": "examples/animation/animated-bots.tsx",
           "type": "registry:example",
-          "target": "components/aiellie/examples/animation/animated-bots.tsx"
+          "target": "examples/animation/animated-bots.tsx"
+        }
+      ]
+    },
+    {
+      "name": "color-picker-demo",
+      "type": "registry:example",
+      "title": "Color Picker Demo",
+      "description": "Color Picker UI primitive styled with the Aiellie design system.",
+      "registryDependencies": ["https://ui.aiellie.dev/r/color-picker.json"],
+      "files": [
+        {
+          "path": "examples/design/color-picker.tsx",
+          "type": "registry:example",
+          "target": "examples/design/color-picker.tsx"
+        }
+      ]
+    },
+    {
+      "name": "tailwind-colors-demo",
+      "type": "registry:example",
+      "title": "Tailwind Colors Demo",
+      "description": "The Tailwind palette combobox beside the picked colour's ramp, class, variable and value.",
+      "registryDependencies": [
+        "https://ui.aiellie.dev/r/button.json",
+        "https://ui.aiellie.dev/r/tailwind-colors.json",
+        "https://ui.aiellie.dev/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "examples/design/tailwind-colors.tsx",
+          "type": "registry:example",
+          "target": "examples/design/tailwind-colors.tsx"
         }
       ]
     }

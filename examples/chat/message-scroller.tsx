@@ -75,11 +75,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { ChatDropdown } from "@/components/chat-dropdown"
-import {
-  ChatsDropdown,
-  DEMO_CHATS,
-  type DemoChat,
-} from "@/components/aiellie/examples/chat/chats"
+import { ChatsDropdown, DEMO_CHATS, type DemoChat } from "@/examples/chat/chats"
 
 /* -------------------------------------------------------------------------- */
 /*                              Scroller settings                             */

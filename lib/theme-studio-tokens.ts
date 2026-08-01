@@ -34,8 +34,20 @@ export type StudioNumberToken = {
 export type ThemeStudioData = {
   groups: StudioColorGroup[]
   radius: StudioNumberToken | null
+  spacing: StudioNumberToken | null
+  textScale: StudioNumberToken | null
   weights: StudioNumberToken[]
+  shadow: {
+    color: StudioColorToken | null
+    strength: StudioNumberToken | null
+  }
 }
+
+/**
+ * Tokens the panel gives a row of their own, so they are not also dealt out
+ * into the colour groups further down.
+ */
+const CLAIMED = new Set(["shadow-color"])
 
 /**
  * `@theme inline` holds more than colors — breakpoints and animation shorthands
@@ -98,18 +110,27 @@ export function toThemeStudioData(tokens: DesignTokenData): ThemeStudioData {
       id: group.id,
       title: TITLES[group.id] ?? group.title,
       tokens: group.tokens.flatMap((token) => {
+        if (CLAIMED.has(token.name)) return []
         const color = toColorToken(token)
         return color ? [color] : []
       }),
     }))
     .filter((group) => group.tokens.length > 0)
 
+  const shadowColor = tokens.index["shadow-color"]
+
   return {
     groups,
     radius: toNumberToken(tokens.index["radius"], "Radius"),
+    spacing: toNumberToken(tokens.index["spacing"], "Spacing"),
+    textScale: toNumberToken(tokens.index["text-scale"], "Text scale"),
     weights: WEIGHT_LABELS.flatMap(([name, label]) => {
       const weight = toNumberToken(tokens.index[name], label)
       return weight ? [weight] : []
     }),
+    shadow: {
+      color: shadowColor ? toColorToken(shadowColor) : null,
+      strength: toNumberToken(tokens.index["shadow-strength"], "Strength"),
+    },
   }
 }

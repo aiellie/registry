@@ -6,6 +6,7 @@ import {
   Folder02Icon,
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
+import { AnimatePresence, motion } from "motion/react"
 import * as React from "react"
 import type { PanelImperativeHandle } from "react-resizable-panels"
 
@@ -19,11 +20,6 @@ import { OpenInNewTabButton } from "@/components/registry/open-in-new-tab-button
 import { OpenInV0Button } from "@/components/registry/open-in-v0"
 import { RefreshPreviewButton } from "@/components/registry/refresh-preview-button"
 import { ViewportToggleGroup } from "@/components/registry/viewport-toggle-group"
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible"
 import { Button } from "@/components/ui/button"
 import {
   Combobox,
@@ -78,6 +74,10 @@ type BlockViewerContext = {
   iframeKey: number
   setIframeKey: React.Dispatch<React.SetStateAction<number>>
 }
+
+/** Icon-rail width the file tree panel snaps to when dragged past its minimum. */
+const FILE_TREE_COLLAPSED_SIZE = "3rem"
+const FILE_TREE_DEFAULT_SIZE = "18rem"
 
 const BlockViewerContext = React.createContext<BlockViewerContext | null>(null)
 
@@ -366,6 +366,8 @@ function BlockViewerMobileCode() {
 
 function BlockViewerCode() {
   const { activeFile, highlightedFiles, item } = useBlockViewer()
+  const fileTreePanelRef = React.useRef<PanelImperativeHandle>(null)
+  const [treeCollapsed, setTreeCollapsed] = React.useState(false)
 
   const file = React.useMemo(() => {
     return highlightedFiles?.find((file) => file.target === activeFile)
@@ -383,13 +385,32 @@ function BlockViewerCode() {
     <div className="me-[14px] hidden overflow-hidden rounded-xl border bg-code text-code-foreground group-data-[view=preview]/block-view-wrapper:hidden lg:flex lg:min-h-0 lg:flex-1">
       <ResizablePanelGroup orientation="horizontal">
         <ResizablePanel
-          defaultSize="18rem"
+          panelRef={fileTreePanelRef}
+          collapsible
+          collapsedSize={FILE_TREE_COLLAPSED_SIZE}
+          defaultSize={FILE_TREE_DEFAULT_SIZE}
           minSize="10rem"
           maxSize="50%"
+          onResize={() =>
+            setTreeCollapsed(fileTreePanelRef.current?.isCollapsed() ?? false)
+          }
           className="flex h-full min-h-0 flex-col"
           style={{ overflow: "hidden" }}
         >
-          <BlockViewerFileTree />
+          <BlockViewerFileTree
+            collapsed={treeCollapsed}
+            onToggleCollapse={() => {
+              const panel = fileTreePanelRef.current
+              // `expand()` restores the width the drag ended on — which is the
+              // minimum when the panel was collapsed by dragging. Go back to
+              // the default instead so the tree is readable again.
+              if (panel?.isCollapsed()) {
+                panel.resize(FILE_TREE_DEFAULT_SIZE)
+              } else {
+                panel?.collapse()
+              }
+            }}
+          />
         </ResizablePanel>
         <ResizableHandle
           withHandle
@@ -423,47 +444,124 @@ function BlockViewerCode() {
   )
 }
 
-function BlockViewerFileTree() {
+function BlockViewerFileTree({
+  collapsed,
+  onToggleCollapse,
+}: {
+  collapsed?: boolean
+  onToggleCollapse?: () => void
+}) {
   const { tree, item } = useBlockViewer()
 
   if (!tree) {
     return null
   }
 
-  return (
-    <SidebarProvider className="flex h-full min-h-0 flex-col">
-      <Sidebar
-        collapsible="none"
-        className="flex h-full min-h-0 w-full flex-1 flex-col bg-transparent"
-      >
-        <div className="flex h-12 shrink-0 items-center border-b px-2">
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger
-                render={<Button variant="ghost" size="icon-sm" />}
-              >
-                <HugeiconsIcon
-                  icon={getItemIcon(item.name)}
-                  strokeWidth={2}
-                  className="size-3.5"
-                />
-                <span className="sr-only">{item.title}</span>
-              </TooltipTrigger>
-              <TooltipContent>{item.title}</TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+  const header = (
+    <div
+      className={cn(
+        "flex h-12 shrink-0 items-center border-b px-2",
+        collapsed && "justify-center"
+      )}
+    >
+      <Tooltip>
+        <TooltipTrigger
+          render={
+            <Button variant="ghost" size="icon-sm" onClick={onToggleCollapse} />
+          }
+        >
+          <HugeiconsIcon
+            icon={getItemIcon(item.name)}
+            strokeWidth={2}
+            className="size-3.5"
+          />
+          <span className="sr-only">
+            {collapsed ? "Expand file tree" : "Collapse file tree"}
+          </span>
+        </TooltipTrigger>
+        <TooltipContent side={collapsed ? "inline-end" : "top"}>
+          {collapsed ? "Expand file tree" : `${item.title} — collapse files`}
+        </TooltipContent>
+      </Tooltip>
+    </div>
+  )
+
+  if (collapsed) {
+    return (
+      <TooltipProvider>
+        <div className="flex h-full min-h-0 flex-col">
+          {header}
+          <div className="no-scrollbar flex min-h-0 flex-1 flex-col items-center gap-1 overflow-y-auto py-2">
+            {flattenTree(tree).map((file) => (
+              <FileRailButton
+                key={file.path}
+                name={file.name}
+                path={file.path}
+              />
+            ))}
+          </div>
         </div>
-        <SidebarGroup className="min-h-0 flex-1 overflow-y-auto p-0">
-          <SidebarGroupContent>
-            <SidebarMenu className="translate-x-0 gap-1.5">
-              {tree.map((file, index) => (
-                <Tree key={index} item={file} index={1} />
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-      </Sidebar>
-    </SidebarProvider>
+      </TooltipProvider>
+    )
+  }
+
+  return (
+    <TooltipProvider>
+      <SidebarProvider className="flex h-full min-h-0 flex-col">
+        <Sidebar
+          collapsible="none"
+          className="flex h-full min-h-0 w-full flex-1 flex-col bg-transparent"
+        >
+          {header}
+          <SidebarGroup className="min-h-0 flex-1 overflow-y-auto p-0">
+            <SidebarGroupContent>
+              <SidebarMenu className="translate-x-0 gap-1.5">
+                {tree.map((file, index) => (
+                  <Tree key={index} item={file} index={1} />
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        </Sidebar>
+      </SidebarProvider>
+    </TooltipProvider>
+  )
+}
+
+function FileRailButton({ name, path }: { name: string; path: string }) {
+  const { activeFile, setActiveFile } = useBlockViewer()
+
+  return (
+    <Tooltip>
+      <TooltipTrigger
+        render={
+          <Button
+            variant="ghost"
+            size="icon-sm"
+            data-active={path === activeFile}
+            onClick={() => setActiveFile(path)}
+            className="shrink-0 hover:bg-muted-foreground/15 data-[active=true]:bg-muted-foreground/15"
+          />
+        }
+      >
+        <span className="flex size-4 shrink-0 items-center justify-center [&_svg]:size-4">
+          {getIconForLanguageExtension(extensionOf(name))}
+        </span>
+        <span className="sr-only">{path}</span>
+      </TooltipTrigger>
+      <TooltipContent side="inline-end">{path}</TooltipContent>
+    </Tooltip>
+  )
+}
+
+/** Depth-first list of every file leaf, in tree order. */
+function flattenTree(tree: FileTree[]): { name: string; path: string }[] {
+  return tree.flatMap((node) =>
+    node.children
+      ? flattenTree(node.children)
+      : node.path
+        ? [{ name: node.name, path: node.path }]
+        : []
   )
 }
 
@@ -477,86 +575,128 @@ function extensionOf(name: string) {
   return extension.toLowerCase()
 }
 
+/** Is `file` anywhere below these nodes? Drives which folders start open. */
+function treeContainsFile(nodes: FileTree[], file: string): boolean {
+  return nodes.some((node) =>
+    node.children ? treeContainsFile(node.children, file) : node.path === file
+  )
+}
+
 function Tree({ item, index }: { item: FileTree; index: number }) {
   const { activeFile, setActiveFile } = useBlockViewer()
+
+  const containsActiveFile = React.useMemo(() => {
+    if (!item.children || !activeFile) {
+      return false
+    }
+
+    return treeContainsFile(item.children, activeFile)
+  }, [item.children, activeFile])
+
+  const [isOpen, setIsOpen] = React.useState(containsActiveFile)
+  const [wasHoldingActiveFile, setWasHoldingActiveFile] =
+    React.useState(containsActiveFile)
+
+  // Reveal the active file when it moves into this folder — but never close
+  // what the user opened by hand. Adjusting during render rather than in an
+  // effect keeps the tree from flashing shut for a frame.
+  if (containsActiveFile !== wasHoldingActiveFile) {
+    setWasHoldingActiveFile(containsActiveFile)
+    if (containsActiveFile) {
+      setIsOpen(true)
+    }
+  }
 
   if (!item.children) {
     return (
       <SidebarMenuItem>
-        <SidebarMenuButton
-          isActive={item.path === activeFile}
-          onClick={() => item.path && setActiveFile(item.path)}
-          className="rounded-none ps-(--index) whitespace-nowrap hover:bg-muted-foreground/15 focus:bg-muted-foreground/15 focus-visible:bg-muted-foreground/15 active:bg-muted-foreground/15 data-[active=true]:bg-muted-foreground/15"
-          data-index={index}
-          style={
-            {
-              "--index": `${index * (index === 2 ? 0.7 : 0.8)}rem`,
-            } as React.CSSProperties
-          }
-        >
-          <HugeiconsIcon
-            icon={ArrowRight01Icon}
-            strokeWidth={2}
-            className="invisible"
-          />
-          <span className="flex size-4 shrink-0 items-center justify-center [&_svg]:size-4">
-            {getIconForLanguageExtension(extensionOf(item.name))}
-          </span>
-          {item.name}
-        </SidebarMenuButton>
+        <motion.div whileTap={{ scale: 0.98 }} transition={{ duration: 0.1 }}>
+          <SidebarMenuButton
+            isActive={item.path === activeFile}
+            onClick={() => item.path && setActiveFile(item.path)}
+            className="rounded-none ps-(--index) whitespace-nowrap hover:bg-muted-foreground/15 focus:bg-muted-foreground/15 focus-visible:bg-muted-foreground/15 active:bg-muted-foreground/15 data-[active=true]:bg-muted-foreground/15"
+            data-index={index}
+            style={
+              {
+                "--index": `${index * (index === 2 ? 0.7 : 0.8)}rem`,
+              } as React.CSSProperties
+            }
+          >
+            <HugeiconsIcon
+              icon={ArrowRight01Icon}
+              strokeWidth={2}
+              className="invisible"
+            />
+            <span className="flex size-4 shrink-0 items-center justify-center [&_svg]:size-4">
+              {getIconForLanguageExtension(extensionOf(item.name))}
+            </span>
+            {item.name}
+          </SidebarMenuButton>
+        </motion.div>
       </SidebarMenuItem>
     )
   }
 
   return (
     <SidebarMenuItem>
-      <Collapsible className="group/collapsible" defaultOpen={index === 1}>
-        <CollapsibleTrigger
-          render={
-            <SidebarMenuButton
-              className="rounded-none ps-(--index) whitespace-nowrap hover:bg-muted-foreground/15 focus:bg-muted-foreground/15 focus-visible:bg-muted-foreground/15 active:bg-muted-foreground/15 data-[active=true]:bg-muted-foreground/15"
-              style={
-                {
-                  "--index": `${index * (index === 1 ? 1 : 1.2)}rem`,
-                } as React.CSSProperties
-              }
-            />
+      <motion.div whileTap={{ scale: 0.98 }} transition={{ duration: 0.1 }}>
+        <SidebarMenuButton
+          onClick={() => setIsOpen((open) => !open)}
+          className="rounded-none ps-(--index) whitespace-nowrap hover:bg-muted-foreground/15 focus:bg-muted-foreground/15 focus-visible:bg-muted-foreground/15 active:bg-muted-foreground/15 data-[active=true]:bg-muted-foreground/15"
+          style={
+            {
+              "--index": `${index * (index === 1 ? 1 : 1.2)}rem`,
+            } as React.CSSProperties
           }
         >
-          <span className="group/folder-icon relative flex size-4 shrink-0 items-center justify-center">
+          <span className="group/folder-icon relative flex size-4 shrink-0 items-center justify-center rtl:-scale-x-100">
             <HugeiconsIcon
-              icon={Folder01Icon}
+              icon={isOpen ? Folder02Icon : Folder01Icon}
               strokeWidth={2}
-              className="transition-opacity in-data-[panel-open]:hidden group-hover/folder-icon:opacity-0"
+              className="transition-opacity group-hover/folder-icon:opacity-0"
             />
-            <HugeiconsIcon
-              icon={Folder02Icon}
-              strokeWidth={2}
-              className="hidden transition-opacity in-data-[panel-open]:block group-hover/folder-icon:opacity-0"
-            />
-            <HugeiconsIcon
-              icon={ArrowRight01Icon}
-              strokeWidth={2}
-              className="absolute opacity-0 transition-all group-hover/folder-icon:opacity-100 in-data-[panel-open]:rotate-90 rtl:rotate-180 rtl:in-data-[panel-open]:rotate-90"
-            />
+            <motion.span
+              animate={{ rotate: isOpen ? 90 : 0 }}
+              transition={{ duration: 0.2, ease: "easeInOut" }}
+              className="absolute flex size-4 items-center justify-center opacity-0 transition-opacity group-hover/folder-icon:opacity-100"
+            >
+              <HugeiconsIcon icon={ArrowRight01Icon} strokeWidth={2} />
+            </motion.span>
           </span>
           {item.name}
-        </CollapsibleTrigger>
-        <CollapsibleContent>
-          <SidebarMenuSub
-            className="relative m-0 w-full translate-x-0 border-none p-0 before:absolute before:inset-y-0 before:start-(--line) before:w-px before:bg-sidebar-border before:content-['']"
-            style={
-              {
-                "--line": `${index * (index === 1 ? 1 : 1.2) + 0.5}rem`,
-              } as React.CSSProperties
-            }
+        </SidebarMenuButton>
+      </motion.div>
+      <AnimatePresence initial={false}>
+        {isOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="overflow-hidden"
           >
-            {item.children.map((subItem, key) => (
-              <Tree key={key} item={subItem} index={index + 1} />
-            ))}
-          </SidebarMenuSub>
-        </CollapsibleContent>
-      </Collapsible>
+            <motion.div
+              initial={{ y: -10 }}
+              animate={{ y: 0 }}
+              exit={{ y: -10 }}
+              transition={{ duration: 0.2, delay: 0.1 }}
+            >
+              <SidebarMenuSub
+                className="relative m-0 w-full translate-x-0 border-none p-0 before:absolute before:inset-y-0 before:start-(--line) before:w-px before:bg-sidebar-border before:content-['']"
+                style={
+                  {
+                    "--line": `${index * (index === 1 ? 1 : 1.2) + 0.5}rem`,
+                  } as React.CSSProperties
+                }
+              >
+                {item.children.map((subItem, key) => (
+                  <Tree key={key} item={subItem} index={index + 1} />
+                ))}
+              </SidebarMenuSub>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </SidebarMenuItem>
   )
 }

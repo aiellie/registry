@@ -23,6 +23,7 @@ import {
   CarouselHorizontalIcon,
   CollapseIcon,
   ColorPickerIcon,
+  ColorsIcon,
   Comment01Icon,
   ComputerTerminal01Icon,
   CreditCardIcon,
@@ -113,7 +114,8 @@ export type CategoryId =
   | "brand"
   | "ai"
   | "audio"
-  | "code"  
+  | "code"
+  | "design"
   | "forms"
   | "navigation"
   | "overlays"
@@ -135,6 +137,7 @@ export const categories: Record<CategoryId, Category> = {
   ai: { id: "ai", label: "AI", icon: AiChat02Icon },
   code: { id: "code", label: "Code", icon: CodeIcon },
   audio: { id: "audio", label: "Audio", icon: AudioWave01Icon },
+  design: { id: "design", label: "Design", icon: PaintBoardIcon },
   forms: { id: "forms", label: "Forms & Inputs", icon: FormIcon },
   navigation: { id: "navigation", label: "Navigation", icon: Navigation03Icon },
   overlays: { id: "overlays", label: "Overlays", icon: AppWindowIcon },
@@ -151,6 +154,7 @@ export const categoryOrder: CategoryId[] = [
   "ai",
   "code",
   "audio",
+  "design",
   "forms",
   "navigation",
   "overlays",
@@ -403,6 +407,24 @@ export const items: Item[] = [
     displayHome: true,
   },
 
+  // Design
+  {
+    name: "color-picker",
+    icon: ColorPickerIcon,
+    type: "registry:ui",
+    category: "design",
+    isNew: true,
+    displayHome: true,
+  },
+  {
+    name: "tailwind-colors",
+    icon: ColorsIcon,
+    type: "registry:ui",
+    category: "design",
+    isNew: true,
+    displayHome: true,
+  },
+
   // Forms & Inputs
   {
     name: "button",
@@ -426,14 +448,6 @@ export const items: Item[] = [
     type: "registry:ui",
     category: "forms",
     isNew: false,
-    displayHome: true,
-  },
-  {
-    name: "color-picker",
-    icon: ColorPickerIcon,
-    type: "registry:ui",
-    category: "forms",
-    isNew: true,
     displayHome: true,
   },
   {

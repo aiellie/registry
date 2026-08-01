@@ -150,7 +150,8 @@ const COLOR_GROUPS: GroupConfig[] = [
   {
     id: "ui",
     title: "State & structure",
-    description: "Muted content, destructive states, and the lines between things.",
+    description:
+      "Muted content, destructive states, and the lines between things.",
     names: ["muted", "muted-foreground", "border", "input", "ring"],
   },
   {
@@ -175,12 +176,29 @@ const COLOR_GROUPS: GroupConfig[] = [
     id: "status",
     title: "Status",
     description: "Status indicators for success, warning, and error.",
-    names: ["destructive", "destructive-foreground", "warning", "warning-foreground", "success", "success-foreground", "info", "info-foreground"],
+    names: [
+      "destructive",
+      "destructive-foreground",
+      "warning",
+      "warning-foreground",
+      "success",
+      "success-foreground",
+      "info",
+      "info-foreground",
+    ],
+  },
+  {
+    id: "shadow",
+    title: "Shadow",
+    description:
+      "The tint every elevation is mixed from, plus the alpha ramp the shadow scale is built on.",
+    names: ["shadow-color", "shadow-5", "shadow-10", "shadow-25"],
   },
   {
     id: "sidebar",
     title: "Sidebar",
-    description: "The sidebar keeps its own surface so it can diverge from the page.",
+    description:
+      "The sidebar keeps its own surface so it can diverge from the page.",
     names: [
       "sidebar",
       "sidebar-foreground",
@@ -206,6 +224,7 @@ const RADIUS_NAMES = [
 ]
 
 const SPACING_NAMES = [
+  "spacing",
   "layout-gutter",
   "section-spacing",
   "hero-spacing",
@@ -295,9 +314,10 @@ export function parseDesignTokens(
   const darkScope = new Map([...lightScope, ...darkDeclarations])
 
   // `--color-*` are one-to-one Tailwind bridges for tokens already listed here.
-  const names = [...themeDeclarations.keys(), ...rootDeclarations.keys()].filter(
-    (name) => !name.startsWith("color-")
-  )
+  const names = [
+    ...themeDeclarations.keys(),
+    ...rootDeclarations.keys(),
+  ].filter((name) => !name.startsWith("color-"))
 
   const index: Record<string, DesignToken> = {}
   for (const name of new Set(names)) {
@@ -350,11 +370,13 @@ export function parseDesignTokens(
   const typesetDeclarations = customProperties(
     ruleBody(typesetCss, /\.typeset\s*\{/)?.body ?? ""
   )
-  const typeset: DesignToken[] = [...typesetDeclarations].map(([name, raw]) => ({
-    name,
-    light: { raw, resolved: raw, alias: null },
-    dark: { raw, resolved: raw, alias: null, inherited: true },
-  }))
+  const typeset: DesignToken[] = [...typesetDeclarations].map(
+    ([name, raw]) => ({
+      name,
+      light: { raw, resolved: raw, alias: null },
+      dark: { raw, resolved: raw, alias: null, inherited: true },
+    })
+  )
 
   return {
     colorGroups,

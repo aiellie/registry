@@ -1,16 +1,19 @@
 "use client"
 
-import { useState, useSyncExternalStore, type ReactNode } from "react"
+import { Fragment, useState, useSyncExternalStore, type ReactNode } from "react"
 import { usePathname } from "next/navigation"
 import {
   Alert01Icon,
+  AlignHorizontalSpaceAroundIcon,
   Analytics01Icon,
   ArrowDown01Icon,
   ColorsIcon,
   ComputerIcon,
+  ContrastIcon,
   DashboardSquare01Icon,
   DropletIcon,
   Layers01Icon,
+  Layers02Icon,
   Moon02Icon,
   PaintBoardIcon,
   RadiusIcon,
@@ -20,12 +23,13 @@ import {
   TextBoldIcon,
   TextFontIcon,
   TextSelectionIcon,
+  TextSmallcapsIcon,
   UnfoldLessIcon,
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react"
 import { useTheme } from "next-themes"
 
-import { formatColor } from "@/components/canvasui/color-picker"
+import { formatColor } from "@/components/design/color-picker"
 import {
   ActionRow,
   ColorRow,
@@ -322,6 +326,55 @@ export function ThemeStudioPanel({ data }: { data: ThemeStudioData }) {
         : [...previous, id]
     )
 
+  const rootReset = (name: string) =>
+    state.root[name] !== undefined ? () => clearRootToken(name) : undefined
+
+  const numberRow = (
+    token: StudioNumberToken | null,
+    range: {
+      icon?: IconSvgElement
+      min: number
+      max: number
+      step: number
+      decimals: number
+    }
+  ) =>
+    token ? (
+      <Scrubber
+        label={token.label}
+        icon={range.icon}
+        min={range.min}
+        max={range.max}
+        step={range.step}
+        decimals={range.decimals}
+        value={numberValue(token)}
+        onValueChange={(value) => setNumber(token, value)}
+        onReset={rootReset(token.name)}
+      />
+    ) : null
+
+  const colorRow = (token: StudioColorToken, icon?: IconSvgElement) => {
+    const value = effectiveValue(token, state, mode)
+    const color = resolveTokenColor(value)
+    return (
+      <ColorRow
+        key={token.name}
+        label={token.label}
+        icon={icon}
+        value={color?.hex ?? value}
+        displayValue={
+          color && color.alpha < 0.999
+            ? `${color.hex} ${Math.round(color.alpha * 100)}%`
+            : undefined
+        }
+        onValueChange={(hex) => setColor(token, hex)}
+        onReset={
+          hasOverride(token, state, mode) ? () => resetColor(token) : undefined
+        }
+      />
+    )
+  }
+
   const font = activePreset(FONT_OPTIONS, state.root[FONT_TOKEN])
   const codeTheme = activePreset(CODE_THEME_OPTIONS, state.root[CODE_TOKEN])
   const effect = (state.prefs[SITE_EFFECT_PREF] ?? "bubble") as SiteEffect
@@ -368,23 +421,24 @@ export function ThemeStudioPanel({ data }: { data: ThemeStudioData }) {
           onValueChange={setTheme}
         />
 
-        {data.radius && (
-          <Scrubber
-            label={data.radius.label}
-            icon={RadiusIcon}
-            min={0}
-            max={2}
-            step={0.025}
-            decimals={3}
-            value={numberValue(data.radius)}
-            onValueChange={(value) => setNumber(data.radius!, value)}
-            onReset={
-              state.root[data.radius.name] !== undefined
-                ? () => clearRootToken(data.radius!.name)
-                : undefined
-            }
-          />
-        )}
+        <SectionLabel>Layout</SectionLabel>
+
+        {numberRow(data.radius, {
+          icon: RadiusIcon,
+          min: 0,
+          max: 2,
+          step: 0.025,
+          decimals: 3,
+        })}
+        {/* Every `p-*`, `gap-*` and `size-*` is a multiple of this, so a small
+            nudge moves the density of the entire page. */}
+        {numberRow(data.spacing, {
+          icon: AlignHorizontalSpaceAroundIcon,
+          min: 0.15,
+          max: 0.4,
+          step: 0.005,
+          decimals: 3,
+        })}
 
         <SectionLabel>Type</SectionLabel>
 
@@ -394,12 +448,16 @@ export function ThemeStudioPanel({ data }: { data: ThemeStudioData }) {
           options={presetItems(FONT_OPTIONS, font)}
           value={font}
           onValueChange={(value) => setPreset(FONT_TOKEN, FONT_OPTIONS, value)}
-          onReset={
-            state.root[FONT_TOKEN] !== undefined
-              ? () => clearRootToken(FONT_TOKEN)
-              : undefined
-          }
+          onReset={rootReset(FONT_TOKEN)}
         />
+
+        {numberRow(data.textScale, {
+          icon: TextSmallcapsIcon,
+          min: 0.75,
+          max: 1.5,
+          step: 0.01,
+          decimals: 2,
+        })}
 
         {data.weights.length > 0 && (
           <>
@@ -412,22 +470,30 @@ export function ThemeStudioPanel({ data }: { data: ThemeStudioData }) {
             />
             {openGroups.includes("weights") &&
               data.weights.map((weight) => (
-                <Scrubber
-                  key={weight.name}
-                  label={weight.label}
-                  min={100}
-                  max={900}
-                  step={25}
-                  decimals={0}
-                  value={numberValue(weight)}
-                  onValueChange={(value) => setNumber(weight, value)}
-                  onReset={
-                    state.root[weight.name] !== undefined
-                      ? () => clearRootToken(weight.name)
-                      : undefined
-                  }
-                />
+                <Fragment key={weight.name}>
+                  {numberRow(weight, {
+                    min: 100,
+                    max: 900,
+                    step: 25,
+                    decimals: 0,
+                  })}
+                </Fragment>
               ))}
+          </>
+        )}
+
+        {(data.shadow.color || data.shadow.strength) && (
+          <>
+            <SectionLabel>Shadow</SectionLabel>
+            {data.shadow.color && colorRow(data.shadow.color, Layers02Icon)}
+            {/* 0 flattens the system entirely; the scale is an alpha multiplier. */}
+            {numberRow(data.shadow.strength, {
+              icon: ContrastIcon,
+              min: 0,
+              max: 3,
+              step: 0.05,
+              decimals: 2,
+            })}
           </>
         )}
 
@@ -441,11 +507,7 @@ export function ThemeStudioPanel({ data }: { data: ThemeStudioData }) {
           onValueChange={(value) =>
             setPreset(CODE_TOKEN, CODE_THEME_OPTIONS, value)
           }
-          onReset={
-            state.root[CODE_TOKEN] !== undefined
-              ? () => clearRootToken(CODE_TOKEN)
-              : undefined
-          }
+          onReset={rootReset(CODE_TOKEN)}
         />
 
         <SelectRow
@@ -478,29 +540,7 @@ export function ThemeStudioPanel({ data }: { data: ThemeStudioData }) {
                 open={open}
                 onToggle={() => toggleGroup(group.id)}
               />
-              {open &&
-                group.tokens.map((token) => {
-                  const value = effectiveValue(token, state, mode)
-                  const color = resolveTokenColor(value)
-                  return (
-                    <ColorRow
-                      key={token.name}
-                      label={token.label}
-                      value={color?.hex ?? value}
-                      displayValue={
-                        color && color.alpha < 0.999
-                          ? `${color.hex} ${Math.round(color.alpha * 100)}%`
-                          : undefined
-                      }
-                      onValueChange={(hex) => setColor(token, hex)}
-                      onReset={
-                        hasOverride(token, state, mode)
-                          ? () => resetColor(token)
-                          : undefined
-                      }
-                    />
-                  )
-                })}
+              {open && group.tokens.map((token) => colorRow(token))}
             </div>
           )
         })}

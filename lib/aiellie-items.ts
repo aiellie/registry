@@ -45,7 +45,7 @@ import {
   SpeechInputDemo,
   TerminalDemo,
   WebPreviewDemo,
-} from "@/components/aiellie/examples"
+} from "@/examples"
 import type { Component } from "@/lib/registry"
 
 /**

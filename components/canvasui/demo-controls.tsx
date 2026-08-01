@@ -21,7 +21,7 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react"
 import {
   ColorPicker,
   type ColorFormat,
-} from "@/components/canvasui/color-picker"
+} from "@/components/design/color-picker"
 import {
   Select,
   SelectContent,

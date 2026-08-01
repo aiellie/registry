@@ -10,7 +10,7 @@ import {
   WebPreviewDemo,
   TerminalDemo,
   MessageScrollerDemo,
-} from "@/components/aiellie/examples"
+} from "@/examples"
 import { ItemWrapper } from "@/components/item-wrapper"
 import { ItemDetailsDialog } from "@/components/registry/item-details-dialog"
 import { Status, StatusIndicator, StatusLabel } from "@/components/ui/status"

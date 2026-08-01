@@ -3,7 +3,7 @@ These are just my notes for remembering certain commands etc
 Create Push:
 
 git add .
-git commit -m "homeshowcase"
+git commit -m "registryjson+blockviewer"
 git push origin main
 
 git push origin main --force
@@ -25,7 +25,7 @@ Shadcn Preset:
 https://ui.shadcn.com/create?preset=b37aICLsO&pointer=true&rtl=true
 
 lsof -nP -iTCP:3000,3002,3003 -sTCP:LISTEN
-kill 97495
+kill 57357
 pkill -9 node
 
 

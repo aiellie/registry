@@ -5,7 +5,7 @@ import { useState } from "react"
 import {
   ColorPicker,
   type ColorFormat,
-} from "@/components/canvasui/color-picker"
+} from "@/components/design/color-picker"
 import { Example, ExampleWrapper } from "@/components/example"
 
 const SWATCHES = ["#f97316", "#22c55e", "#3b82f6", "#a855f7"]
