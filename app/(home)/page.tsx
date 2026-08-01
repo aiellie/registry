@@ -14,9 +14,9 @@ import { RegistryFooter } from "@/components/registry/registry-footer"
 import { ScrollToComponentsButton } from "@/components/registry/scroll-to-components-button"
 import { getRegistryItems } from "@/lib/registry"
 
-const title = "AIEllie Design System"
+const title = "AIEllie UI"
 const description =
-  "Building my UI brand. Preview a few of my components below."
+  "Building my design system. Explore some of my components below."
 
 export const dynamic = "force-static"
 export const revalidate = false
