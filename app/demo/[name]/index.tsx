@@ -68,7 +68,6 @@ import MarkerExamples from "@/app/demo/[name]/ui/marker"
 import MenubarExample from "@/app/demo/[name]/ui/menubar"
 import MessageExample from "@/app/demo/[name]/ui/message"
 import MessageScrollerExample from "@/app/demo/[name]/ui/message-scroller"
-import NativeSelectExample from "@/app/demo/[name]/ui/native-select"
 import NavigationMenuExample from "@/app/demo/[name]/ui/navigation-menu"
 import PaginationExample from "@/app/demo/[name]/ui/pagination"
 import PopoverExample from "@/app/demo/[name]/ui/popover"
@@ -175,7 +174,6 @@ export const demos: { [name: string]: Demo } = {
   menubar: MenubarExample,
   message: MessageExample,
   "message-scroller": MessageScrollerExample,
-  "native-select": NativeSelectExample,
   "navigation-menu": NavigationMenuExample,
   pagination: PaginationExample,
   popover: PopoverExample,
