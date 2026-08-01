@@ -3611,7 +3611,7 @@
       "name": "animated-bots",
       "type": "registry:component",
       "title": "Animated Bots",
-      "description": "Pixel robots that stroll along the bottom edge of a section, with idle bob, blink, and beacon animations.",
+      "description": "Pixel robots that stroll along the bottom edge of a section. Hover startles them, clicking makes them hop and chirp — with an optional 8-bit beep.",
       "registryDependencies": [],
       "files": [
         {

@@ -21,8 +21,11 @@ function BotsScene() {
   return (
     <Example title="Scene" className="p-0" containerClassName="md:col-span-2">
       <div className="relative h-64 w-full overflow-hidden">
+        <p className="absolute end-4 top-3 text-[10px] text-muted-foreground">
+          hover to startle · click to beep
+        </p>
         <div className="absolute inset-x-0 bottom-12 border-t border-dashed" />
-        <AnimatedBots className="bottom-12" />
+        <AnimatedBots sound className="bottom-12" />
       </div>
     </Example>
   )
@@ -40,7 +43,9 @@ function BotsMarchingInPlace() {
           ] as const
         ).map(([label, sprite]) => (
           <figure key={label} className="flex flex-col items-center gap-4">
-            <Bot walk={false}>{sprite}</Bot>
+            <Bot walk={false} sound>
+              {sprite}
+            </Bot>
             <figcaption className="text-xs text-muted-foreground">
               {label}
             </figcaption>

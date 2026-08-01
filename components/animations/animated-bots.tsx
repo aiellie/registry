@@ -1,3 +1,7 @@
+"use client"
+
+import { useEffect, useState } from "react"
+
 import { cn } from "@/lib/utils"
 
 // Pixel robots that stroll along the bottom edge of a section (Vercel Ship
@@ -5,6 +9,11 @@ import { cn } from "@/lib/utils"
 // keyframes use container-query units so bots traverse whatever container
 // <AnimatedBots> is placed in. Give the parent `overflow-hidden` so bots
 // enter and exit cleanly.
+//
+// Bots are interactive by default: hovering startles one mid-walk, clicking
+// makes it hop and chirp a speech bubble (plus an 8-bit beep with `sound`),
+// and walking bots mutter to themselves now and then. Pass
+// `interactive={false}` for pure decoration.
 
 const botStyles = `
 @layer components {
@@ -22,7 +31,7 @@ const botStyles = `
   }
 
   .bot-idle {
-    position: static;
+    position: relative;
   }
 
   .bot-go-right {
@@ -33,6 +42,77 @@ const botStyles = `
   .bot-go-left {
     animation: bot-go-left var(--bot-duration, 45s) linear infinite;
     animation-delay: var(--bot-delay, 0s);
+  }
+
+  .bot-interactive {
+    pointer-events: auto;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Startle: freeze mid-stride, eyes wide, beacon panics. */
+  .bot-interactive:hover {
+    z-index: 1;
+    animation-play-state: paused;
+  }
+
+  .bot-interactive:hover .bot-bob,
+  .bot-interactive:hover .bot-leg {
+    animation: none;
+  }
+
+  .bot-interactive:hover .bot-wheel {
+    animation-play-state: paused;
+  }
+
+  .bot-interactive:hover .bot-eye {
+    animation: none;
+    transform: scale(1.3);
+  }
+
+  .bot-interactive:hover .bot-light {
+    animation-duration: 0.3s;
+  }
+
+  .bot-bubble {
+    position: absolute;
+    bottom: calc(100% + 7px);
+    left: 50%;
+    translate: -50% 0;
+    padding: 2px 5px;
+    border: 1px solid currentColor;
+    border-radius: 4px;
+    background: var(--background);
+    font-family: var(--font-mono, monospace);
+    font-size: 9px;
+    line-height: 1.2;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+
+  .bot-bubble::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    width: 4px;
+    height: 4px;
+    translate: -50% -50%;
+    rotate: 45deg;
+    background: var(--background);
+    border-right: 1px solid currentColor;
+    border-bottom: 1px solid currentColor;
+  }
+
+  .bot-interactive:hover .bot-bubble,
+  .bot-bubble.bot-bubble-show {
+    opacity: 1;
+  }
+
+  .bot-hop {
+    transform-origin: 50% 100%;
+    animation: bot-hop 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97);
   }
 
   .bot-bob {
@@ -98,6 +178,24 @@ const botStyles = `
   }
 }
 
+@keyframes bot-hop {
+  0% {
+    transform: translateY(0);
+  }
+  35% {
+    transform: translateY(-8px);
+  }
+  62% {
+    transform: translateY(0);
+  }
+  78% {
+    transform: translateY(0) scaleY(0.9);
+  }
+  100% {
+    transform: translateY(0) scaleY(1);
+  }
+}
+
 @keyframes bot-bob {
   0%,
   49.9% {
@@ -159,6 +257,42 @@ function BotStyles() {
   )
 }
 
+const chirps = ["beep!", "boop.", "brrt?", "*whirr*", "01101", "bzzt!", "♥"]
+
+function pickChirp(not?: string | null) {
+  const pool = chirps.filter((c) => c !== not)
+  return pool[Math.floor(Math.random() * pool.length)]
+}
+
+// Lazy shared AudioContext; created on first click so it's gesture-safe.
+let audioContext: AudioContext | null = null
+
+function beep() {
+  try {
+    audioContext ??= new AudioContext()
+    if (audioContext.state === "suspended") void audioContext.resume()
+    const t = audioContext.currentTime
+    const base = 420 + Math.random() * 360
+    const notes: [number, number][] = [
+      [base, 0],
+      [base * (Math.random() < 0.5 ? 1.5 : 0.75), 0.085],
+    ]
+    for (const [frequency, offset] of notes) {
+      const osc = audioContext.createOscillator()
+      const gain = audioContext.createGain()
+      osc.type = "square"
+      osc.frequency.value = frequency
+      gain.gain.setValueAtTime(0.04, t + offset)
+      gain.gain.exponentialRampToValueAtTime(0.001, t + offset + 0.07)
+      osc.connect(gain).connect(audioContext.destination)
+      osc.start(t + offset)
+      osc.stop(t + offset + 0.08)
+    }
+  } catch {
+    // No audio available — bots chirp silently.
+  }
+}
+
 interface BotProps {
   /** Time to cross the container once, e.g. `"45s"`. */
   duration?: string
@@ -169,6 +303,10 @@ interface BotProps {
   facing?: "right" | "left"
   /** Set to `false` to march in place instead of crossing the container. */
   walk?: boolean
+  /** Hover startles, click hops and chirps. `false` for pure decoration. */
+  interactive?: boolean
+  /** Play an 8-bit beep on click. */
+  sound?: boolean
   children: React.ReactNode
 }
 
@@ -178,8 +316,36 @@ function Bot({
   rest,
   facing = "right",
   walk = true,
+  interactive = true,
+  sound = false,
   children,
 }: BotProps) {
+  const [emote, setEmote] = useState<string | null>(null)
+  const [hopping, setHopping] = useState(false)
+
+  useEffect(() => {
+    if (emote === null) return
+    const timer = setTimeout(() => setEmote(null), 1400)
+    return () => clearTimeout(timer)
+  }, [emote])
+
+  // Walking bots mutter to themselves every so often.
+  useEffect(() => {
+    if (!interactive) return
+    let timer: ReturnType<typeof setTimeout>
+    const schedule = () => {
+      timer = setTimeout(
+        () => {
+          setEmote((current) => pickChirp(current))
+          schedule()
+        },
+        8000 + Math.random() * 10000
+      )
+    }
+    schedule()
+    return () => clearTimeout(timer)
+  }, [interactive])
+
   return (
     <div
       className={cn(
@@ -188,7 +354,8 @@ function Bot({
           ? facing === "right"
             ? "bot-go-right"
             : "bot-go-left"
-          : "bot-idle"
+          : "bot-idle",
+        interactive && "bot-interactive"
       )}
       style={
         {
@@ -197,10 +364,29 @@ function Bot({
           "--bot-rest": rest,
         } as React.CSSProperties
       }
+      onClick={
+        interactive
+          ? () => {
+              setEmote((current) => pickChirp(current))
+              setHopping(true)
+              if (sound) beep()
+            }
+          : undefined
+      }
     >
       <BotStyles />
+      {interactive && (
+        <div className={cn("bot-bubble", emote && "bot-bubble-show")}>
+          {emote ?? "!"}
+        </div>
+      )}
       <div className={facing === "left" ? "-scale-x-100" : undefined}>
-        {children}
+        <div
+          className={hopping ? "bot-hop" : undefined}
+          onAnimationEnd={() => setHopping(false)}
+        >
+          {children}
+        </div>
       </div>
     </div>
   )
@@ -307,11 +493,20 @@ function ScoutBot() {
 
 interface AnimatedBotsProps {
   className?: string
+  /** Applied to the default scene's bots. */
+  interactive?: boolean
+  /** Applied to the default scene's bots. */
+  sound?: boolean
   /** Compose a scene from `<Bot>` children; omit for the default scene. */
   children?: React.ReactNode
 }
 
-function AnimatedBots({ className, children }: AnimatedBotsProps) {
+function AnimatedBots({
+  className,
+  interactive = true,
+  sound = false,
+  children,
+}: AnimatedBotsProps) {
   return (
     <div
       aria-hidden="true"
@@ -323,13 +518,32 @@ function AnimatedBots({ className, children }: AnimatedBotsProps) {
       <BotStyles />
       {children ?? (
         <>
-          <Bot duration="48s" delay="-16s" rest="26cqw">
+          <Bot
+            duration="48s"
+            delay="-16s"
+            rest="26cqw"
+            interactive={interactive}
+            sound={sound}
+          >
             <CarrierBot />
           </Bot>
-          <Bot duration="34s" delay="-6s" rest="58cqw">
+          <Bot
+            duration="34s"
+            delay="-6s"
+            rest="58cqw"
+            interactive={interactive}
+            sound={sound}
+          >
             <ScoutBot />
           </Bot>
-          <Bot duration="70s" delay="-32s" rest="78cqw" facing="left">
+          <Bot
+            duration="70s"
+            delay="-32s"
+            rest="78cqw"
+            facing="left"
+            interactive={interactive}
+            sound={sound}
+          >
             <RollerBot />
           </Bot>
         </>
