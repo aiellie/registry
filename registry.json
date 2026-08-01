@@ -3206,55 +3206,6 @@
       ]
     },
     {
-      "name": "web-preview-demo",
-      "type": "registry:example",
-      "title": "Web Preview Demo",
-      "description": "Web Preview UI primitive styled with the Aiellie design system.",
-      "registryDependencies": [
-        "https://ui.aiellie.dev/r/button.json",
-        "https://ui.aiellie.dev/r/spinner.json",
-        "https://ui.aiellie.dev/r/find-in-page.json",
-        "https://ui.aiellie.dev/r/web-preview.json"
-      ],
-      "dependencies": ["@hugeicons/core-free-icons", "@hugeicons/react"],
-      "files": [
-        {
-          "path": "components/aiellie/examples/web/web-preview.tsx",
-          "type": "registry:example",
-          "target": "components/aiellie/examples/web/web-preview.tsx"
-        }
-      ]
-    },
-    {
-      "name": "message-scroller-demo",
-      "type": "registry:example",
-      "title": "Message Scroller Demo",
-      "description": "Message Scroller UI primitive styled with the Aiellie design system.",
-      "registryDependencies": [
-        "https://ui.aiellie.dev/r/button.json",
-        "https://ui.aiellie.dev/r/card.json",
-        "https://ui.aiellie.dev/r/dropdown-menu.json",
-        "https://ui.aiellie.dev/r/empty.json",
-        "https://ui.aiellie.dev/r/input-group.json",
-        "https://ui.aiellie.dev/r/message-scroller.json",
-        "https://ui.aiellie.dev/r/tooltip.json",
-        "https://ui.aiellie.dev/r/icons.json"
-      ],
-      "dependencies": ["@hugeicons/core-free-icons", "@hugeicons/react", "@ai-sdk/react"],
-      "files": [
-        {
-          "path": "components/aiellie/examples/chat/message-scroller.tsx",
-          "type": "registry:example",
-          "target": "components/aiellie/examples/chat/message-scroller.tsx"
-        },
-        {
-          "path": "components/aiellie/examples/chat/chats.tsx",
-          "type": "registry:example",
-          "target": "components/aiellie/examples/chat/chats.tsx"
-        }
-      ]
-    },
-    {
       "name": "prompt-input",
       "type": "registry:component",
       "title": "Prompt Input",
@@ -3560,16 +3511,28 @@
       "type": "registry:ui",
       "title": "AI Orb",
       "description": "AI Orb with theme selector and call button.",
-      "registryDependencies": [
+      "registryDependencies": [ 
+        "@paper-design/shaders-react",
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react",
+        "motion/react",
         "https://ui.aiellie.dev/r/example.json",
         "https://ui.aiellie.dev/r/orb.json",
-        "https://ui.aiellie.dev/r/demo-controls.json"
+        "https://ui.aiellie.dev/r/demo-controls.json",
+        "https://ui.aiellie.dev/r/button.json",
+        "https://ui.aiellie.dev/r/button-group.json",
+        "https://ui.aiellie.dev/r/tooltip.json"
       ],
       "files": [
         {
           "path": "components/ai/ai-orb.tsx",
           "type": "registry:ui",
           "target": "components/ui/ai-orb.tsx"
+        },
+        {
+          "path": "hooks/use-audio-level.ts",
+          "type": "registry:hook",
+          "target": "hooks/use-audio-level.ts"
         }
       ]
     },
@@ -3626,6 +3589,119 @@
           "path": "components/animations/animated-bots.tsx",
           "type": "registry:component",
           "target": "components/ui/animated-bots.tsx"
+        }
+      ]
+    },
+    {
+      "name": "web-preview-demo",
+      "type": "registry:example",
+      "title": "Web Preview Demo",
+      "description": "Web Preview UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://ui.aiellie.dev/r/button.json",
+        "https://ui.aiellie.dev/r/spinner.json",
+        "https://ui.aiellie.dev/r/find-in-page.json",
+        "https://ui.aiellie.dev/r/web-preview.json"
+      ],
+      "dependencies": ["@hugeicons/core-free-icons", "@hugeicons/react"],
+      "files": [
+        {
+          "path": "components/aiellie/examples/web/web-preview.tsx",
+          "type": "registry:example",
+          "target": "components/aiellie/examples/web/web-preview.tsx"
+        }
+      ]
+    },
+    {
+      "name": "message-scroller-demo",
+      "type": "registry:example",
+      "title": "Message Scroller Demo",
+      "description": "Message Scroller UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://ui.aiellie.dev/r/button.json",
+        "https://ui.aiellie.dev/r/card.json",
+        "https://ui.aiellie.dev/r/dropdown-menu.json",
+        "https://ui.aiellie.dev/r/empty.json",
+        "https://ui.aiellie.dev/r/input-group.json",
+        "https://ui.aiellie.dev/r/message-scroller.json",
+        "https://ui.aiellie.dev/r/tooltip.json",
+        "https://ui.aiellie.dev/r/icons.json"
+      ],
+      "dependencies": ["@hugeicons/core-free-icons", "@hugeicons/react", "@ai-sdk/react"],
+      "files": [
+        {
+          "path": "components/aiellie/examples/chat/message-scroller.tsx",
+          "type": "registry:example",
+          "target": "components/aiellie/examples/chat/message-scroller.tsx"
+        },
+        {
+          "path": "components/aiellie/examples/chat/chats.tsx",
+          "type": "registry:example",
+          "target": "components/aiellie/examples/chat/chats.tsx"
+        }
+      ]
+    },
+    {
+      "name": "ai-orb-demo",
+      "type": "registry:example",
+      "title": "AI Orb Demo",
+      "description": "AI Orb UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://ui.aiellie.dev/r/ai-orb.json"
+      ],
+      "files": [
+        {
+          "path": "components/aiellie/examples/audio/ai-orb.tsx",
+          "type": "registry:example",
+          "target": "components/aiellie/examples/audio/ai-orb.tsx"
+        }
+      ]
+    },
+    {
+      "name": "terminal-demo",
+      "type": "registry:example",
+      "title": "Terminal Demo",
+      "description": "Terminal UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://ui.aiellie.dev/r/terminal.json"
+      ],  
+      "files": [
+        {
+          "path": "components/aiellie/examples/code/terminal.tsx",
+          "type": "registry:example",
+          "target": "components/aiellie/examples/code/terminal.tsx"
+        }
+      ]
+    },
+    {
+      "name": "file-tree-demo",
+      "type": "registry:example",
+      "title": "File Tree Demo",
+      "description": "File Tree UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://ui.aiellie.dev/r/file-tree.json"
+      ],
+      "files": [
+        {
+          "path": "components/aiellie/examples/code/file-tree.tsx",
+          "type": "registry:example",
+          "target": "components/aiellie/examples/code/file-tree.tsx"
+        }
+      ]
+    },
+    {
+      "name": "animated-bots-demo",
+      "type": "registry:example",
+      "title": "Animated Bots Demo",
+      "description": "Animated Bots UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://ui.aiellie.dev/r/animated-bots.json"
+      ],  
+      "files": [
+        {
+          "path": "components/aiellie/examples/animation/animated-bots.tsx",
+          "type": "registry:example",
+          "target": "components/aiellie/examples/animation/animated-bots.tsx"
         }
       ]
     }
