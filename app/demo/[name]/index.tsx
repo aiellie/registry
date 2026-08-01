@@ -178,6 +178,7 @@ export const demos: { [name: string]: Demo } = {
   chart: ChartExample,
   checkbox: CheckboxExample,
   collapsible: CollapsibleExample,
+  "color-picker": ColorPickerExample,
   combobox: ComboboxExample,
   command: CommandExample,
   "context-menu": ContextMenuExample,
