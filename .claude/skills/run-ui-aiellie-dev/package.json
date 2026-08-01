@@ -1,0 +1,9 @@
+{
+  "name": "run-ui-aiellie-dev-driver",
+  "private": true,
+  "description": "Headless-Chrome driver for the run-ui-aiellie-dev skill. Not part of the app.",
+  "type": "module",
+  "dependencies": {
+    "playwright-core": "^1.49.0"
+  }
+}
