@@ -49,12 +49,31 @@ const INSIGHTS = [
   {
     label: "Claude Code 101",
     value: "100%",
+    status: "success" as const,
     href: "https://verify.skilljar.com/c/tyvtzxsrixux",
   },
-  { label: "Introduction to Claude Cowork", value: "100%", href: "https://verify.skilljar.com/c/p5w4z5wbiq8k" },
-  { label: "Claude 101", value: "100%", href: "https://verify.skilljar.com/c/nwz6msxc4bvh" },
-  { label: "Claude Platform 101", value: "14%" },
-  { label: "Claude Code in Action", value: "10%" },
+  {
+    label: "Introduction to Claude Cowork",
+    value: "100%",
+    status: "success" as const,
+    href: "https://verify.skilljar.com/c/p5w4z5wbiq8k",
+  },
+  {
+    label: "Claude 101",
+    value: "100%",
+    status: "success" as const,
+    href: "https://verify.skilljar.com/c/nwz6msxc4bvh",
+  },
+  {
+    label: "Claude Platform 101",
+    value: "14%",
+    status: "pending" as const,
+  },
+  {
+    label: "Claude Code in Action",
+    value: "10%",
+    status: "pending" as const,
+  },
 ]
 
 const PLUGINS = [
@@ -253,7 +272,7 @@ export function AiellieProfile() {
               @aiellie.dev
             </a>
             <span>·</span>
-            <span>Turning tokens into interfaces</span>
+            <span>AI Engineer & UI Developer</span>
           </div>
         </div>
 
@@ -326,7 +345,7 @@ export function AiellieProfile() {
             {INSIGHTS.map((row) => (
               <div
                 key={row.label}
-                className="flex items-center justify-between py-1.5 text-sm"
+                className="flex items-center justify-between gap-3 py-1.5 text-sm"
               >
                 {row.href ? (
                   <a
@@ -340,7 +359,9 @@ export function AiellieProfile() {
                 ) : (
                   <span className="text-muted-foreground">{row.label}</span>
                 )}
-                <span className="font-medium tabular-nums">{row.value}</span>
+                <Status variant={row.status}>
+                  <StatusLabel className="tabular-nums">{row.value}</StatusLabel>
+                </Status>
               </div>
             ))}
           </div>

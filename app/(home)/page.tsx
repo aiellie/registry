@@ -9,9 +9,9 @@ import {
   PageHeaderHeading,
 } from "@/components/registry/page-header"
 
-import { ItemsGrid } from "@/components/registry/items-grid"
-import { ScrollToComponentsButton } from "@/components/registry/scroll-to-components-button"
+import { HomeShowcase } from "@/components/registry/home-showcase"
 import { RegistryFooter } from "@/components/registry/registry-footer"
+import { ScrollToComponentsButton } from "@/components/registry/scroll-to-components-button"
 import { getRegistryItems } from "@/lib/registry"
 
 const title = "AIEllie Design System"
@@ -46,8 +46,9 @@ export const metadata: Metadata = {
 }
 
 export default async function IndexPage() {
-  // Strip to the fields the grid reads — passing whole registry entries would
-  // serialize every item's file list into the RSC payload.
+  // Strip to the fields the showcase and its dialog read — passing whole
+  // registry entries would serialize every item's file list into the RSC
+  // payload.
   const items = getRegistryItems().map(
     ({ name, title, description, type }) => ({ name, title, description, type })
   )
@@ -69,11 +70,8 @@ export default async function IndexPage() {
           </div>
         </Bubble>
       </PageHeader>
-      <div
-        data-slot="components-demo"
-        className="mb-14! flex min-w-0 flex-col gap-6 p-5 md:p-10"
-      >
-        <ItemsGrid items={items} />
+      <div className="flex-1">
+        <HomeShowcase items={items} />
       </div>
       <RegistryFooter />
     </div>
