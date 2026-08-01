@@ -144,13 +144,13 @@ const HEAT_CLASS = [
 ]
 
 const SOCIALS = [
+  { label: "X", href: "https://x.com/aielliedev", icon: NewTwitterIcon },
   { label: "GitHub", href: "https://github.com/aiellie", icon: GithubIcon },
   {
     label: "LinkedIn",
     href: "https://www.linkedin.com/in/aiellie",
     icon: Linkedin02Icon,
-  },
-  { label: "X", href: "https://x.com/aiellie", icon: NewTwitterIcon },
+  }
 ]
 
 const RANGES = ["Daily", "Weekly", "Cumulative"] as const
