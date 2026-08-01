@@ -7,9 +7,10 @@ import {
 } from "@/lib/registry-server"
 
 /**
- * Backend for the home grid's item details dialog: everything `BlockViewer`
- * needs (file contents, tree, Shiki-highlighted code), fetched only when a
- * card is opened rather than server-rendered 89 times into the landing page.
+ * Backend for the home grid's item details dialog: what `BlockViewer` needs to
+ * open (tree + entry file), fetched only when a card is opened rather than
+ * server-rendered 89 times into the landing page. The remaining files come
+ * from /api/registry-file one at a time as they're selected.
  */
 export async function GET(
   _request: Request,
@@ -25,15 +26,13 @@ export async function GET(
     )
   }
 
-  const [tree, highlightedFiles] = await Promise.all([
-    createFileTreeForRegistryItemFiles(item.fileContents),
-    getHighlightedFiles(item.fileContents),
-  ])
+  const { fileContents, ...meta } = item
+  const [initialFile] = await getHighlightedFiles(fileContents.slice(0, 1))
 
   return NextResponse.json({
-    item,
-    tree,
-    highlightedFiles,
+    item: meta,
+    tree: createFileTreeForRegistryItemFiles(fileContents),
+    initialFile: initialFile ?? null,
     baseUrl: process.env.VERCEL_PROJECT_PRODUCTION_URL ?? "ui.aiellie.dev",
   })
 }

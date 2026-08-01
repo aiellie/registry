@@ -19,14 +19,13 @@ import type { Component } from "@/lib/registry"
 import type {
   FileTree,
   HighlightedRegistryFile,
-  RegistryItemWithFiles,
 } from "@/lib/registry-server"
 import { getPrompt } from "@/lib/utils"
 
 interface ItemDetails {
-  item: RegistryItemWithFiles
+  item: Component
   tree: FileTree[]
-  highlightedFiles: HighlightedRegistryFile[]
+  initialFile: HighlightedRegistryFile | null
   baseUrl: string
 }
 
@@ -134,7 +133,7 @@ export function ItemDetailsDialog({
                 <BlockViewer
                   item={details.item}
                   tree={details.tree}
-                  highlightedFiles={details.highlightedFiles}
+                  initialFile={details.initialFile}
                   baseUrl={details.baseUrl}
                   prompt={getPrompt()}
                   iframeHeight="100%"

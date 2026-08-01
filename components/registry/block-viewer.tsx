@@ -53,24 +53,26 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { getItemIcon } from "@/lib/items"
+import type { Component } from "@/lib/registry"
 import type {
   FileTree,
   HighlightedRegistryFile,
-  RegistryItemWithFiles,
 } from "@/lib/registry-server"
 import { cn } from "@/lib/utils"
 
 type BlockViewerContext = {
-  item: RegistryItemWithFiles
+  item: Component
   baseUrl: string
   prompt: string
   view: "code" | "preview"
   setView: (view: "code" | "preview") => void
   activeFile: string | null
   setActiveFile: (file: string) => void
+  /** The active file once loaded; null while its fetch is in flight. */
+  file: HighlightedRegistryFile | null
+  fileFailed: boolean
   resizablePanelRef: React.RefObject<PanelImperativeHandle | null> | null
   tree: FileTree[] | null
-  highlightedFiles: HighlightedRegistryFile[] | null
   iframeKey: number
   setIframeKey: React.Dispatch<React.SetStateAction<number>>
 }
@@ -91,15 +93,17 @@ function useBlockViewer() {
 
 type BlockViewerProps = Pick<
   BlockViewerContext,
-  "item" | "tree" | "highlightedFiles" | "baseUrl" | "prompt"
+  "item" | "tree" | "baseUrl" | "prompt"
 > & {
+  /** The file shown on open; every other file is fetched when selected. */
+  initialFile: HighlightedRegistryFile | null
   iframeHeight?: string
 }
 
 function BlockViewerProvider({
   item,
   tree,
-  highlightedFiles,
+  initialFile,
   baseUrl,
   prompt,
   iframeHeight,
@@ -110,9 +114,46 @@ function BlockViewerProvider({
   const [view, setView] = React.useState<BlockViewerContext["view"]>("preview")
   const [activeFile, setActiveFile] = React.useState<
     BlockViewerContext["activeFile"]
-  >(highlightedFiles?.[0]?.target ?? null)
+  >(initialFile?.target ?? null)
   const resizablePanelRef = React.useRef<PanelImperativeHandle>(null)
   const [iframeKey, setIframeKey] = React.useState(0)
+
+  const [files, setFiles] = React.useState(() =>
+    initialFile ? { [initialFile.target]: initialFile } : {}
+  )
+  const [failedFiles, setFailedFiles] = React.useState<Record<string, true>>({})
+
+  const file = activeFile ? (files[activeFile] ?? null) : null
+  const needsFetch = Boolean(activeFile) && !file && !failedFiles[activeFile!]
+
+  React.useEffect(() => {
+    if (!needsFetch || !activeFile) {
+      return
+    }
+
+    let cancelled = false
+    const url = `/api/registry-file/${item.name}?target=${encodeURIComponent(activeFile)}`
+
+    fetch(url)
+      .then((response) => {
+        if (!response.ok) throw new Error(`Failed to load ${activeFile}`)
+        return response.json() as Promise<HighlightedRegistryFile>
+      })
+      .then((loaded) => {
+        if (!cancelled) {
+          setFiles((current) => ({ ...current, [loaded.target]: loaded }))
+        }
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setFailedFiles((current) => ({ ...current, [activeFile]: true }))
+        }
+      })
+
+    return () => {
+      cancelled = true
+    }
+  }, [needsFetch, activeFile, item.name])
 
   return (
     <BlockViewerContext.Provider
@@ -125,8 +166,9 @@ function BlockViewerProvider({
         resizablePanelRef,
         activeFile,
         setActiveFile,
+        file,
+        fileFailed: Boolean(activeFile && failedFiles[activeFile]),
         tree,
-        highlightedFiles,
         iframeKey,
         setIframeKey,
       }}
@@ -277,26 +319,23 @@ function BlockViewerMobile() {
 }
 
 function BlockViewerMobileCode() {
-  const { activeFile, setActiveFile, highlightedFiles, item } = useBlockViewer()
+  const { activeFile, setActiveFile, file, fileFailed, tree } = useBlockViewer()
 
-  const file = React.useMemo(() => {
-    return highlightedFiles?.find((file) => file.target === activeFile)
-  }, [highlightedFiles, activeFile])
+  const targets = React.useMemo(
+    () => (tree ? flattenTree(tree).map((entry) => entry.path) : []),
+    [tree]
+  )
 
-  const rawContent = React.useMemo(() => {
-    return item.fileContents.find((file) => file.target === activeFile)?.content
-  }, [activeFile, item.fileContents])
-
-  if (!file) {
+  if (!activeFile) {
     return null
   }
 
   return (
     <div className="flex h-[600px] flex-col overflow-hidden rounded-xl border bg-code text-code-foreground">
       <div className="flex h-12 shrink-0 items-center gap-2 border-b px-3 py-2 text-xs [&_svg]:size-4 [&_svg]:opacity-70">
-        {highlightedFiles && highlightedFiles.length > 1 ? (
+        {targets.length > 1 ? (
           <Combobox
-            items={highlightedFiles.map((file) => file.target)}
+            items={targets}
             value={activeFile}
             onValueChange={(value) => {
               if (value) setActiveFile(value)
@@ -345,39 +384,56 @@ function BlockViewerMobileCode() {
         ) : (
           <>
             <span className="flex size-4 shrink-0 items-center justify-center [&_svg]:size-4">
-              {getIconForLanguageExtension(extensionOf(file.target))}
+              {getIconForLanguageExtension(extensionOf(activeFile))}
             </span>
-            <span className="line-clamp-1 font-mono">{file.target}</span>
+            <span className="line-clamp-1 font-mono">{activeFile}</span>
           </>
         )}
         <div className="ms-auto flex shrink-0 items-center gap-1">
-          <CopyCodeButton content={rawContent} />
-          <DownloadButton content={rawContent} name={file.target} />
+          <CopyCodeButton content={file?.content} />
+          <DownloadButton content={file?.content} name={activeFile} />
         </div>
       </div>
-      <div
-        key={file.path}
-        dangerouslySetInnerHTML={{ __html: file.highlightedContent }}
-        className="code-lines no-scrollbar flex-1 overflow-auto font-mono text-xs"
-      />
+      {file ? (
+        <div
+          key={file.path}
+          dangerouslySetInnerHTML={{ __html: file.highlightedContent }}
+          className="code-lines no-scrollbar flex-1 overflow-auto font-mono text-xs"
+        />
+      ) : (
+        <FileFallback failed={fileFailed} target={activeFile} />
+      )}
+    </div>
+  )
+}
+
+/** Shown while a selected file is still being fetched, or if that fetch died. */
+function FileFallback({
+  failed,
+  target,
+}: {
+  failed: boolean
+  target: string
+}) {
+  return (
+    <div className="flex min-h-0 flex-1 items-center justify-center p-4">
+      <p className="text-sm text-muted-foreground">
+        {failed ? (
+          <>Couldn’t load {target}.</>
+        ) : (
+          <span className="shimmer">Loading {target}&hellip;</span>
+        )}
+      </p>
     </div>
   )
 }
 
 function BlockViewerCode() {
-  const { activeFile, highlightedFiles, item } = useBlockViewer()
+  const { activeFile, file, fileFailed } = useBlockViewer()
   const fileTreePanelRef = React.useRef<PanelImperativeHandle>(null)
   const [treeCollapsed, setTreeCollapsed] = React.useState(false)
 
-  const file = React.useMemo(() => {
-    return highlightedFiles?.find((file) => file.target === activeFile)
-  }, [highlightedFiles, activeFile])
-
-  const rawContent = React.useMemo(() => {
-    return item.fileContents.find((file) => file.target === activeFile)?.content
-  }, [activeFile, item.fileContents])
-
-  if (!file) {
+  if (!activeFile) {
     return null
   }
 
@@ -424,19 +480,23 @@ function BlockViewerCode() {
           <figure className="mx-0! mt-0 flex min-h-0 min-w-0 flex-1 flex-col rounded-xl border-none">
             <figcaption className="flex h-12 shrink-0 items-center gap-2 border-b px-4 py-2 font-mono text-xs text-code-foreground [&_svg]:size-4 [&_svg]:opacity-70">
               <span className="flex size-4 shrink-0 items-center justify-center [&_svg]:size-4">
-                {getIconForLanguageExtension(extensionOf(file.target))}
+                {getIconForLanguageExtension(extensionOf(activeFile))}
               </span>
-              <span className="truncate">{file.target}</span>
+              <span className="truncate">{activeFile}</span>
               <div className="ms-auto flex shrink-0 items-center gap-2">
-                <CopyCodeButton content={rawContent} />
-                <DownloadButton content={rawContent} name={file.target} />
+                <CopyCodeButton content={file?.content} />
+                <DownloadButton content={file?.content} name={activeFile} />
               </div>
             </figcaption>
-            <div
-              key={file.path}
-              dangerouslySetInnerHTML={{ __html: file.highlightedContent }}
-              className="code-lines no-scrollbar min-h-0 flex-1 overflow-auto font-mono text-xs"
-            />
+            {file ? (
+              <div
+                key={file.path}
+                dangerouslySetInnerHTML={{ __html: file.highlightedContent }}
+                className="code-lines no-scrollbar min-h-0 flex-1 overflow-auto font-mono text-xs"
+              />
+            ) : (
+              <FileFallback failed={fileFailed} target={activeFile} />
+            )}
           </figure>
         </ResizablePanel>
       </ResizablePanelGroup>

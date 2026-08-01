@@ -17,16 +17,19 @@ export async function BlockDisplay({ name }: { name: string }) {
     return null
   }
 
-  const [tree, highlightedFiles] = await Promise.all([
-    createFileTreeForRegistryItemFiles(item.fileContents),
-    getHighlightedFiles(item.fileContents),
-  ])
+  const { fileContents, ...meta } = item
+  const tree = createFileTreeForRegistryItemFiles(fileContents)
+
+  // Only the entry file rides along in the page — the viewer pulls the rest
+  // from /api/registry-file as they're selected. Inlining all of them put
+  // `blank` (166 files) past Vercel's 19 MB prerender ceiling.
+  const [initialFile] = await getHighlightedFiles(fileContents.slice(0, 1))
 
   return (
     <BlockViewer
-      item={item}
+      item={meta}
       tree={tree}
-      highlightedFiles={highlightedFiles}
+      initialFile={initialFile ?? null}
       baseUrl={process.env.VERCEL_PROJECT_PRODUCTION_URL ?? "ui.aiellie.dev"}
       prompt={getPrompt()}
       iframeHeight={item.type === "registry:block" ? "930px" : "800px"}

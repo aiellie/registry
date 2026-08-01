@@ -238,6 +238,30 @@ export async function getRegistryItemWithFiles(
   return { ...item, fileContents: [...ownContents, ...importedContents] }
 }
 
+/**
+ * One file's contents, highlighted — what the viewer fetches when you select a
+ * file it hasn't loaded yet. Serialising all of them into the page instead put
+ * `blank` (166 files) over Vercel's 19 MB prerender limit.
+ *
+ * `target` is looked up in the item's own resolved file set, so it can only
+ * ever name a file this item ships.
+ */
+export async function getRegistryItemFile(
+  name: string,
+  target: string
+): Promise<HighlightedRegistryFile | null> {
+  const item = await getRegistryItemWithFiles(name)
+  const file = item?.fileContents.find((file) => file.target === target)
+
+  if (!file) {
+    return null
+  }
+
+  const [highlighted] = await getHighlightedFiles([file])
+
+  return highlighted
+}
+
 export async function getHighlightedFiles(
   files: RegistryFile[]
 ): Promise<HighlightedRegistryFile[]> {
