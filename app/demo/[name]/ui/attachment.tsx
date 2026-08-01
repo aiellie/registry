@@ -33,7 +33,7 @@ import { FileIcon, Cancel01Icon, TableIcon, File01Icon, Presentation01Icon, Cloc
 export default function AttachmentExample() {
   return (
     <ExampleWrapper>
-      <AttachmentMixedGroup />
+      <AttachmentReference className="col-span-full" />
       <AttachmentFiles />
       <AttachmentContentOnly />
       <AttachmentStates />
@@ -46,9 +46,13 @@ export default function AttachmentExample() {
   )
 }
 
-function AttachmentMixedGroup() {
+function AttachmentReference({ className }: { className?: string }) {
   return (
-    <Example title="Mixed Group" className="gap-4">
+    <Example
+      title="Style Reference"
+      className="gap-4"
+      containerClassName={className}
+    >
       <AttachmentGroup className="w-full items-center">
         <Attachment size="sm" className="w-56">
           <AttachmentMedia>
@@ -206,9 +210,9 @@ function AttachmentMixedGroup() {
   )
 }
 
-function AttachmentFiles() {
+function AttachmentFiles({ className }: { className?: string }) {
   return (
-    <Example title="Files" className="gap-8">
+    <Example title="Files" className="gap-8" containerClassName={className}>
       <div className="flex w-full flex-col gap-2">
         <div className="px-1 text-xs font-medium text-muted-foreground">
           Horizontal
@@ -339,9 +343,13 @@ function AttachmentFiles() {
   )
 }
 
-function AttachmentContentOnly() {
+function AttachmentContentOnly({ className }: { className?: string }) {
   return (
-    <Example title="Content Only" className="gap-8">
+    <Example
+      title="Content Only"
+      className="gap-8"
+      containerClassName={className}
+    >
       <div className="flex w-full flex-col gap-2">
         <div className="px-1 text-xs font-medium text-muted-foreground">
           Title
@@ -435,9 +443,9 @@ function AttachmentContentOnly() {
   )
 }
 
-function AttachmentStates() {
+function AttachmentStates({ className }: { className?: string }) {
   return (
-    <Example title="States" className="gap-8">
+    <Example title="States" className="gap-8" containerClassName={className}>
       <div className="flex w-full flex-col gap-3">
         <div className="px-1 text-xs font-medium text-muted-foreground">
           Horizontal
@@ -604,9 +612,9 @@ function AttachmentStates() {
   )
 }
 
-function AttachmentImages() {
+function AttachmentImages({ className }: { className?: string }) {
   return (
-    <Example title="Images" className="gap-8">
+    <Example title="Images" className="gap-8" containerClassName={className}>
       <div className="flex w-full flex-col gap-3">
         <div className="px-1 text-xs font-medium text-muted-foreground">
           Horizontal
@@ -821,9 +829,13 @@ function AttachmentImages() {
   )
 }
 
-function AttachmentImageStates() {
+function AttachmentImageStates({ className }: { className?: string }) {
   return (
-    <Example title="Image States" className="gap-8">
+    <Example
+      title="Image States"
+      className="gap-8"
+      containerClassName={className}
+    >
       <div className="flex w-full flex-col gap-3">
         <div className="px-1 text-xs font-medium text-muted-foreground">
           Horizontal
@@ -1018,9 +1030,9 @@ function AttachmentImageStates() {
   )
 }
 
-function AttachmentSizes() {
+function AttachmentSizes({ className }: { className?: string }) {
   return (
-    <Example title="Sizes" className="gap-3">
+    <Example title="Sizes" className="gap-3" containerClassName={className}>
       <Attachment size="default" className="w-full">
         <AttachmentMedia>
           <HugeiconsIcon icon={FileIcon} strokeWidth={2} />
@@ -1092,9 +1104,13 @@ function AttachmentSizes() {
   )
 }
 
-function AttachmentScrollableGroup() {
+function AttachmentScrollableGroup({ className }: { className?: string }) {
   return (
-    <Example title="Scrollable Group" className="gap-4">
+    <Example
+      title="Scrollable Group"
+      className="gap-4"
+      containerClassName={className}
+    >
       <AttachmentGroup className="w-full">
         <Attachment className="w-64">
           <AttachmentMedia>
@@ -1238,11 +1254,11 @@ function AttachmentScrollableGroup() {
   )
 }
 
-function AttachmentTriggers() {
+function AttachmentTriggers({ className }: { className?: string }) {
   const [isVisible, setIsVisible] = React.useState(true)
 
   return (
-    <Example title="Triggers" className="gap-3">
+    <Example title="Triggers" className="gap-3" containerClassName={className}>
       {isVisible ? (
         <Attachment className="w-full">
           <AttachmentMedia>

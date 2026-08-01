@@ -17,6 +17,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs"
+import { cn } from "@/lib/utils"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { CursorInWindowIcon, CodeIcon, HomeIcon, SearchIcon, SettingsIcon, MoreHorizontalCircle01Icon } from "@hugeicons/core-free-icons"
 
@@ -40,9 +41,9 @@ export default function TabsExample() {
   )
 }
 
-function TabsBasic() {
+function TabsBasic({ className }: { className?: string }) {
   return (
-    <Example title="Basic">
+    <Example title="Basic" containerClassName={className}>
       <Tabs defaultValue="home">
         <TabsList>
           <TabsTrigger value="home">Home</TabsTrigger>
@@ -53,9 +54,9 @@ function TabsBasic() {
   )
 }
 
-function TabsLine() {
+function TabsLine({ className }: { className?: string }) {
   return (
-    <Example title="Line">
+    <Example title="Line" containerClassName={className}>
       <Tabs defaultValue="overview">
         <TabsList variant="line">
           <TabsTrigger value="overview">Overview</TabsTrigger>
@@ -67,9 +68,9 @@ function TabsLine() {
   )
 }
 
-function TabsVariantsComparison() {
+function TabsVariantsComparison({ className }: { className?: string }) {
   return (
-    <Example title="Variants Alignment">
+    <Example title="Variants Alignment" containerClassName={className}>
       <div className="flex gap-4">
         <Tabs defaultValue="overview">
           <TabsList>
@@ -88,9 +89,9 @@ function TabsVariantsComparison() {
   )
 }
 
-function TabsDisabled() {
+function TabsDisabled({ className }: { className?: string }) {
   return (
-    <Example title="Disabled">
+    <Example title="Disabled" containerClassName={className}>
       <Tabs defaultValue="home">
         <TabsList>
           <TabsTrigger value="home">Home</TabsTrigger>
@@ -103,9 +104,9 @@ function TabsDisabled() {
   )
 }
 
-function TabsWithIcons() {
+function TabsWithIcons({ className }: { className?: string }) {
   return (
-    <Example title="With Icons">
+    <Example title="With Icons" containerClassName={className}>
       <Tabs defaultValue="preview">
         <TabsList>
           <TabsTrigger value="preview">
@@ -122,9 +123,9 @@ function TabsWithIcons() {
   )
 }
 
-function TabsIconOnly() {
+function TabsIconOnly({ className }: { className?: string }) {
   return (
-    <Example title="Icon Only">
+    <Example title="Icon Only" containerClassName={className}>
       <Tabs defaultValue="home">
         <TabsList>
           <TabsTrigger value="home">
@@ -142,9 +143,9 @@ function TabsIconOnly() {
   )
 }
 
-function TabsMultiple() {
+function TabsMultiple({ className }: { className?: string }) {
   return (
-    <Example title="Multiple">
+    <Example title="Multiple" containerClassName={className}>
       <Tabs defaultValue="overview">
         <TabsList>
           <TabsTrigger value="overview">Overview</TabsTrigger>
@@ -157,9 +158,9 @@ function TabsMultiple() {
   )
 }
 
-function TabsWithContent() {
+function TabsWithContent({ className }: { className?: string }) {
   return (
-    <Example title="With Content">
+    <Example title="With Content" containerClassName={className}>
       <Tabs defaultValue="account">
         <TabsList>
           <TabsTrigger value="account">Account</TabsTrigger>
@@ -182,9 +183,9 @@ function TabsWithContent() {
   )
 }
 
-function TabsLineWithContent() {
+function TabsLineWithContent({ className }: { className?: string }) {
   return (
-    <Example title="Line With Content">
+    <Example title="Line With Content" containerClassName={className}>
       <Tabs defaultValue="account">
         <TabsList variant="line">
           <TabsTrigger value="account">Account</TabsTrigger>
@@ -207,9 +208,9 @@ function TabsLineWithContent() {
   )
 }
 
-function TabsLineDisabled() {
+function TabsLineDisabled({ className }: { className?: string }) {
   return (
-    <Example title="Line Disabled">
+    <Example title="Line Disabled" containerClassName={className}>
       <Tabs defaultValue="overview">
         <TabsList variant="line">
           <TabsTrigger value="overview">Overview</TabsTrigger>
@@ -223,9 +224,9 @@ function TabsLineDisabled() {
   )
 }
 
-function TabsWithDropdown() {
+function TabsWithDropdown({ className }: { className?: string }) {
   return (
-    <Example title="With Dropdown">
+    <Example title="With Dropdown" containerClassName={className}>
       <Tabs defaultValue="overview">
         <div className="flex items-center justify-between">
           <TabsList>
@@ -265,9 +266,9 @@ function TabsWithDropdown() {
   )
 }
 
-function TabsVertical() {
+function TabsVertical({ className }: { className?: string }) {
   return (
-    <Example title="Vertical">
+    <Example title="Vertical" containerClassName={className}>
       <Tabs defaultValue="account" orientation="vertical">
         <TabsList>
           <TabsTrigger value="account">Account</TabsTrigger>
@@ -293,9 +294,12 @@ function TabsVertical() {
   )
 }
 
-function TabsWithInputAndButton() {
+function TabsWithInputAndButton({ className }: { className?: string }) {
   return (
-    <Example title="With Input and Button" containerClassName="col-span-full">
+    <Example
+      title="With Input and Button"
+      containerClassName={cn("col-span-full", className)}
+    >
       <Tabs defaultValue="overview" className="mx-auto w-full max-w-lg">
         <div className="flex items-center gap-4">
           <TabsList>
