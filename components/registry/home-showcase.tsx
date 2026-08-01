@@ -170,7 +170,16 @@ const ShowcaseCard = React.memo(function ShowcaseCard({
   )
 })
 
-export function HomeShowcase({ items }: { items: Component[] }) {
+export function HomeShowcase({
+  items,
+  className,
+  /** Drop the muted band + edge fades so the grid sits flush with page chrome. */
+  seamless = false,
+}: {
+  items: Component[]
+  className?: string
+  seamless?: boolean
+}) {
   /** The item whose details dialog is open, or `null` when closed. */
   const [selected, setSelected] = React.useState<Component | null>(null)
 
@@ -188,7 +197,11 @@ export function HomeShowcase({ items }: { items: Component[] }) {
   return (
     <div
       data-slot="components-demo"
-      className="relative flex w-full max-w-none flex-col gap-(--gap) overflow-hidden bg-muted p-4 pb-0! [--gap:--spacing(8)] 3xl:[--gap:--spacing(8)] min-[1900px]:p-12 min-[1900px]:[--gap:--spacing(10)]! md:p-12 lg:p-6 lg:[--gap:--spacing(6)] dark:bg-background"
+      className={cn(
+        "relative flex w-full max-w-none flex-col gap-(--gap) overflow-hidden p-4 pb-0! [--gap:--spacing(8)] 3xl:[--gap:--spacing(8)] min-[1900px]:p-12 min-[1900px]:[--gap:--spacing(10)]! md:p-12 lg:p-6 lg:[--gap:--spacing(6)]",
+        seamless ? "bg-transparent" : "bg-muted dark:bg-background",
+        className
+      )}
     >
       {/* Unlike CardsDemo, the base breakpoint needs an explicit grid-cols-1:
           the terminal demo's fixed w-xl would otherwise floor the implicit
@@ -212,8 +225,12 @@ export function HomeShowcase({ items }: { items: Component[] }) {
           </div>
         ))}
       </div>
-      <div className="pointer-events-none absolute inset-x-0 top-0 z-1 h-120 bg-linear-to-b from-background via-muted to-transparent dark:hidden" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-48 bg-linear-to-t from-background via-muted/80 to-transparent lg:h-80 xl:h-64 dark:via-background/80" />
+      {!seamless && (
+        <>
+          <div className="pointer-events-none absolute inset-x-0 top-0 z-1 h-120 bg-linear-to-b from-background via-muted to-transparent dark:hidden" />
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-48 bg-linear-to-t from-background via-muted/80 to-transparent lg:h-80 xl:h-64 dark:via-background/80" />
+        </>
+      )}
       <ItemDetailsDialog
         item={selected}
         onOpenChange={(open) => {

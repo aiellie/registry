@@ -62,7 +62,7 @@ export default async function IndexPage() {
     // from flooring the page column past the viewport on phones.
     <Bubble className="h-[calc(100dvh-3.5rem)] min-w-0 w-full">
       <div className="flex w-full flex-col">
-        <PageHeader className="md:**:[.container]:pb-8 lg:**:[.container]:pb-12">
+        <PageHeader className="border-0">
           <div className="flex w-full flex-col items-center gap-2 xl:gap-4">
             <Announcement />
             <PageHeaderHeading className="max-w-4xl">{title}</PageHeaderHeading>
@@ -73,9 +73,9 @@ export default async function IndexPage() {
           </div>
         </PageHeader>
         <div className="flex-1">
-          <HomeShowcase items={items} />
+          <HomeShowcase items={items} seamless />
         </div>
-        <RegistryFooter />
+        <RegistryFooter className="border-t-0" />
       </div>
     </Bubble>
   )
