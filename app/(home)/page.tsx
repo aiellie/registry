@@ -54,14 +54,15 @@ export default async function IndexPage() {
   )
 
   return (
-    // min-w-0 keeps a wide demo's min-content from flooring the page column
-    // past the viewport on phones.
-    <div className="flex min-w-0 flex-1 flex-col">
-      <PageHeader className="md:**:[.container]:pb-8 lg:**:[.container]:pb-12">
-        {/* min-h keeps the header from collapsing in the html-in-canvas path,
-            where Bubble's children render inside an absolutely-positioned
-            canvas and contribute no intrinsic height. */}
-        <Bubble className="min-h-60 w-full md:min-h-64">
+    // Bubble fills the column below the sticky site header (h-14) so the
+    // effect covers header, showcase, and footer. Explicit height is required
+    // in the html-in-canvas path, where children render inside an
+    // absolutely-positioned canvas and contribute no intrinsic height;
+    // content scrolls inside Bubble. min-w-0 keeps a wide demo's min-content
+    // from flooring the page column past the viewport on phones.
+    <Bubble className="h-[calc(100dvh-3.5rem)] min-w-0 w-full">
+      <div className="flex w-full flex-col">
+        <PageHeader className="md:**:[.container]:pb-8 lg:**:[.container]:pb-12">
           <div className="flex w-full flex-col items-center gap-2 xl:gap-4">
             <Announcement />
             <PageHeaderHeading className="max-w-4xl">{title}</PageHeaderHeading>
@@ -70,12 +71,12 @@ export default async function IndexPage() {
               <ScrollToComponentsButton />
             </PageActions>
           </div>
-        </Bubble>
-      </PageHeader>
-      <div className="flex-1">
-        <HomeShowcase items={items} />
+        </PageHeader>
+        <div className="flex-1">
+          <HomeShowcase items={items} />
+        </div>
+        <RegistryFooter />
       </div>
-      <RegistryFooter />
-    </div>
+    </Bubble>
   )
 }

@@ -667,13 +667,22 @@ export function Bubble({
   const instanceRef = useRef<BubbleInstance | null>(null)
   const [initialOptions] = useState(options)
   const [failed, setFailed] = useState(false)
+  // Gate native mode behind mount so the hydrated tree always matches the
+  // server snapshot (fallback DOM). useSyncExternalStore alone still tears
+  // when getSnapshot differs from getServerSnapshot and recovers by
+  // regenerating a large client tree — visible on full-page wraps.
+  const [mounted, setMounted] = useState(false)
 
   const supported = useSyncExternalStore(
     emptySubscribe,
     supportsHtmlInCanvas,
     () => false
   )
-  const native = supported && !failed
+  const native = mounted && supported && !failed
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   useEffect(() => {
     const source = sourceRef.current
