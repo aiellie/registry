@@ -699,6 +699,11 @@
       ],
       "files": [
         {
+          "path": "registry/layouts/minimal-layout.tsx",
+          "type": "registry:file",
+          "target": "app/layout.tsx"
+        },
+        {
           "path": "app/demo/[name]/blocks/login-page.tsx",
           "type": "registry:page",
           "target": "app/page.tsx"
@@ -760,6 +765,7 @@
         "https://ui.aiellie.dev/r/button.json",
         "https://ui.aiellie.dev/r/field.json",
         "https://ui.aiellie.dev/r/input.json",
+        "https://ui.aiellie.dev/r/card.json",
         "https://ui.aiellie.dev/r/logo.json",
         "https://ui.aiellie.dev/r/theme.json"
       ],

@@ -34,6 +34,7 @@ import { WebPreviewDemo } from "@/examples/web/web-preview"
 // ai elements
 import { TerminalDemo } from "@/examples/code/terminal"
 import ModelSelectorExample from "@/app/demo/[name]/ui/model-selector"
+import ColorPickerExample from "@/app/demo/[name]/ui/color-picker"
 import FileTreeExample from "@/app/demo/[name]/ui/file-tree"
 import WebPreviewExample from "@/app/demo/[name]/ui/web-preview"
 import PersonaExample from "@/app/demo/[name]/ui/persona"

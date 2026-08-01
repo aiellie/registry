@@ -582,6 +582,15 @@ function treeContainsFile(nodes: FileTree[], file: string): boolean {
   )
 }
 
+/**
+ * Indent, in rem, for a row at this depth. Files and folders share it so a
+ * root-level `package.json` lines up with the `app` folder rather than sitting
+ * under it; the guide line adds half an icon on top to hit the icon's centre.
+ */
+function indentRem(index: number) {
+  return index * (index === 1 ? 1 : 1.2)
+}
+
 function Tree({ item, index }: { item: FileTree; index: number }) {
   const { activeFile, setActiveFile } = useBlockViewer()
 
@@ -618,15 +627,10 @@ function Tree({ item, index }: { item: FileTree; index: number }) {
             data-index={index}
             style={
               {
-                "--index": `${index * (index === 2 ? 0.7 : 0.8)}rem`,
+                "--index": `${indentRem(index)}rem`,
               } as React.CSSProperties
             }
           >
-            <HugeiconsIcon
-              icon={ArrowRight01Icon}
-              strokeWidth={2}
-              className="invisible"
-            />
             <span className="flex size-4 shrink-0 items-center justify-center [&_svg]:size-4">
               {getIconForLanguageExtension(extensionOf(item.name))}
             </span>
@@ -645,7 +649,7 @@ function Tree({ item, index }: { item: FileTree; index: number }) {
           className="rounded-none ps-(--index) whitespace-nowrap hover:bg-muted-foreground/15 focus:bg-muted-foreground/15 focus-visible:bg-muted-foreground/15 active:bg-muted-foreground/15 data-[active=true]:bg-muted-foreground/15"
           style={
             {
-              "--index": `${index * (index === 1 ? 1 : 1.2)}rem`,
+              "--index": `${indentRem(index)}rem`,
             } as React.CSSProperties
           }
         >
@@ -685,7 +689,7 @@ function Tree({ item, index }: { item: FileTree; index: number }) {
                 className="relative m-0 w-full translate-x-0 border-none p-0 before:absolute before:inset-y-0 before:start-(--line) before:w-px before:bg-sidebar-border before:content-['']"
                 style={
                   {
-                    "--line": `${index * (index === 1 ? 1 : 1.2) + 0.5}rem`,
+                    "--line": `${indentRem(index) + 0.5}rem`,
                   } as React.CSSProperties
                 }
               >
