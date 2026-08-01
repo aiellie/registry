@@ -19,8 +19,15 @@ import type { Component } from "@/lib/registry"
 import { cn } from "@/lib/utils"
 
 interface Cell {
-  /** Registry item name — clicking the card title opens this item's dialog. */
+  /** Registry item name — supplies the card's title, icon and “New” badge. */
   name: string
+  /**
+   * The `registry:example` entry backing the details dialog. Its file is the
+   * demo this card renders, so the dialog's preview, code and install command
+   * all match what's on the card — unlike the primitive's own entry, whose
+   * demo lives in `app/demo/[name]/`.
+   */
+  example: string
   demo: React.ComponentType
   /**
    * Overrides for demos whose standalone-page chrome misbehaves inside a
@@ -38,11 +45,16 @@ const columns: { className: string; cells: Cell[] }[] = [
   {
     className: "flex flex-col gap-(--gap)",
     cells: [
-      { name: "web-preview", demo: WebPreviewDemo },
+      {
+        name: "web-preview",
+        example: "web-preview-demo",
+        demo: WebPreviewDemo,
+      },
       {
         // The terminal demo centers itself in a viewport-height wrapper; the
         // card already provides the frame and padding.
         name: "terminal",
+        example: "terminal-demo",
         demo: TerminalDemo,
         demoClassName: "**:[.min-h-dvh]:min-h-0! **:[.min-h-dvh]:p-0!",
       },
@@ -55,10 +67,11 @@ const columns: { className: string; cells: Cell[] }[] = [
         // The cards-page scroller demo (no floating settings panel); its
         // "read only" caption is noise inside the card.
         name: "message-scroller",
+        example: "message-scroller-demo",
         demo: MessageScrollerDemo,
         demoClassName: "**:[.text-center.text-xs]:hidden",
       },
-      { name: "file-tree", demo: FileTreeDemo },
+      { name: "file-tree", example: "file-tree-demo", demo: FileTreeDemo },
     ],
   },
   {
@@ -69,11 +82,16 @@ const columns: { className: string; cells: Cell[] }[] = [
         // wrapper, let the dot grid show through, and drop the floating
         // shader-controls panel that would pin itself to the page corner.
         name: "ai-orb",
+        example: "ai-orb-demo",
         demo: AiOrbDemo,
         demoClassName:
           "**:[.min-h-screen]:min-h-0! **:[.min-h-screen]:bg-transparent! **:[.fixed]:hidden",
       },
-      { name: "animated-bots", demo: AnimatedBotsDemo },
+      {
+        name: "animated-bots",
+        example: "animated-bots-demo",
+        demo: AnimatedBotsDemo,
+      },
     ],
   },
 ]
@@ -85,7 +103,7 @@ const ShowcaseCard = React.memo(function ShowcaseCard({
 }: {
   item: Component
   cell: Cell
-  onSelect: (item: Component) => void
+  onSelect: (item: Component, example: string) => void
 }) {
   const meta = getItem(item.name)
   const Demo = cell.demo
@@ -96,7 +114,7 @@ const ShowcaseCard = React.memo(function ShowcaseCard({
         title={
           <button
             type="button"
-            onClick={() => onSelect(item)}
+            onClick={() => onSelect(item, cell.example)}
             className="flex w-full min-w-0 cursor-pointer items-center gap-2 rounded-sm text-start focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
           >
             {meta && (
@@ -144,8 +162,11 @@ export function HomeShowcase({
   className?: string
   seamless?: boolean
 }) {
-  /** The item whose details dialog is open, or `null` when closed. */
-  const [selected, setSelected] = React.useState<Component | null>(null)
+  /** The card whose details dialog is open, or `null` when closed. */
+  const [selected, setSelected] = React.useState<{
+    item: Component
+    example: string
+  } | null>(null)
 
   const byName = React.useMemo(
     () => new Map(items.map((item) => [item.name, item])),
@@ -154,7 +175,7 @@ export function HomeShowcase({
 
   // Stable so the memoized cards don't re-render when the dialog opens.
   const handleSelect = React.useCallback(
-    (item: Component) => setSelected(item),
+    (item: Component, example: string) => setSelected({ item, example }),
     []
   )
 
@@ -196,7 +217,8 @@ export function HomeShowcase({
         </>
       )}
       <ItemDetailsDialog
-        item={selected}
+        item={selected?.item ?? null}
+        exampleName={selected?.example}
         onOpenChange={(open) => {
           if (!open) setSelected(null)
         }}

@@ -20,6 +20,15 @@ import { loginForm } from "@/app/demo/[name]/components/login-form"
 import { logo } from "@/app/demo/[name]/components/logo"
 import { promptInput } from "@/app/demo/[name]/components/prompt-input"
 
+// registry:example demos — the `*-demo` entries in `registry.json` ship these
+// very files, so previewing them here keeps the home showcase's cards, its
+// details dialog and the installed code all showing the same demo.
+import { AnimatedBotsDemo } from "@/components/aiellie/examples/animation/animated-bots"
+import { AiOrbDemo } from "@/components/aiellie/examples/audio/ai-orb"
+import { MessageScrollerDemo } from "@/components/aiellie/examples/chat/message-scroller"
+import { FileTreeDemo } from "@/components/aiellie/examples/code/file-tree"
+import { WebPreviewDemo } from "@/components/aiellie/examples/web/web-preview"
+
 // ai elements
 import { TerminalDemo } from "@/components/aiellie/examples/code/terminal"
 import ModelSelectorExample from "@/app/demo/[name]/ui/model-selector"
@@ -133,6 +142,15 @@ export const demos: { [name: string]: Demo } = {
   persona: PersonaExample,
   "ai-orb": AIOrbExample,
   terminal: TerminalDemo,
+
+  // registry:example demos (see the import block above)
+  "ai-orb-demo": AiOrbDemo,
+  "animated-bots-demo": AnimatedBotsDemo,
+  "file-tree-demo": FileTreeDemo,
+  "message-scroller-demo": MessageScrollerDemo,
+  "terminal-demo": TerminalDemo,
+  "web-preview-demo": WebPreviewDemo,
+
   // ui
   accordion: AccordionExample,
   alert: AlertExample,

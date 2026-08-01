@@ -945,9 +945,17 @@ const iconByName: Record<string, IconSvgElement> = {
   ...Object.fromEntries(items.map((item) => [item.name, item.icon])),
 }
 
-/** Look up an icon by item (or nav) name, falling back to a generic cube. */
+/**
+ * Look up an icon by item (or nav) name. `registry:example` entries have no
+ * metadata of their own, so `<name>-demo` / `<name>-example` borrows the icon
+ * of the item it demonstrates; anything else falls back to a generic cube.
+ */
 export function getItemIcon(name: string): IconSvgElement {
-  return iconByName[name] ?? CubeIcon
+  return (
+    iconByName[name] ??
+    iconByName[name.replace(/-(demo|example)$/, "")] ??
+    CubeIcon
+  )
 }
 
 /** Look up the full metadata for a registry item by name. */

@@ -50,10 +50,19 @@ function fetchDetails(name: string): Promise<ItemDetails> {
 
 export function ItemDetailsDialog({
   item,
+  exampleName,
   onOpenChange,
 }: {
   /** The registry item to show, or `null` when the dialog is closed. */
   item: Component | null
+  /**
+   * Registry item the block viewer loads — its files, preview and install
+   * command. Defaults to `item.name`; the home showcase points this at the
+   * `registry:example` entry whose file is the demo rendered on the card, so
+   * the dialog shows that same demo while the header keeps the primitive's
+   * own title, icon and description.
+   */
+  exampleName?: string
   onOpenChange: (open: boolean) => void
 }) {
   const [state, setState] = React.useState<{
@@ -62,8 +71,8 @@ export function ItemDetailsDialog({
     failed: boolean
   }>({ name: undefined, details: null, failed: false })
 
-  const name = item?.name
-  const meta = name ? getItem(name) : undefined
+  const name = item ? (exampleName ?? item.name) : undefined
+  const meta = item ? getItem(item.name) : undefined
 
   // A different item means stale details — reset during render rather than in
   // the effect, so the old item's code never paints under the new title.
