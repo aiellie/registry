@@ -1,0 +1,3989 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "registry.aiellie.dev",
+  "homepage": "https://registry.aiellie.dev",
+  "items": [
+    {
+      "name": "theme",
+      "type": "registry:theme",
+      "title": "Aiellie Theme",
+      "description": "Indigo-on-zinc theme tokens (style: base-nova, RTL enabled) using Tailwind v4 and shadcn/ui variable names.",
+      "files": [
+        {
+          "path": "registry/common/globals.css",
+          "type": "registry:style",
+          "target": "app/globals.css"
+        },
+        {
+          "path": "registry/common/typeset.css",
+          "type": "registry:style",
+          "target": "app/typeset.css"
+        },
+        {
+          "path": "registry/common/postcss.config.mjs",
+          "type": "registry:file",
+          "target": "postcss.config.mjs"
+        },
+        {
+          "path": "registry/common/tsconfig.json",
+          "type": "registry:file",
+          "target": "tsconfig.json"
+        },
+        {
+          "path": "registry/common/package.json",
+          "type": "registry:file",
+          "target": "package.json"
+        },
+        {
+          "path": "registry/common/utils.ts",
+          "type": "registry:lib",
+          "target": "lib/utils.ts"
+        },
+        {
+          "path": "registry/common/use-mobile.ts",
+          "type": "registry:hook",
+          "target": "hooks/use-mobile.ts"
+        },
+        {
+          "path": "lib/gradient.ts",
+          "type": "registry:lib",
+          "target": "lib/gradient.ts"
+        },
+        {
+          "path": "lib/glass.ts",
+          "type": "registry:lib",
+          "target": "lib/glass.ts"
+        },
+        {
+          "path": "lib/models.ts",
+          "type": "registry:lib",
+          "target": "lib/models.ts"
+        },
+        {
+          "path": "hooks/use-meta-color.ts",
+          "type": "registry:hook",
+          "target": "hooks/use-meta-color.ts"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react",
+        "class-variance-authority",
+        "clsx",
+        "next-themes",
+        "tailwind-merge",
+        "tw-animate-css"
+      ],
+      "cssVars": {
+        "light": {
+          "background": "oklch(1 0 0)",
+          "foreground": "oklch(0.141 0.005 285.823)",
+          "card": "oklch(1 0 0)",
+          "card-foreground": "oklch(0.141 0.005 285.823)",
+          "popover": "oklch(1 0 0)",
+          "popover-foreground": "oklch(0.141 0.005 285.823)",
+          "primary": "oklch(0.457 0.24 277.023)",
+          "primary-foreground": "oklch(0.962 0.018 272.314)",
+          "secondary": "oklch(0.967 0.001 286.375)",
+          "secondary-foreground": "oklch(0.21 0.006 285.885)",
+          "muted": "oklch(0.967 0.001 286.375)",
+          "muted-foreground": "oklch(0.552 0.016 285.938)",
+          "accent": "oklch(0.967 0.001 286.375)",
+          "accent-foreground": "oklch(0.21 0.006 285.885)",
+          "destructive": "oklch(0.577 0.245 27.325)",
+          "border": "oklch(0.92 0.004 286.32)",
+          "input": "oklch(0.92 0.004 286.32)",
+          "ring": "oklch(0.705 0.015 286.067)",
+          "chart-1": "oklch(0.785 0.115 274.713)",
+          "chart-2": "oklch(0.585 0.233 277.117)",
+          "chart-3": "oklch(0.511 0.262 276.966)",
+          "chart-4": "oklch(0.457 0.24 277.023)",
+          "chart-5": "oklch(0.398 0.195 277.366)",
+          "radius": "0.875rem",
+          "sidebar": "oklch(0.985 0 0)",
+          "sidebar-foreground": "oklch(0.141 0.005 285.823)",
+          "sidebar-primary": "oklch(0.511 0.262 276.966)",
+          "sidebar-primary-foreground": "oklch(0.962 0.018 272.314)",
+          "sidebar-accent": "oklch(0.967 0.001 286.375)",
+          "sidebar-accent-foreground": "oklch(0.21 0.006 285.885)",
+          "sidebar-border": "oklch(0.92 0.004 286.32)",
+          "sidebar-ring": "oklch(0.705 0.015 286.067)"
+        },
+        "dark": {
+          "background": "oklch(0.141 0.005 285.823)",
+          "foreground": "oklch(0.985 0 0)",
+          "card": "oklch(0.21 0.006 285.885)",
+          "card-foreground": "oklch(0.985 0 0)",
+          "popover": "oklch(0.21 0.006 285.885)",
+          "popover-foreground": "oklch(0.985 0 0)",
+          "primary": "oklch(0.398 0.195 277.366)",
+          "primary-foreground": "oklch(0.962 0.018 272.314)",
+          "secondary": "oklch(0.274 0.006 286.033)",
+          "secondary-foreground": "oklch(0.985 0 0)",
+          "muted": "oklch(0.274 0.006 286.033)",
+          "muted-foreground": "oklch(0.705 0.015 286.067)",
+          "accent": "oklch(0.274 0.006 286.033)",
+          "accent-foreground": "oklch(0.985 0 0)",
+          "destructive": "oklch(0.704 0.191 22.216)",
+          "border": "oklch(1 0 0 / 10%)",
+          "input": "oklch(1 0 0 / 15%)",
+          "ring": "oklch(0.552 0.016 285.938)",
+          "chart-1": "oklch(0.785 0.115 274.713)",
+          "chart-2": "oklch(0.585 0.233 277.117)",
+          "chart-3": "oklch(0.511 0.262 276.966)",
+          "chart-4": "oklch(0.457 0.24 277.023)",
+          "chart-5": "oklch(0.398 0.195 277.366)",
+          "sidebar": "oklch(0.21 0.006 285.885)",
+          "sidebar-foreground": "oklch(0.985 0 0)",
+          "sidebar-primary": "oklch(0.585 0.233 277.117)",
+          "sidebar-primary-foreground": "oklch(0.962 0.018 272.314)",
+          "sidebar-accent": "oklch(0.274 0.006 286.033)",
+          "sidebar-accent-foreground": "oklch(0.985 0 0)",
+          "sidebar-border": "oklch(1 0 0 / 10%)",
+          "sidebar-ring": "oklch(0.552 0.016 285.938)"
+        }
+      }
+    },
+    {
+      "name": "blank",
+      "type": "registry:block",
+      "title": "Blank",
+      "description": "A minimal starting kit including the full Aiellie design system: theme tokens, all UI primitives, and brand components.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/brand-avatar.json",
+        "https://registry.aiellie.dev/r/logo.json",
+        "https://registry.aiellie.dev/r/brand-header.json",
+        "https://registry.aiellie.dev/r/brand-footer.json",
+        "https://registry.aiellie.dev/r/accordion.json",
+        "https://registry.aiellie.dev/r/alert.json",
+        "https://registry.aiellie.dev/r/alert-dialog.json",
+        "https://registry.aiellie.dev/r/aspect-ratio.json",
+        "https://registry.aiellie.dev/r/attachment.json",
+        "https://registry.aiellie.dev/r/avatar.json",
+        "https://registry.aiellie.dev/r/badge.json",
+        "https://registry.aiellie.dev/r/breadcrumb.json",
+        "https://registry.aiellie.dev/r/bubble.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/button-group.json",
+        "https://registry.aiellie.dev/r/calendar.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/carousel.json",
+        "https://registry.aiellie.dev/r/chart.json",
+        "https://registry.aiellie.dev/r/checkbox.json",
+        "https://registry.aiellie.dev/r/collapsible.json",
+        "https://registry.aiellie.dev/r/combobox.json",
+        "https://registry.aiellie.dev/r/command.json",
+        "https://registry.aiellie.dev/r/context-menu.json",
+        "https://registry.aiellie.dev/r/dialog.json",
+        "https://registry.aiellie.dev/r/direction.json",
+        "https://registry.aiellie.dev/r/drawer.json",
+        "https://registry.aiellie.dev/r/dropdown-menu.json",
+        "https://registry.aiellie.dev/r/empty.json",
+        "https://registry.aiellie.dev/r/field.json",
+        "https://registry.aiellie.dev/r/hover-card.json",
+        "https://registry.aiellie.dev/r/input.json",
+        "https://registry.aiellie.dev/r/input-group.json",
+        "https://registry.aiellie.dev/r/input-otp.json",
+        "https://registry.aiellie.dev/r/item.json",
+        "https://registry.aiellie.dev/r/kbd.json",
+        "https://registry.aiellie.dev/r/label.json",
+        "https://registry.aiellie.dev/r/marker.json",
+        "https://registry.aiellie.dev/r/menubar.json",
+        "https://registry.aiellie.dev/r/message.json",
+        "https://registry.aiellie.dev/r/message-scroller.json",
+        "https://registry.aiellie.dev/r/navigation-menu.json",
+        "https://registry.aiellie.dev/r/pagination.json",
+        "https://registry.aiellie.dev/r/popover.json",
+        "https://registry.aiellie.dev/r/progress.json",
+        "https://registry.aiellie.dev/r/radio-group.json",
+        "https://registry.aiellie.dev/r/resizable.json",
+        "https://registry.aiellie.dev/r/scroll-area.json",
+        "https://registry.aiellie.dev/r/select.json",
+        "https://registry.aiellie.dev/r/separator.json",
+        "https://registry.aiellie.dev/r/sheet.json",
+        "https://registry.aiellie.dev/r/sidebar.json",
+        "https://registry.aiellie.dev/r/skeleton.json",
+        "https://registry.aiellie.dev/r/slider.json",
+        "https://registry.aiellie.dev/r/spinner.json",
+        "https://registry.aiellie.dev/r/switch.json",
+        "https://registry.aiellie.dev/r/table.json",
+        "https://registry.aiellie.dev/r/tabs.json",
+        "https://registry.aiellie.dev/r/textarea.json",
+        "https://registry.aiellie.dev/r/toast.json",
+        "https://registry.aiellie.dev/r/toggle.json",
+        "https://registry.aiellie.dev/r/toggle-group.json",
+        "https://registry.aiellie.dev/r/tooltip.json",
+        "https://registry.aiellie.dev/r/data-table.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/date-picker.json"
+      ],
+      "files": [
+        {
+          "path": "registry/layouts/minimal-layout.tsx",
+          "type": "registry:file",
+          "target": "app/layout.tsx"
+        },
+        {
+          "path": "app/demo/[name]/blocks/blank/page.tsx",
+          "type": "registry:page",
+          "target": "app/page.tsx"
+        }
+      ]
+    },
+    {
+      "name": "login",
+      "type": "registry:block",
+      "title": "Login",
+      "description": "The login page for the aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/input.json",
+        "https://registry.aiellie.dev/r/field.json",
+        "https://registry.aiellie.dev/r/dialog.json",
+        "https://registry.aiellie.dev/r/scroll-area.json",
+        "https://registry.aiellie.dev/r/input-otp.json"
+      ],
+      "files": [
+        {
+          "path": "registry/layouts/minimal-layout.tsx",
+          "type": "registry:file",
+          "target": "app/layout.tsx"
+        },
+        {
+          "path": "app/demo/[name]/blocks/login/page.tsx",
+          "type": "registry:page",
+          "target": "app/login/page.tsx"
+        },
+        {
+          "path": "components/auth/login-form.tsx",
+          "type": "registry:component",
+          "target": "components/auth/login-form.tsx"
+        },
+        {
+          "path": "components/auth/privacy-policy.tsx",
+          "type": "registry:component",
+          "target": "components/auth/privacy-policy.tsx"
+        },
+        {
+          "path": "components/auth/terms-of-service.tsx",
+          "type": "registry:component",
+          "target": "components/auth/terms-of-service.tsx"
+        },
+        {
+          "path": "components/auth/verify-email-form.tsx",
+          "type": "registry:component",
+          "target": "components/auth/verify-email-form.tsx"
+        }
+      ]
+    },
+    {
+      "name": "shell",
+      "type": "registry:block",
+      "title": "Shell",
+      "description": "The bare application shell: brand header, brand footer, and collapsible left, right and bottom panels driven by the header toggles. The panels ship empty — everything inside them is yours to add.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/brand-header.json",
+        "https://registry.aiellie.dev/r/brand-footer.json",
+        "https://registry.aiellie.dev/r/resizable.json",
+        "https://registry.aiellie.dev/r/sidebar.json",
+        "https://registry.aiellie.dev/r/toast.json"
+      ],
+      "files": [
+        {
+          "path": "registry/layouts/panel-layout.tsx",
+          "type": "registry:file",
+          "target": "app/layout.tsx"
+        },
+        {
+          "path": "app/demo/[name]/blocks/shell/page.tsx",
+          "type": "registry:page",
+          "target": "app/page.tsx"
+        },
+        {
+          "path": "components/panel-shell.tsx",
+          "type": "registry:component",
+          "target": "components/panel-shell.tsx"
+        }
+      ],
+      "dependencies": [
+        "react-resizable-panels"
+      ]
+    },
+    {
+      "name": "chat",
+      "type": "registry:block",
+      "title": "Chat",
+      "description": "A chat page for the aiellie design system: the conversation thread with markers, attachments and summaries, the prompt input, and the chats sidebar nav.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/shell.json",
+        "https://registry.aiellie.dev/r/prompt-input.json",
+        "https://registry.aiellie.dev/r/status.json",
+        "https://registry.aiellie.dev/r/attachment.json",
+        "https://registry.aiellie.dev/r/bubble.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/collapsible.json",
+        "https://registry.aiellie.dev/r/dropdown-menu.json",
+        "https://registry.aiellie.dev/r/kbd.json",
+        "https://registry.aiellie.dev/r/marker.json",
+        "https://registry.aiellie.dev/r/message.json",
+        "https://registry.aiellie.dev/r/message-scroller.json",
+        "https://registry.aiellie.dev/r/sidebar.json",
+        "https://registry.aiellie.dev/r/spinner.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "app/demo/[name]/blocks/chat-page.tsx",
+          "type": "registry:page",
+          "target": "app/chat/page.tsx"
+        },
+        {
+          "path": "components/chat-conversation.tsx",
+          "type": "registry:component",
+          "target": "components/chat-conversation.tsx"
+        },
+        {
+          "path": "components/chat-dropdown.tsx",
+          "type": "registry:component",
+          "target": "components/chat-dropdown.tsx"
+        },
+        {
+          "path": "components/summary-dropdown.tsx",
+          "type": "registry:component",
+          "target": "components/summary-dropdown.tsx"
+        },
+        {
+          "path": "components/nav-chats.tsx",
+          "type": "registry:component",
+          "target": "components/nav-chats.tsx"
+        },
+        {
+          "path": "lib/chat-data.ts",
+          "type": "registry:lib",
+          "target": "lib/chat-data.ts"
+        }
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ]
+    },
+    {
+      "name": "newchat",
+      "type": "registry:block",
+      "title": "New Chat",
+      "description": "The empty new-conversation page: a centered prompt input ready for the first message.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/shell.json",
+        "https://registry.aiellie.dev/r/prompt-input.json",
+        "https://registry.aiellie.dev/r/status.json",
+        "https://registry.aiellie.dev/r/attachment.json",
+        "https://registry.aiellie.dev/r/bubble.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/collapsible.json",
+        "https://registry.aiellie.dev/r/dropdown-menu.json",
+        "https://registry.aiellie.dev/r/kbd.json",
+        "https://registry.aiellie.dev/r/marker.json",
+        "https://registry.aiellie.dev/r/message.json",
+        "https://registry.aiellie.dev/r/message-scroller.json",
+        "https://registry.aiellie.dev/r/sidebar.json",
+        "https://registry.aiellie.dev/r/spinner.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "app/demo/[name]/blocks/newchat-page.tsx",
+          "type": "registry:page",
+          "target": "app/newchat/page.tsx"
+        },
+        {
+          "path": "components/chat-conversation.tsx",
+          "type": "registry:component",
+          "target": "components/chat-conversation.tsx"
+        },
+        {
+          "path": "components/chat-dropdown.tsx",
+          "type": "registry:component",
+          "target": "components/chat-dropdown.tsx"
+        },
+        {
+          "path": "components/summary-dropdown.tsx",
+          "type": "registry:component",
+          "target": "components/summary-dropdown.tsx"
+        },
+        {
+          "path": "components/nav-chats.tsx",
+          "type": "registry:component",
+          "target": "components/nav-chats.tsx"
+        },
+        {
+          "path": "lib/chat-data.ts",
+          "type": "registry:lib",
+          "target": "lib/chat-data.ts"
+        }
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ]
+    },
+    {
+      "name": "dashboard",
+      "type": "registry:block",
+      "title": "Dashboard",
+      "description": "The dashboard landing page for the aiellie design system, built around the prompt input.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/shell.json",
+        "https://registry.aiellie.dev/r/prompt-input.json"
+      ],
+      "files": [
+        {
+          "path": "app/demo/[name]/blocks/dashboard-page.tsx",
+          "type": "registry:page",
+          "target": "app/dashboard/page.tsx"
+        }
+      ]
+    },
+    {
+      "name": "projects",
+      "type": "registry:block",
+      "title": "Projects",
+      "description": "A projects page: searchable project table with create dialog and per-row actions.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/shell.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/dialog.json",
+        "https://registry.aiellie.dev/r/dropdown-menu.json",
+        "https://registry.aiellie.dev/r/input-group.json",
+        "https://registry.aiellie.dev/r/table.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "app/demo/[name]/blocks/projects-page.tsx",
+          "type": "registry:page",
+          "target": "app/projects/page.tsx"
+        },
+        {
+          "path": "components/projects-list.tsx",
+          "type": "registry:component",
+          "target": "components/projects-list.tsx"
+        },
+        {
+          "path": "components/create-project-dialog.tsx",
+          "type": "registry:component",
+          "target": "components/create-project-dialog.tsx"
+        },
+        {
+          "path": "components/project-dropdown.tsx",
+          "type": "registry:component",
+          "target": "components/project-dropdown.tsx"
+        },
+        {
+          "path": "lib/projects-data.ts",
+          "type": "registry:lib",
+          "target": "lib/projects-data.ts"
+        },
+        {
+          "path": "lib/sidebar-data.ts",
+          "type": "registry:lib",
+          "target": "lib/sidebar-data.ts"
+        }
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ]
+    },
+    {
+      "name": "store",
+      "type": "registry:block",
+      "title": "Store",
+      "description": "A storefront page rendering the product grid over the shared product data.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/product-grid.json"
+      ],
+      "files": [
+        {
+          "path": "registry/layouts/minimal-layout.tsx",
+          "type": "registry:file",
+          "target": "app/layout.tsx"
+        },
+        {
+          "path": "app/demo/[name]/blocks/store-page.tsx",
+          "type": "registry:page",
+          "target": "app/store/page.tsx"
+        }
+      ]
+    },
+    {
+      "name": "logo",
+      "type": "registry:component",
+      "title": "Logo",
+      "description": "Brand logo lockup with mark and wordmark.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json"
+      ],
+      "files": [
+        {
+          "path": "components/brand/logo.tsx",
+          "type": "registry:component",
+          "target": "components/brand/logo.tsx"
+        }
+      ]
+    },
+    {
+      "name": "brand-avatar",
+      "type": "registry:component",
+      "title": "Avatar",
+      "description": "The aiellie orb as an expressive avatar — awake, thinking, responding, listening, sleeping, dizzy and more.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json"
+      ],
+      "files": [
+        {
+          "path": "components/brand/brand-avatar.tsx",
+          "type": "registry:component",
+          "target": "components/brand/brand-avatar.tsx"
+        }
+      ]
+    },
+    {
+      "name": "brand-header",
+      "type": "registry:component",
+      "title": "Header",
+      "description": "The header component for the aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/brand-avatar.json",
+        "https://registry.aiellie.dev/r/logo.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/tooltip.json",
+        "https://registry.aiellie.dev/r/sidebar.json"
+      ],
+      "files": [
+        {
+          "path": "components/brand/brand-header.tsx",
+          "type": "registry:component",
+          "target": "components/brand/brand-header.tsx"
+        },
+        {
+          "path": "components/brand/brand-panels.tsx",
+          "type": "registry:component",
+          "target": "components/brand/brand-panels.tsx"
+        }
+      ]
+    },
+    {
+      "name": "brand-footer",
+      "type": "registry:component",
+      "title": "Footer",
+      "description": "The footer component for the aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "components/brand/brand-footer.tsx",
+          "type": "registry:component",
+          "target": "components/brand/brand-footer.tsx"
+        },
+        {
+          "path": "components/copyright.tsx",
+          "type": "registry:component",
+          "target": "components/copyright.tsx"
+        },
+        {
+          "path": "components/latency.tsx",
+          "type": "registry:component",
+          "target": "components/latency.tsx"
+        },
+        {
+          "path": "components/load-status.tsx",
+          "type": "registry:component",
+          "target": "components/load-status.tsx"
+        },
+        {
+          "path": "components/ny-clock.tsx",
+          "type": "registry:component",
+          "target": "components/ny-clock.tsx"
+        },
+        {
+          "path": "components/theme-studio/theme-toggle.tsx",
+          "type": "registry:component",
+          "target": "components/theme-studio/theme-toggle.tsx"
+        },
+        {
+          "path": "components/aiellie/ui/status.tsx",
+          "type": "registry:ui",
+          "target": "components/aiellie/ui/status.tsx"
+        }
+      ]
+    },
+    {
+      "name": "accordion",
+      "type": "registry:ui",
+      "title": "Accordion",
+      "description": "Accordion UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/example.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/accordion.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/accordion.tsx"
+        },
+        {
+          "path": "app/demo/[name]/ui/accordion.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/accordion-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ]
+    },
+    {
+      "name": "alert",
+      "type": "registry:ui",
+      "title": "Alert",
+      "description": "Alert UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/badge.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/example.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/alert.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "app/demo/[name]/ui/alert.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/alert-example.tsx"
+        }
+      ]
+    },
+    {
+      "name": "alert-dialog",
+      "type": "registry:ui",
+      "title": "Alert Dialog",
+      "description": "Alert Dialog UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/dialog.json",
+        "https://registry.aiellie.dev/r/example.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/alert-dialog.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "app/demo/[name]/ui/alert-dialog.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/alert-dialog-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react"
+      ]
+    },
+    {
+      "name": "aspect-ratio",
+      "type": "registry:ui",
+      "title": "Aspect Ratio",
+      "description": "Aspect Ratio UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/example.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/aspect-ratio.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "app/demo/[name]/ui/aspect-ratio.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/aspect-ratio-example.tsx"
+        }
+      ]
+    },
+    {
+      "name": "attachment",
+      "type": "registry:ui",
+      "title": "Attachment",
+      "description": "Attachment UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/dialog.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/spinner.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/attachment.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "app/demo/[name]/ui/attachment.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/attachment-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react"
+      ]
+    },
+    {
+      "name": "avatar",
+      "type": "registry:ui",
+      "title": "Avatar",
+      "description": "Avatar UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/dropdown-menu.json",
+        "https://registry.aiellie.dev/r/empty.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/hover-card.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/avatar.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "app/demo/[name]/ui/avatar.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/avatar-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react"
+      ]
+    },
+    {
+      "name": "badge",
+      "type": "registry:ui",
+      "title": "Badge",
+      "description": "Badge UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/spinner.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/badge.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "app/demo/[name]/ui/badge.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/badge-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react"
+      ]
+    },
+    {
+      "name": "breadcrumb",
+      "type": "registry:ui",
+      "title": "Breadcrumb",
+      "description": "Breadcrumb UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/dropdown-menu.json",
+        "https://registry.aiellie.dev/r/example.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/breadcrumb.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "app/demo/[name]/ui/breadcrumb.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/breadcrumb-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ]
+    },
+    {
+      "name": "bubble",
+      "type": "registry:ui",
+      "title": "Bubble",
+      "description": "Bubble UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/collapsible.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/marker.json",
+        "https://registry.aiellie.dev/r/popover.json",
+        "https://registry.aiellie.dev/r/toast.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/bubble.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "app/demo/[name]/ui/bubble.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/bubble-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react"
+      ]
+    },
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button",
+      "description": "Button UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/spinner.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/button.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "app/demo/[name]/ui/button.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/button-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react"
+      ]
+    },
+    {
+      "name": "button-group",
+      "type": "registry:ui",
+      "title": "Button Group",
+      "description": "Button Group UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/dropdown-menu.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/field.json",
+        "https://registry.aiellie.dev/r/input-group.json",
+        "https://registry.aiellie.dev/r/input.json",
+        "https://registry.aiellie.dev/r/label.json",
+        "https://registry.aiellie.dev/r/popover.json",
+        "https://registry.aiellie.dev/r/select.json",
+        "https://registry.aiellie.dev/r/separator.json",
+        "https://registry.aiellie.dev/r/textarea.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/button-group.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "app/demo/[name]/ui/button-group.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/button-group-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react"
+      ]
+    },
+    {
+      "name": "calendar",
+      "type": "registry:ui",
+      "title": "Calendar",
+      "description": "Calendar UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/field.json",
+        "https://registry.aiellie.dev/r/input-group.json",
+        "https://registry.aiellie.dev/r/popover.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/calendar.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "app/demo/[name]/ui/calendar.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/calendar-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react",
+        "react-day-picker"
+      ]
+    },
+    {
+      "name": "card",
+      "type": "registry:ui",
+      "title": "Card",
+      "description": "Card UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/toggle-group.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/card.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "app/demo/[name]/ui/card.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/card-example.tsx"
+        }
+      ]
+    },
+    {
+      "name": "carousel",
+      "type": "registry:ui",
+      "title": "Carousel",
+      "description": "Carousel UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/example.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/carousel.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "app/demo/[name]/ui/carousel.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/carousel-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react",
+        "embla-carousel-react"
+      ]
+    },
+    {
+      "name": "chart",
+      "type": "registry:ui",
+      "title": "Chart",
+      "description": "A chart pattern built on the Chart primitive: type, range, series, colors and display settings, all driven from one toolbar.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/dropdown-menu.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/input-group.json",
+        "https://registry.aiellie.dev/r/label.json",
+        "https://registry.aiellie.dev/r/popover.json",
+        "https://registry.aiellie.dev/r/select.json",
+        "https://registry.aiellie.dev/r/separator.json",
+        "https://registry.aiellie.dev/r/slider.json",
+        "https://registry.aiellie.dev/r/switch.json",
+        "https://registry.aiellie.dev/r/toggle-group.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/chart.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "components/chart/index.ts",
+          "type": "registry:ui",
+          "target": "components/chart/index.ts"
+        },
+        {
+          "path": "components/chart/components/chart-builder.tsx",
+          "type": "registry:ui",
+          "target": "components/chart/components/chart-builder.tsx"
+        },
+        {
+          "path": "components/chart/components/chart-toolbar.tsx",
+          "type": "registry:ui",
+          "target": "components/chart/components/chart-toolbar.tsx"
+        },
+        {
+          "path": "components/chart/components/chart-type.tsx",
+          "type": "registry:ui",
+          "target": "components/chart/components/chart-type.tsx"
+        },
+        {
+          "path": "components/chart/components/chart-colors.tsx",
+          "type": "registry:ui",
+          "target": "components/chart/components/chart-colors.tsx"
+        },
+        {
+          "path": "components/chart/components/chart-series.tsx",
+          "type": "registry:ui",
+          "target": "components/chart/components/chart-series.tsx"
+        },
+        {
+          "path": "components/chart/components/chart-settings.tsx",
+          "type": "registry:ui",
+          "target": "components/chart/components/chart-settings.tsx"
+        },
+        {
+          "path": "components/chart/components/chart-range.tsx",
+          "type": "registry:ui",
+          "target": "components/chart/components/chart-range.tsx"
+        },
+        {
+          "path": "components/chart/components/chart-export.tsx",
+          "type": "registry:ui",
+          "target": "components/chart/components/chart-export.tsx"
+        },
+        {
+          "path": "components/chart/components/chart-render.tsx",
+          "type": "registry:ui",
+          "target": "components/chart/components/chart-render.tsx"
+        },
+        {
+          "path": "components/chart/components/chart-summary.tsx",
+          "type": "registry:ui",
+          "target": "components/chart/components/chart-summary.tsx"
+        },
+        {
+          "path": "components/chart/data/schema.ts",
+          "type": "registry:ui",
+          "target": "components/chart/data/schema.ts"
+        },
+        {
+          "path": "components/chart/data/config.ts",
+          "type": "registry:ui",
+          "target": "components/chart/data/config.ts"
+        },
+        {
+          "path": "components/chart/data/visitors.ts",
+          "type": "registry:ui",
+          "target": "components/chart/data/visitors.ts"
+        },
+        {
+          "path": "components/design/color-picker.tsx",
+          "type": "registry:ui",
+          "target": "components/design/color-picker.tsx"
+        },
+        {
+          "path": "app/demo/[name]/ui/chart.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/chart-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@hugeicons/react",
+        "motion",
+        "recharts",
+        "zod"
+      ]
+    },
+    {
+      "name": "checkbox",
+      "type": "registry:ui",
+      "title": "Checkbox",
+      "description": "Checkbox UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/field.json",
+        "https://registry.aiellie.dev/r/table.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/checkbox.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "app/demo/[name]/ui/checkbox.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/checkbox-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ]
+    },
+    {
+      "name": "collapsible",
+      "type": "registry:ui",
+      "title": "Collapsible",
+      "description": "Collapsible UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/field.json",
+        "https://registry.aiellie.dev/r/input.json",
+        "https://registry.aiellie.dev/r/tabs.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/collapsible.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "app/demo/[name]/ui/collapsible.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/collapsible-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react"
+      ]
+    },
+    {
+      "name": "combobox",
+      "type": "registry:ui",
+      "title": "Combobox",
+      "description": "Combobox UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/dialog.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/field.json",
+        "https://registry.aiellie.dev/r/input-group.json",
+        "https://registry.aiellie.dev/r/input.json",
+        "https://registry.aiellie.dev/r/item.json",
+        "https://registry.aiellie.dev/r/select.json",
+        "https://registry.aiellie.dev/r/toast.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/combobox.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "app/demo/[name]/ui/combobox.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/combobox-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ]
+    },
+    {
+      "name": "command",
+      "type": "registry:ui",
+      "title": "Command",
+      "description": "Command UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/dialog.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/input-group.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/command.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "app/demo/[name]/ui/command.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/command-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react",
+        "cmdk"
+      ]
+    },
+    {
+      "name": "context-menu",
+      "type": "registry:ui",
+      "title": "Context Menu",
+      "description": "Context Menu UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/dialog.json",
+        "https://registry.aiellie.dev/r/example.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/context-menu.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "app/demo/[name]/ui/context-menu.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/context-menu-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ]
+    },
+    {
+      "name": "dialog",
+      "type": "registry:ui",
+      "title": "Dialog",
+      "description": "Dialog UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/field.json",
+        "https://registry.aiellie.dev/r/input.json",
+        "https://registry.aiellie.dev/r/label.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/dialog.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "app/demo/[name]/ui/dialog.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/dialog-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ]
+    },
+    {
+      "name": "direction",
+      "type": "registry:ui",
+      "title": "Direction",
+      "description": "Direction UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/accordion.json",
+        "https://registry.aiellie.dev/r/alert-dialog.json",
+        "https://registry.aiellie.dev/r/alert.json",
+        "https://registry.aiellie.dev/r/aspect-ratio.json",
+        "https://registry.aiellie.dev/r/avatar.json",
+        "https://registry.aiellie.dev/r/badge.json",
+        "https://registry.aiellie.dev/r/breadcrumb.json",
+        "https://registry.aiellie.dev/r/button-group.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/calendar.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/carousel.json",
+        "https://registry.aiellie.dev/r/chart.json",
+        "https://registry.aiellie.dev/r/checkbox.json",
+        "https://registry.aiellie.dev/r/collapsible.json",
+        "https://registry.aiellie.dev/r/combobox.json",
+        "https://registry.aiellie.dev/r/command.json",
+        "https://registry.aiellie.dev/r/context-menu.json",
+        "https://registry.aiellie.dev/r/dialog.json",
+        "https://registry.aiellie.dev/r/drawer.json",
+        "https://registry.aiellie.dev/r/dropdown-menu.json",
+        "https://registry.aiellie.dev/r/empty.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/field.json",
+        "https://registry.aiellie.dev/r/hover-card.json",
+        "https://registry.aiellie.dev/r/input-group.json",
+        "https://registry.aiellie.dev/r/input-otp.json",
+        "https://registry.aiellie.dev/r/input.json",
+        "https://registry.aiellie.dev/r/item.json",
+        "https://registry.aiellie.dev/r/kbd.json",
+        "https://registry.aiellie.dev/r/label.json",
+        "https://registry.aiellie.dev/r/menubar.json",
+        "https://registry.aiellie.dev/r/native-select.json",
+        "https://registry.aiellie.dev/r/navigation-menu.json",
+        "https://registry.aiellie.dev/r/pagination.json",
+        "https://registry.aiellie.dev/r/popover.json",
+        "https://registry.aiellie.dev/r/progress.json",
+        "https://registry.aiellie.dev/r/radio-group.json",
+        "https://registry.aiellie.dev/r/resizable.json",
+        "https://registry.aiellie.dev/r/scroll-area.json",
+        "https://registry.aiellie.dev/r/select.json",
+        "https://registry.aiellie.dev/r/separator.json",
+        "https://registry.aiellie.dev/r/sheet.json",
+        "https://registry.aiellie.dev/r/skeleton.json",
+        "https://registry.aiellie.dev/r/slider.json",
+        "https://registry.aiellie.dev/r/spinner.json",
+        "https://registry.aiellie.dev/r/switch.json",
+        "https://registry.aiellie.dev/r/table.json",
+        "https://registry.aiellie.dev/r/tabs.json",
+        "https://registry.aiellie.dev/r/textarea.json",
+        "https://registry.aiellie.dev/r/toast.json",
+        "https://registry.aiellie.dev/r/toggle-group.json",
+        "https://registry.aiellie.dev/r/toggle.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/direction.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "components/language-selector.tsx",
+          "type": "registry:component",
+          "target": "components/language-selector.tsx"
+        },
+        {
+          "path": "app/demo/[name]/ui/direction.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/direction-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react"
+      ]
+    },
+    {
+      "name": "drawer",
+      "type": "registry:ui",
+      "title": "Drawer",
+      "description": "Drawer UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/dialog.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/input.json",
+        "https://registry.aiellie.dev/r/label.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/drawer.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "app/demo/[name]/ui/drawer.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/drawer-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react"
+      ]
+    },
+    {
+      "name": "dropdown-menu",
+      "type": "registry:ui",
+      "title": "Dropdown Menu",
+      "description": "Dropdown Menu UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/avatar.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/dialog.json",
+        "https://registry.aiellie.dev/r/example.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/dropdown-menu.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "app/demo/[name]/ui/dropdown-menu.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/dropdown-menu-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ]
+    },
+    {
+      "name": "empty",
+      "type": "registry:ui",
+      "title": "Empty",
+      "description": "Empty UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/avatar.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/input-group.json",
+        "https://registry.aiellie.dev/r/kbd.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/empty.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "app/demo/[name]/ui/empty.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/empty-example.tsx"
+        }
+      ]
+    },
+    {
+      "name": "field",
+      "type": "registry:ui",
+      "title": "Field",
+      "description": "Field UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/badge.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/checkbox.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/input-otp.json",
+        "https://registry.aiellie.dev/r/input.json",
+        "https://registry.aiellie.dev/r/label.json",
+        "https://registry.aiellie.dev/r/native-select.json",
+        "https://registry.aiellie.dev/r/radio-group.json",
+        "https://registry.aiellie.dev/r/select.json",
+        "https://registry.aiellie.dev/r/separator.json",
+        "https://registry.aiellie.dev/r/slider.json",
+        "https://registry.aiellie.dev/r/switch.json",
+        "https://registry.aiellie.dev/r/textarea.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/field.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "app/demo/[name]/ui/field.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/field-example.tsx"
+        }
+      ]
+    },
+    {
+      "name": "hover-card",
+      "type": "registry:ui",
+      "title": "Hover Card",
+      "description": "Hover Card UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/dialog.json",
+        "https://registry.aiellie.dev/r/example.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/hover-card.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "app/demo/[name]/ui/hover-card.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/hover-card-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react"
+      ]
+    },
+    {
+      "name": "input",
+      "type": "registry:ui",
+      "title": "Input",
+      "description": "Input UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/badge.json",
+        "https://registry.aiellie.dev/r/button-group.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/field.json",
+        "https://registry.aiellie.dev/r/input-group.json",
+        "https://registry.aiellie.dev/r/native-select.json",
+        "https://registry.aiellie.dev/r/select.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/input.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "app/demo/[name]/ui/input.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/input-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react"
+      ]
+    },
+    {
+      "name": "input-group",
+      "type": "registry:ui",
+      "title": "Input Group",
+      "description": "Input Group UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/button-group.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/dropdown-menu.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/field.json",
+        "https://registry.aiellie.dev/r/input.json",
+        "https://registry.aiellie.dev/r/kbd.json",
+        "https://registry.aiellie.dev/r/popover.json",
+        "https://registry.aiellie.dev/r/spinner.json",
+        "https://registry.aiellie.dev/r/textarea.json",
+        "https://registry.aiellie.dev/r/toast.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/input-group.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "app/demo/[name]/ui/input-group.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/input-group-example.tsx"
+        }
+      ]
+    },
+    {
+      "name": "input-otp",
+      "type": "registry:ui",
+      "title": "Input OTP",
+      "description": "Input OTP UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/field.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/input-otp.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "app/demo/[name]/ui/input-otp.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/input-otp-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react",
+        "input-otp"
+      ]
+    },
+    {
+      "name": "item",
+      "type": "registry:ui",
+      "title": "Item",
+      "description": "Item UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/avatar.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/dropdown-menu.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/separator.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/item.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "app/demo/[name]/ui/item.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/item-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react"
+      ]
+    },
+    {
+      "name": "kbd",
+      "type": "registry:ui",
+      "title": "Kbd",
+      "description": "Kbd UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/input-group.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/kbd.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "app/demo/[name]/ui/kbd.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/kbd-example.tsx"
+        }
+      ]
+    },
+    {
+      "name": "label",
+      "type": "registry:ui",
+      "title": "Label",
+      "description": "Label UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/checkbox.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/field.json",
+        "https://registry.aiellie.dev/r/input.json",
+        "https://registry.aiellie.dev/r/textarea.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/label.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "app/demo/[name]/ui/label.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/label-example.tsx"
+        }
+      ]
+    },
+    {
+      "name": "marker",
+      "type": "registry:ui",
+      "title": "Marker",
+      "description": "Marker UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/accordion.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/drawer.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/spinner.json",
+        "https://registry.aiellie.dev/r/toast.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/marker.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "app/demo/[name]/ui/marker.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/marker-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react"
+      ]
+    },
+    {
+      "name": "menubar",
+      "type": "registry:ui",
+      "title": "Menubar",
+      "description": "Menubar UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/dialog.json",
+        "https://registry.aiellie.dev/r/dropdown-menu.json",
+        "https://registry.aiellie.dev/r/example.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/menubar.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "app/demo/[name]/ui/menubar.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/menubar-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ]
+    },
+    {
+      "name": "message",
+      "type": "registry:ui",
+      "title": "Message",
+      "description": "Message UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/attachment.json",
+        "https://registry.aiellie.dev/r/avatar.json",
+        "https://registry.aiellie.dev/r/bubble.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/marker.json",
+        "https://registry.aiellie.dev/r/spinner.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/message.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "components/chat/message-parts.tsx",
+          "type": "registry:component",
+          "target": "components/chat/message-parts.tsx"
+        },
+        {
+          "path": "lib/ai.ts",
+          "type": "registry:lib",
+          "target": "lib/ai.ts"
+        },
+        {
+          "path": "app/demo/[name]/ui/message.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/message-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "ai"
+      ]
+    },
+    {
+      "name": "message-scroller",
+      "type": "registry:ui",
+      "title": "Message Scroller",
+      "description": "Message Scroller UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/avatar.json",
+        "https://registry.aiellie.dev/r/bubble.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/dropdown-menu.json",
+        "https://registry.aiellie.dev/r/empty.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/hover-card.json",
+        "https://registry.aiellie.dev/r/input-group.json",
+        "https://registry.aiellie.dev/r/marker.json",
+        "https://registry.aiellie.dev/r/message.json",
+        "https://registry.aiellie.dev/r/select.json",
+        "https://registry.aiellie.dev/r/slider.json",
+        "https://registry.aiellie.dev/r/tabs.json",
+        "https://registry.aiellie.dev/r/toast.json",
+        "https://registry.aiellie.dev/r/toggle-group.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/message-scroller.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "components/chat/message-animated.tsx",
+          "type": "registry:component",
+          "target": "components/chat/message-animated.tsx"
+        },
+        {
+          "path": "components/chat/message-parts.tsx",
+          "type": "registry:component",
+          "target": "components/chat/message-parts.tsx"
+        },
+        {
+          "path": "lib/ai.ts",
+          "type": "registry:lib",
+          "target": "lib/ai.ts"
+        },
+        {
+          "path": "lib/message-animations.ts",
+          "type": "registry:lib",
+          "target": "lib/message-animations.ts"
+        },
+        {
+          "path": "app/demo/[name]/ui/message-scroller.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/message-scroller-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react",
+        "@shadcn/react",
+        "ai",
+        "motion"
+      ]
+    },
+    {
+      "name": "navigation-menu",
+      "type": "registry:ui",
+      "title": "Navigation Menu",
+      "description": "Navigation Menu UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/example.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/navigation-menu.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "app/demo/[name]/ui/navigation-menu.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/navigation-menu-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ]
+    },
+    {
+      "name": "pagination",
+      "type": "registry:ui",
+      "title": "Pagination",
+      "description": "Pagination UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/field.json",
+        "https://registry.aiellie.dev/r/select.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/pagination.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "app/demo/[name]/ui/pagination.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/pagination-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ]
+    },
+    {
+      "name": "popover",
+      "type": "registry:ui",
+      "title": "Popover",
+      "description": "Popover UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/dialog.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/field.json",
+        "https://registry.aiellie.dev/r/input.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/popover.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "app/demo/[name]/ui/popover.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/popover-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react"
+      ]
+    },
+    {
+      "name": "progress",
+      "type": "registry:ui",
+      "title": "Progress",
+      "description": "Progress UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/item.json",
+        "https://registry.aiellie.dev/r/slider.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/progress.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "app/demo/[name]/ui/progress.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/progress-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react"
+      ]
+    },
+    {
+      "name": "radio-group",
+      "type": "registry:ui",
+      "title": "Radio Group",
+      "description": "Radio Group UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/field.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/radio-group.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "app/demo/[name]/ui/radio-group.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/radio-group-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react"
+      ]
+    },
+    {
+      "name": "resizable",
+      "type": "registry:ui",
+      "title": "Resizable",
+      "description": "Resizable UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/example.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/resizable.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "app/demo/[name]/ui/resizable.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/resizable-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "react-resizable-panels"
+      ]
+    },
+    {
+      "name": "scroll-area",
+      "type": "registry:ui",
+      "title": "Scroll Area",
+      "description": "Scroll Area UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/separator.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/scroll-area.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "app/demo/[name]/ui/scroll-area.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/scroll-area-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react"
+      ]
+    },
+    {
+      "name": "select",
+      "type": "registry:ui",
+      "title": "Select",
+      "description": "Select UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/dialog.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/field.json",
+        "https://registry.aiellie.dev/r/input.json",
+        "https://registry.aiellie.dev/r/item.json",
+        "https://registry.aiellie.dev/r/native-select.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/select.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "app/demo/[name]/ui/select.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/select-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ]
+    },
+    {
+      "name": "separator",
+      "type": "registry:ui",
+      "title": "Separator",
+      "description": "Separator UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/example.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/separator.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "app/demo/[name]/ui/separator.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/separator-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react"
+      ]
+    },
+    {
+      "name": "sheet",
+      "type": "registry:ui",
+      "title": "Sheet",
+      "description": "Sheet UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/field.json",
+        "https://registry.aiellie.dev/r/input.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/sheet.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "app/demo/[name]/ui/sheet.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/sheet-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ]
+    },
+    {
+      "name": "sidebar",
+      "type": "registry:ui",
+      "title": "Sidebar",
+      "description": "Sidebar UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/dropdown-menu.json",
+        "https://registry.aiellie.dev/r/input.json",
+        "https://registry.aiellie.dev/r/item.json",
+        "https://registry.aiellie.dev/r/label.json",
+        "https://registry.aiellie.dev/r/separator.json",
+        "https://registry.aiellie.dev/r/sheet.json",
+        "https://registry.aiellie.dev/r/skeleton.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/sidebar.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/common/use-mobile.ts",
+          "type": "registry:hook",
+          "target": "hooks/use-mobile.ts"
+        },
+        {
+          "path": "app/demo/[name]/ui/sidebar.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/sidebar-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ]
+    },
+    {
+      "name": "skeleton",
+      "type": "registry:ui",
+      "title": "Skeleton",
+      "description": "Skeleton UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/example.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/skeleton.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "app/demo/[name]/ui/skeleton.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/skeleton-example.tsx"
+        }
+      ]
+    },
+    {
+      "name": "slider",
+      "type": "registry:ui",
+      "title": "Slider",
+      "description": "Slider UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/label.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/slider.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "app/demo/[name]/ui/slider.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/slider-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react"
+      ]
+    },
+    {
+      "name": "spinner",
+      "type": "registry:ui",
+      "title": "Spinner",
+      "description": "Spinner UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/badge.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/empty.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/field.json",
+        "https://registry.aiellie.dev/r/input-group.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/spinner.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "app/demo/[name]/ui/spinner.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/spinner-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ]
+    },
+    {
+      "name": "switch",
+      "type": "registry:ui",
+      "title": "Switch",
+      "description": "Switch UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/field.json",
+        "https://registry.aiellie.dev/r/label.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/switch.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "app/demo/[name]/ui/switch.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/switch-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react"
+      ]
+    },
+    {
+      "name": "table",
+      "type": "registry:ui",
+      "title": "Table",
+      "description": "Table UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/dropdown-menu.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/input.json",
+        "https://registry.aiellie.dev/r/select.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/table.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "app/demo/[name]/ui/table.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/table-example.tsx"
+        }
+      ]
+    },
+    {
+      "name": "tabs",
+      "type": "registry:ui",
+      "title": "Tabs",
+      "description": "Tabs UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/dropdown-menu.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/input.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/tabs.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "app/demo/[name]/ui/tabs.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/tabs-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react",
+        "motion"
+      ]
+    },
+    {
+      "name": "textarea",
+      "type": "registry:ui",
+      "title": "Textarea",
+      "description": "Textarea UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/field.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/textarea.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "app/demo/[name]/ui/textarea.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/textarea-example.tsx"
+        }
+      ]
+    },
+    {
+      "name": "toast",
+      "type": "registry:ui",
+      "title": "Toast",
+      "description": "Toast UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/example.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/toast.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "app/demo/[name]/ui/toast.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/toast-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ]
+    },
+    {
+      "name": "toggle",
+      "type": "registry:ui",
+      "title": "Toggle",
+      "description": "Toggle UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/example.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/toggle.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "app/demo/[name]/ui/toggle.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/toggle-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react"
+      ]
+    },
+    {
+      "name": "toggle-group",
+      "type": "registry:ui",
+      "title": "Toggle Group",
+      "description": "Toggle Group UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/field.json",
+        "https://registry.aiellie.dev/r/input.json",
+        "https://registry.aiellie.dev/r/select.json",
+        "https://registry.aiellie.dev/r/toggle.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/toggle-group.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "app/demo/[name]/ui/toggle-group.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/toggle-group-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react"
+      ]
+    },
+    {
+      "name": "tooltip",
+      "type": "registry:ui",
+      "title": "Tooltip",
+      "description": "Tooltip UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/kbd.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/tooltip.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "app/demo/[name]/ui/tooltip.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/tooltip-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react"
+      ]
+    },
+    {
+      "name": "example",
+      "type": "registry:example",
+      "title": "Example",
+      "description": "Example UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "components/example.tsx",
+          "type": "registry:component",
+          "target": "components/example.tsx"
+        }
+      ]
+    },
+    {
+      "name": "date-picker",
+      "type": "registry:ui",
+      "title": "Date Picker",
+      "description": "A date picker composed of the Button, Calendar, and Popover primitives.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/calendar.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/field.json",
+        "https://registry.aiellie.dev/r/input.json",
+        "https://registry.aiellie.dev/r/input-group.json",
+        "https://registry.aiellie.dev/r/popover.json"
+      ],
+      "files": [
+        {
+          "path": "app/demo/[name]/ui/date-picker.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/date-picker-example.tsx"
+        }
+      ]
+    },
+    {
+      "name": "data-table",
+      "type": "registry:ui",
+      "title": "Data Table",
+      "description": "A data table pattern built on the Table primitive: search, faceted filters, column and density settings, bulk actions and export.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/alert-dialog.json",
+        "https://registry.aiellie.dev/r/avatar.json",
+        "https://registry.aiellie.dev/r/badge.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/checkbox.json",
+        "https://registry.aiellie.dev/r/command.json",
+        "https://registry.aiellie.dev/r/dialog.json",
+        "https://registry.aiellie.dev/r/dropdown-menu.json",
+        "https://registry.aiellie.dev/r/empty.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/field.json",
+        "https://registry.aiellie.dev/r/input-group.json",
+        "https://registry.aiellie.dev/r/input.json",
+        "https://registry.aiellie.dev/r/label.json",
+        "https://registry.aiellie.dev/r/popover.json",
+        "https://registry.aiellie.dev/r/select.json",
+        "https://registry.aiellie.dev/r/separator.json",
+        "https://registry.aiellie.dev/r/switch.json",
+        "https://registry.aiellie.dev/r/table.json",
+        "https://registry.aiellie.dev/r/textarea.json",
+        "https://registry.aiellie.dev/r/toggle-group.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "components/data-table/index.ts",
+          "type": "registry:ui",
+          "target": "components/data-table/index.ts"
+        },
+        {
+          "path": "components/data-table/components/data-table.tsx",
+          "type": "registry:ui",
+          "target": "components/data-table/components/data-table.tsx"
+        },
+        {
+          "path": "components/data-table/components/columns.tsx",
+          "type": "registry:ui",
+          "target": "components/data-table/components/columns.tsx"
+        },
+        {
+          "path": "components/data-table/components/data-table-toolbar.tsx",
+          "type": "registry:ui",
+          "target": "components/data-table/components/data-table-toolbar.tsx"
+        },
+        {
+          "path": "components/data-table/components/data-table-global-filter.tsx",
+          "type": "registry:ui",
+          "target": "components/data-table/components/data-table-global-filter.tsx"
+        },
+        {
+          "path": "components/data-table/components/data-table-faceted-filter.tsx",
+          "type": "registry:ui",
+          "target": "components/data-table/components/data-table-faceted-filter.tsx"
+        },
+        {
+          "path": "components/data-table/components/data-table-view-options.tsx",
+          "type": "registry:ui",
+          "target": "components/data-table/components/data-table-view-options.tsx"
+        },
+        {
+          "path": "components/data-table/components/data-table-settings.tsx",
+          "type": "registry:ui",
+          "target": "components/data-table/components/data-table-settings.tsx"
+        },
+        {
+          "path": "components/data-table/components/data-table-export.tsx",
+          "type": "registry:ui",
+          "target": "components/data-table/components/data-table-export.tsx"
+        },
+        {
+          "path": "components/data-table/components/data-table-add-dialog.tsx",
+          "type": "registry:ui",
+          "target": "components/data-table/components/data-table-add-dialog.tsx"
+        },
+        {
+          "path": "components/data-table/components/data-table-delete-dialog.tsx",
+          "type": "registry:ui",
+          "target": "components/data-table/components/data-table-delete-dialog.tsx"
+        },
+        {
+          "path": "components/data-table/components/data-table-avatar.tsx",
+          "type": "registry:ui",
+          "target": "components/data-table/components/data-table-avatar.tsx"
+        },
+        {
+          "path": "components/data-table/components/data-table-summary.tsx",
+          "type": "registry:ui",
+          "target": "components/data-table/components/data-table-summary.tsx"
+        },
+        {
+          "path": "components/data-table/components/data-table-bulk-actions.tsx",
+          "type": "registry:ui",
+          "target": "components/data-table/components/data-table-bulk-actions.tsx"
+        },
+        {
+          "path": "components/data-table/components/data-table-column-header.tsx",
+          "type": "registry:ui",
+          "target": "components/data-table/components/data-table-column-header.tsx"
+        },
+        {
+          "path": "components/data-table/components/data-table-row-actions.tsx",
+          "type": "registry:ui",
+          "target": "components/data-table/components/data-table-row-actions.tsx"
+        },
+        {
+          "path": "components/data-table/components/data-table-pagination.tsx",
+          "type": "registry:ui",
+          "target": "components/data-table/components/data-table-pagination.tsx"
+        },
+        {
+          "path": "components/data-table/components/data-table-empty.tsx",
+          "type": "registry:ui",
+          "target": "components/data-table/components/data-table-empty.tsx"
+        },
+        {
+          "path": "components/data-table/data/config.ts",
+          "type": "registry:ui",
+          "target": "components/data-table/data/config.ts"
+        },
+        {
+          "path": "components/data-table/data/data.tsx",
+          "type": "registry:ui",
+          "target": "components/data-table/data/data.tsx"
+        },
+        {
+          "path": "components/data-table/data/schema.ts",
+          "type": "registry:ui",
+          "target": "components/data-table/data/schema.ts"
+        },
+        {
+          "path": "components/data-table/data/tasks.ts",
+          "type": "registry:ui",
+          "target": "components/data-table/data/tasks.ts"
+        },
+        {
+          "path": "components/aiellie/ui/status.tsx",
+          "type": "registry:ui",
+          "target": "components/aiellie/ui/status.tsx"
+        },
+        {
+          "path": "app/demo/[name]/components/data/data-table.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/data-table-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@hugeicons/react",
+        "@tanstack/react-table",
+        "zod"
+      ]
+    },
+    {
+      "name": "chain-of-thought",
+      "type": "registry:ui",
+      "title": "Chain of Thought",
+      "description": "A chain of thought pattern built on the Bubble primitive.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/badge.json",
+        "https://registry.aiellie.dev/r/collapsible.json"
+      ],
+      "files": [
+        {
+          "path": "components/chat/chain-of-thought.tsx",
+          "type": "registry:ui",
+          "target": "components/chat/chain-of-thought.tsx"
+        },
+        {
+          "path": "app/demo/[name]/chat/chain-of-thought.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/chain-of-thought-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ]
+    },
+    {
+      "name": "code-block",
+      "type": "registry:ui",
+      "title": "Code Block",
+      "description": "A code block pattern built on the Code Block primitive.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/badge.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/combobox.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/label.json",
+        "https://registry.aiellie.dev/r/select.json",
+        "https://registry.aiellie.dev/r/switch.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "components/code/code-block.tsx",
+          "type": "registry:ui",
+          "target": "components/code/code-block.tsx"
+        },
+        {
+          "path": "components/code/code-language-selector.tsx",
+          "type": "registry:ui",
+          "target": "components/code/code-language-selector.tsx"
+        },
+        {
+          "path": "components/icons/icons.tsx",
+          "type": "registry:ui",
+          "target": "components/icons/icons.tsx"
+        },
+        {
+          "path": "app/demo/[name]/code/code-block.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/code-block-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react",
+        "shiki"
+      ]
+    },
+    {
+      "name": "agent",
+      "type": "registry:ui",
+      "title": "Agent",
+      "description": "A agent pattern built on the Agent primitive.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/accordion.json",
+        "https://registry.aiellie.dev/r/avatar.json",
+        "https://registry.aiellie.dev/r/badge.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/code-block.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/hover-card.json",
+        "https://registry.aiellie.dev/r/label.json",
+        "https://registry.aiellie.dev/r/select.json",
+        "https://registry.aiellie.dev/r/switch.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "components/code/agent.tsx",
+          "type": "registry:ui",
+          "target": "components/code/agent.tsx"
+        },
+        {
+          "path": "app/demo/[name]/code/agent.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/agent-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react",
+        "ai",
+        "zod"
+      ]
+    },
+    {
+      "name": "artifact",
+      "type": "registry:ui",
+      "title": "Artifact",
+      "description": "An artifact pattern built on the Artifact primitive.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/badge.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/code-block.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "components/code/artifact.tsx",
+          "type": "registry:ui",
+          "target": "components/code/artifact.tsx"
+        },
+        {
+          "path": "app/demo/[name]/code/artifact.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/artifact-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ]
+    },
+    {
+      "name": "commit",
+      "type": "registry:ui",
+      "title": "Commit",
+      "description": "A commit pattern built on the Commit primitive.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/avatar.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/collapsible.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/toast.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "components/code/commit.tsx",
+          "type": "registry:ui",
+          "target": "components/code/commit.tsx"
+        },
+        {
+          "path": "components/icons/icons.tsx",
+          "type": "registry:ui",
+          "target": "components/icons/icons.tsx"
+        },
+        {
+          "path": "app/demo/[name]/code/commit.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/commit-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ]
+    },
+    {
+      "name": "environment-variables",
+      "type": "registry:ui",
+      "title": "Environment Variables",
+      "description": "An environment variables pattern built on the Environment Variables primitive.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/badge.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/toast.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "components/code/environment-variables.tsx",
+          "type": "registry:ui",
+          "target": "components/code/environment-variables.tsx"
+        },
+        {
+          "path": "components/icons/icons.tsx",
+          "type": "registry:ui",
+          "target": "components/icons/icons.tsx"
+        },
+        {
+          "path": "app/demo/[name]/code/environment-variables.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/environment-variables-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ]
+    },
+    {
+      "name": "file-tree",
+      "type": "registry:ui",
+      "title": "File Tree",
+      "description": "A file tree pattern.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/context-menu.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "components/code/file-tree.tsx",
+          "type": "registry:ui",
+          "target": "components/code/file-tree.tsx"
+        },
+        {
+          "path": "components/icons/icons.tsx",
+          "type": "registry:ui",
+          "target": "components/icons/icons.tsx"
+        },
+        {
+          "path": "app/demo/[name]/code/file-tree.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/file-tree-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react",
+        "motion"
+      ]
+    },
+    {
+      "name": "package-info",
+      "type": "registry:ui",
+      "title": "Package Info",
+      "description": "A package summary pattern for install plans, changelogs and dependency diffs.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/badge.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/collapsible.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/toast.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "components/code/package-info.tsx",
+          "type": "registry:ui",
+          "target": "components/code/package-info.tsx"
+        },
+        {
+          "path": "components/icons/icons.tsx",
+          "type": "registry:ui",
+          "target": "components/icons/icons.tsx"
+        },
+        {
+          "path": "app/demo/[name]/code/package-info.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/package-info-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ]
+    },
+    {
+      "name": "snippet",
+      "type": "registry:ui",
+      "title": "Snippet",
+      "description": "A single-line command pattern with Shiki highlighting and a copy button, built on the Input Group primitive.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/code-block.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/input-group.json",
+        "https://registry.aiellie.dev/r/toast.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "components/code/snippet.tsx",
+          "type": "registry:ui",
+          "target": "components/code/snippet.tsx"
+        },
+        {
+          "path": "app/demo/[name]/code/snippet.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/snippet-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react",
+        "shiki"
+      ]
+    },
+    {
+      "name": "stack-trace",
+      "type": "registry:ui",
+      "title": "Stack Trace",
+      "description": "A collapsible error stack trace pattern that parses frames and links file paths.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/collapsible.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/toast.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "components/code/stack-trace.tsx",
+          "type": "registry:ui",
+          "target": "components/code/stack-trace.tsx"
+        },
+        {
+          "path": "app/demo/[name]/code/stack-trace.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/stack-trace-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ]
+    },
+    {
+      "name": "color-picker",
+      "type": "registry:ui",
+      "title": "Color Picker",
+      "description": "A color picker pattern built on the Color Picker primitive.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/input-group.json",
+        "https://registry.aiellie.dev/r/select.json",
+        "https://registry.aiellie.dev/r/tooltip.json",
+        "https://registry.aiellie.dev/r/toast.json",
+        "https://registry.aiellie.dev/r/example.json"
+      ],
+      "files": [
+        {
+          "path": "components/design/color-picker.tsx",
+          "type": "registry:ui",
+          "target": "components/design/color-picker.tsx"
+        },
+        {
+          "path": "app/demo/[name]/design/color-picker.tsx",
+          "type": "registry:example",
+          "target": "examples/design/color-picker.tsx"
+        }
+      ]
+    },
+    {
+      "name": "tailwind-color-picker",
+      "type": "registry:ui",
+      "title": "Tailwind Color Picker",
+      "description": "A tailwind color picker pattern built on the Combobox primitive.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/combobox.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "components/design/tailwind-color-picker.tsx",
+          "type": "registry:ui",
+          "target": "components/design/tailwind-color-picker.tsx"
+        },
+        {
+          "path": "components/icons/icons.tsx",
+          "type": "registry:component",
+          "target": "components/icons/icons.tsx"
+        },
+        {
+          "path": "app/demo/[name]/design/tailwind-color-picker.tsx",
+          "type": "registry:example",
+          "target": "examples/design/tailwind-color-picker.tsx"
+        }
+      ]
+    },
+    {
+      "name": "persona",
+      "type": "registry:ui",
+      "title": "Persona",
+      "description": "An animated Rive persona that visualises idle, listening, thinking, speaking and asleep states across six orb variants.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/button-group.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "components/ai-elements/persona.tsx",
+          "type": "registry:ui",
+          "target": "components/ai-elements/persona.tsx"
+        },
+        {
+          "path": "app/demo/[name]/aiellie/persona.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/persona-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react",
+        "@rive-app/react-webgl2"
+      ]
+    },
+    {
+      "name": "orb",
+      "type": "registry:ui",
+      "title": "Orb",
+      "description": "A shader-driven AI orb with seedable palettes, conversation states that react to the microphone, and a floating panel of live shader controls.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/button-group.json",
+        "https://registry.aiellie.dev/r/color-picker.json",
+        "https://registry.aiellie.dev/r/select.json",
+        "https://registry.aiellie.dev/r/toast.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "components/ai/orb.tsx",
+          "type": "registry:ui",
+          "target": "components/ai/orb.tsx"
+        },
+        {
+          "path": "components/canvasui/demo-controls.tsx",
+          "type": "registry:component",
+          "target": "components/canvasui/demo-controls.tsx"
+        },
+        {
+          "path": "hooks/use-audio-level.ts",
+          "type": "registry:hook",
+          "target": "hooks/use-audio-level.ts"
+        },
+        {
+          "path": "app/demo/[name]/aiellie/orb.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/orb-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react",
+        "@paper-design/shaders-react",
+        "motion"
+      ]
+    },
+    {
+      "name": "mic-selector",
+      "type": "registry:ui",
+      "title": "Mic Selector",
+      "description": "A composable microphone picker built on the Popover and Command primitives that enumerates the browser's audio input devices.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/command.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/popover.json"
+      ],
+      "files": [
+        {
+          "path": "components/ai-elements/mic-selector.tsx",
+          "type": "registry:ui",
+          "target": "components/ai-elements/mic-selector.tsx"
+        },
+        {
+          "path": "app/demo/[name]/aiellie/mic-selector.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/mic-selector-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react",
+        "@radix-ui/react-use-controllable-state"
+      ]
+    },
+    {
+      "name": "speech-input",
+      "type": "registry:ui",
+      "title": "Speech Input",
+      "description": "A microphone button that turns speech into text via the Web Speech API, with a MediaRecorder fallback and a live waveform while recording.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/input.json",
+        "https://registry.aiellie.dev/r/live-waveform.json",
+        "https://registry.aiellie.dev/r/spinner.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "components/ai-elements/speech-input.tsx",
+          "type": "registry:ui",
+          "target": "components/ai-elements/speech-input.tsx"
+        },
+        {
+          "path": "app/demo/[name]/aiellie/speech-input.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/speech-input-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ]
+    },
+    {
+      "name": "live-waveform",
+      "type": "registry:ui",
+      "title": "Live Waveform",
+      "description": "A canvas waveform that visualises live microphone input in static or scrolling mode, with a processing animation and faded edges.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "components/ai/live-waveform.tsx",
+          "type": "registry:ui",
+          "target": "components/ai/live-waveform.tsx"
+        },
+        {
+          "path": "app/demo/[name]/aiellie/live-waveform.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/live-waveform-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ]
+    },
+    {
+      "name": "model-selector",
+      "type": "registry:ui",
+      "title": "Model Selector",
+      "description": "A model selector pattern in command-palette and combobox flavors, with provider logos and capability clusters.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/combobox.json",
+        "https://registry.aiellie.dev/r/command.json",
+        "https://registry.aiellie.dev/r/dialog.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/kbd.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "components/ai-elements/model-selector.tsx",
+          "type": "registry:ui",
+          "target": "components/ai-elements/model-selector.tsx"
+        },
+        {
+          "path": "lib/models.ts",
+          "type": "registry:lib",
+          "target": "lib/models.ts"
+        },
+        {
+          "path": "app/demo/[name]/aiellie/model-selector.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/model-selector-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ]
+    },
+    {
+      "name": "terminal",
+      "type": "registry:ui",
+      "title": "Terminal",
+      "description": "A terminal pattern: tabs, streaming output with a block cursor, Shiki highlighting and an inline prompt with command history.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/badge.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/dropdown-menu.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/spinner.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "components/ai-elements/terminal.tsx",
+          "type": "registry:ui",
+          "target": "components/ai-elements/terminal.tsx"
+        },
+        {
+          "path": "lib/highlight.ts",
+          "type": "registry:lib",
+          "target": "lib/highlight.ts"
+        },
+        {
+          "path": "app/demo/[name]/aiellie/terminal.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/terminal-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react",
+        "shiki"
+      ]
+    },
+    {
+      "name": "web-preview",
+      "type": "registry:ui",
+      "title": "Web Preview",
+      "description": "A browser-style web preview: navigation, address bar with connection popover, overflow menu, console drawer and an iframe body.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/collapsible.json",
+        "https://registry.aiellie.dev/r/dropdown-menu.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/find-in-page.json",
+        "https://registry.aiellie.dev/r/input-group.json",
+        "https://registry.aiellie.dev/r/popover.json",
+        "https://registry.aiellie.dev/r/spinner.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "components/ai-elements/web-preview.tsx",
+          "type": "registry:ui",
+          "target": "components/ai-elements/web-preview.tsx"
+        },
+        {
+          "path": "app/demo/[name]/aiellie/web-preview.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/web-preview-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ]
+    },
+    {
+      "name": "find-in-page",
+      "type": "registry:ui",
+      "title": "Find in Page",
+      "description": "A browser-style find bar with a useFindInPage hook that paints matches via the CSS Custom Highlight API.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/separator.json"
+      ],
+      "files": [
+        {
+          "path": "components/ai-elements/find-in-page.tsx",
+          "type": "registry:ui",
+          "target": "components/ai-elements/find-in-page.tsx"
+        },
+        {
+          "path": "app/demo/[name]/aiellie/find-in-page.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/find-in-page-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ]
+    },
+    {
+      "name": "code-workspace",
+      "type": "registry:ui",
+      "title": "Code Workspace",
+      "description": "A code workspace pattern: resizable file tree, tab strip, highlighted code pane, and search over file names and contents with replace preview.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/badge.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/combobox.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/input-group.json",
+        "https://registry.aiellie.dev/r/resizable.json",
+        "https://registry.aiellie.dev/r/toggle-group.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "components/ai-elements/code-workspace.tsx",
+          "type": "registry:ui",
+          "target": "components/ai-elements/code-workspace.tsx"
+        },
+        {
+          "path": "components/icons/icons.tsx",
+          "type": "registry:ui",
+          "target": "components/icons/icons.tsx"
+        },
+        {
+          "path": "lib/file-search.ts",
+          "type": "registry:lib",
+          "target": "lib/file-search.ts"
+        },
+        {
+          "path": "lib/highlight.ts",
+          "type": "registry:lib",
+          "target": "lib/highlight.ts"
+        },
+        {
+          "path": "app/demo/[name]/aiellie/code-workspace.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/code-workspace-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react",
+        "motion",
+        "shiki"
+      ]
+    },
+    {
+      "name": "status",
+      "type": "registry:ui",
+      "title": "Status",
+      "description": "Status UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "components/aiellie/ui/status.tsx",
+          "type": "registry:ui",
+          "target": "components/aiellie/ui/status.tsx"
+        },
+        {
+          "path": "app/demo/[name]/aiellie/status.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/status-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ]
+    },
+    {
+      "name": "time-picker",
+      "type": "registry:ui",
+      "title": "Time Picker",
+      "description": "Time Picker UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/field.json",
+        "https://registry.aiellie.dev/r/popover.json",
+        "https://registry.aiellie.dev/r/separator.json"
+      ],
+      "files": [
+        {
+          "path": "components/aiellie/ui/time-picker.tsx",
+          "type": "registry:ui",
+          "target": "components/aiellie/ui/time-picker.tsx"
+        },
+        {
+          "path": "app/demo/[name]/aiellie/time-picker.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/time-picker-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ]
+    },
+    {
+      "name": "loader",
+      "type": "registry:ui",
+      "title": "Loader",
+      "description": "Loader UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/example.json"
+      ],
+      "files": [
+        {
+          "path": "components/aiellie/loader.tsx",
+          "type": "registry:ui",
+          "target": "components/aiellie/loader.tsx"
+        },
+        {
+          "path": "app/demo/[name]/aiellie/loader.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/loader-example.tsx"
+        }
+      ]
+    },
+    {
+      "name": "native-select",
+      "type": "registry:ui",
+      "title": "Native Select",
+      "description": "Native Select UI primitive styled with the Aiellie design system.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/field.json"
+      ],
+      "files": [
+        {
+          "path": "components/ui/native-select.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "app/demo/[name]/ui/native-select.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/native-select-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ]
+    },
+    {
+      "name": "liquid",
+      "type": "registry:component",
+      "title": "Liquid",
+      "description": "Interactive WebGL fluid simulation that warps and tints the content behind the pointer trail.",
+      "files": [
+        {
+          "path": "components/canvasui/Liquid.tsx",
+          "type": "registry:component",
+          "target": "components/canvasui/Liquid.tsx"
+        },
+        {
+          "path": "app/demo/[name]/components/liquid.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/liquid-example.tsx"
+        }
+      ]
+    },
+    {
+      "name": "glass",
+      "type": "registry:component",
+      "title": "Glass",
+      "description": "A WebGL glass lens that follows the cursor and refracts the page beneath it, with chromatic aberration, frost and zoom.",
+      "files": [
+        {
+          "path": "components/canvasui/Glass.tsx",
+          "type": "registry:component",
+          "target": "components/canvasui/Glass.tsx"
+        },
+        {
+          "path": "app/demo/[name]/components/glass.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/glass-example.tsx"
+        }
+      ]
+    },
+    {
+      "name": "bubbles",
+      "type": "registry:component",
+      "title": "Bubbles",
+      "description": "A liquid bubble trail that follows the cursor and refracts the content underneath with iridescent glints.",
+      "files": [
+        {
+          "path": "components/canvasui/Bubble.tsx",
+          "type": "registry:component",
+          "target": "components/canvasui/Bubble.tsx"
+        },
+        {
+          "path": "app/demo/[name]/components/bubbles.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/bubbles-example.tsx"
+        }
+      ]
+    },
+    {
+      "name": "animated-bots",
+      "type": "registry:component",
+      "title": "Animated Bots",
+      "description": "Pixel robots that stroll along the bottom edge of a section — hover to startle, click to make them hop and chirp.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/example.json"
+      ],
+      "files": [
+        {
+          "path": "components/animations/animated-bots.tsx",
+          "type": "registry:component",
+          "target": "components/animations/animated-bots.tsx"
+        },
+        {
+          "path": "app/demo/[name]/components/animated-bots.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/animated-bots-example.tsx"
+        }
+      ]
+    },
+    {
+      "name": "hero",
+      "type": "registry:component",
+      "title": "Hero",
+      "description": "A full-width hero banner with badge, heading, description and call-to-action.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/badge.json",
+        "https://registry.aiellie.dev/r/button.json"
+      ],
+      "files": [
+        {
+          "path": "components/hero.tsx",
+          "type": "registry:component",
+          "target": "components/hero.tsx"
+        },
+        {
+          "path": "app/demo/[name]/components/hero.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/hero-example.tsx"
+        }
+      ]
+    },
+    {
+      "name": "promo",
+      "type": "registry:component",
+      "title": "Promo",
+      "description": "A promotional banner with heading, description and call-to-action.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/button.json"
+      ],
+      "files": [
+        {
+          "path": "components/promo.tsx",
+          "type": "registry:component",
+          "target": "components/promo.tsx"
+        },
+        {
+          "path": "app/demo/[name]/components/promo.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/promo-example.tsx"
+        }
+      ]
+    },
+    {
+      "name": "product-grid",
+      "type": "registry:component",
+      "title": "Product Grid",
+      "description": "A filterable product grid with category pills and add-to-cart cards.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json"
+      ],
+      "files": [
+        {
+          "path": "components/product-grid.tsx",
+          "type": "registry:component",
+          "target": "components/product-grid.tsx"
+        },
+        {
+          "path": "lib/products.ts",
+          "type": "registry:lib",
+          "target": "lib/products.ts"
+        },
+        {
+          "path": "app/demo/[name]/components/product-grid.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/product-grid-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ]
+    },
+    {
+      "name": "icon-picker",
+      "type": "registry:component",
+      "title": "Icon Picker",
+      "description": "An icon picker built on the Combobox primitive: curated brand, model and file-type tabs plus the full HugeIcons library, with stroke, size and tint settings.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/color-picker.json",
+        "https://registry.aiellie.dev/r/combobox.json",
+        "https://registry.aiellie.dev/r/dropdown-menu.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/field.json",
+        "https://registry.aiellie.dev/r/model-selector.json",
+        "https://registry.aiellie.dev/r/separator.json",
+        "https://registry.aiellie.dev/r/tabs.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "components/icon-picker.tsx",
+          "type": "registry:component",
+          "target": "components/icon-picker.tsx"
+        },
+        {
+          "path": "components/icons/icons.tsx",
+          "type": "registry:component",
+          "target": "components/icons/icons.tsx"
+        },
+        {
+          "path": "lib/icon-sets.ts",
+          "type": "registry:lib",
+          "target": "lib/icon-sets.ts"
+        },
+        {
+          "path": "lib/models.ts",
+          "type": "registry:lib",
+          "target": "lib/models.ts"
+        },
+        {
+          "path": "app/demo/[name]/components/icon-picker.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/icon-picker-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ]
+    },
+    {
+      "name": "prompt-input",
+      "type": "registry:component",
+      "title": "Prompt Input",
+      "description": "A full chat composer: project, branch, environment, model, plugin and permission pickers, slash commands, an @ add menu, file attachments and dictation.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/attachment.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/combobox.json",
+        "https://registry.aiellie.dev/r/command.json",
+        "https://registry.aiellie.dev/r/dropdown-menu.json",
+        "https://registry.aiellie.dev/r/kbd.json",
+        "https://registry.aiellie.dev/r/label.json",
+        "https://registry.aiellie.dev/r/model-selector.json",
+        "https://registry.aiellie.dev/r/popover.json",
+        "https://registry.aiellie.dev/r/separator.json",
+        "https://registry.aiellie.dev/r/slider.json",
+        "https://registry.aiellie.dev/r/speech-input.json",
+        "https://registry.aiellie.dev/r/switch.json",
+        "https://registry.aiellie.dev/r/textarea.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "components/prompt-input.tsx",
+          "type": "registry:component",
+          "target": "components/prompt-input.tsx"
+        },
+        {
+          "path": "components/branch-picker.tsx",
+          "type": "registry:component",
+          "target": "components/branch-picker.tsx"
+        },
+        {
+          "path": "components/environment-picker.tsx",
+          "type": "registry:component",
+          "target": "components/environment-picker.tsx"
+        },
+        {
+          "path": "components/plugins-combobox.tsx",
+          "type": "registry:component",
+          "target": "components/plugins-combobox.tsx"
+        },
+        {
+          "path": "components/prompt-add-menu.tsx",
+          "type": "registry:component",
+          "target": "components/prompt-add-menu.tsx"
+        },
+        {
+          "path": "components/prompt-approval-menu.tsx",
+          "type": "registry:component",
+          "target": "components/prompt-approval-menu.tsx"
+        },
+        {
+          "path": "components/prompt-command-menu.tsx",
+          "type": "registry:component",
+          "target": "components/prompt-command-menu.tsx"
+        },
+        {
+          "path": "components/prompt-model-menu.tsx",
+          "type": "registry:component",
+          "target": "components/prompt-model-menu.tsx"
+        },
+        {
+          "path": "components/prompt-project-picker.tsx",
+          "type": "registry:component",
+          "target": "components/prompt-project-picker.tsx"
+        },
+        {
+          "path": "components/start-in-picker.tsx",
+          "type": "registry:component",
+          "target": "components/start-in-picker.tsx"
+        },
+        {
+          "path": "components/icons/icons.tsx",
+          "type": "registry:component",
+          "target": "components/icons/icons.tsx"
+        },
+        {
+          "path": "lib/sidebar-data.ts",
+          "type": "registry:lib",
+          "target": "lib/sidebar-data.ts"
+        },
+        {
+          "path": "lib/models.ts",
+          "type": "registry:lib",
+          "target": "lib/models.ts"
+        },
+        {
+          "path": "app/demo/[name]/components/prompt-input.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/prompt-input-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ]
+    },
+    {
+      "name": "brand-sidebar",
+      "type": "registry:component",
+      "title": "Sidebar",
+      "description": "The sidebar component for the aiellie design system: team switcher, command search, nav groups, pinned and recent chats, and the user menu inside a resizable panel.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/accordion.json",
+        "https://registry.aiellie.dev/r/alert.json",
+        "https://registry.aiellie.dev/r/alert-dialog.json",
+        "https://registry.aiellie.dev/r/avatar.json",
+        "https://registry.aiellie.dev/r/badge.json",
+        "https://registry.aiellie.dev/r/breadcrumb.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/button-group.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/carousel.json",
+        "https://registry.aiellie.dev/r/chart.json",
+        "https://registry.aiellie.dev/r/checkbox.json",
+        "https://registry.aiellie.dev/r/collapsible.json",
+        "https://registry.aiellie.dev/r/command.json",
+        "https://registry.aiellie.dev/r/dialog.json",
+        "https://registry.aiellie.dev/r/dropdown-menu.json",
+        "https://registry.aiellie.dev/r/field.json",
+        "https://registry.aiellie.dev/r/input.json",
+        "https://registry.aiellie.dev/r/input-group.json",
+        "https://registry.aiellie.dev/r/item.json",
+        "https://registry.aiellie.dev/r/kbd.json",
+        "https://registry.aiellie.dev/r/progress.json",
+        "https://registry.aiellie.dev/r/radio-group.json",
+        "https://registry.aiellie.dev/r/resizable.json",
+        "https://registry.aiellie.dev/r/scroll-area.json",
+        "https://registry.aiellie.dev/r/select.json",
+        "https://registry.aiellie.dev/r/sidebar.json",
+        "https://registry.aiellie.dev/r/slider.json",
+        "https://registry.aiellie.dev/r/status.json",
+        "https://registry.aiellie.dev/r/switch.json",
+        "https://registry.aiellie.dev/r/table.json",
+        "https://registry.aiellie.dev/r/tabs.json",
+        "https://registry.aiellie.dev/r/textarea.json",
+        "https://registry.aiellie.dev/r/toast.json",
+        "https://registry.aiellie.dev/r/toggle-group.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "components/brand-sidebar.tsx",
+          "type": "registry:component",
+          "target": "components/brand-sidebar.tsx"
+        },
+        {
+          "path": "components/team-switcher.tsx",
+          "type": "registry:component",
+          "target": "components/team-switcher.tsx"
+        },
+        {
+          "path": "components/nav-chats.tsx",
+          "type": "registry:component",
+          "target": "components/nav-chats.tsx"
+        },
+        {
+          "path": "components/nav-pinned.tsx",
+          "type": "registry:component",
+          "target": "components/nav-pinned.tsx"
+        },
+        {
+          "path": "components/nav-projects.tsx",
+          "type": "registry:component",
+          "target": "components/nav-projects.tsx"
+        },
+        {
+          "path": "components/nav-user.tsx",
+          "type": "registry:component",
+          "target": "components/nav-user.tsx"
+        },
+        {
+          "path": "components/search-command.tsx",
+          "type": "registry:component",
+          "target": "components/search-command.tsx"
+        },
+        {
+          "path": "components/settings-dialog.tsx",
+          "type": "registry:component",
+          "target": "components/settings-dialog.tsx"
+        },
+        {
+          "path": "components/feedback-form.tsx",
+          "type": "registry:component",
+          "target": "components/feedback-form.tsx"
+        },
+        {
+          "path": "components/icons/icons.tsx",
+          "type": "registry:component",
+          "target": "components/icons/icons.tsx"
+        },
+        {
+          "path": "lib/sidebar-data.ts",
+          "type": "registry:lib",
+          "target": "lib/sidebar-data.ts"
+        },
+        {
+          "path": "app/demo/[name]/components/brand-sidebar.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/brand-sidebar-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react",
+        "@paper-design/shaders-react",
+        "react-resizable-panels",
+        "recharts"
+      ]
+    },
+    {
+      "name": "event-calendar",
+      "type": "registry:ui",
+      "title": "Event Calendar",
+      "description": "A calendar pattern with month, week, day and agenda views over one event list: sidebar filters, search, drag to reschedule, an event dialog and export.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/alert-dialog.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/calendar.json",
+        "https://registry.aiellie.dev/r/collapsible.json",
+        "https://registry.aiellie.dev/r/dialog.json",
+        "https://registry.aiellie.dev/r/dropdown-menu.json",
+        "https://registry.aiellie.dev/r/empty.json",
+        "https://registry.aiellie.dev/r/example.json",
+        "https://registry.aiellie.dev/r/field.json",
+        "https://registry.aiellie.dev/r/input.json",
+        "https://registry.aiellie.dev/r/input-group.json",
+        "https://registry.aiellie.dev/r/kbd.json",
+        "https://registry.aiellie.dev/r/label.json",
+        "https://registry.aiellie.dev/r/popover.json",
+        "https://registry.aiellie.dev/r/select.json",
+        "https://registry.aiellie.dev/r/separator.json",
+        "https://registry.aiellie.dev/r/sidebar.json",
+        "https://registry.aiellie.dev/r/slider.json",
+        "https://registry.aiellie.dev/r/switch.json",
+        "https://registry.aiellie.dev/r/textarea.json",
+        "https://registry.aiellie.dev/r/time-picker.json",
+        "https://registry.aiellie.dev/r/toggle-group.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "components/calendar/index.ts",
+          "type": "registry:ui",
+          "target": "components/calendar/index.ts"
+        },
+        {
+          "path": "components/calendar/components/calendar-view.tsx",
+          "type": "registry:ui",
+          "target": "components/calendar/components/calendar-view.tsx"
+        },
+        {
+          "path": "components/calendar/components/calendar-agenda.tsx",
+          "type": "registry:ui",
+          "target": "components/calendar/components/calendar-agenda.tsx"
+        },
+        {
+          "path": "components/calendar/components/calendar-delete-dialog.tsx",
+          "type": "registry:ui",
+          "target": "components/calendar/components/calendar-delete-dialog.tsx"
+        },
+        {
+          "path": "components/calendar/components/calendar-empty.tsx",
+          "type": "registry:ui",
+          "target": "components/calendar/components/calendar-empty.tsx"
+        },
+        {
+          "path": "components/calendar/components/calendar-event-chip.tsx",
+          "type": "registry:ui",
+          "target": "components/calendar/components/calendar-event-chip.tsx"
+        },
+        {
+          "path": "components/calendar/components/calendar-event-dialog.tsx",
+          "type": "registry:ui",
+          "target": "components/calendar/components/calendar-event-dialog.tsx"
+        },
+        {
+          "path": "components/calendar/components/calendar-export.tsx",
+          "type": "registry:ui",
+          "target": "components/calendar/components/calendar-export.tsx"
+        },
+        {
+          "path": "components/calendar/components/calendar-filters.tsx",
+          "type": "registry:ui",
+          "target": "components/calendar/components/calendar-filters.tsx"
+        },
+        {
+          "path": "components/calendar/components/calendar-month.tsx",
+          "type": "registry:ui",
+          "target": "components/calendar/components/calendar-month.tsx"
+        },
+        {
+          "path": "components/calendar/components/calendar-nav.tsx",
+          "type": "registry:ui",
+          "target": "components/calendar/components/calendar-nav.tsx"
+        },
+        {
+          "path": "components/calendar/components/calendar-settings.tsx",
+          "type": "registry:ui",
+          "target": "components/calendar/components/calendar-settings.tsx"
+        },
+        {
+          "path": "components/calendar/components/calendar-sidebar.tsx",
+          "type": "registry:ui",
+          "target": "components/calendar/components/calendar-sidebar.tsx"
+        },
+        {
+          "path": "components/calendar/components/calendar-summary.tsx",
+          "type": "registry:ui",
+          "target": "components/calendar/components/calendar-summary.tsx"
+        },
+        {
+          "path": "components/calendar/components/calendar-time-grid.tsx",
+          "type": "registry:ui",
+          "target": "components/calendar/components/calendar-time-grid.tsx"
+        },
+        {
+          "path": "components/calendar/components/calendar-toolbar.tsx",
+          "type": "registry:ui",
+          "target": "components/calendar/components/calendar-toolbar.tsx"
+        },
+        {
+          "path": "components/calendar/components/calendar-view-switcher.tsx",
+          "type": "registry:ui",
+          "target": "components/calendar/components/calendar-view-switcher.tsx"
+        },
+        {
+          "path": "components/calendar/data/calendars.tsx",
+          "type": "registry:ui",
+          "target": "components/calendar/data/calendars.tsx"
+        },
+        {
+          "path": "components/calendar/data/config.ts",
+          "type": "registry:ui",
+          "target": "components/calendar/data/config.ts"
+        },
+        {
+          "path": "components/calendar/data/events.ts",
+          "type": "registry:ui",
+          "target": "components/calendar/data/events.ts"
+        },
+        {
+          "path": "components/calendar/data/schema.ts",
+          "type": "registry:ui",
+          "target": "components/calendar/data/schema.ts"
+        },
+        {
+          "path": "components/calendar/lib.ts",
+          "type": "registry:ui",
+          "target": "components/calendar/lib.ts"
+        },
+        {
+          "path": "app/demo/[name]/components/data/event-calendar.tsx",
+          "type": "registry:example",
+          "target": "examples/ui/event-calendar-example.tsx"
+        }
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react",
+        "date-fns",
+        "zod"
+      ]
+    }
+  ]
+}

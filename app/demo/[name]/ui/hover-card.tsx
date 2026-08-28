@@ -1,0 +1,125 @@
+import { Example, ExampleWrapper } from "@/components/example"
+import { Button } from "@/components/ui/button"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card"
+import { cn } from "@/lib/utils"
+
+export default function HoverCardExample() {
+  return (
+    <ExampleWrapper>
+      <HoverCardDemo />
+      <HoverCardSides />
+      <HoverCardInDialog />
+    </ExampleWrapper>
+  )
+}
+
+const HOVER_CARD_SIDES = [
+  "inline-start",
+  "left",
+  "top",
+  "bottom",
+  "right",
+  "inline-end",
+] as const
+
+function HoverCardDemo({ className }: { className?: string }) {
+  return (
+    <Example title="Basic" containerClassName={className}>
+      <HoverCard>
+        <HoverCardTrigger
+          delay={10}
+          closeDelay={100}
+          render={<Button variant="link" />}
+        >
+          Hover Here
+        </HoverCardTrigger>
+        <HoverCardContent className="flex w-64 flex-col gap-0.5">
+          <div className="font-semibold">@nextjs</div>
+          <div>The React Framework – created and maintained by @vercel.</div>
+          <div className="mt-1 text-xs text-muted-foreground">
+            Joined December 2021
+          </div>
+        </HoverCardContent>
+      </HoverCard>
+    </Example>
+  )
+}
+
+function HoverCardSides({ className }: { className?: string }) {
+  return (
+    <Example title="Sides" containerClassName={cn("col-span-2", className)}>
+      <div className="flex flex-wrap items-center justify-center gap-2">
+        {HOVER_CARD_SIDES.map((side) => (
+          <HoverCard key={side}>
+            <HoverCardTrigger
+              delay={100}
+              closeDelay={100}
+              render={<Button variant="outline" className="capitalize" />}
+            >
+              {side.replace("-", " ")}
+            </HoverCardTrigger>
+            <HoverCardContent side={side}>
+              <div className="flex flex-col gap-1.5">
+                <h4 className="font-medium">Hover Card</h4>
+                <p>
+                  This hover card appears on the {side.replace("-", " ")} side
+                  of the trigger.
+                </p>
+              </div>
+            </HoverCardContent>
+          </HoverCard>
+        ))}
+      </div>
+    </Example>
+  )
+}
+
+function HoverCardInDialog({ className }: { className?: string }) {
+  return (
+    <Example title="In Dialog" containerClassName={className}>
+      <Dialog>
+        <DialogTrigger render={<Button variant="outline" />}>
+          Open Dialog
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Hover Card Example</DialogTitle>
+            <DialogDescription>
+              Hover over the button below to see the hover card.
+            </DialogDescription>
+          </DialogHeader>
+          <HoverCard>
+            <HoverCardTrigger
+              delay={100}
+              closeDelay={100}
+              render={<Button variant="outline" className="w-fit" />}
+            >
+              Hover me
+            </HoverCardTrigger>
+            <HoverCardContent>
+              <div className="flex flex-col gap-1.5">
+                <h4 className="font-medium">Hover Card</h4>
+                <p>
+                  This hover card appears inside a dialog. Hover over the button
+                  to see it.
+                </p>
+              </div>
+            </HoverCardContent>
+          </HoverCard>
+        </DialogContent>
+      </Dialog>
+    </Example>
+  )
+}

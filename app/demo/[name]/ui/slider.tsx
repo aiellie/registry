@@ -1,0 +1,141 @@
+"use client"
+
+import * as React from "react"
+
+import { Example, ExampleWrapper } from "@/components/example"
+import { Label } from "@/components/ui/label"
+import { Slider } from "@/components/ui/slider"
+
+export default function SliderExample() {
+  return (
+    <ExampleWrapper>
+      <SliderBasic />
+      <SliderLabelled />
+      <SliderTicks />
+      <SliderRange />
+      <SliderMultiple />
+      <SliderVertical />
+      <SliderControlled />
+      <SliderDisabled />
+    </ExampleWrapper>
+  )
+}
+
+function SliderBasic({ className }: { className?: string }) {
+  return (
+    <Example title="Basic" containerClassName={className}>
+      <Slider defaultValue={50} max={100} step={1} aria-label="Basic" />
+    </Example>
+  )
+}
+
+function SliderLabelled({ className }: { className?: string }) {
+  return (
+    <Example title="Label" containerClassName={className}>
+      <div className="grid w-full gap-1.5">
+        <Slider
+          label="Opacity"
+          defaultValue={60}
+          max={100}
+          step={1}
+          formatValue={(_, values) => `${values[0]}%`}
+        />
+        <Slider
+          label="Blur"
+          defaultValue={24}
+          max={100}
+          step={1}
+          formatValue={(_, values) => `${values[0]}px`}
+        />
+      </div>
+    </Example>
+  )
+}
+
+function SliderTicks({ className }: { className?: string }) {
+  return (
+    <Example title="Ticks" containerClassName={className}>
+      <Slider label="Density" defaultValue={40} max={100} step={20} ticks={4} />
+    </Example>
+  )
+}
+
+function SliderRange({ className }: { className?: string }) {
+  return (
+    <Example title="Range" containerClassName={className}>
+      <Slider label="Range" defaultValue={[25, 50]} max={100} step={5} />
+    </Example>
+  )
+}
+
+function SliderMultiple({ className }: { className?: string }) {
+  return (
+    <Example title="Multiple Thumbs" containerClassName={className}>
+      <Slider
+        defaultValue={[10, 20, 70]}
+        max={100}
+        step={10}
+        aria-label="Multiple thumbs"
+      />
+    </Example>
+  )
+}
+
+function SliderVertical({ className }: { className?: string }) {
+  return (
+    <Example title="Vertical" containerClassName={className}>
+      <div className="flex items-center gap-6">
+        <Slider
+          label="Left"
+          defaultValue={[50]}
+          max={100}
+          step={1}
+          orientation="vertical"
+          className="h-40"
+        />
+        <Slider
+          label="Right"
+          defaultValue={[25]}
+          max={100}
+          step={1}
+          orientation="vertical"
+          className="h-40"
+        />
+      </div>
+    </Example>
+  )
+}
+
+function SliderControlled({ className }: { className?: string }) {
+  const [value, setValue] = React.useState([0.3, 0.7])
+
+  return (
+    <Example title="Controlled" containerClassName={className}>
+      <div className="grid w-full gap-3">
+        <div className="flex items-center justify-between gap-2">
+          <Label htmlFor="slider-demo-temperature">Temperature</Label>
+          <span className="text-sm text-muted-foreground">
+            {value.join(", ")}
+          </span>
+        </div>
+        <Slider
+          id="slider-demo-temperature"
+          aria-label="Temperature"
+          value={value}
+          onValueChange={(value) => setValue(value as number[])}
+          min={0}
+          max={1}
+          step={0.1}
+        />
+      </div>
+    </Example>
+  )
+}
+
+function SliderDisabled({ className }: { className?: string }) {
+  return (
+    <Example title="Disabled" containerClassName={className}>
+      <Slider label="Volume" defaultValue={[50]} max={100} step={1} disabled />
+    </Example>
+  )
+}
