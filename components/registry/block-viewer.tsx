@@ -428,9 +428,21 @@ function BlockViewerToolbar() {
 function BlockViewerIframe({ className }: { className?: string }) {
   const { item, iframeKey } = useBlockViewer()
   const [loaded, setLoaded] = React.useState(false)
+  const iframeRef = React.useRef<HTMLIFrameElement>(null)
 
   React.useEffect(() => {
-    setLoaded(false)
+    // The iframe can finish loading before React hydrates and attaches
+    // `onLoad`, so the event is missed. Check whether the demo document has
+    // already loaded (ignoring the initial about:blank) and sync state.
+    let alreadyLoaded = false
+    try {
+      const doc = iframeRef.current?.contentDocument
+      alreadyLoaded =
+        doc?.readyState === "complete" && doc.URL !== "about:blank"
+    } catch {
+      // Cross-origin access throws; fall back to `onLoad`.
+    }
+    setLoaded(alreadyLoaded)
   }, [iframeKey])
 
   return (
@@ -444,6 +456,7 @@ function BlockViewerIframe({ className }: { className?: string }) {
       )}
       <iframe
         key={iframeKey}
+        ref={iframeRef}
         src={`/demo/${item.name}`}
         loading="lazy"
         title={`${item.title} preview`}
