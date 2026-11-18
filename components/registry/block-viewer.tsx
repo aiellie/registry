@@ -59,7 +59,14 @@ import {
   SidebarMenuSub,
   SidebarProvider,
 } from "@/components/ui/sidebar"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import {
   Tooltip,
@@ -446,7 +453,7 @@ function BlockViewerToolbar() {
     <div className="hidden w-full min-w-0 shrink-0 flex-wrap items-center gap-2 gap-y-2 ps-2 md:pe-6 lg:flex">
       {!previewOnly && <CodePreviewToggle view={view} onViewChange={setView} />}
       <div className="flex min-w-4 flex-1">
-        {view === "preview" && <BlockViewerExampleTabs />}
+        {view === "preview" && <BlockViewerExamplePicker />}
       </div>
       <div className="flex items-center gap-2">
         <div>
@@ -558,39 +565,49 @@ function BlockViewerIframe({ className }: { className?: string }) {
 }
 
 /**
- * One tab per example the preview reported, plus "All". Hidden when the demo
- * has fewer than two, where there is nothing to pick between.
+ * Picks which example the preview shows: "All examples", or one alone.
+ * Hidden when the demo has fewer than two, where there is nothing to pick.
  */
-function BlockViewerExampleTabs({ className }: { className?: string }) {
+function BlockViewerExamplePicker({ className }: { className?: string }) {
   const { examples, activeExample, setActiveExample } = useBlockViewer()
 
   if (examples.length < 2) {
     return null
   }
 
+  const items = [
+    { value: "all", label: "All examples" },
+    ...examples.map((example) => ({
+      value: example.id,
+      label: example.title,
+    })),
+  ]
+
   return (
-    <Tabs
+    <Select
+      items={items}
       value={activeExample ?? "all"}
       onValueChange={(value) =>
-        setActiveExample(value === "all" ? null : String(value))
+        setActiveExample(!value || value === "all" ? null : String(value))
       }
-      className={cn("no-scrollbar min-w-0 overflow-x-auto", className)}
     >
-      <TabsList aria-label="Examples">
-        <TabsTrigger value="all" className="flex-none px-2.5">
-          All
-        </TabsTrigger>
-        {examples.map((example) => (
-          <TabsTrigger
-            key={example.id}
-            value={example.id}
-            className="flex-none px-2.5"
-          >
-            {example.title}
-          </TabsTrigger>
-        ))}
-      </TabsList>
-    </Tabs>
+      <SelectTrigger
+        size="sm"
+        aria-label="Example"
+        className={cn("max-w-64 min-w-0", className)}
+      >
+        <SelectValue />
+      </SelectTrigger>
+      <SelectContent align="start" alignItemWithTrigger={false}>
+        <SelectGroup>
+          {items.map((item) => (
+            <SelectItem key={item.value} value={item.value}>
+              {item.label}
+            </SelectItem>
+          ))}
+        </SelectGroup>
+      </SelectContent>
+    </Select>
   )
 }
 
@@ -660,7 +677,7 @@ function BlockViewerMobile() {
         <BlockViewerMobileCode />
       ) : (
         <>
-          <BlockViewerExampleTabs className="px-2" />
+          <BlockViewerExamplePicker className="mx-2" />
           <div className="h-[600px] overflow-hidden rounded-xl border bg-background">
             <BlockViewerIframe />
           </div>

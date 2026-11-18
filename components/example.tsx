@@ -7,11 +7,12 @@ import { cn } from "@/lib/utils"
 /**
  * Demo layout for registry previews.
  *
- * `ExampleWrapper` lists its `Example`s as plain sections, one under the other.
- * Inside the registry's preview iframe it also reports their titles to the
- * parent window, which renders them as tabs; picking one shows that example
- * alone, centred in the frame. Opened on its own, `?example=<id>` does the
- * same.
+ * `ExampleWrapper` lays its `Example`s out in a grid. Inside the registry's
+ * preview iframe it also reports their titles to the parent window, which
+ * offers them in a dropdown; picking one shows that example alone, centred in
+ * the frame. Opened on its own, `?example=<id>` does the same.
+ *
+ * Titles are for that picker only; the examples themselves render bare.
  */
 
 /** Frame → parent: the examples on the page, in document order. */
@@ -140,17 +141,23 @@ function ExampleWrapper({
 
   return (
     <ExampleContext.Provider value={context}>
-      <div
-        data-slot="example-wrapper"
-        data-solo={soloKey ? "" : undefined}
-        className={cn(
-          "group/examples flex min-h-svh w-full min-w-0 flex-col bg-background",
-          !soloKey && "divide-y",
-          className
-        )}
-        {...props}
-      >
-        {children}
+      <div className="min-h-svh w-full bg-background">
+        <div
+          data-slot="example-wrapper"
+          data-solo={soloKey ? "" : undefined}
+          className={cn(
+            soloKey
+              ? // One example; the demo's own grid classes would squeeze it.
+                "flex w-full min-w-0 flex-col"
+              : [
+                  "mx-auto grid w-full min-w-0 content-center items-start gap-8 p-4 pt-2 sm:gap-12 sm:p-6 md:grid-cols-2 md:gap-8 lg:p-12",
+                  className,
+                ]
+          )}
+          {...props}
+        >
+          {children}
+        </div>
       </div>
     </ExampleContext.Provider>
   )
@@ -191,6 +198,29 @@ function ExampleSection({
 }) {
   const { ref, solo, hidden } = useExampleRegistration(title)
 
+  if (solo) {
+    return (
+      <section
+        ref={ref}
+        data-slot={slot}
+        aria-label={title}
+        className="flex min-h-svh w-full min-w-0 flex-col"
+        {...props}
+      >
+        {toolbar && <ExampleToolbar>{toolbar}</ExampleToolbar>}
+        <div
+          data-slot="example-content"
+          className={cn(
+            "flex min-w-0 flex-1 flex-col items-start justify-center gap-6 p-6 lg:px-12 *:[div:not([class*='w-'])]:w-full",
+            className
+          )}
+        >
+          {children}
+        </div>
+      </section>
+    )
+  }
+
   return (
     <section
       ref={ref}
@@ -198,31 +228,25 @@ function ExampleSection({
       hidden={hidden}
       aria-label={title}
       className={cn(
-        "flex w-full min-w-0 flex-col",
-        solo && "min-h-svh",
+        "mx-auto flex w-full min-w-0 flex-col self-stretch lg:max-w-none",
         containerClassName
       )}
       {...props}
     >
-      {title && !solo && (
-        <h2
-          data-slot="example-title"
-          className="px-6 pt-6 text-xs font-medium text-muted-foreground lg:px-12"
-        >
-          {title}
-        </h2>
-      )}
-      {toolbar && <ExampleToolbar>{toolbar}</ExampleToolbar>}
       <div
-        data-slot="example-content"
-        className={cn(
-          "flex min-w-0 flex-1 flex-col items-start gap-6 p-6 lg:px-12 *:[div:not([class*='w-'])]:w-full",
-          title && !solo && "pt-4",
-          solo && "justify-center",
-          className
-        )}
+        data-slot="example-card"
+        className="flex min-w-0 flex-1 flex-col overflow-hidden rounded-2xl bg-card text-foreground"
       >
-        {children}
+        {toolbar && <ExampleToolbar>{toolbar}</ExampleToolbar>}
+        <div
+          data-slot="example-content"
+          className={cn(
+            "flex min-h-0 min-w-0 flex-1 flex-col items-start gap-6 overflow-auto p-4 *:[div:not([class*='w-'])]:w-full",
+            className
+          )}
+        >
+          {children}
+        </div>
       </div>
     </section>
   )
@@ -254,7 +278,7 @@ function ExampleToolbar({ className, ...props }: React.ComponentProps<"div">) {
       role="group"
       aria-label="Demo settings"
       className={cn(
-        "flex w-full flex-wrap items-center gap-x-5 gap-y-3 border-b px-6 py-3 lg:px-12",
+        "flex w-full flex-wrap items-center gap-x-5 gap-y-3 border-b px-5 py-3",
         className
       )}
       {...props}
