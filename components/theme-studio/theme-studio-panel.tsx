@@ -16,6 +16,7 @@ import {
   Layers02Icon,
   Moon02Icon,
   PaintBoardIcon,
+  PaintBrush01Icon,
   RadiusIcon,
   SidebarLeft01Icon,
   SourceCodeIcon,
@@ -60,10 +61,12 @@ import {
 import { resolveTokenColor } from "@/lib/theme-studio-color"
 import {
   activePreset,
+  activeThemePreset,
   CODE_THEME_OPTIONS,
   DEFAULT_SITE_EFFECT,
   FONT_OPTIONS,
   SITE_EFFECT_OPTIONS,
+  THEME_PRESETS,
   type PresetOption,
   type SiteEffect,
 } from "@/lib/theme-studio-presets"
@@ -101,7 +104,10 @@ const MODES = [
 /** Preset lists get a `Custom` entry so a hand-edited token still reads back. */
 const CUSTOM_OPTION = { value: "custom", label: "Custom" }
 
-function presetItems(options: readonly PresetOption[], active: string) {
+function presetItems(
+  options: readonly { value: string; label: string }[],
+  active: string
+) {
   const items = options.map(({ value, label }) => ({ value, label }))
   return active === "custom" ? [...items, CUSTOM_OPTION] : items
 }
@@ -321,6 +327,19 @@ export function ThemeStudioPanel({ data }: { data: ThemeStudioData }) {
     setThemeStudioState(next)
   }
 
+  /** Swaps every token override for the preset's; site prefs stay put. */
+  const applyThemePreset = (value: string) => {
+    const preset = THEME_PRESETS.find((entry) => entry.value === value)
+    if (!preset) return
+    const tokens = preset.tokens ?? { root: {}, light: {}, dark: {} }
+    setThemeStudioState({
+      root: { ...tokens.root },
+      light: { ...tokens.light },
+      dark: { ...tokens.dark },
+      prefs: { ...state.prefs },
+    })
+  }
+
   const toggleGroup = (id: string) =>
     setOpenGroups((previous) =>
       previous.includes(id)
@@ -377,6 +396,7 @@ export function ThemeStudioPanel({ data }: { data: ThemeStudioData }) {
     )
   }
 
+  const themePreset = activeThemePreset(state)
   const font = activePreset(FONT_OPTIONS, state.root[FONT_TOKEN])
   const codeTheme = activePreset(CODE_THEME_OPTIONS, state.root[CODE_TOKEN])
   const effect = (state.prefs[SITE_EFFECT_PREF] ??
@@ -422,6 +442,21 @@ export function ThemeStudioPanel({ data }: { data: ThemeStudioData }) {
           options={MODES}
           value={(theme ?? "system") as (typeof MODES)[number]["value"]}
           onValueChange={setTheme}
+        />
+
+        <SectionLabel>Presets</SectionLabel>
+
+        <SelectRow
+          label="Theme"
+          icon={PaintBrush01Icon}
+          options={presetItems(THEME_PRESETS, themePreset)}
+          value={themePreset}
+          onValueChange={applyThemePreset}
+          onReset={
+            themePreset !== "default"
+              ? () => applyThemePreset("default")
+              : undefined
+          }
         />
 
         <SectionLabel>Layout</SectionLabel>
