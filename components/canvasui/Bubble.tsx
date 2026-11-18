@@ -688,6 +688,8 @@ export function Bubble({
   const native = mounted && supported && !failed
 
   useEffect(() => {
+    // Intentional one-shot post-hydration flip; see the comment on `mounted`.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true)
   }, [])
 
