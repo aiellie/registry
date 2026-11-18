@@ -64,6 +64,7 @@ import {
   activeThemePreset,
   CODE_THEME_OPTIONS,
   DEFAULT_SITE_EFFECT,
+  DEFAULT_THEME_PRESET,
   FONT_OPTIONS,
   SITE_EFFECT_OPTIONS,
   THEME_PRESETS,
@@ -453,8 +454,8 @@ export function ThemeStudioPanel({ data }: { data: ThemeStudioData }) {
           value={themePreset}
           onValueChange={applyThemePreset}
           onReset={
-            themePreset !== "default"
-              ? () => applyThemePreset("default")
+            themePreset !== DEFAULT_THEME_PRESET
+              ? () => applyThemePreset(DEFAULT_THEME_PRESET)
               : undefined
           }
         />
