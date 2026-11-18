@@ -13,6 +13,11 @@ import { AnimatePresence, motion } from "motion/react"
 import * as React from "react"
 import type { PanelImperativeHandle } from "react-resizable-panels"
 
+import {
+  EXAMPLES_MESSAGE,
+  SELECT_EXAMPLE_MESSAGE,
+  type ExampleEntry,
+} from "@/components/example"
 import { getIconForLanguageExtension } from "@/components/icons/icons"
 import { BlockViewerDropdown } from "@/components/registry/block-viewer-dropdown"
 import {
@@ -54,6 +59,7 @@ import {
   SidebarMenuSub,
   SidebarProvider,
 } from "@/components/ui/sidebar"
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import {
   Tooltip,
@@ -96,6 +102,12 @@ type BlockViewerContext = {
   tree: FileTree[] | null
   iframeKey: number
   setIframeKey: React.Dispatch<React.SetStateAction<number>>
+  /** The examples the preview reported, in page order; empty for none. */
+  examples: ExampleEntry[]
+  setExamples: (examples: ExampleEntry[]) => void
+  /** The example shown alone in the preview; null shows them all. */
+  activeExample: string | null
+  setActiveExample: (id: string | null) => void
   /** Raw sources for content search, pulled on demand. */
   sources: SourceFile[] | null
   sourcesStatus: SourcesStatus
@@ -153,6 +165,37 @@ function BlockViewerProvider({
   const [activeLine, setActiveLine] = React.useState<number | null>(null)
   const resizablePanelRef = React.useRef<PanelImperativeHandle>(null)
   const [iframeKey, setIframeKey] = React.useState(0)
+  // Keyed by item, so moving to another item starts from "All" with no stale
+  // tabs, without an effect to reset them.
+  const [exampleState, setExampleState] = React.useState<{
+    name: string
+    examples: ExampleEntry[]
+    active: string | null
+  }>({ name: item.name, examples: [], active: null })
+  const examples = exampleState.name === item.name ? exampleState.examples : []
+  const activeExample =
+    exampleState.name === item.name &&
+    examples.some((example) => example.id === exampleState.active)
+      ? exampleState.active
+      : null
+  const setExamples = React.useCallback(
+    (next: ExampleEntry[]) =>
+      setExampleState((current) => ({
+        name: item.name,
+        examples: next,
+        active: current.name === item.name ? current.active : null,
+      })),
+    [item.name]
+  )
+  const setActiveExample = React.useCallback(
+    (id: string | null) =>
+      setExampleState((current) => ({
+        name: item.name,
+        examples: current.name === item.name ? current.examples : [],
+        active: id,
+      })),
+    [item.name]
+  )
 
   const [files, setFiles] = React.useState<
     Record<string, HighlightedRegistryFile>
@@ -353,6 +396,10 @@ function BlockViewerProvider({
         tree,
         iframeKey,
         setIframeKey,
+        examples,
+        setExamples,
+        activeExample,
+        setActiveExample,
         sources,
         sourcesStatus,
         loadSources,
@@ -398,7 +445,9 @@ function BlockViewerToolbar() {
   return (
     <div className="hidden w-full min-w-0 shrink-0 flex-wrap items-center gap-2 gap-y-2 ps-2 md:pe-6 lg:flex">
       {!previewOnly && <CodePreviewToggle view={view} onViewChange={setView} />}
-      <div className="min-w-4 flex-1" />
+      <div className="flex min-w-4 flex-1">
+        {view === "preview" && <BlockViewerExampleTabs />}
+      </div>
       <div className="flex items-center gap-2">
         <div>
           <ViewportToggleGroup
@@ -426,7 +475,7 @@ function BlockViewerToolbar() {
 }
 
 function BlockViewerIframe({ className }: { className?: string }) {
-  const { item, iframeKey } = useBlockViewer()
+  const { item, iframeKey, setExamples, activeExample } = useBlockViewer()
   const [loaded, setLoaded] = React.useState(false)
   const iframeRef = React.useRef<HTMLIFrameElement>(null)
 
@@ -445,8 +494,46 @@ function BlockViewerIframe({ className }: { className?: string }) {
     setLoaded(alreadyLoaded)
   }, [iframeKey])
 
+  const replySelection = React.useEffectEvent((frame: Window) =>
+    frame.postMessage(
+      { type: SELECT_EXAMPLE_MESSAGE, id: activeExample },
+      window.location.origin
+    )
+  )
+
+  // The demo reports its examples once it has rendered them (and again after
+  // a refresh); answer with the current selection so it opens on that tab.
+  // Replies go to the frame directly, so they never re-trigger a report.
+  React.useEffect(() => {
+    const onMessage = (event: MessageEvent) => {
+      const frame = iframeRef.current?.contentWindow
+      if (!frame || event.source !== frame) return
+      if (event.origin !== window.location.origin) return
+      if (event.data?.type !== EXAMPLES_MESSAGE) return
+      if (!Array.isArray(event.data.examples)) return
+      setExamples(event.data.examples as ExampleEntry[])
+      replySelection(frame)
+    }
+
+    window.addEventListener("message", onMessage)
+    return () => window.removeEventListener("message", onMessage)
+  }, [setExamples])
+
+  // Also sent on mount and on every load, asking the demo to report its
+  // examples: it may have rendered before this page was listening.
+  const sendSelection = React.useCallback(() => {
+    iframeRef.current?.contentWindow?.postMessage(
+      { type: SELECT_EXAMPLE_MESSAGE, id: activeExample, announce: true },
+      window.location.origin
+    )
+  }, [activeExample])
+
+  React.useEffect(() => {
+    sendSelection()
+  }, [sendSelection, iframeKey])
+
   return (
-    <div className={cn("relative z-20 h-full w-full bg-background", className)}>
+    <div className={cn("relative h-full w-full", className)}>
       {!loaded && (
         <div className="absolute inset-0 z-10 flex items-center justify-center bg-background">
           <p className="shimmer text-sm text-muted-foreground">
@@ -460,36 +547,78 @@ function BlockViewerIframe({ className }: { className?: string }) {
         src={`/demo/${item.name}`}
         loading="lazy"
         title={`${item.title} preview`}
-        onLoad={() => setLoaded(true)}
-        className="no-scrollbar h-full w-full bg-background"
+        onLoad={() => {
+          setLoaded(true)
+          sendSelection()
+        }}
+        className="no-scrollbar block h-full w-full"
       />
     </div>
   )
 }
 
+/**
+ * One tab per example the preview reported, plus "All". Hidden when the demo
+ * has fewer than two, where there is nothing to pick between.
+ */
+function BlockViewerExampleTabs({ className }: { className?: string }) {
+  const { examples, activeExample, setActiveExample } = useBlockViewer()
+
+  if (examples.length < 2) {
+    return null
+  }
+
+  return (
+    <Tabs
+      value={activeExample ?? "all"}
+      onValueChange={(value) =>
+        setActiveExample(value === "all" ? null : String(value))
+      }
+      className={cn("no-scrollbar min-w-0 overflow-x-auto", className)}
+    >
+      <TabsList aria-label="Examples">
+        <TabsTrigger value="all" className="flex-none px-2.5">
+          All
+        </TabsTrigger>
+        {examples.map((example) => (
+          <TabsTrigger
+            key={example.id}
+            value={example.id}
+            className="flex-none px-2.5"
+          >
+            {example.title}
+          </TabsTrigger>
+        ))}
+      </TabsList>
+    </Tabs>
+  )
+}
+
+/**
+ * The preview fills the stage; dragging the handle narrows it to test a
+ * breakpoint, and the space it gives up shows as a dotted canvas.
+ */
 function BlockViewerView() {
   const { resizablePanelRef } = useBlockViewer()
 
   return (
     <div className="hidden group-data-[view=code]/block-view-wrapper:hidden lg:flex lg:min-h-0 lg:flex-1">
-      <div className="relative grid w-full gap-4">
-        <div className="absolute inset-0 end-4 [background-image:radial-gradient(#d4d4d4_1px,transparent_1px)] [background-size:20px_20px] dark:[background-image:radial-gradient(#404040_1px,transparent_1px)]" />
-        <ResizablePanelGroup
-          orientation="horizontal"
-          className="relative z-10 after:absolute after:inset-0 after:end-3 after:z-0 after:rounded-xl after:bg-surface/50"
+      <ResizablePanelGroup orientation="horizontal" className="w-full">
+        <ResizablePanel
+          panelRef={resizablePanelRef}
+          className="overflow-hidden rounded-xl border bg-background"
+          defaultSize="100%"
+          minSize="30%"
         >
-          <ResizablePanel
-            panelRef={resizablePanelRef}
-            className="relative aspect-[4/2.5] overflow-hidden rounded-lg border bg-background md:aspect-auto md:rounded-xl"
-            defaultSize="100%"
-            minSize="30%"
-          >
-            <BlockViewerIframe />
-          </ResizablePanel>
-          <ResizableHandle className="relative hidden w-3 bg-transparent p-0 after:absolute after:end-0 after:top-1/2 after:h-8 after:w-[6px] after:translate-x-[-1px] after:-translate-y-1/2 after:rounded-full after:bg-border after:transition-all hover:after:h-10 md:block rtl:after:translate-x-[1px]" />
-          <ResizablePanel defaultSize="0%" minSize="0%" />
-        </ResizablePanelGroup>
-      </div>
+          <BlockViewerIframe />
+        </ResizablePanel>
+        <ResizableHandle className="relative w-3 bg-transparent p-0 after:absolute after:end-0 after:top-1/2 after:h-8 after:w-[6px] after:translate-x-[-1px] after:-translate-y-1/2 after:rounded-full after:bg-border after:transition-all hover:after:h-10 rtl:after:translate-x-[1px]" />
+        <ResizablePanel
+          defaultSize="0%"
+          minSize="0%"
+          className="rounded-xl bg-[radial-gradient(var(--border)_1px,transparent_1px)] bg-size-[20px_20px]"
+        />
+      </ResizablePanelGroup>
     </div>
   )
 }
@@ -500,8 +629,8 @@ function BlockViewerMobile() {
 
   if (previewOnly) {
     return (
-      <div className="overflow-hidden rounded-xl border lg:hidden">
-        <BlockViewerIframe className="h-[600px]" />
+      <div className="h-[600px] overflow-hidden rounded-xl border bg-background lg:hidden">
+        <BlockViewerIframe />
       </div>
     )
   }
@@ -530,9 +659,12 @@ function BlockViewerMobile() {
       {view === "code" ? (
         <BlockViewerMobileCode />
       ) : (
-        <div className="overflow-hidden rounded-xl border">
-          <BlockViewerIframe className="h-[600px]" />
-        </div>
+        <>
+          <BlockViewerExampleTabs className="px-2" />
+          <div className="h-[600px] overflow-hidden rounded-xl border bg-background">
+            <BlockViewerIframe />
+          </div>
+        </>
       )}
     </div>
   )
