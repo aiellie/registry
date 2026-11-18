@@ -122,6 +122,7 @@ import {
 } from "@hugeicons/core-free-icons"
 import type { IconSvgElement } from "@hugeicons/react"
 
+import { cardItems } from "@/lib/card-items"
 import type { Component } from "@/lib/registry"
 
 /**
@@ -137,6 +138,7 @@ export type CategoryId =
   | "data"
   | "info"
   | "blocks"
+  | "cards"
   | "brand"
   | "chat"
   | "ai"
@@ -162,6 +164,7 @@ export interface Category {
 /** Category definitions with the icon shown on their sidebar group header. */
 export const categories: Record<CategoryId, Category> = {
   blocks: { id: "blocks", label: "Blocks", icon: BlocksIcon },
+  cards: { id: "cards", label: "Cards", icon: DashboardSquare01Icon },
   chat: { id: "chat", label: "Chat", icon: AiChat01Icon },
   data: { id: "data", label: "Data", icon: GridViewIcon },
   ui: { id: "ui", label: "UI", icon: PuzzleIcon },
@@ -187,6 +190,7 @@ export const categories: Record<CategoryId, Category> = {
 /** Order category groups render in when sorting by category. */
 export const categoryOrder: CategoryId[] = [
   "blocks",
+  "cards",
   "brand",
   "code",
   "chat",
@@ -1132,6 +1136,8 @@ export const items: Item[] = [
     isNew: true,
     displayHome: true,
   },
+  // Showcase cards (see lib/card-items.ts)
+  ...cardItems,
 ]
 
 /** Icons for non-item sidebar entries (Getting Started nav + theme). */

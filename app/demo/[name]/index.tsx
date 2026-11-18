@@ -10,6 +10,9 @@ import { dashboard } from "@/app/demo/[name]/blocks/dashboard"
 import { projects } from "@/app/demo/[name]/blocks/projects"
 import { store } from "@/app/demo/[name]/blocks/store"
 
+// showcase cards
+import { cardDemos } from "@/app/demo/[name]/cards"
+
 // brand
 import BrandAvatarExample from "@/app/demo/[name]/components/brand/brand-avatar"
 import LogoExample from "@/app/demo/[name]/components/brand/logo"
@@ -148,6 +151,8 @@ export const demos: { [name: string]: Demo } = {
   projects,
   shell,
   store,
+  // showcase cards
+  ...cardDemos,
   // brand
   "brand-avatar": BrandAvatarExample,
   logo: LogoExample,

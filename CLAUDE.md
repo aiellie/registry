@@ -26,7 +26,7 @@ A shadcn/ui **registry** app (style `base-nova`, Base UI primitives, Tailwind v4
 
 ### The registry pipeline
 
-`registry.json` (150 items: `registry:ui`, `registry:component`, `registry:block`, `registry:example`, one `registry:theme`, one `registry:style`) is the manifest. `shadcn build` reads it and emits `public/r/<name>.json`, which is what consumers install (`@aiellie/<name>` namespace, see [lib/mcp-config.ts](lib/mcp-config.ts)). Registry items reference each other by absolute URL (`https://registry.aiellie.dev/r/theme.json`), not bare names.
+`registry.json` (183 items, including 71 showcase `<name>-card` blocks generated from `app/(registry)/cards/`: `registry:ui`, `registry:component`, `registry:block`, `registry:example`, one `registry:theme`, one `registry:style`) is the manifest. `shadcn build` reads it and emits `public/r/<name>.json`, which is what consumers install (`@aiellie/<name>` namespace, see [lib/mcp-config.ts](lib/mcp-config.ts)). Registry items reference each other by absolute URL (`https://registry.aiellie.dev/r/theme.json`), not bare names.
 
 Source files are read straight from disk at request time — [lib/registry-server.ts](lib/registry-server.ts) resolves each item's `files[].path`, reads content, Shiki-highlights it, and builds the file tree that [components/registry/block-viewer.tsx](components/registry/block-viewer.tsx) renders. So the code shown on the site is always the working tree, never a snapshot.
 

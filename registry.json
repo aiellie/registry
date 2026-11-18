@@ -3984,6 +3984,1785 @@
         "date-fns",
         "zod"
       ]
+    },
+    {
+      "name": "account-access-card",
+      "type": "registry:block",
+      "title": "Account Access",
+      "description": "Email and password update form, with a danger-zone item.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/field.json",
+        "https://registry.aiellie.dev/r/input.json",
+        "https://registry.aiellie.dev/r/item.json"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/account-access.tsx",
+          "type": "registry:component",
+          "target": "components/cards/account-access.tsx"
+        }
+      ]
+    },
+    {
+      "name": "activity-goal-card",
+      "type": "registry:block",
+      "title": "Move Goal",
+      "description": "A daily calorie goal set with stepper buttons.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/chart.json"
+      ],
+      "dependencies": [
+        "lucide-react",
+        "recharts"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/activity-goal.tsx",
+          "type": "registry:component",
+          "target": "components/cards/activity-goal.tsx"
+        }
+      ]
+    },
+    {
+      "name": "agent-roster-card",
+      "type": "registry:block",
+      "title": "Research Agent",
+      "description": "A subagent roster in collapsible rows, built on the agent primitive.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/badge.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/collapsible.json"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/agent-roster.tsx",
+          "type": "registry:component",
+          "target": "components/cards/agent-roster.tsx"
+        }
+      ]
+    },
+    {
+      "name": "agent-trace-card",
+      "type": "registry:block",
+      "title": "Agent Run",
+      "description": "A tool-call trace in collapsible rows, with status indicators and copy actions.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/collapsible.json",
+        "https://registry.aiellie.dev/r/status.json",
+        "https://registry.aiellie.dev/r/toast.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/agent-trace.tsx",
+          "type": "registry:component",
+          "target": "components/cards/agent-trace.tsx"
+        },
+        {
+          "path": "hooks/use-copy-to-clipboard.ts",
+          "type": "registry:hook",
+          "target": "hooks/use-copy-to-clipboard.ts"
+        }
+      ]
+    },
+    {
+      "name": "ai-chat-card",
+      "type": "registry:block",
+      "title": "AI Chat",
+      "description": "A chat thread built from message bubbles, a scroll area and the prompt input.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/badge.json",
+        "https://registry.aiellie.dev/r/bubble.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/command.json",
+        "https://registry.aiellie.dev/r/dropdown-menu.json",
+        "https://registry.aiellie.dev/r/hover-card.json",
+        "https://registry.aiellie.dev/r/input-group.json",
+        "https://registry.aiellie.dev/r/message.json",
+        "https://registry.aiellie.dev/r/scroll-area.json",
+        "https://registry.aiellie.dev/r/select.json",
+        "https://registry.aiellie.dev/r/spinner.json",
+        "https://registry.aiellie.dev/r/toast.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react",
+        "ai",
+        "nanoid"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/ai-chat.tsx",
+          "type": "registry:component",
+          "target": "components/cards/ai-chat.tsx"
+        },
+        {
+          "path": "hooks/use-copy-to-clipboard.ts",
+          "type": "registry:hook",
+          "target": "hooks/use-copy-to-clipboard.ts"
+        },
+        {
+          "path": "components/ai-elements/prompt-input.tsx",
+          "type": "registry:component",
+          "target": "components/ai-elements/prompt-input.tsx"
+        }
+      ]
+    },
+    {
+      "name": "analytics-card",
+      "type": "registry:block",
+      "title": "Analytics",
+      "description": "Visitor count with a trend badge over an area chart.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/badge.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/analytics-card.tsx",
+          "type": "registry:component",
+          "target": "components/cards/analytics-card.tsx"
+        }
+      ]
+    },
+    {
+      "name": "api-latency-card",
+      "type": "registry:block",
+      "title": "API Latency",
+      "description": "Per-endpoint latency with a dropdown filter and status indicators.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/dropdown-menu.json",
+        "https://registry.aiellie.dev/r/status.json"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/api-latency.tsx",
+          "type": "registry:component",
+          "target": "components/cards/api-latency.tsx"
+        }
+      ]
+    },
+    {
+      "name": "artifact-preview-card",
+      "type": "registry:block",
+      "title": "Generated Artifact",
+      "description": "The artifact shell wrapping a syntax-highlighted code block.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/artifact.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/code-block.json",
+        "https://registry.aiellie.dev/r/toast.json",
+        "https://registry.aiellie.dev/r/toggle-group.json"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/artifact-preview.tsx",
+          "type": "registry:component",
+          "target": "components/cards/artifact-preview.tsx"
+        }
+      ]
+    },
+    {
+      "name": "bundle-size-card",
+      "type": "registry:block",
+      "title": "Bundle Size",
+      "description": "Bundle deltas with a comparison dropdown and copy-to-clipboard.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/badge.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/dropdown-menu.json",
+        "https://registry.aiellie.dev/r/toast.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/bundle-size.tsx",
+          "type": "registry:component",
+          "target": "components/cards/bundle-size.tsx"
+        },
+        {
+          "path": "hooks/use-copy-to-clipboard.ts",
+          "type": "registry:hook",
+          "target": "hooks/use-copy-to-clipboard.ts"
+        }
+      ]
+    },
+    {
+      "name": "calendar-card",
+      "type": "registry:block",
+      "title": "Calendar",
+      "description": "The calendar primitive with a date range selected.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/calendar.json",
+        "https://registry.aiellie.dev/r/card.json"
+      ],
+      "dependencies": [
+        "date-fns"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/calendar.tsx",
+          "type": "registry:component",
+          "target": "components/cards/calendar.tsx"
+        }
+      ]
+    },
+    {
+      "name": "chat-card",
+      "type": "registry:block",
+      "title": "Chat",
+      "description": "A support chat with avatars, a message input and a new-message dialog.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/avatar.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/command.json",
+        "https://registry.aiellie.dev/r/dialog.json",
+        "https://registry.aiellie.dev/r/input-group.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "dependencies": [
+        "lucide-react"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/chat.tsx",
+          "type": "registry:component",
+          "target": "components/cards/chat.tsx"
+        }
+      ]
+    },
+    {
+      "name": "ci-checks-card",
+      "type": "registry:block",
+      "title": "Test Suites",
+      "description": "Collapsible test suites with spinners and pass/fail status.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/collapsible.json",
+        "https://registry.aiellie.dev/r/spinner.json",
+        "https://registry.aiellie.dev/r/status.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/ci-checks.tsx",
+          "type": "registry:component",
+          "target": "components/cards/ci-checks.tsx"
+        }
+      ]
+    },
+    {
+      "name": "claimable-balance-card",
+      "type": "registry:block",
+      "title": "Claimable Balance",
+      "description": "A balance breakdown in item rows, with badges and separators.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/badge.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/item.json",
+        "https://registry.aiellie.dev/r/separator.json"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/claimable-balance.tsx",
+          "type": "registry:component",
+          "target": "components/cards/claimable-balance.tsx"
+        }
+      ]
+    },
+    {
+      "name": "cli-snippet-card",
+      "type": "registry:block",
+      "title": "Add a Component",
+      "description": "Install commands in the snippet primitive, switchable per package manager.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/badge.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/snippet.json",
+        "https://registry.aiellie.dev/r/toast.json",
+        "https://registry.aiellie.dev/r/toggle-group.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/cli-snippet.tsx",
+          "type": "registry:component",
+          "target": "components/cards/cli-snippet.tsx"
+        }
+      ]
+    },
+    {
+      "name": "code-review-card",
+      "type": "registry:block",
+      "title": "Code Review",
+      "description": "Shiki-highlighted files behind a toggle group, with copy actions.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/badge.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/code-block.json",
+        "https://registry.aiellie.dev/r/toast.json",
+        "https://registry.aiellie.dev/r/toggle-group.json"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/code-review.tsx",
+          "type": "registry:component",
+          "target": "components/cards/code-review.tsx"
+        }
+      ]
+    },
+    {
+      "name": "commit-detail-card",
+      "type": "registry:block",
+      "title": "Latest Commit",
+      "description": "A commit and its changed files, built on the commit primitive.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/commit.json",
+        "https://registry.aiellie.dev/r/toast.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/commit-detail.tsx",
+          "type": "registry:component",
+          "target": "components/cards/commit-detail.tsx"
+        }
+      ]
+    },
+    {
+      "name": "commit-heatmap-card",
+      "type": "registry:block",
+      "title": "Commit Heatmap",
+      "description": "A contribution grid with a toggle group range filter and per-day tooltips.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/badge.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/toggle-group.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/commit-heatmap.tsx",
+          "type": "registry:component",
+          "target": "components/cards/commit-heatmap.tsx"
+        }
+      ]
+    },
+    {
+      "name": "context-window-card",
+      "type": "registry:block",
+      "title": "Context Window",
+      "description": "Token budget usage broken down in a popover, with badges and tooltips.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/badge.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/popover.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/context-window.tsx",
+          "type": "registry:component",
+          "target": "components/cards/context-window.tsx"
+        }
+      ]
+    },
+    {
+      "name": "contrast-checker-card",
+      "type": "registry:block",
+      "title": "Contrast Checker",
+      "description": "WCAG contrast ratios from two colour pickers, scored with status indicators.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/color-picker.json",
+        "https://registry.aiellie.dev/r/status.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/contrast-checker.tsx",
+          "type": "registry:component",
+          "target": "components/cards/contrast-checker.tsx"
+        }
+      ]
+    },
+    {
+      "name": "contribution-history-card",
+      "type": "registry:block",
+      "title": "Contribution History",
+      "description": "Six months of activity as a bar chart, with the next upcoming item.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/badge.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/item.json"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/contribution-history.tsx",
+          "type": "registry:component",
+          "target": "components/cards/contribution-history.tsx"
+        }
+      ]
+    },
+    {
+      "name": "cookie-settings-card",
+      "type": "registry:block",
+      "title": "Cookie Settings",
+      "description": "Cookie preferences as labelled switches.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/field.json",
+        "https://registry.aiellie.dev/r/switch.json"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/cookie-settings.tsx",
+          "type": "registry:component",
+          "target": "components/cards/cookie-settings.tsx"
+        }
+      ]
+    },
+    {
+      "name": "create-account-card",
+      "type": "registry:block",
+      "title": "Create an Account",
+      "description": "A sign-up form with social buttons, email and password.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/field.json",
+        "https://registry.aiellie.dev/r/input.json"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/create-account.tsx",
+          "type": "registry:component",
+          "target": "components/cards/create-account.tsx"
+        }
+      ]
+    },
+    {
+      "name": "deploy-pipeline-card",
+      "type": "registry:block",
+      "title": "Deploy Pipeline",
+      "description": "Build stages with status indicators, a details popover and toasts.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/badge.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/popover.json",
+        "https://registry.aiellie.dev/r/status.json",
+        "https://registry.aiellie.dev/r/toast.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/deploy-pipeline.tsx",
+          "type": "registry:component",
+          "target": "components/cards/deploy-pipeline.tsx"
+        },
+        {
+          "path": "hooks/use-copy-to-clipboard.ts",
+          "type": "registry:hook",
+          "target": "hooks/use-copy-to-clipboard.ts"
+        }
+      ]
+    },
+    {
+      "name": "design-tokens-card",
+      "type": "registry:block",
+      "title": "Colour Tokens",
+      "description": "The semantic oklch palette, with a toggle group and copy-on-click swatches.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/badge.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/toast.json",
+        "https://registry.aiellie.dev/r/toggle-group.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/design-tokens.tsx",
+          "type": "registry:component",
+          "target": "components/cards/design-tokens.tsx"
+        },
+        {
+          "path": "hooks/use-copy-to-clipboard.ts",
+          "type": "registry:hook",
+          "target": "hooks/use-copy-to-clipboard.ts"
+        }
+      ]
+    },
+    {
+      "name": "dividend-income-card",
+      "type": "registry:block",
+      "title": "Dividend Income",
+      "description": "Quarterly dividend income laid out in items.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/item.json"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/dividend-income.tsx",
+          "type": "registry:component",
+          "target": "components/cards/dividend-income.tsx"
+        }
+      ]
+    },
+    {
+      "name": "edge-regions-card",
+      "type": "registry:block",
+      "title": "Edge Regions",
+      "description": "Region latency picked through a toggle group.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/toggle-group.json"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/edge-regions.tsx",
+          "type": "registry:component",
+          "target": "components/cards/edge-regions.tsx"
+        }
+      ]
+    },
+    {
+      "name": "empty-distribute-track-card",
+      "type": "registry:block",
+      "title": "Distribute Track",
+      "description": "An empty state with a call to action.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/empty.json"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/empty-distribute-track.tsx",
+          "type": "registry:component",
+          "target": "components/cards/empty-distribute-track.tsx"
+        }
+      ]
+    },
+    {
+      "name": "env-vars-card",
+      "type": "registry:block",
+      "title": "Environment Variables",
+      "description": "Masked environment values with badges and copy buttons.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/badge.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/env-vars.tsx",
+          "type": "registry:component",
+          "target": "components/cards/env-vars.tsx"
+        }
+      ]
+    },
+    {
+      "name": "eval-scores-card",
+      "type": "registry:block",
+      "title": "Eval Suite",
+      "description": "Eval results with score badges, a breakdown popover and spinners.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/badge.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/popover.json",
+        "https://registry.aiellie.dev/r/separator.json",
+        "https://registry.aiellie.dev/r/spinner.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/eval-scores.tsx",
+          "type": "registry:component",
+          "target": "components/cards/eval-scores.tsx"
+        }
+      ]
+    },
+    {
+      "name": "exercise-minutes-card",
+      "type": "registry:block",
+      "title": "Exercise Minutes",
+      "description": "Exercise minutes over a week in a line chart.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/chart.json"
+      ],
+      "dependencies": [
+        "recharts"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/exercise-minutes.tsx",
+          "type": "registry:component",
+          "target": "components/cards/exercise-minutes.tsx"
+        }
+      ]
+    },
+    {
+      "name": "file-explorer-card",
+      "type": "registry:block",
+      "title": "File Explorer",
+      "description": "The registry's file tree, with badges and tooltips.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/badge.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/code-block.json",
+        "https://registry.aiellie.dev/r/file-tree.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/file-explorer.tsx",
+          "type": "registry:component",
+          "target": "components/cards/file-explorer.tsx"
+        }
+      ]
+    },
+    {
+      "name": "forms-card",
+      "type": "registry:block",
+      "title": "Upgrade Subscription",
+      "description": "A subscription upgrade form with radio groups, checkboxes and inputs.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/checkbox.json",
+        "https://registry.aiellie.dev/r/field.json",
+        "https://registry.aiellie.dev/r/input.json",
+        "https://registry.aiellie.dev/r/radio-group.json"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/forms.tsx",
+          "type": "registry:component",
+          "target": "components/cards/forms.tsx"
+        }
+      ]
+    },
+    {
+      "name": "icon-grid-card",
+      "type": "registry:block",
+      "title": "Icon Library",
+      "description": "A searchable icon grid built from an input group, with an empty state.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/badge.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/empty.json",
+        "https://registry.aiellie.dev/r/input-group.json",
+        "https://registry.aiellie.dev/r/toast.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/icon-grid.tsx",
+          "type": "registry:component",
+          "target": "components/cards/icon-grid.tsx"
+        },
+        {
+          "path": "hooks/use-copy-to-clipboard.ts",
+          "type": "registry:hook",
+          "target": "hooks/use-copy-to-clipboard.ts"
+        }
+      ]
+    },
+    {
+      "name": "inference-params-card",
+      "type": "registry:block",
+      "title": "Inference",
+      "description": "Model parameters on sliders and switches, with labels and separators.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/label.json",
+        "https://registry.aiellie.dev/r/separator.json",
+        "https://registry.aiellie.dev/r/slider.json",
+        "https://registry.aiellie.dev/r/switch.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/inference-params.tsx",
+          "type": "registry:component",
+          "target": "components/cards/inference-params.tsx"
+        }
+      ]
+    },
+    {
+      "name": "install-command-card",
+      "type": "registry:block",
+      "title": "Install Command",
+      "description": "The install command for any registry item, in tabs with a select.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/select.json",
+        "https://registry.aiellie.dev/r/tabs.json",
+        "https://registry.aiellie.dev/r/toast.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/install-command.tsx",
+          "type": "registry:component",
+          "target": "components/cards/install-command.tsx"
+        },
+        {
+          "path": "hooks/use-copy-to-clipboard.ts",
+          "type": "registry:hook",
+          "target": "hooks/use-copy-to-clipboard.ts"
+        }
+      ]
+    },
+    {
+      "name": "loader-gallery-card",
+      "type": "registry:block",
+      "title": "Loaders",
+      "description": "Every loader variant in one grid, with a switch to freeze them.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/loader.json",
+        "https://registry.aiellie.dev/r/switch.json"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/loader-gallery.tsx",
+          "type": "registry:component",
+          "target": "components/cards/loader-gallery.tsx"
+        }
+      ]
+    },
+    {
+      "name": "message-scroller-card",
+      "type": "registry:block",
+      "title": "New Chat",
+      "description": "A new-chat surface on the message scroller, with an empty state and prompt input.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/dropdown-menu.json",
+        "https://registry.aiellie.dev/r/empty.json",
+        "https://registry.aiellie.dev/r/input-group.json",
+        "https://registry.aiellie.dev/r/message.json",
+        "https://registry.aiellie.dev/r/message-scroller.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "dependencies": [
+        "@ai-sdk/react",
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/message-scroller.tsx",
+          "type": "registry:component",
+          "target": "components/cards/message-scroller.tsx"
+        }
+      ]
+    },
+    {
+      "name": "message-scroller-complete-card",
+      "type": "registry:block",
+      "title": "Message Scroller",
+      "description": "A full chat transcript on the message scroller, with streaming, markers and settings.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/avatar.json",
+        "https://registry.aiellie.dev/r/bubble.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/dropdown-menu.json",
+        "https://registry.aiellie.dev/r/hover-card.json",
+        "https://registry.aiellie.dev/r/input-group.json",
+        "https://registry.aiellie.dev/r/label.json",
+        "https://registry.aiellie.dev/r/marker.json",
+        "https://registry.aiellie.dev/r/message.json",
+        "https://registry.aiellie.dev/r/message-scroller.json",
+        "https://registry.aiellie.dev/r/popover.json",
+        "https://registry.aiellie.dev/r/slider.json",
+        "https://registry.aiellie.dev/r/toast.json",
+        "https://registry.aiellie.dev/r/toggle.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "dependencies": [
+        "@ai-sdk/react",
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/message-scroller-complete.tsx",
+          "type": "registry:component",
+          "target": "components/cards/message-scroller-complete.tsx"
+        }
+      ]
+    },
+    {
+      "name": "model-selector-command-card",
+      "type": "registry:block",
+      "title": "Model Selector",
+      "description": "The model selector as a searchable command list.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/command.json",
+        "https://registry.aiellie.dev/r/model-selector.json"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/model-selector-command.tsx",
+          "type": "registry:component",
+          "target": "components/cards/model-selector-command.tsx"
+        }
+      ]
+    },
+    {
+      "name": "new-milestone-card",
+      "type": "registry:block",
+      "title": "New Milestone",
+      "description": "A savings goal form with a target amount and date.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/field.json",
+        "https://registry.aiellie.dev/r/input.json"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/new-milestone.tsx",
+          "type": "registry:component",
+          "target": "components/cards/new-milestone.tsx"
+        }
+      ]
+    },
+    {
+      "name": "notification-settings-card",
+      "type": "registry:block",
+      "title": "Notifications",
+      "description": "Notification preferences as checkbox fields.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/checkbox.json",
+        "https://registry.aiellie.dev/r/field.json"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/notification-settings.tsx",
+          "type": "registry:component",
+          "target": "components/cards/notification-settings.tsx"
+        }
+      ]
+    },
+    {
+      "name": "orb-card",
+      "type": "registry:block",
+      "title": "Orb",
+      "description": "The WebGL orb, with a palette dropdown and playback controls.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/button-group.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/dropdown-menu.json",
+        "https://registry.aiellie.dev/r/orb.json",
+        "https://registry.aiellie.dev/r/status.json",
+        "https://registry.aiellie.dev/r/toast.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/orb.tsx",
+          "type": "registry:component",
+          "target": "components/cards/orb.tsx"
+        },
+        {
+          "path": "hooks/use-copy-to-clipboard.ts",
+          "type": "registry:hook",
+          "target": "hooks/use-copy-to-clipboard.ts"
+        }
+      ]
+    },
+    {
+      "name": "package-updates-card",
+      "type": "registry:block",
+      "title": "Dependency Updates",
+      "description": "Package upgrades in expandable rows, filtered by semver bump.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/badge.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/code-block.json",
+        "https://registry.aiellie.dev/r/package-info.json",
+        "https://registry.aiellie.dev/r/toast.json",
+        "https://registry.aiellie.dev/r/toggle-group.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/package-updates.tsx",
+          "type": "registry:component",
+          "target": "components/cards/package-updates.tsx"
+        }
+      ]
+    },
+    {
+      "name": "palette-picker-card",
+      "type": "registry:block",
+      "title": "Brand palette",
+      "description": "Brand colours edited through the colour picker, with a reset.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/color-picker.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/palette-picker.tsx",
+          "type": "registry:component",
+          "target": "components/cards/palette-picker.tsx"
+        }
+      ]
+    },
+    {
+      "name": "payment-method-card",
+      "type": "registry:block",
+      "title": "Payment Method",
+      "description": "Payment details with plan radio cards, a card number and expiry selects.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/input.json",
+        "https://registry.aiellie.dev/r/label.json",
+        "https://registry.aiellie.dev/r/radio-group.json",
+        "https://registry.aiellie.dev/r/select.json"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/payment-method.tsx",
+          "type": "registry:component",
+          "target": "components/cards/payment-method.tsx"
+        }
+      ]
+    },
+    {
+      "name": "payments-card",
+      "type": "registry:block",
+      "title": "Payments",
+      "description": "Payment settings as linked item rows, under a breadcrumb.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/breadcrumb.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/dropdown-menu.json",
+        "https://registry.aiellie.dev/r/item.json"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/payments.tsx",
+          "type": "registry:component",
+          "target": "components/cards/payments.tsx"
+        }
+      ]
+    },
+    {
+      "name": "payout-threshold-card",
+      "type": "registry:block",
+      "title": "Payout Threshold",
+      "description": "A payout threshold with progress, a select and notes.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/field.json",
+        "https://registry.aiellie.dev/r/progress.json",
+        "https://registry.aiellie.dev/r/select.json",
+        "https://registry.aiellie.dev/r/textarea.json"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/payout-threshold.tsx",
+          "type": "registry:component",
+          "target": "components/cards/payout-threshold.tsx"
+        }
+      ]
+    },
+    {
+      "name": "power-usage-card",
+      "type": "registry:block",
+      "title": "Power Usage",
+      "description": "Hourly household power use as a bar chart, with current draw and solar.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/separator.json"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/power-usage.tsx",
+          "type": "registry:component",
+          "target": "components/cards/power-usage.tsx"
+        }
+      ]
+    },
+    {
+      "name": "pull-request-card",
+      "type": "registry:block",
+      "title": "Pull Request",
+      "description": "A review flow with avatars, a collapsible diff, a review dialog and a merge confirmation.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/alert-dialog.json",
+        "https://registry.aiellie.dev/r/avatar.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/collapsible.json",
+        "https://registry.aiellie.dev/r/dialog.json",
+        "https://registry.aiellie.dev/r/spinner.json",
+        "https://registry.aiellie.dev/r/status.json",
+        "https://registry.aiellie.dev/r/textarea.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/pull-request.tsx",
+          "type": "registry:component",
+          "target": "components/cards/pull-request.tsx"
+        }
+      ]
+    },
+    {
+      "name": "qr-connect-card",
+      "type": "registry:block",
+      "title": "Connect Device",
+      "description": "A QR code for connecting a mobile device.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/card.json"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/qr-connect.tsx",
+          "type": "registry:component",
+          "target": "components/cards/qr-connect.tsx"
+        }
+      ]
+    },
+    {
+      "name": "rag-sources-card",
+      "type": "registry:block",
+      "title": "Retrieved Context",
+      "description": "Retrieved chunks in collapsibles, with a relevance slider and an empty state.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/collapsible.json",
+        "https://registry.aiellie.dev/r/empty.json",
+        "https://registry.aiellie.dev/r/slider.json",
+        "https://registry.aiellie.dev/r/toast.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/rag-sources.tsx",
+          "type": "registry:component",
+          "target": "components/cards/rag-sources.tsx"
+        },
+        {
+          "path": "hooks/use-copy-to-clipboard.ts",
+          "type": "registry:hook",
+          "target": "hooks/use-copy-to-clipboard.ts"
+        }
+      ]
+    },
+    {
+      "name": "reasoning-trace-card",
+      "type": "registry:block",
+      "title": "Reasoning",
+      "description": "A chain-of-thought trace that replays step by step.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/chain-of-thought.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/reasoning-trace.tsx",
+          "type": "registry:component",
+          "target": "components/cards/reasoning-trace.tsx"
+        }
+      ]
+    },
+    {
+      "name": "release-notes-card",
+      "type": "registry:block",
+      "title": "Changelog",
+      "description": "Release notes led by the announcement badge, paged by version.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/badge.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/separator.json",
+        "https://registry.aiellie.dev/r/toast.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/release-notes.tsx",
+          "type": "registry:component",
+          "target": "components/cards/release-notes.tsx"
+        },
+        {
+          "path": "hooks/use-copy-to-clipboard.ts",
+          "type": "registry:hook",
+          "target": "hooks/use-copy-to-clipboard.ts"
+        },
+        {
+          "path": "components/aiellie/alerts/announcement.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/alerts/announcement.tsx"
+        }
+      ]
+    },
+    {
+      "name": "report-issue-card",
+      "type": "registry:block",
+      "title": "Report an Issue",
+      "description": "An issue report form with selects, inputs and a textarea.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/field.json",
+        "https://registry.aiellie.dev/r/input.json",
+        "https://registry.aiellie.dev/r/select.json",
+        "https://registry.aiellie.dev/r/textarea.json"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/report-issue.tsx",
+          "type": "registry:component",
+          "target": "components/cards/report-issue.tsx"
+        }
+      ]
+    },
+    {
+      "name": "savings-targets-card",
+      "type": "registry:block",
+      "title": "Savings Targets",
+      "description": "Savings goals tracked with progress bars.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/item.json",
+        "https://registry.aiellie.dev/r/progress.json"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/savings-targets.tsx",
+          "type": "registry:component",
+          "target": "components/cards/savings-targets.tsx"
+        }
+      ]
+    },
+    {
+      "name": "schedule-run-card",
+      "type": "registry:block",
+      "title": "Scheduled Build",
+      "description": "A cron editor built from the time picker, a switch and day toggles.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/field.json",
+        "https://registry.aiellie.dev/r/switch.json",
+        "https://registry.aiellie.dev/r/time-picker.json",
+        "https://registry.aiellie.dev/r/toast.json"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/schedule-run.tsx",
+          "type": "registry:component",
+          "target": "components/cards/schedule-run.tsx"
+        }
+      ]
+    },
+    {
+      "name": "secrets-vault-card",
+      "type": "registry:block",
+      "title": "Environment",
+      "description": "Masked environment variables per target, on the env-vars primitive.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/badge.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/environment-variables.json",
+        "https://registry.aiellie.dev/r/toggle-group.json"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/secrets-vault.tsx",
+          "type": "registry:component",
+          "target": "components/cards/secrets-vault.tsx"
+        }
+      ]
+    },
+    {
+      "name": "share-card",
+      "type": "registry:block",
+      "title": "Share Document",
+      "description": "Document sharing with a link input and per-person permissions.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/avatar.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/input.json",
+        "https://registry.aiellie.dev/r/item.json",
+        "https://registry.aiellie.dev/r/label.json",
+        "https://registry.aiellie.dev/r/select.json",
+        "https://registry.aiellie.dev/r/separator.json"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/share.tsx",
+          "type": "registry:component",
+          "target": "components/cards/share.tsx"
+        }
+      ]
+    },
+    {
+      "name": "sidebar-nav-card",
+      "type": "registry:block",
+      "title": "Sidebar Navigation",
+      "description": "Grouped navigation menus built from the sidebar primitive.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/sidebar.json"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/sidebar-nav.tsx",
+          "type": "registry:component",
+          "target": "components/cards/sidebar-nav.tsx"
+        }
+      ]
+    },
+    {
+      "name": "spacing-scale-card",
+      "type": "registry:block",
+      "title": "Spacing & Radius",
+      "description": "Spacing and radius steps driven by a density slider.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/badge.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/slider.json",
+        "https://registry.aiellie.dev/r/toast.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/spacing-scale.tsx",
+          "type": "registry:component",
+          "target": "components/cards/spacing-scale.tsx"
+        },
+        {
+          "path": "hooks/use-copy-to-clipboard.ts",
+          "type": "registry:hook",
+          "target": "hooks/use-copy-to-clipboard.ts"
+        }
+      ]
+    },
+    {
+      "name": "stack-trace-card",
+      "type": "registry:block",
+      "title": "Runtime Error",
+      "description": "A parsed stack trace with clickable frames and copy actions.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/stack-trace.json",
+        "https://registry.aiellie.dev/r/status.json",
+        "https://registry.aiellie.dev/r/toast.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/stack-trace-card.tsx",
+          "type": "registry:component",
+          "target": "components/cards/stack-trace-card.tsx"
+        }
+      ]
+    },
+    {
+      "name": "stats-card",
+      "type": "registry:block",
+      "title": "Revenue Stats",
+      "description": "Total revenue with month-over-month change and a sparkline.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/chart.json"
+      ],
+      "dependencies": [
+        "recharts"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/stats.tsx",
+          "type": "registry:component",
+          "target": "components/cards/stats.tsx"
+        }
+      ]
+    },
+    {
+      "name": "team-members-card",
+      "type": "registry:block",
+      "title": "Team Members",
+      "description": "Team members with avatars and a role picker popover.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/avatar.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/command.json",
+        "https://registry.aiellie.dev/r/item.json",
+        "https://registry.aiellie.dev/r/popover.json"
+      ],
+      "dependencies": [
+        "lucide-react"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/team-members.tsx",
+          "type": "registry:component",
+          "target": "components/cards/team-members.tsx"
+        }
+      ]
+    },
+    {
+      "name": "terminal-build-card",
+      "type": "registry:block",
+      "title": "Registry build",
+      "description": "A terminal running the registry build, with status indicators.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/status.json",
+        "https://registry.aiellie.dev/r/terminal.json"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/terminal-build.tsx",
+          "type": "registry:component",
+          "target": "components/cards/terminal-build.tsx"
+        }
+      ]
+    },
+    {
+      "name": "token-spend-card",
+      "type": "registry:block",
+      "title": "Token Spend",
+      "description": "Spend by model over a billing period, with a period dropdown and badges.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/badge.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/dropdown-menu.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/token-spend.tsx",
+          "type": "registry:component",
+          "target": "components/cards/token-spend.tsx"
+        }
+      ]
+    },
+    {
+      "name": "transfer-funds-card",
+      "type": "registry:block",
+      "title": "Transfer Funds",
+      "description": "A transfer form with account selects and an amount input group.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/field.json",
+        "https://registry.aiellie.dev/r/input-group.json",
+        "https://registry.aiellie.dev/r/item.json",
+        "https://registry.aiellie.dev/r/select.json",
+        "https://registry.aiellie.dev/r/separator.json"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/transfer-funds.tsx",
+          "type": "registry:component",
+          "target": "components/cards/transfer-funds.tsx"
+        }
+      ]
+    },
+    {
+      "name": "type-scale-card",
+      "type": "registry:block",
+      "title": "Type Scale",
+      "description": "The type ramp, with a size slider and a font toggle group.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/badge.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/slider.json",
+        "https://registry.aiellie.dev/r/toast.json",
+        "https://registry.aiellie.dev/r/toggle-group.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/type-scale.tsx",
+          "type": "registry:component",
+          "target": "components/cards/type-scale.tsx"
+        },
+        {
+          "path": "hooks/use-copy-to-clipboard.ts",
+          "type": "registry:hook",
+          "target": "hooks/use-copy-to-clipboard.ts"
+        }
+      ]
+    },
+    {
+      "name": "ui-elements-card",
+      "type": "registry:block",
+      "title": "UI Elements",
+      "description": "Buttons, fields, switches, tabs and menus — the primitives in one card.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/alert-dialog.json",
+        "https://registry.aiellie.dev/r/badge.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/button-group.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/checkbox.json",
+        "https://registry.aiellie.dev/r/dropdown-menu.json",
+        "https://registry.aiellie.dev/r/field.json",
+        "https://registry.aiellie.dev/r/input-group.json",
+        "https://registry.aiellie.dev/r/radio-group.json",
+        "https://registry.aiellie.dev/r/switch.json",
+        "https://registry.aiellie.dev/r/tabs.json",
+        "https://registry.aiellie.dev/r/textarea.json"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/ui-elements.tsx",
+          "type": "registry:component",
+          "target": "components/cards/ui-elements.tsx"
+        }
+      ]
+    },
+    {
+      "name": "uptime-monitor-card",
+      "type": "registry:block",
+      "title": "Uptime Monitor",
+      "description": "Daily uptime laid out in items, with a range toggle group and popovers.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/item.json",
+        "https://registry.aiellie.dev/r/popover.json",
+        "https://registry.aiellie.dev/r/status.json",
+        "https://registry.aiellie.dev/r/toggle-group.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/uptime-monitor.tsx",
+          "type": "registry:component",
+          "target": "components/cards/uptime-monitor.tsx"
+        }
+      ]
+    },
+    {
+      "name": "voice-input-card",
+      "type": "registry:block",
+      "title": "Voice capture",
+      "description": "The live waveform with recording controls and status indicators.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/live-waveform.json",
+        "https://registry.aiellie.dev/r/status.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/voice-input.tsx",
+          "type": "registry:component",
+          "target": "components/cards/voice-input.tsx"
+        }
+      ]
+    },
+    {
+      "name": "web-vitals-card",
+      "type": "registry:block",
+      "title": "Core Web Vitals",
+      "description": "Web vitals against their thresholds, with a toggle group, popovers and status.",
+      "registryDependencies": [
+        "https://registry.aiellie.dev/r/theme.json",
+        "https://registry.aiellie.dev/r/button.json",
+        "https://registry.aiellie.dev/r/card.json",
+        "https://registry.aiellie.dev/r/popover.json",
+        "https://registry.aiellie.dev/r/status.json",
+        "https://registry.aiellie.dev/r/toast.json",
+        "https://registry.aiellie.dev/r/toggle-group.json",
+        "https://registry.aiellie.dev/r/tooltip.json"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
+      ],
+      "files": [
+        {
+          "path": "app/(registry)/cards/web-vitals.tsx",
+          "type": "registry:component",
+          "target": "components/cards/web-vitals.tsx"
+        }
+      ]
     }
   ]
 }

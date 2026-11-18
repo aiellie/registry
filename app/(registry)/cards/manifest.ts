@@ -1,10 +1,9 @@
 import type { ComponentType } from "react"
 
 // Every card the home grid renders, paired with the loading state it swaps to
-// on the "F" key. Cards are compositions built out of the registry rather than
-// registry items themselves — nothing installs a card — so their metadata
-// lives here instead of in `lib/items.ts`, and their standalone previews are
-// served from /demo/cards/<name> instead of /demo/<name>.
+// on the "F" key. This is the home grid's own layout metadata; each card is
+// also an installable `<name>-card` registry block (see `lib/card-items.ts`
+// and /demo/<name>-card). The grid's preview dialog loads /demo/cards/<name>.
 import { AgentRoster } from "./agent-roster"
 import { AgentTrace } from "./agent-trace"
 import { AiChat } from "./ai-chat"
