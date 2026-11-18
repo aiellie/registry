@@ -10,7 +10,10 @@ import {
   SITE_EFFECT_PREF,
   subscribeThemeStudio,
 } from "@/lib/theme-studio"
-import type { SiteEffect } from "@/lib/theme-studio-presets"
+import {
+  DEFAULT_SITE_EFFECT,
+  type SiteEffect,
+} from "@/lib/theme-studio-presets"
 
 /**
  * Wraps the home page in whichever full-viewport effect the studio is set to.
@@ -32,7 +35,8 @@ export function SiteEffect({
     getServerThemeStudioState
   )
 
-  const effect = (state.prefs[SITE_EFFECT_PREF] ?? "bubble") as SiteEffect
+  const effect = (state.prefs[SITE_EFFECT_PREF] ??
+    DEFAULT_SITE_EFFECT) as SiteEffect
 
   if (effect === "none") {
     return <div className={className}>{children}</div>

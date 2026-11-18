@@ -58,10 +58,13 @@ export const CODE_THEME_OPTIONS: readonly PresetOption[] = [
 
 export type SiteEffect = "bubble" | "liquid" | "none"
 
+/** What the home page shows when the studio has no stored effect. */
+export const DEFAULT_SITE_EFFECT: SiteEffect = "none"
+
 export const SITE_EFFECT_OPTIONS: readonly PresetOption<SiteEffect>[] = [
+  { value: "none", label: "None", css: null },
   { value: "bubble", label: "Bubble", css: null },
   { value: "liquid", label: "Liquid", css: null },
-  { value: "none", label: "None", css: null },
 ]
 
 /** The option whose value is currently written, or `default` when none is. */

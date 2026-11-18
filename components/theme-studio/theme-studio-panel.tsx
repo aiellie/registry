@@ -61,6 +61,7 @@ import { resolveTokenColor } from "@/lib/theme-studio-color"
 import {
   activePreset,
   CODE_THEME_OPTIONS,
+  DEFAULT_SITE_EFFECT,
   FONT_OPTIONS,
   SITE_EFFECT_OPTIONS,
   type PresetOption,
@@ -378,7 +379,8 @@ export function ThemeStudioPanel({ data }: { data: ThemeStudioData }) {
 
   const font = activePreset(FONT_OPTIONS, state.root[FONT_TOKEN])
   const codeTheme = activePreset(CODE_THEME_OPTIONS, state.root[CODE_TOKEN])
-  const effect = (state.prefs[SITE_EFFECT_PREF] ?? "bubble") as SiteEffect
+  const effect = (state.prefs[SITE_EFFECT_PREF] ??
+    DEFAULT_SITE_EFFECT) as SiteEffect
 
   return (
     <>
@@ -517,11 +519,11 @@ export function ThemeStudioPanel({ data }: { data: ThemeStudioData }) {
           options={SITE_EFFECT_OPTIONS}
           value={effect}
           onValueChange={(value) =>
-            setPref(SITE_EFFECT_PREF, value, value === "bubble")
+            setPref(SITE_EFFECT_PREF, value, value === DEFAULT_SITE_EFFECT)
           }
           onReset={
             state.prefs[SITE_EFFECT_PREF] !== undefined
-              ? () => setPref(SITE_EFFECT_PREF, "bubble", true)
+              ? () => setPref(SITE_EFFECT_PREF, DEFAULT_SITE_EFFECT, true)
               : undefined
           }
         />
