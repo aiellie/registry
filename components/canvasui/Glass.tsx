@@ -274,7 +274,9 @@ export function supportsHtmlInCanvas(): boolean {
 
 export function createGlass(
   elements: GlassElements,
-  options: GlassOptions = {}
+  options: GlassOptions = {},
+  /** Called if the browser exposes html-in-canvas but drawing fails. */
+  onPaintError?: () => void
 ): GlassInstance | null {
   const config = { ...DEFAULTS, ...options }
   const { source, content, output } = elements
@@ -306,7 +308,12 @@ export function createGlass(
         sourceCtx!.drawElementImage!(content, 0, 0)
         contentDirty = true
         wake()
-      } catch {}
+      } catch (error) {
+        // The API is still experimental and its shape has changed between
+        // Chrome releases. Bail out to plain DOM rather than paint nothing.
+        console.warn("html-in-canvas paint failed, falling back:", error)
+        onPaintError?.()
+      }
     }
   }
 
@@ -650,7 +657,8 @@ export function Glass({ children, className, style, ...options }: GlassProps) {
     if (!source || !content || !output) return
     instanceRef.current = createGlass(
       { source, content, output },
-      initialOptions
+      initialOptions,
+      () => setFailed(true)
     )
     if (native && !instanceRef.current) setFailed(true)
     return () => {
@@ -667,8 +675,12 @@ export function Glass({ children, className, style, ...options }: GlassProps) {
     <div className={className} style={{ position: "relative", ...style }}>
       <canvas
         ref={sourceRef}
+        // Experimental html-in-canvas attributes: `layoutsubtree` for older
+        // builds, `content="drawable"` (+ `drawable` on the child) for the
+        // version Chrome now ships by default.
         // @ts-expect-error experimental html-in-canvas attribute
         layoutsubtree="true"
+        content={native ? "drawable" : undefined}
         suppressHydrationWarning
         style={
           native
@@ -679,6 +691,8 @@ export function Glass({ children, className, style, ...options }: GlassProps) {
         {native ? (
           <div
             ref={contentRef}
+            // @ts-expect-error experimental html-in-canvas attribute
+            drawable=""
             style={{
               position: "relative",
               width: "100%",
